@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.9998779296875" prefWidth="651.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.SimulationController">
+  <children>
+    <HBox id="HBox" alignment="CENTER" layoutX="265.0" layoutY="205.0" spacing="5.0">
+      <children>
+        <ProgressIndicator progress="-1.0" />
+        <Label text="Simulating..." />
+      </children>
+    </HBox>
+  </children>
+</AnchorPane>
