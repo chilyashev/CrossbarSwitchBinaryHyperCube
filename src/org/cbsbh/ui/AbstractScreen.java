@@ -19,7 +19,8 @@ abstract public class AbstractScreen implements Initializable, ControlledScreen 
 
     /**
      * TODO: This could be left abstract. We'll talk about it.
-     * @param url ?
+     *
+     * @param url            ?
      * @param resourceBundle ?
      */
     @Override

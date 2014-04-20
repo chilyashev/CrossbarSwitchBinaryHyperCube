@@ -29,26 +29,27 @@ public class MainController extends AbstractScreen {
     /**
      * Gets the user's input and starts the model
      * TODO: Validation.
+     *
      * @param event An event. Or maybe THE event?
      */
     @FXML
-    public void startSimulation(ActionEvent event){
+    public void startSimulation(ActionEvent event) {
         boolean fine = true;
         double workingTime = 0;
         errorLabel.setText("");
-        try{
+        try {
             workingTime = Double.parseDouble(modelWorkTime.getText());
             context.set("workingTime", workingTime);
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.err.println("TODO: Handle this one!");
             errorLabel.setText("Невалидно число.");
             fine = false;
         }
 
-        if(fine){
+        if (fine) {
             // TODO: Figure out a way to tell the new screen it's being shown. Maybe an event listener?
             parent.showScreen("simulation");
-        }else{
+        } else {
             // Nothing for now.
             // Maybe later we'll show a popup with an error
         }

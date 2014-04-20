@@ -1,50 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
+<?import java.lang.*?><?import java.util.*?><?import javafx.geometry.*?><?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.MainController">
-  <children>
-    <Button fx:id="simulationStartButton" layoutX="460.0" layoutY="352.0" mnemonicParsing="false" onAction="#startSimulation" text="Start simulation" />
-    <GridPane gridLinesVisible="false" layoutX="21.0" layoutY="8.0" prefWidth="338.0" style="">
-      <children>
-        <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
-          <children>
-            <TextField fx:id="modelWorkTime" alignment="CENTER_RIGHT" prefWidth="65.0">
-              <HBox.margin>
-                <Insets left="3.0" right="3.0" fx:id="x1" />
-              </HBox.margin>
-            </TextField>
-            <Label text="s" />
-          </children>
-        </HBox>
-        <Label text="Време за работа на модела:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <Label text="Брой съобщения за предаване:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-          <children>
-            <TextField alignment="CENTER_RIGHT" prefWidth="65.0" HBox.margin="$x1" />
-            <Label text="s">
-              <HBox.margin>
-                <Insets top="2.0" />
-              </HBox.margin>
-            </Label>
-          </children>
-        </HBox>
-      </children>
-      <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="386.0" minWidth="10.0" prefWidth="239.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="10.0" prefWidth="99.0" />
-      </columnConstraints>
-      <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      </rowConstraints>
-    </GridPane>
-    <Label fx:id="errorLabel" layoutX="14.0" layoutY="355.0" prefWidth="434.0" text="" textFill="RED" />
-  </children>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"
+    fx:controller="org.cbsbh.ui.screens.MainController">
+    <children>
+        <Button fx:id="simulationStartButton" layoutX="460.0" layoutY="352.0" mnemonicParsing="false"
+            onAction="#startSimulation" text="Start simulation" />
+        <GridPane gridLinesVisible="false" layoutX="21.0" layoutY="8.0" prefWidth="338.0" style="">
+            <children>
+                <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0"
+                    prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <children>
+                        <TextField fx:id="modelWorkTime" alignment="CENTER_RIGHT" prefWidth="65.0">
+                            <HBox.margin>
+                                <Insets left="3.0" right="3.0" fx:id="x1" />
+                            </HBox.margin>
+                        </TextField>
+                        <Label text="s" />
+                    </children>
+                </HBox>
+                <Label text="Време за работа на модела:" wrapText="false" GridPane.columnIndex="0"
+                    GridPane.rowIndex="0" />
+                <Label text="Брой съобщения за предаване:" wrapText="false" GridPane.columnIndex="0"
+                    GridPane.rowIndex="1" />
+                <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0"
+                    prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <children>
+                        <TextField alignment="CENTER_RIGHT" prefWidth="65.0" HBox.margin="$x1" />
+                        <Label text="s">
+                            <HBox.margin>
+                                <Insets top="2.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+            </children>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="386.0" minWidth="10.0" prefWidth="239.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="10.0" prefWidth="99.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+        </GridPane>
+        <Label fx:id="errorLabel" layoutX="14.0" layoutY="355.0" prefWidth="434.0" text="" textFill="RED" />
+    </children>
 </AnchorPane>

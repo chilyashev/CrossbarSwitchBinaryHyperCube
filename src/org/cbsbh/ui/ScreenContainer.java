@@ -30,6 +30,7 @@ public class ScreenContainer extends StackPane {
 
     /**
      * Loads a screen and adds it to the screen map
+     *
      * @param screenId The screen's ID
      * @param resource the screen's FXML
      * @return true if the screen got loaded successfully
@@ -39,7 +40,7 @@ public class ScreenContainer extends StackPane {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
             Parent loadedScreen = (Parent) loader.load();
             ControlledScreen controller = loader.getController();
-            if(controller == null){
+            if (controller == null) {
                 // TODO: Handle exceptions in a nicer way (with error dialogs perhaps?). Screw this boolean if-checking nonsense!
                 throw new Exception("All screens must have a controller. What the hell do you think you are doing?");
             }
@@ -59,22 +60,23 @@ public class ScreenContainer extends StackPane {
 
     /**
      * Switches to the specified screen.
+     *
      * @param screenId the ID of the screen to be shown
      * @return true if screen exists and gets shown successfully
      */
     public boolean showScreen(final String screenId) {
 
-        if(screens.get(screenId) != null) { //screen loaded
+        if (screens.get(screenId) != null) { //screen loaded
             final DoubleProperty opacity = opacityProperty();
 
             /*
                 If there is a screen currently being shown, we fade it out, add the new one, and fade it in.
                 By doing this the StackPane used as a base keeps only one screen at any time, thus enhancing performance.
              */
-            if(!getChildren().isEmpty()){
+            if (!getChildren().isEmpty()) {
                 Timeline fade = new Timeline(
                         new KeyFrame(Duration.ZERO,
-                                new KeyValue(opacity,1.0)),
+                                new KeyValue(opacity, 1.0)),
                         new KeyFrame(new Duration(300), new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent actionEvent) {

@@ -22,11 +22,11 @@ public class Context {
         return instance;
     }
 
-    public void set(String key, Object value){
+    public void set(String key, Object value) {
         data.put(key, value);
     }
 
-    public Object get(String key){
+    public Object get(String key) {
         return data.get(key);
     }
 }
