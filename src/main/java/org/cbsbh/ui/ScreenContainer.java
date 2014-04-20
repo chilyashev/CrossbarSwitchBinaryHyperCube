@@ -48,8 +48,9 @@ public class ScreenContainer extends StackPane {
             addScreen(screenId, loadedScreen);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println(e.getMessage());
+            System.exit(1);
             return false;
         }
     }
