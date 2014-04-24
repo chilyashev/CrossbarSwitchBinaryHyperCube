@@ -8,4 +8,6 @@ package org.cbsbh.ui;
  */
 public interface ControlledScreen {
     public void setParent(ScreenContainer screen);
+
+    public void init();
 }

@@ -10,6 +10,8 @@
             <children>
                 <ProgressIndicator progress="-1.0" />
                 <Label text="Simulating..." />
+                <Label text="..." fx:id="data" />
+
             </children>
         </HBox>
     </children>

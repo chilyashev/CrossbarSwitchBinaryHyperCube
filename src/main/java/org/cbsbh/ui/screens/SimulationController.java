@@ -1,5 +1,7 @@
 package org.cbsbh.ui.screens;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import org.cbsbh.ui.AbstractScreen;
 import org.cbsbh.ui.context.Context;
 
@@ -10,10 +12,21 @@ import org.cbsbh.ui.context.Context;
  * @author Mihail Chilyashev
  */
 public class SimulationController extends AbstractScreen {
+
+    // FXML controls
+    @FXML private Label data;
+    // eo FXML controls
+
+
     private Context context;
 
     public SimulationController() {
         context = Context.getInstance();
         //...
+    }
+
+    @Override
+    public void init() {
+        data.setText("" + context.get("workingTime"));
     }
 }

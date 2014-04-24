@@ -29,6 +29,11 @@ public class ScreenContainer extends StackPane {
     private HashMap<String, Node> screens = screens = new HashMap<>();
 
     /**
+     * Keeps references to all the controllers
+     */
+    private HashMap<String, ControlledScreen> controllers = new HashMap<>();
+
+    /**
      * Loads a screen and adds it to the screen map
      *
      * @param screenId The screen's ID
@@ -45,7 +50,7 @@ public class ScreenContainer extends StackPane {
                 throw new Exception("All screens must have a controller. What the hell do you think you are doing?");
             }
             controller.setParent(this);
-            addScreen(screenId, loadedScreen);
+            addScreen(screenId, loadedScreen, controller);
             return true;
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -55,8 +60,15 @@ public class ScreenContainer extends StackPane {
         }
     }
 
-    public void addScreen(String name, Node screen) {
+    /**
+     *
+     * @param name
+     * @param screen
+     * @param controller
+     */
+    public void addScreen(String name, Node screen, ControlledScreen controller) {
         screens.put(name, screen);
+        controllers.put(name, controller);
     }
 
     /**
@@ -85,6 +97,9 @@ public class ScreenContainer extends StackPane {
                                 getChildren().remove(0);
                                 // Add the new screen at the old one's place
                                 getChildren().add(0, screens.get(screenId));
+                                // tell the controller to do whatever it should do when the screen is starting
+                                controllers.get(screenId).init();
+                                //((Node)screens.get(screenId)).getScene().getRoot()
                                 Timeline fadeIn = new Timeline(
                                         new KeyFrame(Duration.ZERO,
                                                 new KeyValue(opacity, 0.0)),

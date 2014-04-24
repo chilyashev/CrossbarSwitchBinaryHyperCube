@@ -48,10 +48,16 @@ public class MainController extends AbstractScreen {
 
         if (fine) {
             // TODO: Figure out a way to tell the new screen it's being shown. Maybe an event listener?
+            context.set("workingTime", workingTime);
             parent.showScreen("simulation");
         } else {
             // Nothing for now.
             // Maybe later we'll show a popup with an error
         }
+    }
+
+    @Override
+    public void init() {
+        // crap
     }
 }
