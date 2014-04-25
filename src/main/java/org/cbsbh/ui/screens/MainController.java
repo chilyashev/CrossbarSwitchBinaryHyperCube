@@ -1,9 +1,12 @@
 package org.cbsbh.ui.screens;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import org.cbsbh.model.ModelRunner;
 import org.cbsbh.ui.AbstractScreen;
 import org.cbsbh.ui.context.Context;
 
@@ -20,6 +23,10 @@ public class MainController extends AbstractScreen {
     // FXML controls
     @FXML private TextField modelWorkTime;
     @FXML private Label errorLabel;
+    @FXML
+    private Slider messageCountSlider;
+    @FXML
+    private TextField messageCountValue;
     // eo FXML controls
 
     public MainController() {
@@ -37,9 +44,23 @@ public class MainController extends AbstractScreen {
         boolean fine = true;
         double workingTime = 0;
         errorLabel.setText("");
+        //ModelController model = new ModelController();
+        ModelRunner runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                parent.showScreen("simulation_results");
+            }
+        });
+
         try {
             workingTime = Double.parseDouble(modelWorkTime.getText());
             context.set("workingTime", workingTime);
+            // More contextual stuff
+
+
+            Thread modelThread = new Thread(runner);
+            modelThread.start();
+
         } catch (NumberFormatException e) {
             System.err.println("TODO: Handle this one!");
             errorLabel.setText("Невалидно число.");
@@ -47,7 +68,8 @@ public class MainController extends AbstractScreen {
         }
 
         if (fine) {
-            // TODO: Figure out a way to tell the new screen it's being shown. Maybe an event listener?
+
+            // Setting model parameters in nyah!
             context.set("workingTime", workingTime);
             parent.showScreen("simulation");
         } else {

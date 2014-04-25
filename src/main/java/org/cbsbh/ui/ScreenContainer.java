@@ -90,7 +90,7 @@ public class ScreenContainer extends StackPane {
                 Timeline fade = new Timeline(
                         new KeyFrame(Duration.ZERO,
                                 new KeyValue(opacity, 1.0)),
-                        new KeyFrame(new Duration(300), new EventHandler<ActionEvent>() {
+                        new KeyFrame(new Duration(30), new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent actionEvent) {
                                 // Remove the currently displayed screen after it finishes fading out
@@ -103,7 +103,7 @@ public class ScreenContainer extends StackPane {
                                 Timeline fadeIn = new Timeline(
                                         new KeyFrame(Duration.ZERO,
                                                 new KeyValue(opacity, 0.0)),
-                                        new KeyFrame(new Duration(600),
+                                        new KeyFrame(new Duration(30),
                                                 new KeyValue(opacity, 1.0)));
                                 fadeIn.play();
                             }
@@ -116,7 +116,7 @@ public class ScreenContainer extends StackPane {
                 Timeline fadeIn = new Timeline(
                         new KeyFrame(Duration.ZERO,
                                 new KeyValue(opacity, 0.0)),
-                        new KeyFrame(new Duration(500),
+                        new KeyFrame(new Duration(10),
                                 new KeyValue(opacity, 1.0)));
                 fadeIn.play();
             }
