@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    prefHeight="493.9998779296875" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1"
+    xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.MainController">
+    <children>
+        <Button fx:id="simulationStartButton" layoutX="448.0" layoutY="281.0" mnemonicParsing="false"
+            onAction="#startSimulation" text="Start simulation" />
+        <GridPane gridLinesVisible="false" layoutX="18.0" layoutY="23.0" prefWidth="672.0" style="">
+            <children>
+        <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+          <children>
+            <TextField fx:id="modelWorkTime" alignment="CENTER_RIGHT" prefWidth="65.0">
+              <HBox.margin>
+                <Insets left="3.0" right="3.0" fx:id="x1" />
+              </HBox.margin>
+            </TextField>
+            <Label text="s" />
+          </children>
+        </HBox>
+        <Label text="Време за работа на модела:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label text="Брой съобщения за предаване:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+          <children>
+              <Label text="1" />
+              <Slider id="messageCount" fx:id="messageCountSlider" max="20000.0" min="1.0" prefWidth="194.0" />
+              <Label text="20 000" />
+              <TextField fx:id="messageCountValue" prefWidth="61.0" />
+          </children>
+        </HBox>
+        <Label text="Начин на генериране на съобщенията:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <ComboBox editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Псевдослучаен" />
+              <String fx:value="Друг" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+      </children>
+      <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="386.0" minWidth="10.0" prefWidth="282.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="0.0" prefWidth="286.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <Label fx:id="errorLabel" layoutX="14.0" layoutY="355.0" prefWidth="434.0" text="" textFill="RED" />
+  </children>
+</AnchorPane>

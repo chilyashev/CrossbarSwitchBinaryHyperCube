@@ -29,6 +29,11 @@ public class ScreenContainer extends StackPane {
     private HashMap<String, Node> screens = screens = new HashMap<>();
 
     /**
+     * Keeps references to all the controllers
+     */
+    private HashMap<String, ControlledScreen> controllers = new HashMap<>();
+
+    /**
      * Loads a screen and adds it to the screen map
      *
      * @param screenId The screen's ID
@@ -45,17 +50,25 @@ public class ScreenContainer extends StackPane {
                 throw new Exception("All screens must have a controller. What the hell do you think you are doing?");
             }
             controller.setParent(this);
-            addScreen(screenId, loadedScreen);
+            addScreen(screenId, loadedScreen, controller);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println(e.getMessage());
+            System.exit(1);
             return false;
         }
     }
 
-    public void addScreen(String name, Node screen) {
+    /**
+     *
+     * @param name
+     * @param screen
+     * @param controller
+     */
+    public void addScreen(String name, Node screen, ControlledScreen controller) {
         screens.put(name, screen);
+        controllers.put(name, controller);
     }
 
     /**
@@ -77,17 +90,20 @@ public class ScreenContainer extends StackPane {
                 Timeline fade = new Timeline(
                         new KeyFrame(Duration.ZERO,
                                 new KeyValue(opacity, 1.0)),
-                        new KeyFrame(new Duration(300), new EventHandler<ActionEvent>() {
+                        new KeyFrame(new Duration(30), new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent actionEvent) {
                                 // Remove the currently displayed screen after it finishes fading out
                                 getChildren().remove(0);
                                 // Add the new screen at the old one's place
                                 getChildren().add(0, screens.get(screenId));
+                                // tell the controller to do whatever it should do when the screen is starting
+                                controllers.get(screenId).init();
+                                //((Node)screens.get(screenId)).getScene().getRoot()
                                 Timeline fadeIn = new Timeline(
                                         new KeyFrame(Duration.ZERO,
                                                 new KeyValue(opacity, 0.0)),
-                                        new KeyFrame(new Duration(600),
+                                        new KeyFrame(new Duration(30),
                                                 new KeyValue(opacity, 1.0)));
                                 fadeIn.play();
                             }
@@ -100,7 +116,7 @@ public class ScreenContainer extends StackPane {
                 Timeline fadeIn = new Timeline(
                         new KeyFrame(Duration.ZERO,
                                 new KeyValue(opacity, 0.0)),
-                        new KeyFrame(new Duration(500),
+                        new KeyFrame(new Duration(10),
                                 new KeyValue(opacity, 1.0)));
                 fadeIn.play();
             }

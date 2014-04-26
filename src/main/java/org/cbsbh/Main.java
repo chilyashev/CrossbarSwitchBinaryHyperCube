@@ -22,8 +22,10 @@ public class Main extends Application {
         ScreenContainer mainScreen = new ScreenContainer();
 
         // Adding the screens
-        mainScreen.loadScreen("main", "screens/main.fxml");
-        mainScreen.loadScreen("simulation", "screens/simulation.fxml");
+        mainScreen.loadScreen("main", "/screens/main.fxml");
+        mainScreen.loadScreen("simulation", "/screens/simulation.fxml");
+        mainScreen.loadScreen("simulation_results", "/screens/simulation_results.fxml");
+
 
         // Showing the main screen
         mainScreen.showScreen("main");
@@ -39,6 +41,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        //System.out.println(com.sun.javafx.runtime.VersionInfo.getRuntimeVersion());
         launch(args);
     }
 }
