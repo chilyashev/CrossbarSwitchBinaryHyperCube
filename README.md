@@ -27,7 +27,7 @@
 
 1. With maven
     1. clone the project
-    2. Just `mvn compile package` and if all is configured well*, running `java -jar ./target/cbsbh.jar` should start the thing
+    2. Just `mvn compile package` and if all is configured well, running `java -jar ./target/cbsbh.jar` should start the thing
 2. With IDEA
     1. clone the project
     2. Start IDEA
@@ -35,7 +35,3 @@
     4. Navigate to the folder you cloned it
     5. `Ctrl+N`, type `Main`, `<Enter>`, `Ctrl+Shift+F10`
     6. Obviously, don't commit the .iml file
-
-
-
-*Maven seems to have some trouble with JavaFX, so you should read on the classpath issues you might run into
