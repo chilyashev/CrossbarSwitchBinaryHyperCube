@@ -8,9 +8,10 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.9998779296875" prefWidth="651.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.SimulationResultsController">
   <children>
-    <HBox id="HBox" alignment="CENTER" layoutX="265.0" layoutY="205.0" spacing="5.0">
+    <HBox id="VBox" alignment="CENTER" layoutX="265.0" layoutY="205.0" spacing="5.0">
       <children>
-        <Label text="Done, mofo!" />
+        <Label text="Симулацията завърши. " />
+          <Label text="Резултати: " />
       </children>
     </HBox>
   </children>

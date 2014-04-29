@@ -21,8 +21,10 @@ public class MainController extends AbstractScreen {
     Context context;
 
     // FXML controls
-    @FXML private TextField modelWorkTime;
-    @FXML private Label errorLabel;
+    @FXML
+    private TextField modelWorkTime;
+    @FXML
+    private Label errorLabel;
     @FXML
     private Slider messageCountSlider;
     @FXML

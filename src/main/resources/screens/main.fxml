@@ -124,8 +124,10 @@
                   <String fx:value="друг" />
                 </FXCollections>
               </items>
+              <HBox.margin>
+                <Insets right="15.0" />
+              </HBox.margin>
             </ComboBox>
-            <Label text="b" />
           </children>
         </HBox>
         <ComboBox GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.margin="$x1" GridPane.rowIndex="12" GridPane.valignment="CENTER">
