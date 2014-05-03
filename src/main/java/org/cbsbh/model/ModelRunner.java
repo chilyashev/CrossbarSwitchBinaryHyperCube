@@ -26,9 +26,9 @@ public class ModelRunner implements Runnable {
         // Start model loop
         // Gather data
         // Write results in the context
-        try{
+        try {
             Thread.sleep(3000);
-        }catch (Exception e){
+        } catch (Exception e) {
             /// who cares
         }
         // More work

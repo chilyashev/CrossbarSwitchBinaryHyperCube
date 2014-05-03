@@ -61,7 +61,6 @@ public class ScreenContainer extends StackPane {
     }
 
     /**
-     *
      * @param name
      * @param screen
      * @param controller

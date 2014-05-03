@@ -11,10 +11,10 @@ public class Packet {
     /**
      * Contains:<br/>
      * <ul>
-     *     <li>12 bits for the Destination Node Address(DNA) - bits 0-11</li>
-     *     <li>4 free bits - bits 12-15</li>
-     *     <li>12 bits for the Transport Mask (TR) - bits 16-27</li>
-     *     <li>4 free bits - bits 28-31</li>
+     * <li>12 bits for the Destination Node Address(DNA) - bits 0-11</li>
+     * <li>4 free bits - bits 12-15</li>
+     * <li>12 bits for the Transport Mask (TR) - bits 16-27</li>
+     * <li>4 free bits - bits 28-31</li>
      * </ul>
      */
     private long header_1;
@@ -23,7 +23,7 @@ public class Packet {
      * The second part of the header.
      * Contains:<br/>
      * <ul>
-     *     <li>32 bits for the target Memory Address</li>
+     * <li>32 bits for the target Memory Address</li>
      * </ul>
      */
     private long memoryAddress;
@@ -41,25 +41,26 @@ public class Packet {
 
     /**
      * Get the lower 12 bits of the first header
+     *
      * @return the Destination Node Address
      */
-    public long getDNA(){
+    public long getDNA() {
         return (header_1 & 0xfff);
     }
 
     /**
      * Get the Transport Mask
+     *
      * @return the Transport Mask
      */
-    public long getTR(){
-        return (header_1 & 0xfff0000)>> 0x10;
+    public long getTR() {
+        return (header_1 & 0xfff0000) >> 0x10;
     }
 
     /**
-     *
      * @return the MemoryAddress
      */
-    public long getMemoryAddress(){
+    public long getMemoryAddress() {
         return memoryAddress;
     }
 
@@ -67,7 +68,7 @@ public class Packet {
         this.memoryAddress = memoryAddress;
     }
 
-    public long getData_l(){
+    public long getData_l() {
         return data_l;
     }
 

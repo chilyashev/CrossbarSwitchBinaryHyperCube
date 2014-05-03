@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  */
 public class MessageController {
     public static void showError(Scene parentScene, String title, String message, String details) {
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader(MessageController.class.getResource("/screens/alertDialog.fxml"));
             Parent loadedScreen = (Parent) loader.load();
             //ControlledScreen controller = loader.getController();
@@ -25,7 +25,7 @@ public class MessageController {
             stage.setScene(scene);
             stage.show();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             // don't give a rat's ass!
         }
     }
