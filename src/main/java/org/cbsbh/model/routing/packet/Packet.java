@@ -20,12 +20,13 @@ public class Packet {
     private long header_1;
 
     /**
+     * The second part of the header.
      * Contains:<br/>
      * <ul>
-     *     <li>32 bits for Memory Address</li>
+     *     <li>32 bits for the target Memory Address</li>
      * </ul>
      */
-    private long header_2;
+    private long memoryAddress;
 
     /**
      * 32 bits of data
@@ -56,10 +57,14 @@ public class Packet {
 
     /**
      *
-     * @return the MemodyAddress
+     * @return the MemoryAddress
      */
     public long getMemoryAddress(){
-        return header_2;
+        return memoryAddress;
+    }
+
+    public void setMemoryAddress(long memoryAddress) {
+        this.memoryAddress = memoryAddress;
     }
 
     public long getData_l(){
@@ -76,14 +81,6 @@ public class Packet {
 
     public void setHeader_1(long header_1) {
         this.header_1 = header_1;
-    }
-
-    public long getHeader_2() {
-        return header_2;
-    }
-
-    public void setHeader_2(long header_2) {
-        this.header_2 = header_2;
     }
 
     public void setData_l(long data_l) {
