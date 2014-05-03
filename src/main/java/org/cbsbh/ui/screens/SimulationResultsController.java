@@ -1,7 +1,7 @@
 package org.cbsbh.ui.screens;
 
 import org.cbsbh.ui.AbstractScreen;
-import org.cbsbh.ui.context.Context;
+import org.cbsbh.context.Context;
 
 /**
  * Description goes here

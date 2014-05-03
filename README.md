@@ -1,4 +1,4 @@
-##A model.
+##A model of a router for NUMA computers which use a static binary hypercube communication network.
 
 **TODO**: A Nice description
 
@@ -23,7 +23,7 @@
 4. Tests?
 
 
-###Running
+###Building, Running, Packaging, etc
 
 1. With maven
     1. clone the project

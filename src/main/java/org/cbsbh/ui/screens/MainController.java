@@ -8,7 +8,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import org.cbsbh.model.ModelRunner;
 import org.cbsbh.ui.AbstractScreen;
-import org.cbsbh.ui.context.Context;
+import org.cbsbh.context.Context;
 
 /**
  * Displays the main screen with the menus and whatnot
@@ -46,7 +46,7 @@ public class MainController extends AbstractScreen {
         boolean fine = true;
         double workingTime = 0;
         errorLabel.setText("");
-        //ModelController model = new ModelController();
+
         ModelRunner runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

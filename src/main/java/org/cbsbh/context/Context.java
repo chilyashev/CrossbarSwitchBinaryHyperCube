@@ -1,11 +1,11 @@
-package org.cbsbh.ui.context;
+package org.cbsbh.context;
 
 import java.util.HashMap;
 
 /**
- * Used to shuffle data between the controllers of different views.
+ * Used to pass data between the controllers of different views.
  * I know a global context is not the best practice, but screw it.
- * For the current goals it will do just well enough.
+ * For the current goals it will do well enough.
  * Date: 4/20/14 4:23 AM
  *
  * @author Mihail Chilyashev

@@ -1,0 +1,96 @@
+package org.cbsbh.model.routing.packet;
+
+/**
+ * Contains the data for the packet being transmitted.
+ * Date: 5/3/14 4:54 PM
+ *
+ * @author Mihail Chilyashev
+ */
+public class Packet {
+
+    /**
+     * Contains:<br/>
+     * <ul>
+     *     <li>12 bits for the Destination Node Address(DNA) - bits 0-11</li>
+     *     <li>4 free bits - bits 12-15</li>
+     *     <li>12 bits for the Transport Mask (TR) - bits 16-27</li>
+     *     <li>4 free bits - bits 28-31</li>
+     * </ul>
+     */
+    private long header_1;
+
+    /**
+     * Contains:<br/>
+     * <ul>
+     *     <li>32 bits for Memory Address</li>
+     * </ul>
+     */
+    private long header_2;
+
+    /**
+     * 32 bits of data
+     */
+    private long data_l;
+
+    /**
+     * 32 more bits of data
+     */
+    private long data_h;
+
+
+    /**
+     * Get the lower 12 bits of the first header
+     * @return the Destination Node Address
+     */
+    public long getDNA(){
+        return (header_1 & 0xfff);
+    }
+
+    /**
+     * Get the Transport Mask
+     * @return the Transport Mask
+     */
+    public long getTR(){
+        return (header_1 & 0xfff0000)>> 0x10;
+    }
+
+    /**
+     *
+     * @return the MemodyAddress
+     */
+    public long getMemoryAddress(){
+        return header_2;
+    }
+
+    public long getData_l(){
+        return data_l;
+    }
+
+    public long getData_h() {
+        return data_h;
+    }
+
+    public long getHeader_1() {
+        return header_1;
+    }
+
+    public void setHeader_1(long header_1) {
+        this.header_1 = header_1;
+    }
+
+    public long getHeader_2() {
+        return header_2;
+    }
+
+    public void setHeader_2(long header_2) {
+        this.header_2 = header_2;
+    }
+
+    public void setData_l(long data_l) {
+        this.data_l = data_l;
+    }
+
+    public void setData_h(long data_h) {
+        this.data_h = data_h;
+    }
+}

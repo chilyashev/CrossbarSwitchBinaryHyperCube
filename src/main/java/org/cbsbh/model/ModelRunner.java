@@ -2,11 +2,12 @@ package org.cbsbh.model;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import org.cbsbh.ui.context.Context;
+import org.cbsbh.context.Context;
 
 
 /**
- * Description goes here
+ * Takes care of bootstrapping the model, running it, collecting the data and telling the controller that
+ * the simulation has finished.
  * Date: 4/25/14 1:46 PM
  *
  * @author Mihail Chilyashev
@@ -25,7 +26,6 @@ public class ModelRunner implements Runnable {
         // Start model loop
         // Gather data
         // Write results in the context
-
         try{
             Thread.sleep(3000);
         }catch (Exception e){

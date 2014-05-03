@@ -17,7 +17,7 @@ public class Main extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
         ScreenContainer mainScreen = new ScreenContainer();
 
@@ -41,7 +41,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        //System.out.println(com.sun.javafx.runtime.VersionInfo.getRuntimeVersion());
         launch(args);
     }
 }

@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import org.cbsbh.ui.AbstractScreen;
-import org.cbsbh.ui.context.Context;
+import org.cbsbh.context.Context;
 
 /**
  * Description goes here
