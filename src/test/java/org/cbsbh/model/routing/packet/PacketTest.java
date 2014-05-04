@@ -22,5 +22,9 @@ public class PacketTest {
         pack.setHeader_1(0xeff0827);
         long expected = 0xeff;
         Assert.assertEquals("The TR should be equal to " + expected, expected, pack.getTR());
+        // Testing with an invalid TR
+        pack.setHeader_1(0xffffffff);
+        expected = 0xfff;
+        Assert.assertEquals("The TR should be equal to " + expected, expected, pack.getTR());
     }
 }
