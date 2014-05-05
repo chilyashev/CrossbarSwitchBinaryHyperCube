@@ -38,6 +38,27 @@ public class Packet {
      */
     private long data_h;
 
+    /**
+     * Add header content separately
+     * @param dna the Destination Node Address
+     * @param tr the Transport Mask
+     * @param memoryAddress Memory address
+     * @param data_l Data
+     * @param data_h Data
+     */
+    public Packet(int dna, int tr, long memoryAddress, long data_l, long data_h) {
+        this(((tr & 0xfff) << 16) + (dna & 0xfff), memoryAddress, data_l, data_h);
+    }
+
+    public Packet(long header_1, long memoryAddress, long data_l, long data_h) {
+        this.header_1 = header_1;
+        this.memoryAddress = memoryAddress;
+        this.data_l = data_l;
+        this.data_h = data_h;
+    }
+
+    public Packet() {
+    }
 
     /**
      * Get the lower 12 bits of the first header
