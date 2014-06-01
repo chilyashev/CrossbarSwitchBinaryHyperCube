@@ -37,6 +37,7 @@ public class FIFOArbiter implements Tickable {
         grant_received = false;
         channelCount = Integer.parseInt((String) Context.getInstance().get("channelCount"));
         channels = new ArrayList<OutputChannel>();
+        fifoBuff = new FIFOBuff<>();
     }
 
     public void tick() {
@@ -58,24 +59,35 @@ public class FIFOArbiter implements Tickable {
             for (OutputChannel channel : channels) {
                 if (!channel.isBusy()) {
                     OutputChannelCollection.get(chosenChannelId).setBusy(true);
-                    channel.setData(p.getHeader_1());
-                    chosenChannelId = channel.getId();
-                    popped = fifoBuff.pop();
-                    poppedCount++;
-                    break;
+                    if(channel.setData(p.getHeader_1())){
+                        chosenChannelId = channel.getId();
+                        popped = fifoBuff.pop();
+                        poppedCount++;
+                        break;
+                    }
                 }
             }
         } else{ // TODO: Optimize
             if(poppedCount <= 4){
-                OutputChannelCollection.get(chosenChannelId).setData(popped);
-                if(poppedCount < 4){
-                    popped = fifoBuff.pop();
-                    poppedCount++;
+                if(OutputChannelCollection.get(chosenChannelId).setData(popped)){
+                    if(poppedCount < 4){
+                        popped = fifoBuff.pop();
+                        poppedCount++;
+                    }
                 }
             }else{
+                OutputChannelCollection.get(chosenChannelId).setBusy(false);
                 poppedCount = 0;
             }
         }
+    }
+
+    public FIFOBuff<Long> getFifoBuff() {
+        return fifoBuff;
+    }
+
+    public boolean isBusy(){
+        return fifoBuff.getItemCount() > 0;
     }
 
     public long getChannelId() {

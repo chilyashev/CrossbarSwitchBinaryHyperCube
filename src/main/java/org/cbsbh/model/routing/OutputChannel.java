@@ -19,17 +19,28 @@ public class OutputChannel {
      */
     private long data;
     private boolean busy;
+    private boolean dataSent = false;
+
+    public void tick() {
+        if (!dataSent) {
+            dataSent = InputChannelCollection.get(id).pushFlit(data);
+        }
+    }
 
     public long getData() {
         return data;
     }
 
-    public void setData(long data) {
-        if(data != 0 ){
+    public boolean setData(long data) {
+        if (data != 0) {
             System.err.println("Data not sent! You can't put your dirty data in me!");
             System.exit(-0xB00B);
         }
-        this.data = data;
+        if (dataSent) {
+            this.data = data;
+            return true;
+        }
+        return false;
     }
 
     public boolean isBusy() {

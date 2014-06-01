@@ -1,6 +1,7 @@
 package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
+import org.cbsbh.model.structures.FIFOBuff;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,17 @@ public class InputChannel implements Tickable {
             arbiter.setChannelId(id);
         }
 
+    }
+
+    public boolean pushFlit(long data) {
+        for (FIFOArbiter arbiter : arbiters) {
+            FIFOBuff<Long> fifoBuff = arbiter.getFifoBuff();
+            if(fifoBuff.getItemCount() < 1){
+                fifoBuff.push(data);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

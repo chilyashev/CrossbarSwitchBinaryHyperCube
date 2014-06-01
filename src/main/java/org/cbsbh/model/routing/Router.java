@@ -12,15 +12,25 @@ import java.util.ArrayList;
  */
 abstract public class Router implements Tickable{
 
-    private ArrayList<InputChannel> demuxes;
+    private ArrayList<InputChannel> inputChannels;
+    private ArrayList<OutputChannel> outputChannels;
 
-    protected Router(int demuxCount) {
-        demuxes = new ArrayList<>(demuxCount);
+    protected Router(ArrayList<InputChannel> inputChannels, ArrayList<OutputChannel> outputChannels) {
+        this.inputChannels = inputChannels;
+        this.outputChannels = outputChannels;
     }
 
     /**
      * All the logic goes in here.
      */
-    abstract public void tick();
+    public void tick(){
+        for(int i = 0; i < inputChannels.size(); i++){
+            InputChannel inputChannel = inputChannels.get(i);
+            OutputChannel outputChannel = outputChannels.get(i);
+            inputChannel.tick();
+            outputChannel.tick();
+        }
+
+    }
 
 }

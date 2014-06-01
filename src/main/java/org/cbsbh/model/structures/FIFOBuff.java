@@ -42,4 +42,8 @@ public class FIFOBuff<T> {
     public boolean isFull() {
         return full;
     }
+
+    public int getItemCount(){
+        return content.size();
+    }
 }
