@@ -47,3 +47,7 @@
     M:
        1. Packet generator
        2. interface
+
+    :
+       1. Buffer count per channel = ?
+       2. Initializing

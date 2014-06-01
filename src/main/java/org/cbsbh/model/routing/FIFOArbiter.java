@@ -24,7 +24,7 @@ public class FIFOArbiter implements Tickable {
     private ArrayList<OutputChannel> channels;
     private long chosenChannelId;
 
-    long popped = 0;
+    Long popped;
     long dna = 0;
     long xor = 0;
     Packet p = new Packet();
@@ -38,12 +38,15 @@ public class FIFOArbiter implements Tickable {
         channelCount = Integer.parseInt((String) Context.getInstance().get("channelCount"));
         channels = new ArrayList<OutputChannel>();
         fifoBuff = new FIFOBuff<>();
+        popped = 0l;
     }
 
     public void tick() {
-        OutputChannel out = null;
         if (poppedCount == 0) {
             popped = fifoBuff.pop();
+            if(popped == null){
+                return;
+            }
             p.setHeader_1(popped);
             dna = p.getDNA(); // destination
             xor = dna ^ channelId;

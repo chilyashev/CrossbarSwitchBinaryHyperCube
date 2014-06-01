@@ -34,7 +34,7 @@ public class ModelRunner implements Runnable {
         System.out.println("Starting at... " + new Date());
         // Ticking....
         while(ticks < Long.MAX_VALUE){
-            // Tick for each
+            // Tick for each router
             //System.err.println("tick");
             ticks++;
         }
