@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import org.cbsbh.context.Context;
 
+import java.util.Date;
+
 
 /**
  * Takes care of bootstrapping the model, running it, collecting the data and telling the controller that
@@ -15,6 +17,8 @@ import org.cbsbh.context.Context;
 public class ModelRunner implements Runnable {
     Context context;
     EventHandler<ActionEvent> handler;
+    private boolean running = true;
+    private long ticks = 0;
 
     public ModelRunner(Context context, EventHandler<ActionEvent> handler) {
         this.context = context;
@@ -23,16 +27,18 @@ public class ModelRunner implements Runnable {
 
     @Override
     public void run() {
-        // Start model loop
+        // Init phase
+        System.out.println("Starting at... " + new Date());
+        // Ticking....
+        while(ticks < Long.MAX_VALUE){
+            // Tick for each
+            //System.err.println("tick");
+            ticks++;
+        }
+        System.out.println("Ended at... " + new Date());
         // Gather data
         // Write results in the context
-        try {
-            Thread.sleep(3000);
-        } catch (Exception e) {
-            /// who cares
-        }
         // More work
-        handler.handle(new ActionEvent());
     }
 
 }

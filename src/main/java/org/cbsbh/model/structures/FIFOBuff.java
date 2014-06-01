@@ -10,17 +10,28 @@ import java.util.LinkedList;
  * @author Mihail Chilyashev
  */
 public class FIFOBuff<T> {
+    private int maxSize = 4;
+    private boolean full;
     private LinkedList<T> content;
+
+    public FIFOBuff(int maxSize) {
+        this.maxSize = maxSize;
+    }
 
     public FIFOBuff() {
         content = new LinkedList<>();
     }
 
     public void push(T ob) {
+        if(content.size()+1 > maxSize){
+            full = true;
+            return;
+        }
         content.add(ob);
     }
 
     public T pop() {
+        full = false;
         if (content.size() > 0) {
             return content.pop();
         } else {
@@ -28,4 +39,7 @@ public class FIFOBuff<T> {
         }
     }
 
+    public boolean isFull() {
+        return full;
+    }
 }
