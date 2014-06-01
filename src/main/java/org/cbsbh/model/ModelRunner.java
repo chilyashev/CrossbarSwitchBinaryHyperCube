@@ -28,6 +28,9 @@ public class ModelRunner implements Runnable {
     @Override
     public void run() {
         // Init phase
+        // OutputChannelCollection.push(output_1....)
+        //
+        Context.getInstance().set("channelCount", 4); // TODO: get this from the interface!
         System.out.println("Starting at... " + new Date());
         // Ticking....
         while(ticks < Long.MAX_VALUE){

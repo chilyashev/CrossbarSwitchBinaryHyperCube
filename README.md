@@ -35,3 +35,15 @@
     4. Navigate to the folder you cloned it
     5. `Ctrl+N`, type `Main`, `<Enter>`, `Ctrl+Shift+F10`
     6. Obviously, don't commit the .iml file
+
+
+
+#TODO
+
+    G:
+       1. Routing algorithms
+
+
+    M:
+       1. Packet generator
+       2. interface
