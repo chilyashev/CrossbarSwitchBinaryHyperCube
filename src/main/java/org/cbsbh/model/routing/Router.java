@@ -10,14 +10,19 @@ import java.util.ArrayList;
  *
  * @author Mihail Chilyashev
  */
-abstract public class Router implements Tickable{
+public class Router implements Tickable{
 
+    int id;
     private ArrayList<InputChannel> inputChannels;
     private ArrayList<OutputChannel> outputChannels;
     InputChannel dmaIN;
     OutputChannel dmaOUT;
 
-    protected Router(ArrayList<InputChannel> inputChannels, ArrayList<OutputChannel> outputChannels, InputChannel dmaIN, OutputChannel dmaOUT) {
+    public Router() {
+    }
+
+    protected Router(int id, ArrayList<InputChannel> inputChannels, ArrayList<OutputChannel> outputChannels, InputChannel dmaIN, OutputChannel dmaOUT) {
+        this.id = id;
         this.inputChannels = inputChannels;
         this.outputChannels = outputChannels;
         this.dmaIN = dmaIN;
@@ -39,4 +44,43 @@ abstract public class Router implements Tickable{
 
     }
 
+    public ArrayList<InputChannel> getInputChannels() {
+        return inputChannels;
+    }
+
+    public void setInputChannels(ArrayList<InputChannel> inputChannels) {
+        this.inputChannels = inputChannels;
+    }
+
+    public ArrayList<OutputChannel> getOutputChannels() {
+        return outputChannels;
+    }
+
+    public void setOutputChannels(ArrayList<OutputChannel> outputChannels) {
+        this.outputChannels = outputChannels;
+    }
+
+    public InputChannel getDmaIN() {
+        return dmaIN;
+    }
+
+    public void setDmaIN(InputChannel dmaIN) {
+        this.dmaIN = dmaIN;
+    }
+
+    public OutputChannel getDmaOUT() {
+        return dmaOUT;
+    }
+
+    public void setDmaOUT(OutputChannel dmaOUT) {
+        this.dmaOUT = dmaOUT;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

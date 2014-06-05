@@ -11,7 +11,7 @@ public class OutputChannel {
     /**
      * Output channel ID
      */
-    private long id;
+    private int id;
 
     /**
      * Hardware-wise there is no way to transmit a whole flit for a single tick serially, so we just
@@ -21,16 +21,17 @@ public class OutputChannel {
     private boolean busy;
     private boolean dataSent = false;
 
-    public void tick() {
-        if (!dataSent) {
-            dataSent = InputChannelCollection.get(id).pushFlit(data);
-        }
-    }
+    private int targetRouterId;
+    private int targetInputChannelId;
 
-    public long retrieveData() {
-        long ret = data;
-        this.data = 0;
-        return ret;
+    public void tick() {
+        if (!dataSent && (this.targetRouterId != 0 && this.targetInputChannelId != 0)) {
+            dataSent = InputChannelCollection.get(targetRouterId, targetInputChannelId).pushFlit(data);
+        }
+
+        if(dataSent){
+            data = 0;
+        }
     }
 
     public boolean putData(long data) {
@@ -45,19 +46,27 @@ public class OutputChannel {
         return false;
     }
 
+    public void acceptGrant(int chosenChannelId, int routerId) {
+        this.targetRouterId = chosenChannelId;
+        this.targetInputChannelId = routerId;
+        this.busy = true;
+    }
+
+    public void releaseChannel() {
+        this.targetRouterId = 0;
+        this.targetInputChannelId = 0;
+        this.busy = false;
+    }
+
     public boolean isBusy() {
         return busy;
     }
 
-    public void setBusy(boolean busy) {
-        this.busy = busy;
-    }
-
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

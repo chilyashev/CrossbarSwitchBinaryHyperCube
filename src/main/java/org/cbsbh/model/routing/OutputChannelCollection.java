@@ -10,12 +10,12 @@ import java.util.HashMap;
  */
 public class OutputChannelCollection {
     // ID => Channel
-    private static HashMap<Long, OutputChannel> channels;
+    private static HashMap<String, OutputChannel> channels;
 
-    public static void push(OutputChannel channel){
-        channels.put(channel.getId(), channel);
+    public static void push(int routerId, OutputChannel channel){
+        channels.put(routerId + "_" + channel.getId(), channel);
     }
-    public static OutputChannel get(long id){
-        return channels.get(id);
+    public static OutputChannel get(int routerId, int id){
+        return channels.get(routerId + "_" + id);
     }
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Mihail Chilyashev
  */
 public class FIFOArbiter implements Tickable {
-    long channelId;
+    int routerId;
     int poppedCount;
     int channelCount;
     int step;
@@ -22,8 +22,8 @@ public class FIFOArbiter implements Tickable {
 
     boolean req_sent, grant_received, grant_ack;
 
-    private ArrayList<OutputChannel> channels;
-    private long chosenChannelId;
+    private ArrayList<Integer> channels;
+    private int chosenChannelId;
 
     Long popped;
     long dna = 0;
@@ -31,13 +31,13 @@ public class FIFOArbiter implements Tickable {
     Packet p = new Packet();
 
 
-    public FIFOArbiter(long channelId) {
+    public FIFOArbiter(long routerId) {
         poppedCount = 0;
         req_sent = false;
         grant_ack = false;
         grant_received = false;
         channelCount = Integer.parseInt((String) Context.getInstance().get("channelCount"));
-        channels = new ArrayList<OutputChannel>();
+        channels = new ArrayList<Integer>();
         fifoBuff = new FIFOBuff<>();
         popped = 0l;
         step = 0;
@@ -54,32 +54,34 @@ public class FIFOArbiter implements Tickable {
                 }
                 p.setHeader_1(popped);
                 dna = p.getDNA(); // destination
-                xor = dna ^ channelId;
+                xor = dna ^ routerId;
                 break;
             case 1: // Request
                 for (int i = 0; i < channelCount; i++) {
                     if ((xor & 0x01) == 1) {
-                        channels.add(OutputChannelCollection.get(channelId | i));
+                        int nextRouterId = routerId | i;
+                        channels.add(nextRouterId);
                     }
                     xor >>= 1;
                 }
                 break;
             case 2: // Grant
-                for (OutputChannel channel : channels) {
-                    if (!channel.isBusy()) {
-                        chosenChannelId = channel.getId();
+                for (Integer channel : channels) {
+                    if (!OutputChannelCollection.get(channel, routerId).isBusy()) {
+                        chosenChannelId = OutputChannelCollection.get(channel, routerId).getId();
                         break;
                     }
                 }
                 break;
             case 3: // Accept
-                OutputChannelCollection.get(chosenChannelId).setBusy(true);
+                OutputChannelCollection.get(chosenChannelId, routerId).acceptGrant(chosenChannelId, routerId);
                 break;
             default:
-                if (OutputChannelCollection.get(chosenChannelId).putData(popped)) {
+                if (OutputChannelCollection.get(chosenChannelId, routerId).putData(popped)) {
                     popped = fifoBuff.pop();
                     if (popped == null) {
                         step = 0;
+                        OutputChannelCollection.get(chosenChannelId, routerId).releaseChannel();
                     }
                 }
         }
@@ -95,11 +97,11 @@ public class FIFOArbiter implements Tickable {
         return fifoBuff.getItemCount() > 0;
     }
 
-    public long getChannelId() {
-        return channelId;
+    public long getRouterId() {
+        return routerId;
     }
 
-    public void setChannelId(long channelId) {
-        this.channelId = channelId;
+    public void setRouterId(int routerId) {
+        this.routerId = routerId;
     }
 }

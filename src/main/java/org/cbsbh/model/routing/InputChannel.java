@@ -12,16 +12,16 @@ import java.util.ArrayList;
  * @author Mihail Chilyashev
  */
 public class InputChannel implements Tickable {
-    private long id;
+    private int routerId;
     private int bufferCount;
     private ArrayList<FIFOArbiter> arbiters;
 
-    public InputChannel(long id, int bufferCount) {
-        this.id = id;
+    public InputChannel(int routerId, int bufferCount) {
+        this.routerId = routerId;
         this.bufferCount = bufferCount;
         arbiters = new ArrayList<>(bufferCount);
         for (FIFOArbiter arbiter : arbiters) {
-            arbiter.setChannelId(id);
+            arbiter.setRouterId(routerId);
         }
 
     }
@@ -44,11 +44,11 @@ public class InputChannel implements Tickable {
         }
     }
 
-    public long getId() {
-        return id;
+    public int getRouterId() {
+        return routerId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setRouterId(int routerId) {
+        this.routerId = routerId;
     }
 }
