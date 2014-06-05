@@ -3,10 +3,7 @@ package org.cbsbh.model;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import org.cbsbh.context.Context;
-import org.cbsbh.model.routing.InputChannel;
-import org.cbsbh.model.routing.InputChannelCollection;
-import org.cbsbh.model.routing.OutputChannel;
-import org.cbsbh.model.routing.Router;
+import org.cbsbh.model.routing.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,46 +21,67 @@ public class ModelRunner implements Runnable {
     EventHandler<ActionEvent> handler;
     private boolean running = true;
     private long ticks = 0;
+    private ArrayList<Router> MPPNetwork;
 
     public ModelRunner(Context context, EventHandler<ActionEvent> handler) {
         this.context = context;
         this.handler = handler;
+        this.MPPNetwork = new ArrayList<>();
     }
 
-    void getGrayCodes(ArrayList<Integer> list, int n){
-        if(!list.isEmpty()){
+    private int[] getGrayCodes(int n) {
+        int[] list = new int[n];
+        for (int i = 0; i < n; i++) {
+            list[i] = ((i >> 1) ^ i);
+        }
+        return list;
+    }
 
+    private void init(int channelCount, int bufferCount) {
+        //compute number of nodes
+        int SMPNodes = 2 << channelCount;
+
+        //encode node ids
+        int[] GrayCodes = getGrayCodes(SMPNodes);
+
+        //----big ass cycle for init-ing stuff and things
+        //iterate all nodes
+        for (int i = 0; i < SMPNodes; i++) {
+            int currentNodeID = GrayCodes[i];
+
+            //for each node compute adjacent nodes
+            int[] adjacentChannelIDs = new int[channelCount];
+            for (int j = 0; j < channelCount; j++) {
+                adjacentChannelIDs[j] = currentNodeID ^ (1 << j); //magic
+            }
+
+            //construct the router
+            Router router = new Router(currentNodeID, adjacentChannelIDs);
+
+            //populate input/output channel collections
+            for (int j : adjacentChannelIDs) {
+                InputChannel iChannel = new InputChannel(j, bufferCount);
+                InputChannelCollection.push(currentNodeID, iChannel);
+
+                OutputChannel oChannel = new OutputChannel(j, currentNodeID);
+                OutputChannelCollection.push(currentNodeID, oChannel);
+            }
+
+            //include the bad boy in the network
+            MPPNetwork.add(router);
         }
     }
 
     @Override
     public void run() {
+
         // Init phase
-        // OutputChannelCollection.push(output_1....)
-        //
-
+        int channelCount = 4;
         int bufferCount = 5;
+        Context.getInstance().set("channelCount", channelCount); // TODO: get this from the interface!
+        init(channelCount, bufferCount);
+        //End of init
 
-        int channelCountPerCommutator = 4;
-        int commutators = 16;
-
-        for (int i = 0; i < commutators; i++){
-            // Gray code = wtf
-            Router router = new Router();
-            router.setId(i);
-            for(int j = 0; j < channelCountPerCommutator; j++){
-                InputChannel in = new InputChannel(j, 5);
-                router.getInputChannels().add(in);
-                InputChannelCollection.push(router.getId(), in);
-            }
-        }
-
-
-        Context.getInstance().set("channelCount", channelCountPerCommutator); // TODO: get this from the interface!
-        for(int i = 0; i < channelCountPerCommutator; i++){
-            OutputChannel out = new OutputChannel();
-            out.setId(i);
-        }
         System.out.println("Starting at... " + new Date());
         // Ticking....
         while(ticks < Long.MAX_VALUE){

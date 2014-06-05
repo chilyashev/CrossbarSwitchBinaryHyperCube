@@ -9,11 +9,6 @@ package org.cbsbh.model.routing;
 public class OutputChannel {
 
     /**
-     * Output channel ID
-     */
-    private int id;
-
-    /**
      * Hardware-wise there is no way to transmit a whole flit for a single tick serially, so we just
      * ignore it for the model and <strong><i>assume</i></strong> the fixating buffer has no effect on the performance.
      */
@@ -24,12 +19,15 @@ public class OutputChannel {
     private int targetRouterId;
     private int targetInputChannelId;
 
-    public void tick() {
-        if (!dataSent && (this.targetRouterId != 0 && this.targetInputChannelId != 0)) {
-            dataSent = InputChannelCollection.get(targetRouterId, targetInputChannelId).pushFlit(data);
-        }
+    public OutputChannel(int targetRouterId, int targetInputChannelId) {
+        this.targetRouterId = targetRouterId;
+        this.targetInputChannelId = targetInputChannelId;
+    }
 
-        if(dataSent){
+    public void tick() {
+        if (!dataSent) {
+            dataSent = InputChannelCollection.get(targetRouterId, targetInputChannelId).pushFlit(data);
+        } else {
             data = 0;
         }
     }
@@ -46,15 +44,11 @@ public class OutputChannel {
         return false;
     }
 
-    public void acceptGrant(int chosenChannelId, int routerId) {
-        this.targetRouterId = chosenChannelId;
-        this.targetInputChannelId = routerId;
+    public void acceptGrant() {
         this.busy = true;
     }
 
     public void releaseChannel() {
-        this.targetRouterId = 0;
-        this.targetInputChannelId = 0;
         this.busy = false;
     }
 
@@ -63,10 +57,6 @@ public class OutputChannel {
     }
 
     public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+        return targetInputChannelId;
+    } //TODO: make understandable
 }

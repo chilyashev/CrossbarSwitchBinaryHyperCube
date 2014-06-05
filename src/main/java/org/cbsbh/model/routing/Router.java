@@ -13,52 +13,37 @@ import java.util.ArrayList;
 public class Router implements Tickable{
 
     int id;
-    private ArrayList<InputChannel> inputChannels;
-    private ArrayList<OutputChannel> outputChannels;
     InputChannel dmaIN;
     OutputChannel dmaOUT;
+    private int[] channelsIDs;
 
-    public Router() {
-    }
-
-    protected Router(int id, ArrayList<InputChannel> inputChannels, ArrayList<OutputChannel> outputChannels, InputChannel dmaIN, OutputChannel dmaOUT) {
+    public Router(int id, int[] channelsIDs) {
         this.id = id;
-        this.inputChannels = inputChannels;
-        this.outputChannels = outputChannels;
-        this.dmaIN = dmaIN;
-        this.dmaOUT = dmaOUT;
+        this.channelsIDs = channelsIDs;
     }
+
+//    protected Router(int id, ArrayList<InputChannel> inputChannels, ArrayList<OutputChannel> outputChannels, InputChannel dmaIN, OutputChannel dmaOUT) {
+//        this.id = id;
+//        this.inputChannelsIDs = inputChannels;
+//        this.outputChannelsIDs = outputChannels;
+//        this.dmaIN = dmaIN;
+//        this.dmaOUT = dmaOUT;
+//    }
 
     /**
      * All the logic goes in here.
      */
     public void tick(){
-        dmaIN.tick();
-        dmaOUT.tick();
-        for(int i = 0; i < inputChannels.size(); i++){
-            InputChannel inputChannel = inputChannels.get(i);
-            OutputChannel outputChannel = outputChannels.get(i);
-            inputChannel.tick();
-            outputChannel.tick();
+//        dmaIN.tick();
+//        dmaOUT.tick();
+
+        for (int channelID : channelsIDs) {
+            InputChannelCollection.get(id, channelID).tick();
+            OutputChannelCollection.get(id, channelID).tick();
         }
-
     }
 
-    public ArrayList<InputChannel> getInputChannels() {
-        return inputChannels;
-    }
 
-    public void setInputChannels(ArrayList<InputChannel> inputChannels) {
-        this.inputChannels = inputChannels;
-    }
-
-    public ArrayList<OutputChannel> getOutputChannels() {
-        return outputChannels;
-    }
-
-    public void setOutputChannels(ArrayList<OutputChannel> outputChannels) {
-        this.outputChannels = outputChannels;
-    }
 
     public InputChannel getDmaIN() {
         return dmaIN;

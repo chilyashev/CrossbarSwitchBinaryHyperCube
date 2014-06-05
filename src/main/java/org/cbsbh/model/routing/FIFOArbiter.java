@@ -18,17 +18,14 @@ public class FIFOArbiter implements Tickable {
     int poppedCount;
     int channelCount;
     int step;
-    private FIFOBuff<Long> fifoBuff;
-
     boolean req_sent, grant_received, grant_ack;
-
-    private ArrayList<Integer> channels;
-    private int chosenChannelId;
-
     Long popped;
     long dna = 0;
     long xor = 0;
     Packet p = new Packet();
+    private FIFOBuff<Long> fifoBuff;
+    private ArrayList<Integer> channels;
+    private int chosenChannelId;
 
 
     public FIFOArbiter(long routerId) {
@@ -57,9 +54,9 @@ public class FIFOArbiter implements Tickable {
                 xor = dna ^ routerId;
                 break;
             case 1: // Request
-                for (int i = 0; i < channelCount; i++) {
-                    if ((xor & 0x01) == 1) {
-                        int nextRouterId = routerId | i;
+                for (int i = 0; i < channelCount; i++) { //TODO: Arbiter SHOULD already know what his output channels are!
+                    if ((xor & (1 << i)) == 1) {
+                        int nextRouterId = routerId ^ 1 << i;
                         channels.add(nextRouterId);
                     }
                     xor >>= 1;
@@ -74,7 +71,7 @@ public class FIFOArbiter implements Tickable {
                 }
                 break;
             case 3: // Accept
-                OutputChannelCollection.get(chosenChannelId, routerId).acceptGrant(chosenChannelId, routerId);
+                OutputChannelCollection.get(chosenChannelId, routerId).acceptGrant();
                 break;
             default:
                 if (OutputChannelCollection.get(chosenChannelId, routerId).putData(popped)) {
