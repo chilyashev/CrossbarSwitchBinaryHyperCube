@@ -91,7 +91,7 @@
         <Label text="Ширина на данновите канали:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
         <Label text="Използване на буфери за собствени пакети:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
         <Label text="Режим на обмен:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-        <Label text="Алгоритъм за рутиране:" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+        <Label text="Алгоритъм за маршрутизиране:" GridPane.columnIndex="0" GridPane.rowIndex="12" />
         <Label text="Избор на свободен канал: " GridPane.columnIndex="0" GridPane.rowIndex="13" />
         <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
           <children>
@@ -148,7 +148,7 @@
         </ComboBox>
         <Label text="???" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="13">
           <GridPane.margin>
-            <Insets right="14.0" />
+            <Insets right="14.0" fx:id="x1" />
           </GridPane.margin>
         </Label>
       </children>

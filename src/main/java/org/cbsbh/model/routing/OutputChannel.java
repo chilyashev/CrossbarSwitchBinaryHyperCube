@@ -27,12 +27,14 @@ public class OutputChannel {
         }
     }
 
-    public long getData() {
-        return data;
+    public long retrieveData() {
+        long ret = data;
+        this.data = 0;
+        return ret;
     }
 
-    public boolean setData(long data) {
-        if (data != 0) {
+    public boolean putData(long data) {
+        if (this.data != 0) {
             System.err.println("Data not sent! You can't put your dirty data in me!");
             System.exit(-0xB00B);
         }

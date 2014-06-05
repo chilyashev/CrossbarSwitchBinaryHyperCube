@@ -17,6 +17,7 @@ public class FIFOArbiter implements Tickable {
     long channelId;
     int poppedCount;
     int channelCount;
+    int step;
     private FIFOBuff<Long> fifoBuff;
 
     boolean req_sent, grant_received, grant_ack;
@@ -39,57 +40,58 @@ public class FIFOArbiter implements Tickable {
         channels = new ArrayList<OutputChannel>();
         fifoBuff = new FIFOBuff<>();
         popped = 0l;
+        step = 0;
     }
 
-    public void tick() {
-        if (poppedCount == 0) {
-            popped = fifoBuff.pop();
-            if(popped == null){
-                return;
-            }
-            p.setHeader_1(popped);
-            dna = p.getDNA(); // destination
-            xor = dna ^ channelId;
-            for (int i = 0; i < channelCount; i++) {
-                if ((xor & 0x01) == 1) {
-                    channels.add(OutputChannelCollection.get(channelId | i));
-                }
-                xor >>= 1;
-            }
-            poppedCount++;
-        } else if (poppedCount == 1) { // Head received. Giggity
 
-            for (OutputChannel channel : channels) {
-                if (!channel.isBusy()) {
-                    OutputChannelCollection.get(chosenChannelId).setBusy(true);
-                    if(channel.setData(p.getHeader_1())){
+    public void tick() {
+
+        switch (step) {
+            case 0: // Pop + get suitable output channels
+                popped = fifoBuff.pop();
+                if (popped == null) {
+                    return;
+                }
+                p.setHeader_1(popped);
+                dna = p.getDNA(); // destination
+                xor = dna ^ channelId;
+                break;
+            case 1: // Request
+                for (int i = 0; i < channelCount; i++) {
+                    if ((xor & 0x01) == 1) {
+                        channels.add(OutputChannelCollection.get(channelId | i));
+                    }
+                    xor >>= 1;
+                }
+                break;
+            case 2: // Grant
+                for (OutputChannel channel : channels) {
+                    if (!channel.isBusy()) {
                         chosenChannelId = channel.getId();
-                        popped = fifoBuff.pop();
-                        poppedCount++;
                         break;
                     }
                 }
-            }
-        } else{ // TODO: Optimize
-            if(poppedCount <= 4){
-                if(OutputChannelCollection.get(chosenChannelId).setData(popped)){
-                    if(poppedCount < 4){
-                        popped = fifoBuff.pop();
-                        poppedCount++;
+                break;
+            case 3: // Accept
+                OutputChannelCollection.get(chosenChannelId).setBusy(true);
+                break;
+            default:
+                if (OutputChannelCollection.get(chosenChannelId).putData(popped)) {
+                    popped = fifoBuff.pop();
+                    if (popped == null) {
+                        step = 0;
                     }
                 }
-            }else{
-                OutputChannelCollection.get(chosenChannelId).setBusy(false);
-                poppedCount = 0;
-            }
         }
+        step++;
     }
+
 
     public FIFOBuff<Long> getFifoBuff() {
         return fifoBuff;
     }
 
-    public boolean isBusy(){
+    public boolean isBusy() {
         return fifoBuff.getItemCount() > 0;
     }
 
