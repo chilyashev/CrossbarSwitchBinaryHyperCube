@@ -1,11 +1,10 @@
 package org.cbsbh.model.routing;
 
-import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
-import org.cbsbh.model.routing.packet.Packet;
 import org.cbsbh.model.structures.FIFOBuff;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Description goes here
@@ -14,34 +13,57 @@ import java.util.ArrayList;
  * @author Mihail Chilyashev
  */
 public class FIFOArbiter implements Tickable {
+    private String arbiterId;
+    private HashMap<Integer, OutputChannel> outputChannels;
+
+    private int currentOutputChannel;
+    private Integer[] outputChannelIds;
+
+    // Old crap:
     int routerId;
-    int poppedCount;
-    int channelCount;
-    int step;
-    boolean req_sent, grant_received, grant_ack;
-    Long popped;
-    long dna = 0;
-    long xor = 0;
-    Packet p = new Packet();
+
     private FIFOBuff<Long> fifoBuff;
-    private ArrayList<Integer> channels;
     private int chosenChannelId;
 
+    int step;
+    private boolean grantReceived;
 
-    public FIFOArbiter(long routerId) {
-        poppedCount = 0;
-        req_sent = false;
-        grant_ack = false;
-        grant_received = false;
-        channelCount = Integer.parseInt((String) Context.getInstance().get("channelCount"));
-        channels = new ArrayList<Integer>();
-        fifoBuff = new FIFOBuff<>();
-        popped = 0l;
+    public FIFOArbiter(String arbiterId, HashMap<Integer, OutputChannel> outputChannels) {
+        this.arbiterId = arbiterId;
+        this.outputChannels = outputChannels;
+
+        currentOutputChannel = 0;
+        outputChannelIds = (Integer[])outputChannels.keySet().toArray();
+        Arrays.sort(outputChannelIds);
+
         step = 0;
+        grantReceived = false;
+
+        fifoBuff = new FIFOBuff<>();
     }
 
+    public void tick(){
 
-    public void tick() {
+        switch (step){
+            case 0:
+
+                break;
+            case 1:
+                if(grantReceived){
+                    step++;
+                }
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    /**public void tick() {
 
         switch (step) {
             case 0: // Pop + get suitable output channels
@@ -83,7 +105,7 @@ public class FIFOArbiter implements Tickable {
                 }
         }
         step++;
-    }
+    }*/
 
 
     public FIFOBuff<Long> getFifoBuff() {
@@ -100,5 +122,18 @@ public class FIFOArbiter implements Tickable {
 
     public void setRouterId(int routerId) {
         this.routerId = routerId;
+    }
+
+
+    public String getArbiterId() {
+        return arbiterId;
+    }
+
+    public void setArbiterId(String arbiterId) {
+        this.arbiterId = arbiterId;
+    }
+
+    public void grant() {
+        grantReceived = true;
     }
 }

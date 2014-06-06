@@ -29,4 +29,9 @@ public class Context {
     public Object get(String key) {
         return data.get(key);
     }
+
+
+    public Integer getInteger(String key) {
+        return (Integer)data.get(key);
+    }
 }

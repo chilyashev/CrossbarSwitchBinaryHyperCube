@@ -2,7 +2,7 @@ package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * An abstract class for the different routing algorithms
@@ -13,14 +13,17 @@ import java.util.ArrayList;
 public class Router implements Tickable{
 
     int id;
-    InputChannel dmaIN;
-    OutputChannel dmaOUT;
-    private int[] channelsIDs;
+    HashMap<Integer, InputChannel> inputChannels;
+    HashMap<Integer, OutputChannel> outputChannels;
+//    InputChannel dmaIN;
+//    OutputChannel dmaOUT;
 
-    public Router(int id, int[] channelsIDs) {
+    public Router(int id, HashMap<Integer, InputChannel> inputChannels, HashMap<Integer, OutputChannel> outputChannels) {
         this.id = id;
-        this.channelsIDs = channelsIDs;
+        this.inputChannels = inputChannels;
+        this.outputChannels = outputChannels;
     }
+
 
 //    protected Router(int id, ArrayList<InputChannel> inputChannels, ArrayList<OutputChannel> outputChannels, InputChannel dmaIN, OutputChannel dmaOUT) {
 //        this.id = id;
@@ -44,21 +47,12 @@ public class Router implements Tickable{
     }
 
 
-
-    public InputChannel getDmaIN() {
-        return dmaIN;
+    public HashMap<Integer, InputChannel> getInputChannels() {
+        return inputChannels;
     }
 
-    public void setDmaIN(InputChannel dmaIN) {
-        this.dmaIN = dmaIN;
-    }
-
-    public OutputChannel getDmaOUT() {
-        return dmaOUT;
-    }
-
-    public void setDmaOUT(OutputChannel dmaOUT) {
-        this.dmaOUT = dmaOUT;
+    public HashMap<Integer, OutputChannel> getOutputChannels() {
+        return outputChannels;
     }
 
     public int getId() {
@@ -67,5 +61,9 @@ public class Router implements Tickable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public InputChannel getInputChannel(int inputChannelId) {
+        return inputChannels.get(inputChannelId);
     }
 }

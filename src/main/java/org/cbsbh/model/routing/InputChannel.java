@@ -1,9 +1,11 @@
 package org.cbsbh.model.routing;
 
+import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.structures.FIFOBuff;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Description goes here
@@ -12,13 +14,22 @@ import java.util.ArrayList;
  * @author Mihail Chilyashev
  */
 public class InputChannel implements Tickable {
-    private int routerId;
-    private int bufferCount;
-    private ArrayList<FIFOArbiter> arbiters;
+    private String id;
+    private HashMap<String, FIFOArbiter> arbiters;
+//    private HashMap<Integer, OutputChannel> outputChannels;
+
+    public InputChannel(int id, int routerId, HashMap<Integer, OutputChannel> outputChannels) {
+        this.id = id + "_" + routerId;
+        arbiters = new HashMap<>(); // идва от интерфейса
+        for (int i = 0; i < Context.getInstance().getInteger("bufferCountPerInputChannel"); i++) {
+            FIFOArbiter tmp = new FIFOArbiter(this.id + "_" + i, outputChannels);
+            arbiters.put(tmp.getArbiterId(), tmp);
+        }
+//        this.outputChannels = outputChannels;
+    }
 
     public InputChannel(int routerId, int bufferCount) {
         this.routerId = routerId;
-        this.bufferCount = bufferCount;
         arbiters = new ArrayList<>(bufferCount);
         for (FIFOArbiter arbiter : arbiters) {
             arbiter.setRouterId(routerId);
@@ -29,7 +40,7 @@ public class InputChannel implements Tickable {
     public boolean pushFlit(long data) {
         for (FIFOArbiter arbiter : arbiters) {
             FIFOBuff<Long> fifoBuff = arbiter.getFifoBuff();
-            if(fifoBuff.getItemCount() < 1){
+            if (fifoBuff.getItemCount() < 1) {
                 fifoBuff.push(data);
                 return true;
             }
@@ -44,11 +55,8 @@ public class InputChannel implements Tickable {
         }
     }
 
-    public int getRouterId() {
-        return routerId;
-    }
 
-    public void setRouterId(int routerId) {
-        this.routerId = routerId;
+    public FIFOArbiter getArbiter(String id) {
+        return arbiters.get(id);
     }
 }

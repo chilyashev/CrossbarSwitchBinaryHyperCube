@@ -51,3 +51,8 @@
     :
        1. Buffer count per channel = ?
        2. Initializing
+
+
+
+Transport Mask да се променя във всеки изходен канал, за да нямаме връщане назад.
+
