@@ -10,42 +10,32 @@ import java.util.HashMap;
  *
  * @author Mihail Chilyashev
  */
-public class Router implements Tickable{
+public class Router implements Tickable {
 
-    int id;
+    int nodeId;
     HashMap<Integer, InputChannel> inputChannels;
     HashMap<Integer, OutputChannel> outputChannels;
 //    InputChannel dmaIN;
 //    OutputChannel dmaOUT;
 
     public Router(int id, HashMap<Integer, InputChannel> inputChannels, HashMap<Integer, OutputChannel> outputChannels) {
-        this.id = id;
+        this.nodeId = id;
         this.inputChannels = inputChannels;
         this.outputChannels = outputChannels;
     }
 
 
-//    protected Router(int id, ArrayList<InputChannel> inputChannels, ArrayList<OutputChannel> outputChannels, InputChannel dmaIN, OutputChannel dmaOUT) {
-//        this.id = id;
-//        this.inputChannelsIDs = inputChannels;
-//        this.outputChannelsIDs = outputChannels;
-//        this.dmaIN = dmaIN;
-//        this.dmaOUT = dmaOUT;
-//    }
+    public void tick() {
 
-    /**
-     * All the logic goes in here.
-     */
-    public void tick(){
-//        dmaIN.tick();
-//        dmaOUT.tick();
-
-        for (int channelID : channelsIDs) {
-            InputChannelCollection.get(id, channelID).tick();
-            OutputChannelCollection.get(id, channelID).tick();
+        for (Integer id : inputChannels.keySet()) {
+            inputChannels.get(id).tick();
         }
-    }
 
+        for (Integer id : outputChannels.keySet()) {
+            outputChannels.get(id).tick();
+        }
+
+    }
 
     public HashMap<Integer, InputChannel> getInputChannels() {
         return inputChannels;
@@ -55,12 +45,12 @@ public class Router implements Tickable{
         return outputChannels;
     }
 
-    public int getId() {
-        return id;
+    public int getNodeId() {
+        return nodeId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
     }
 
     public InputChannel getInputChannel(int inputChannelId) {

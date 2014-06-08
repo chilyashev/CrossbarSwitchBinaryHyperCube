@@ -112,4 +112,8 @@ public class Packet {
     public void setData_h(long data_h) {
         this.data_h = data_h;
     }
+
+    public void setTR(long tr) {
+        header_1 = ((tr & 0xfff) << 16) + (getDNA() & 0xfff);
+    }
 }

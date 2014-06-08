@@ -1,8 +1,6 @@
 package org.cbsbh.model.routing;
 
-import org.cbsbh.Main;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Description goes here
@@ -12,13 +10,19 @@ import java.util.ArrayList;
  */
 public class OutputChannel {
 
-    int nextRouterId;
     int currentRouterId;
-    ArrayList<String> requestQueue;
+    int nextRouterId;
+    // ArbiterID => ChanneID
+    HashMap<Integer, Integer> requestQueue;
 
-    int currentInputChannelId;
-    Integer[] inputChannelIds;
+    int currentArbiterId;
+    int grantToArbiterId;
 
+    int arbiterCount;
+
+    boolean busy = false;
+
+    private boolean grantAckReceived;
 
     /**
      * Hardware-wise there is no way to transmit a whole flit for a single tick serially, so we just
@@ -29,44 +33,61 @@ public class OutputChannel {
 
     int step;
 
-    public OutputChannel(int nextRouterId, int currentRouterId, Integer[] inputChannelIds) {
+    public OutputChannel(int nextRouterId, int currentRouterId, int arbiterCount) {
         this.nextRouterId = nextRouterId;
         this.currentRouterId = currentRouterId;
-        this.inputChannelIds = inputChannelIds;
+        this.arbiterCount = arbiterCount;
 
-        currentInputChannelId = 0;
+        requestQueue = new HashMap<>();
+        grantAckReceived = false;
+        currentArbiterId = 0;
         dataSent = false;
         step = 0;
     }
 
-    public boolean sendData(){
+    public boolean sendData() {
         return MPPNetwork.get(nextRouterId).getInputChannel(currentRouterId).pushFlit(data);
     }
 
 
     public void tick() {
 
-        switch (step){
+        switch (step) {
             case 0:
-                if(!requestQueue.isEmpty()){
-                    MPPNetwork.get(currentRouterId).getInputChannel(currentInputChannelId).getArbiter(requestQueue.get(currentInputChannelId)).grant();
+                if (!requestQueue.isEmpty()) {
+                    grantToArbiterId = currentArbiterId;
+                    for (int arbiterId : requestQueue.keySet()) {
+                        if (grantToArbiterId == arbiterId) {
+                            break;
+                        }
+                        grantToArbiterId = grantToArbiterId < arbiterCount ? grantToArbiterId + 1 : 0;
+                    }
+                    MPPNetwork.get(currentRouterId).getInputChannel(requestQueue.get(grantToArbiterId)).getArbiter(grantToArbiterId).grant(nextRouterId);
                     step++;
                 }
                 break;
             case 1:
+                if (grantAckReceived) {
+                    currentArbiterId = grantToArbiterId;
+                    step++;
+                }
                 break;
             case 2:
-                break;
-            case 3:
-                break;
-        }
+                if (sendData()) {
+                    dataSent = true;
+                    data = 0;
+                }
+                if (!isBusy()) {
+                    step = 0;
+                }
 
-        return;
-        if (!dataSent) {
-            dataSent = sendData();
-        } else {
-            data = 0;
+                break;
         }
+    }
+
+    public void grantAcknowledge(){
+        busy = true;
+        grantAckReceived = true;
     }
 
     public boolean putData(long data) {
@@ -81,19 +102,24 @@ public class OutputChannel {
         return false;
     }
 
-    public void acceptGrant() {
-        this.busy = true;
+    public void releaseChannel() {
+        busy = false;
+        grantAckReceived = false;
     }
 
-    public void releaseChannel() {
-        this.busy = false;
+    public boolean requestToSend(int arbiterId, int channelId) {
+        if(!isBusy()){
+            requestQueue.put(arbiterId, channelId);
+            return true;
+        }
+        return false;
     }
 
     public boolean isBusy() {
         return busy;
     }
 
-    public int getId() {
-        return targetInputChannelId;
-    } //TODO: make understandable
+    public int getNextRouterId() {
+        return nextRouterId;
+    }
 }

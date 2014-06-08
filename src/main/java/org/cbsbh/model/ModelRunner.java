@@ -7,6 +7,7 @@ import org.cbsbh.model.routing.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 
 /**
@@ -41,6 +42,8 @@ public class ModelRunner implements Runnable {
         //compute number of nodes
         int SMPNodes = 2 << channelCount;
 
+        int arbiterCount = channelCount*bufferCount;
+
         //encode node ids
         int[] GrayCodes = getGrayCodes(SMPNodes);
 
@@ -55,18 +58,21 @@ public class ModelRunner implements Runnable {
                 adjacentChannelIDs[j] = currentNodeID ^ (1 << j); //magic
             }
 
-            //construct the router
-            Router router = new Router(currentNodeID, adjacentChannelIDs);
-
+            HashMap<Integer, InputChannel> ics = new HashMap<>();
+            HashMap<Integer, OutputChannel> ocs = new HashMap<>();
             //populate input/output channel collections
-            for (int j : adjacentChannelIDs) {
-                InputChannel iChannel = new InputChannel(j, bufferCount);
-                InputChannelCollection.push(currentNodeID, iChannel);
-
-                OutputChannel oChannel = new OutputChannel(j, currentNodeID);
-                OutputChannelCollection.push(currentNodeID, oChannel);
+            for (int nextRouterId : adjacentChannelIDs) {
+                OutputChannel oChannel = new OutputChannel(nextRouterId, currentNodeID, arbiterCount);
+                ocs.put(currentNodeID, oChannel);
             }
 
+            for (int j : adjacentChannelIDs) {
+                InputChannel iChannel = new InputChannel(j, currentNodeID, ocs);
+                ics.put(currentNodeID, iChannel);
+            }
+
+            //construct the router
+            Router router = new Router(currentNodeID, ics, ocs);
             //include the bad boy in the network
             MPPNetwork.add(router);
         }

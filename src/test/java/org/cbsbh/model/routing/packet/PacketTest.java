@@ -62,4 +62,13 @@ public class PacketTest {
         long expected = 0x808;
         Assert.assertEquals("The standard constructor TR test failed", expected, pack.getTR());
     }
+
+    @Test
+    public void testSetTR(){
+        Packet pack = new Packet(0x8080777, 0xffffffff, 0xffffffff, 0xffffffff);
+        pack.setTR(0x550);
+        long expected = 0x550;
+        Assert.assertEquals("The setTR test failed", expected, pack.getTR());
+
+    }
 }

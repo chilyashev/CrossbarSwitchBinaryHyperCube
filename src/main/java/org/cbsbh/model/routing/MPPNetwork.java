@@ -20,7 +20,7 @@ public class MPPNetwork {
     private static HashMap<Integer, Router> routers;
 
     public static void push(Router router) {
-        routers.put(router.getId(), router);
+        routers.put(router.getNodeId(), router);
     }
 
     public static Router get(int routerId) {

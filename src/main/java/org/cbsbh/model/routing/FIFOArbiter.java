@@ -1,9 +1,10 @@
 package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
+import org.cbsbh.model.routing.packet.Packet;
 import org.cbsbh.model.structures.FIFOBuff;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,99 +14,88 @@ import java.util.HashMap;
  * @author Mihail Chilyashev
  */
 public class FIFOArbiter implements Tickable {
-    private String arbiterId;
+    private int arbiterId;
     private HashMap<Integer, OutputChannel> outputChannels;
+    private ArrayList<Integer> grantQueue;
 
-    private int currentOutputChannel;
-    private Integer[] outputChannelIds;
+    private ArrayList<Integer> possibleNextChannels;
 
     // Old crap:
     int routerId;
 
     private FIFOBuff<Long> fifoBuff;
-    private int chosenChannelId;
 
     int step;
-    private boolean grantReceived;
 
-    public FIFOArbiter(String arbiterId, HashMap<Integer, OutputChannel> outputChannels) {
+    private Long popped;
+    private Packet packet;
+    private int channelId;
+
+    /**
+     *
+     * @param arbiterId logically it's the arbiter id
+     * @param channelId the channel this here arbiter belongs to
+     * @param outputChannels output channels.
+     */
+    public FIFOArbiter(int arbiterId, int channelId, HashMap<Integer, OutputChannel> outputChannels) {
         this.arbiterId = arbiterId;
         this.outputChannels = outputChannels;
-
-        currentOutputChannel = 0;
-        outputChannelIds = (Integer[])outputChannels.keySet().toArray();
-        Arrays.sort(outputChannelIds);
+        this.channelId = channelId;
 
         step = 0;
-        grantReceived = false;
 
+
+        packet = new Packet();
         fifoBuff = new FIFOBuff<>();
+        grantQueue = new ArrayList<>();
+        possibleNextChannels = new ArrayList<>();
     }
 
     public void tick(){
 
         switch (step){
             case 0:
-
-                break;
-            case 1:
-                if(grantReceived){
-                    step++;
-                }
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    /**public void tick() {
-
-        switch (step) {
-            case 0: // Pop + get suitable output channels
                 popped = fifoBuff.pop();
                 if (popped == null) {
                     return;
                 }
-                p.setHeader_1(popped);
-                dna = p.getDNA(); // destination
-                xor = dna ^ routerId;
-                break;
-            case 1: // Request
-                for (int i = 0; i < channelCount; i++) { //TODO: Arbiter SHOULD already know what his output channels are!
-                    if ((xor & (1 << i)) == 1) {
-                        int nextRouterId = routerId ^ 1 << i;
-                        channels.add(nextRouterId);
+                packet.setHeader_1(popped);
+                long tr = packet.getTR();
+                long dna = packet.getDNA();
+                if(tr == 0){
+                    // TODO: Пакетът е за текущия възел => няма какво да се прави тук.
+                    System.err.println("Received! Boom!");
+                }
+                boolean grantSent = false;
+                for(int i = 0; i < 12; i++){
+                    if((tr & 1<<i) == 1){
+                        grantSent = grantSent || outputChannels.get((int) dna ^ (1 << i)).requestToSend(arbiterId, channelId);
                     }
-                    xor >>= 1;
+                }
+                if(grantSent){
+                    step++;
                 }
                 break;
-            case 2: // Grant
-                for (Integer channel : channels) {
-                    if (!OutputChannelCollection.get(channel, routerId).isBusy()) {
-                        chosenChannelId = OutputChannelCollection.get(channel, routerId).getId();
+            case 1:
+                if(!grantQueue.isEmpty()){
+                    outputChannels.get(grantQueue.get(0)).grantAcknowledge();
+                    packet.setTR(packet.getDNA() ^ outputChannels.get(grantQueue.get(0)).getNextRouterId());
+                    popped = packet.getHeader_1();
+                    step++;
+                }
+                break;
+            case 2:
+                if(outputChannels.get(grantQueue.get(0)).putData(popped)){
+                    popped = fifoBuff.pop();
+                    if(popped == null){
+                        step = 0;
+                        outputChannels.get(grantQueue.get(0)).releaseChannel();
                         break;
                     }
                 }
                 break;
-            case 3: // Accept
-                OutputChannelCollection.get(chosenChannelId, routerId).acceptGrant();
-                break;
-            default:
-                if (OutputChannelCollection.get(chosenChannelId, routerId).putData(popped)) {
-                    popped = fifoBuff.pop();
-                    if (popped == null) {
-                        step = 0;
-                        OutputChannelCollection.get(chosenChannelId, routerId).releaseChannel();
-                    }
-                }
         }
-        step++;
-    }*/
+    }
 
 
     public FIFOBuff<Long> getFifoBuff() {
@@ -125,15 +115,15 @@ public class FIFOArbiter implements Tickable {
     }
 
 
-    public String getArbiterId() {
+    public int getArbiterId() {
         return arbiterId;
     }
 
-    public void setArbiterId(String arbiterId) {
+    public void setArbiterId(int arbiterId) {
         this.arbiterId = arbiterId;
     }
 
-    public void grant() {
-        grantReceived = true;
+    public void grant(int outputChannelId) {
+        grantQueue.add(outputChannelId);
     }
 }
