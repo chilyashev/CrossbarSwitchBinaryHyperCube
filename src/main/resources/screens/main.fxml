@@ -23,7 +23,7 @@
             <Label text="s" />
           </children>
         </HBox>
-        <Label text="Време за работа на модела:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label text="Време за работа на модела:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="0"  />
         <Label text="Брой съобщения за предаване:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
           <children>

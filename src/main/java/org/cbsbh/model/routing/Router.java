@@ -12,14 +12,12 @@ import java.util.HashMap;
  */
 public class Router implements Tickable {
 
-    int nodeId;
     HashMap<Integer, InputChannel> inputChannels;
     HashMap<Integer, OutputChannel> outputChannels;
 //    InputChannel dmaIN;
 //    OutputChannel dmaOUT;
 
-    public Router(int id, HashMap<Integer, InputChannel> inputChannels, HashMap<Integer, OutputChannel> outputChannels) {
-        this.nodeId = id;
+    public Router(HashMap<Integer, InputChannel> inputChannels, HashMap<Integer, OutputChannel> outputChannels) {
         this.inputChannels = inputChannels;
         this.outputChannels = outputChannels;
     }
@@ -45,15 +43,15 @@ public class Router implements Tickable {
         return outputChannels;
     }
 
-    public int getNodeId() {
-        return nodeId;
-    }
-
-    public void setNodeId(int nodeId) {
-        this.nodeId = nodeId;
-    }
-
     public InputChannel getInputChannel(int inputChannelId) {
         return inputChannels.get(inputChannelId);
+    }
+
+    public InputChannel getDmaOUT() {
+        return inputChannels.get(Integer.MAX_VALUE-1);
+    }
+
+    public void setDmaOUT(InputChannel dmaOUT) {
+        this.inputChannels.put(Integer.MAX_VALUE -1, dmaOUT);
     }
 }

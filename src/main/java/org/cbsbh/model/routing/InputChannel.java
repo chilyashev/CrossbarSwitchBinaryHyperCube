@@ -2,6 +2,7 @@ package org.cbsbh.model.routing;
 
 import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
+import org.cbsbh.model.routing.packet.Packet;
 
 import java.util.HashMap;
 
@@ -47,5 +48,13 @@ public class InputChannel implements Tickable {
 
     public FIFOArbiter getArbiter(int id) {
         return arbiters.get(id);
+    }
+
+    public void setPacket(Packet packet) {
+        boolean sent = pushFlit(packet.getHeader_1()) &&
+        pushFlit(packet.getMemoryAddress()) &&
+        pushFlit(packet.getData_l()) &&
+        pushFlit(packet.getData_h());
+        assert sent;
     }
 }

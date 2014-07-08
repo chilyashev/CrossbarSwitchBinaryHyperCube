@@ -1,5 +1,8 @@
 package org.cbsbh.model.routing;
 
+import org.cbsbh.model.structures.SMP;
+
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -16,14 +19,18 @@ public class MPPNetwork {
     }
 
 
-    // ID => Router
-    private static HashMap<Integer, Router> routers;
+    // ID => SMP
+    private static HashMap<Integer, SMP> smps  = new HashMap<>();
 
-    public static void push(Router router) {
-        routers.put(router.getNodeId(), router);
+    public static void push(SMP smp) {
+        smps.put(smp.getId(), smp);
     }
 
-    public static Router get(int routerId) {
-        return routers.get(routerId);
+    public static SMP get(int smpId) {
+        return smps.get(smpId);
+    }
+
+    public static Collection<SMP> getAll() {
+        return smps.values();
     }
 }

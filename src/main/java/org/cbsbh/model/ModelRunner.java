@@ -3,9 +3,12 @@ package org.cbsbh.model;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import org.cbsbh.context.Context;
-import org.cbsbh.model.routing.*;
+import org.cbsbh.model.routing.InputChannel;
+import org.cbsbh.model.routing.MPPNetwork;
+import org.cbsbh.model.routing.OutputChannel;
+import org.cbsbh.model.routing.Router;
+import org.cbsbh.model.structures.SMP;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -22,12 +25,12 @@ public class ModelRunner implements Runnable {
     EventHandler<ActionEvent> handler;
     private boolean running = true;
     private long ticks = 0;
-    private ArrayList<Router> MPPNetwork;
+    //private ArrayList<SMP> MPPNetwork;
 
     public ModelRunner(Context context, EventHandler<ActionEvent> handler) {
         this.context = context;
         this.handler = handler;
-        this.MPPNetwork = new ArrayList<>();
+        //this.MPPNetwork = new ArrayList<>();
     }
 
     private int[] getGrayCodes(int n) {
@@ -40,7 +43,7 @@ public class ModelRunner implements Runnable {
 
     private void init(int channelCount, int bufferCount) {
         //compute number of nodes
-        int SMPNodes = 2 << channelCount;
+        int SMPNodes = 1 << channelCount;
 
         int arbiterCount = channelCount*bufferCount;
 
@@ -63,18 +66,31 @@ public class ModelRunner implements Runnable {
             //populate input/output channel collections
             for (int nextRouterId : adjacentChannelIDs) {
                 OutputChannel oChannel = new OutputChannel(nextRouterId, currentNodeID, arbiterCount);
-                ocs.put(currentNodeID, oChannel);
+                ocs.put(nextRouterId, oChannel);
             }
+/*
+    (.)(.)
+        +--------------------+
+0001 -> |                    | -> 0001
+        |                    |
+0010 -> |                    | -> 0010
+        |        0000        |
+0100 -> |                    | -> 0100
+        |                    |
+1000 -> |                    | -> 1000
+        +--------------------+
 
+ */
             for (int j : adjacentChannelIDs) {
                 InputChannel iChannel = new InputChannel(j, currentNodeID, ocs);
-                ics.put(currentNodeID, iChannel);
+                ics.put(j, iChannel);
             }
 
             //construct the router
-            Router router = new Router(currentNodeID, ics, ocs);
+            Router router = new Router(ics, ocs);
+            SMP smp = new SMP(currentNodeID, router, adjacentChannelIDs);
             //include the bad boy in the network
-            MPPNetwork.add(router);
+            MPPNetwork.push(smp);
         }
     }
 
@@ -85,14 +101,22 @@ public class ModelRunner implements Runnable {
         int channelCount = 4;
         int bufferCount = 5;
         Context.getInstance().set("channelCount", channelCount); // TODO: get this from the interface!
+        Context.getInstance().set("bufferCountPerInputChannel", bufferCount);
+        Context.getInstance().set("messageGenerationFrequency", 8);
+        Context.getInstance().set("minMessageSize", 4);
+        Context.getInstance().set("maxMessageSize", 56);
         init(channelCount, bufferCount);
         //End of init
 
         System.out.println("Starting at... " + new Date());
         // Ticking....
-        while(ticks < Long.MAX_VALUE){
-            // Tick for each router
-            //System.err.println("tick");
+        while(ticks < 10){
+            // Tick for each SMP
+
+            for(SMP smp: MPPNetwork.getAll()) {
+                smp.tick();
+            }
+            System.err.println("tick");
             ticks++;
         }
         System.out.println("Ended at... " + new Date());

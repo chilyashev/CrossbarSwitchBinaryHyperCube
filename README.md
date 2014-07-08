@@ -57,24 +57,31 @@
 Transport Mask да се променя във всеки изходен канал, за да нямаме връщане назад.
 
 Left:
-    - Interface
-        - Data collection
-            - easy as pie
-                - DataCollectionClass.addMetric("Metric", value);
-    - Main loop
-    - Message generation
-        - Cuz messages consist of one or more packets
-    - MPPNetwork becomes SMP
-        - MPP has many SMP
-            - Every SMP has a Router
-    - SMP class
-        - has memory
-        - can store messages inside
-        - can split messages into packets
-        - has DMA
-            - can do stuff with the DMA. Eventually.
-        - and that's it.
-    - Debug
-    - Work it
-    - ???
-    - Profit!
+
+1. Interface
+    - Data collection
+        - easy as pie
+            - DataCollectionClass.addMetric("Metric", value);
+- Main loop
+- Message generation +
+    - Cuz messages consist of one or more packets +
+- MPPNetwork becomes SMP +
+    - MPP has many SMP +
+        - Every SMP has a Router +
+- SMP class
+    - has memory
+    - can store messages inside
+    - can split messages into packets +
+    - has DMA ?
+        - can do stuff with the DMA. Eventually.
+    - and that's it.
+- Debug
+- Work it
+- ???
+- Profit!
+
+
+//////
+
+1. При първоначално изпращане от DMAOUT навън на какъв принцип се избира следващият възел
+2. DMAOUT към всички output канали ли е вързан

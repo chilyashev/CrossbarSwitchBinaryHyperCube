@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class OutputChannel {
 
     int currentRouterId;
-    int nextRouterId;
+    int nextNodeId;
     // ArbiterID => ChanneID
     HashMap<Integer, Integer> requestQueue;
 
@@ -33,8 +33,8 @@ public class OutputChannel {
 
     int step;
 
-    public OutputChannel(int nextRouterId, int currentRouterId, int arbiterCount) {
-        this.nextRouterId = nextRouterId;
+    public OutputChannel(int nextNodeId, int currentRouterId, int arbiterCount) {
+        this.nextNodeId = nextNodeId;
         this.currentRouterId = currentRouterId;
         this.arbiterCount = arbiterCount;
 
@@ -46,7 +46,7 @@ public class OutputChannel {
     }
 
     public boolean sendData() {
-        return MPPNetwork.get(nextRouterId).getInputChannel(currentRouterId).pushFlit(data);
+        return MPPNetwork.get(nextNodeId).getRouter().getInputChannel(currentRouterId).pushFlit(data);
     }
 
 
@@ -62,7 +62,7 @@ public class OutputChannel {
                         }
                         grantToArbiterId = grantToArbiterId < arbiterCount ? grantToArbiterId + 1 : 0;
                     }
-                    MPPNetwork.get(currentRouterId).getInputChannel(requestQueue.get(grantToArbiterId)).getArbiter(grantToArbiterId).grant(nextRouterId);
+                    MPPNetwork.get(currentRouterId).getRouter().getInputChannel(requestQueue.get(grantToArbiterId)).getArbiter(grantToArbiterId).grant(nextNodeId);
                     step++;
                 }
                 break;
@@ -119,7 +119,7 @@ public class OutputChannel {
         return busy;
     }
 
-    public int getNextRouterId() {
-        return nextRouterId;
+    public int getNextNodeId() {
+        return nextNodeId;
     }
 }

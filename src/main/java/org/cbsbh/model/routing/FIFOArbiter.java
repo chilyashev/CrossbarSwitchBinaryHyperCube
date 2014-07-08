@@ -32,9 +32,8 @@ public class FIFOArbiter implements Tickable {
     private int channelId;
 
     /**
-     *
-     * @param arbiterId logically it's the arbiter id
-     * @param channelId the channel this here arbiter belongs to
+     * @param arbiterId      logically it's the arbiter id
+     * @param channelId      the channel this here arbiter belongs to
      * @param outputChannels output channels.
      */
     public FIFOArbiter(int arbiterId, int channelId, HashMap<Integer, OutputChannel> outputChannels) {
@@ -51,9 +50,11 @@ public class FIFOArbiter implements Tickable {
         possibleNextChannels = new ArrayList<>();
     }
 
-    public void tick(){
-
-        switch (step){
+    public void tick() {
+        if (this.channelId == Integer.MAX_VALUE - 1) {
+            System.err.println("DMA! Fuck.");
+        }
+        switch (step) {
             case 0:
                 popped = fifoBuff.pop();
                 if (popped == null) {
@@ -62,32 +63,35 @@ public class FIFOArbiter implements Tickable {
                 packet.setHeader_1(popped);
                 long tr = packet.getTR();
                 long dna = packet.getDNA();
-                if(tr == 0){
+                if (tr == 0) {
                     // TODO: Пакетът е за текущия възел => няма какво да се прави тук.
-                    System.err.println("Received! Boom!");
+                    System.err.println("Received! Boom!" + packet);
+                    return;
                 }
                 boolean grantSent = false;
-                for(int i = 0; i < 12; i++){
-                    if((tr & 1<<i) == 1){
-                        grantSent = grantSent || outputChannels.get((int) dna ^ (1 << i)).requestToSend(arbiterId, channelId);
+                for (int i = 0; i < 12; i++) { // 12. Like the 12 bits in the header. Duh...
+                    if ((tr & 1 << i) == 1) {
+                        OutputChannel outputChannel = outputChannels.get((int) dna ^ (1 << i));
+
+                        grantSent = grantSent || outputChannel.requestToSend(arbiterId, channelId);
                     }
                 }
-                if(grantSent){
+                if (grantSent) {
                     step++;
                 }
                 break;
             case 1:
-                if(!grantQueue.isEmpty()){
+                if (!grantQueue.isEmpty()) {
                     outputChannels.get(grantQueue.get(0)).grantAcknowledge();
-                    packet.setTR(packet.getDNA() ^ outputChannels.get(grantQueue.get(0)).getNextRouterId());
+                    packet.setTR(packet.getDNA() ^ outputChannels.get(grantQueue.get(0)).getNextNodeId());
                     popped = packet.getHeader_1();
                     step++;
                 }
                 break;
             case 2:
-                if(outputChannels.get(grantQueue.get(0)).putData(popped)){
+                if (outputChannels.get(grantQueue.get(0)).putData(popped)) {
                     popped = fifoBuff.pop();
-                    if(popped == null){
+                    if (popped == null) {
                         step = 0;
                         outputChannels.get(grantQueue.get(0)).releaseChannel();
                         break;
