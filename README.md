@@ -54,7 +54,7 @@
 
 
 
-Transport Mask да се променя във всеки изходен канал, за да нямаме връщане назад.
+Transport Mask да се променя във всеки изходен канал, за да нямаме връщане назад. +
 
 Left:
 
@@ -72,7 +72,7 @@ Left:
     - has memory
     - can store messages inside
     - can split messages into packets +
-    - has DMA ?
+    - has DMA
         - can do stuff with the DMA. Eventually.
     - and that's it.
 - Debug
