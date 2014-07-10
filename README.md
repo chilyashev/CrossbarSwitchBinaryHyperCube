@@ -1,5 +1,7 @@
 ##A model of a router for NUMA computers which use a static binary hypercube communication network.
 
+[![Build Status](https://travis-ci.org/chilyashev/CrossbarSwitchBinaryHyperCube.svg?branch=master)](https://travis-ci.org/chilyashev/CrossbarSwitchBinaryHyperCube)
+
 **TODO**: A Nice description
 
 
