@@ -30,6 +30,7 @@ public class FIFOArbiter implements Tickable {
     private Long popped;
     private Packet packet;
     private int channelId;
+    private String iama = "nope.";
 
     /**
      * @param arbiterId      logically it's the arbiter id
@@ -52,26 +53,34 @@ public class FIFOArbiter implements Tickable {
 
     public void tick() {
         if (this.channelId == Integer.MAX_VALUE - 1) {
-            System.err.println("DMA! Fuck.");
+           // System.err.println("DMA! Fuck.");
+        }
+        if(channelId == 5 && routerId == 4 && fifoBuff.getItemCount() > 0){
+            System.err.println("stop1");
+        }
+        if(channelId == 4 && routerId == 6 && fifoBuff.getItemCount() > 0){
+            System.err.println("stop10");
+        }
+        if(channelId == 6 && routerId == 14 && fifoBuff.getItemCount() > 0){
+            System.err.println("stop3");
         }
         switch (step) {
             case 0:
                 popped = fifoBuff.pop();
-                if (popped == null) {
+                if (popped == null || popped == 0) {
                     return;
                 }
-                packet.setHeader_1(popped);
+             //   if(packet.getHeader_1() == 0){
+                    packet.setHeader_1(popped);
+            //    }
                 long tr = packet.getTR();
                 long dna = packet.getDNA();
-                if (tr == 0) {
-                    // TODO: Пакетът е за текущия възел => няма какво да се прави тук.
-                    System.err.println("Received! Boom!" + packet);
-                    return;
-                }
+
                 boolean grantSent = false;
                 for (int i = 0; i < 12; i++) { // 12. Like the 12 bits in the header. Duh...
                     if ((tr & 1 << i) == 1) {
-                        OutputChannel outputChannel = outputChannels.get((int) dna ^ (1 << i));
+                        int outPutChannelId = routerId ^ (1 << i);
+                        OutputChannel outputChannel = outputChannels.get(Integer.valueOf(outPutChannelId));
 
                         grantSent = grantSent || outputChannel.requestToSend(arbiterId, channelId);
                     }
@@ -84,6 +93,10 @@ public class FIFOArbiter implements Tickable {
                 if (!grantQueue.isEmpty()) {
                     outputChannels.get(grantQueue.get(0)).grantAcknowledge();
                     packet.setTR(packet.getDNA() ^ outputChannels.get(grantQueue.get(0)).getNextNodeId());
+                    if (packet.getTR() == 0) {
+                        // TODO: Пакетът е за текущия възел => няма какво да се прави тук.
+                        System.err.printf("Received! Boom! I am arbiter %d, living deep in channel %d, and my Router is %d\n", + this.arbiterId, this.channelId, this.routerId);
+                    }
                     popped = packet.getHeader_1();
                     step++;
                 }
@@ -96,6 +109,7 @@ public class FIFOArbiter implements Tickable {
                         outputChannels.get(grantQueue.get(0)).releaseChannel();
                         break;
                     }
+
                 }
                 break;
         }
@@ -107,7 +121,7 @@ public class FIFOArbiter implements Tickable {
     }
 
     public boolean isBusy() {
-        return fifoBuff.getItemCount() > 0;
+        return fifoBuff.isFull();
     }
 
     public long getRouterId() {

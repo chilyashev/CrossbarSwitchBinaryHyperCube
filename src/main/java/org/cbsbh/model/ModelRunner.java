@@ -99,7 +99,7 @@ public class ModelRunner implements Runnable {
 
         // Init phase
         int channelCount = 4;
-        int bufferCount = 5;
+        int bufferCount = 1;
         Context.getInstance().set("channelCount", channelCount); // TODO: get this from the interface!
         Context.getInstance().set("bufferCountPerInputChannel", bufferCount);
         Context.getInstance().set("messageGenerationFrequency", 8);
@@ -110,7 +110,7 @@ public class ModelRunner implements Runnable {
 
         System.out.println("Starting at... " + new Date());
         // Ticking....
-        while(ticks < 10){
+        while(ticks < 1000000000){
             // Tick for each SMP
 
             for(SMP smp: MPPNetwork.getAll()) {

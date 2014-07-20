@@ -54,9 +54,9 @@ public class SMP implements Tickable {
         ret.setSource(id);
         int max_id = 1 << Context.getInstance().getInteger("channelCount");
         int target = r.nextInt(max_id);
-        while(target == id){ // TODO: disable sending packets to myself?
+        while (target == id) { // TODO: disable sending packets to myself?
             System.err.println("I suck at loops.");
-            target = (int) (Math.random() % max_id);
+            target = (target+1) % max_id;
         }
         ret.setTarget(target);
 
@@ -64,7 +64,8 @@ public class SMP implements Tickable {
             data.add(r.nextLong());
         } else {
             System.out.printf("%d, %d\n", minSize, maxSize);
-            for (int i = 0; i <= r.nextInt(maxSize - minSize) + minSize; i += 4) {
+            int n = maxSize != minSize? r.nextInt(maxSize - minSize): minSize; // If maxSize == minSize, the random class makes a boo-boo. So, if they are equal, just take one. TODO: maybe get rid of this shit.
+            for (int i = 0; i <= n + minSize; i += 4) {
                 data.add(r.nextLong());
             }
         }
@@ -77,7 +78,16 @@ public class SMP implements Tickable {
     @Override
     public void tick() {
         // Generate and send (a) message(s)
-        if (ticksSinceLastMessageGeneration == Context.getInstance().getInteger("messageGenerationFrequency")) {
+        if (this.id == 5 && !hasMessage) {
+            Message m = generateMessage(4, 4);
+            m.setTarget(0b1110);
+
+            packet = m.getPacket();
+            assert packet != null;
+            router.getDmaOUT().setPacket(packet);
+            hasMessage = true;
+        }
+        /*if (ticksSinceLastMessageGeneration == Context.getInstance().getInteger("messageGenerationFrequency")) {
             msg = this.generateMessage(Context.getInstance().getInteger("minMessageSize"), Context.getInstance().getInteger("maxMessageSize"));
             hasMessage = true;
             ticksSinceLastMessageGeneration = 0;
@@ -88,6 +98,10 @@ public class SMP implements Tickable {
             hasMessage = false;
         }
         ticksSinceLastMessageGeneration++;
+*/
+        if(id == 4){
+            System.err.println("stop");
+        }
 
         router.tick();
     }

@@ -23,6 +23,9 @@ public class FIFOBuff<T> {
     }
 
     public void push(T ob) {
+        if(ob.equals(0)){
+            System.err.println("stopmeh");
+        }
         if(content.size()+1 > maxSize){
             full = true;
             return;

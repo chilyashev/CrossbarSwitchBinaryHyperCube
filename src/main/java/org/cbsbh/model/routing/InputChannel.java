@@ -14,6 +14,7 @@ import java.util.HashMap;
  */
 public class InputChannel implements Tickable {
     private int id;
+    String iama = "";
     private HashMap<Integer, FIFOArbiter> arbiters;
 //    private HashMap<Integer, OutputChannel> outputChannels;
 
@@ -22,6 +23,7 @@ public class InputChannel implements Tickable {
         arbiters = new HashMap<>(); // идва от интерфейса
         for (int i = 0; i < Context.getInstance().getInteger("bufferCountPerInputChannel"); i++) {
             FIFOArbiter tmp = new FIFOArbiter(i, id, outputChannels);
+            tmp.setRouterId(routerId);
             arbiters.put(tmp.getArbiterId(), tmp);
         }
 //        this.outputChannels = outputChannels;

@@ -91,15 +91,17 @@ public class OutputChannel {
     }
 
     public boolean putData(long data) {
+        System.err.println("put data");
         if (this.data != 0) {
             System.err.println("Data not sent! You can't put your dirty data in me!");
             System.exit(-0xB00B);
         }
-        if (dataSent) {
+        //if (dataSent) {
+            dataSent = false;
             this.data = data;
             return true;
-        }
-        return false;
+        //}
+        //return false;
     }
 
     public void releaseChannel() {
@@ -108,7 +110,7 @@ public class OutputChannel {
     }
 
     public boolean requestToSend(int arbiterId, int channelId) {
-        if(!isBusy()){
+        if(!busy){
             requestQueue.put(arbiterId, channelId);
             return true;
         }
