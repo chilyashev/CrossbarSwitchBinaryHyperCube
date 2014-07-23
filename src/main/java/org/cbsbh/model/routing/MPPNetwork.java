@@ -13,20 +13,31 @@ import java.util.HashMap;
  */
 public class MPPNetwork {
     private final static MPPNetwork instance = new MPPNetwork();
+    // ID => SMP
+    private static HashMap<Integer, SMP> smps = new HashMap<>();
 
     public static MPPNetwork getInstance() {
         return instance;
     }
-
-
-    // ID => SMP
-    private static HashMap<Integer, SMP> smps  = new HashMap<>();
 
     public static void push(SMP smp) {
         smps.put(smp.getId(), smp);
     }
 
     public static SMP get(int smpId) {
+        /*if(smpId == 5){
+            System.out.println("break");
+        }
+
+        if(smpId == 4){
+            System.err.println("break");
+        }
+        if(smpId == 6){
+            System.err.println("break");
+        }
+        if(smpId == 14){
+            System.err.println("break");
+        }*/
         return smps.get(smpId);
     }
 

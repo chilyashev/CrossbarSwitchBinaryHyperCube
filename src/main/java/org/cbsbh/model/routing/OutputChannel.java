@@ -1,5 +1,7 @@
 package org.cbsbh.model.routing;
 
+import org.cbsbh.model.structures.SMP;
+
 import java.util.HashMap;
 
 /**
@@ -21,17 +23,14 @@ public class OutputChannel {
     int arbiterCount;
 
     boolean busy = false;
-
+    int step;
     private boolean grantAckReceived;
-
     /**
      * Hardware-wise there is no way to transmit a whole flit for a single tick serially, so we just
      * ignore it for the model and <strong><i>assume</i></strong> the fixating buffer has no effect on the performance.
      */
     private long data;
     private boolean dataSent = false;
-
-    int step;
 
     public OutputChannel(int nextNodeId, int currentRouterId, int arbiterCount) {
         this.nextNodeId = nextNodeId;
@@ -46,7 +45,23 @@ public class OutputChannel {
     }
 
     public boolean sendData() {
-        return MPPNetwork.get(nextNodeId).getRouter().getInputChannel(currentRouterId).pushFlit(data);
+        SMP smp = MPPNetwork.get(nextNodeId);
+        Router router = smp.getRouter();
+        InputChannel in = router.getInputChannel(currentRouterId);
+  /*      if(currentRouterId == 5 && nextNodeId == 4){
+            System.err.println("brayk");
+        }
+        if(currentRouterId == 4 && nextNodeId == 6){
+            System.err.println("brayk");
+        }
+        if(currentRouterId == 6 && nextNodeId == 14){
+            System.err.println("brayk");
+        }
+*/
+        //return MPPNetwork.get(nextNodeId).getRouter().getInputChannel(currentRouterId).pushFlit(data);
+        boolean pushFlit = in.pushFlit(data);
+        return pushFlit;
+
     }
 
 
@@ -91,7 +106,7 @@ public class OutputChannel {
     }
 
     public boolean putData(long data) {
-        System.err.println("put data");
+        //System.err.println("put data");
         if (this.data != 0) {
             System.err.println("Data not sent! You can't put your dirty data in me!");
             System.exit(-0xB00B);

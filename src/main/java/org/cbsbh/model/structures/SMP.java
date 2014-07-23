@@ -16,17 +16,15 @@ import java.util.Random;
  * @author Mihail Chilyashev
  */
 public class SMP implements Tickable {
+    Message msg = null;
+    boolean hasMessage = false;
     private int id;
     private Router router;
     private int ticksSinceLastMessageGeneration = 0;
+
+    //TODO: packet doesn't need to be a field?
+    //Packet packet;
     private int[] adjacentNodeIDs;
-
-    Message msg = null;
-
-    int step = 0;
-    Packet packet;
-
-    boolean hasMessage = false;
 
     public SMP(int id, Router router, int[] adjacentNodeIDs) {
         this.id = id;
@@ -60,7 +58,7 @@ public class SMP implements Tickable {
         }
         ret.setTarget(target);
 
-        if (maxSize < 4) {
+        if (maxSize <= 4) {
             data.add(r.nextLong());
         } else {
             System.out.printf("%d, %d\n", minSize, maxSize);
@@ -78,15 +76,33 @@ public class SMP implements Tickable {
     @Override
     public void tick() {
         // Generate and send (a) message(s)
-        if (this.id == 5 && !hasMessage) {
-            Message m = generateMessage(4, 4);
-            m.setTarget(0b1110);
 
-            packet = m.getPacket();
-            assert packet != null;
-            router.getDmaOUT().setPacket(packet);
+        //TODO:: ALL of the shit in the block bellow is WRONG and should be removed after testing is finished (in about 4-5 years).
+        //##########################################################################################################################
+        if (this.id == 0 && !hasMessage) {
+            //TODO: Error numero uno: m is local, which is why only the first packet of it is send in this system. Any other packets go to Oblivion. Delicious.
+            //Message m = generateMessage(4, 4);
+//            m.setTarget(0b1110);
+
+            msg = generateMessage(8, 8);
+            msg.setTarget(0b1111);
+
+            //TODO: Error numero dos: the packet getting is in the if, BUTT we enter the if only once, so again another reason we get only one packet from the whole msg.
+//            packet = msg.getPacket();
+//            assert packet != null;
+//            router.getDmaOUT().setPacket(packet);
             hasMessage = true;
         }
+
+        if (msg != null) {
+            Packet packet = msg.getPacket();
+
+            if (packet != null) {
+                router.getDmaOUT().setPacket(packet);
+            }
+        }
+        //##########################################################################################################################
+
         /*if (ticksSinceLastMessageGeneration == Context.getInstance().getInteger("messageGenerationFrequency")) {
             msg = this.generateMessage(Context.getInstance().getInteger("minMessageSize"), Context.getInstance().getInteger("maxMessageSize"));
             hasMessage = true;
@@ -100,7 +116,7 @@ public class SMP implements Tickable {
         ticksSinceLastMessageGeneration++;
 */
         if(id == 4){
-            System.err.println("stop");
+            //System.err.println("stop");
         }
 
         router.tick();

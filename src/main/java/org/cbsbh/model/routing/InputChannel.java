@@ -14,16 +14,14 @@ import java.util.HashMap;
  */
 public class InputChannel implements Tickable {
     private int id;
-    String iama = "";
     private HashMap<Integer, FIFOArbiter> arbiters;
 //    private HashMap<Integer, OutputChannel> outputChannels;
 
-    public InputChannel(int id, int routerId, HashMap<Integer, OutputChannel> outputChannels) {
+    public InputChannel(int id, int nodeId, HashMap<Integer, OutputChannel> outputChannels) {
         this.id = id;
         arbiters = new HashMap<>(); // идва от интерфейса
         for (int i = 0; i < Context.getInstance().getInteger("bufferCountPerInputChannel"); i++) {
-            FIFOArbiter tmp = new FIFOArbiter(i, id, outputChannels);
-            tmp.setRouterId(routerId);
+            FIFOArbiter tmp = new FIFOArbiter(i, id, nodeId, outputChannels);
             arbiters.put(tmp.getArbiterId(), tmp);
         }
 //        this.outputChannels = outputChannels;
