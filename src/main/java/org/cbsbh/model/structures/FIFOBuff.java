@@ -42,11 +42,23 @@ public class FIFOBuff<T> {
         }
     }
 
+    public void clear(){
+            content.clear();
+    }
+
     public boolean isFull() {
         return full;
     }
 
     public int getItemCount(){
         return content.size();
+    }
+
+    public T peek() {
+        if (content.size() > 0) {
+            return content.peek();
+        } else {
+            return null;
+        }
     }
 }

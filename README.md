@@ -47,16 +47,16 @@
 
 
     M:
-       1. Packet generator
-       2. interface
+       1. +Packet generator
+       2. interface--
 
     :
-       1. Buffer count per channel = ?
-       2. Initializing
+       1. +Buffer count per channel = ?
+       2. +Initializing
 
 
 
-Transport Mask да се променя във всеки изходен канал, за да нямаме връщане назад. +
++Transport Mask да се променя във всеки изходен канал, за да нямаме връщане назад. +
 
 Left:
 
@@ -87,3 +87,5 @@ Left:
 
 1. При първоначално изпращане от DMAOUT навън на какъв принцип се избира следващият възел
 2. DMAOUT към всички output канали ли е вързан
+3. Честота на изпращане на пакетите, т.е. на всеки такт ли се праща пакет?
+!4. Дали е валидно за един такт да се пращат 4 флита?

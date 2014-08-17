@@ -32,6 +32,7 @@ public class InputChannel implements Tickable {
         for (int id : arbiters.keySet()) {
             if (!arbiters.get(id).isBusy()) {
                 arbiters.get(id).getFifoBuff().push(data);
+                //System.err.println("[InputChannel] Found arbiter: " + id);
                 return true;
             }
         }

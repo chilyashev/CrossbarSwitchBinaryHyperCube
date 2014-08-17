@@ -40,6 +40,7 @@ public class SMP implements Tickable {
 
 
     /**
+     * Generates a random message to a random target.
      * @param minSize size in Bytes
      * @param maxSize size in Bytes
      * @return the slab
@@ -61,7 +62,6 @@ public class SMP implements Tickable {
         if (maxSize <= 4) {
             data.add(r.nextLong());
         } else {
-            System.out.printf("%d, %d\n", minSize, maxSize);
             int n = maxSize != minSize? r.nextInt(maxSize - minSize): minSize; // If maxSize == minSize, the random class makes a boo-boo. So, if they are equal, just take one. TODO: maybe get rid of this shit.
             for (int i = 0; i <= n + minSize; i += 4) {
                 data.add(r.nextLong());
@@ -79,15 +79,29 @@ public class SMP implements Tickable {
 
         //TODO:: ALL of the shit in the block bellow is WRONG and should be removed after testing is finished (in about 4-5 years).
         //##########################################################################################################################
-        if (this.id == 0 && !hasMessage) {
-            //TODO: Error numero uno: m is local, which is why only the first packet of it is send in this system. Any other packets go to Oblivion. Delicious.
+        if (((this.id == 0) || (id == 4) || (id == 8)) && !hasMessage) {
+            //TODO: Error numero uno: m is local, which is why only the first packet of it is sent in this system. Any other packets go to Oblivion. Delicious.
             //Message m = generateMessage(4, 4);
 //            m.setTarget(0b1110);
 
-            msg = generateMessage(8, 8);
-            msg.setTarget(0b1111);
 
-            //TODO: Error numero dos: the packet getting is in the if, BUTT we enter the if only once, so again another reason we get only one packet from the whole msg.
+            //msg = generateMessage(8, 8);
+            msg = new Message();
+            msg.setSource(id);
+            LinkedList<Long> d = new LinkedList<>();
+            d.add(0x80088000L+id);
+            d.add(0x80088000L+id);
+            msg.setData(d);
+//            msg.setTarget(0b1111);
+            if(id == 0){
+                msg.setTarget(5);
+            }else if(id == 4){
+                msg.setTarget(8);
+            }else{
+                msg.setTarget(15);
+            }
+
+            //TODO: Error numero due: the packet getting is in the if, BUTT we enter the if only once, so again another reason we get only one packet from the whole msg.
 //            packet = msg.getPacket();
 //            assert packet != null;
 //            router.getDmaOUT().setPacket(packet);
@@ -99,6 +113,7 @@ public class SMP implements Tickable {
 
             if (packet != null) {
                 router.getDmaOUT().setPacket(packet);
+                System.err.printf("Sending from %d to %d\n", id, 4-id);
             }
         }
         //##########################################################################################################################
@@ -108,16 +123,12 @@ public class SMP implements Tickable {
             hasMessage = true;
             ticksSinceLastMessageGeneration = 0;
         } else if(hasMessage){
-            packet = msg.getPacket();
+            Packet packet = msg.getPacket();
             assert packet != null;
             router.getDmaOUT().setPacket(packet); // TODO: дали е валидно за един такт да се пращат 4 флита?
             hasMessage = false;
         }
-        ticksSinceLastMessageGeneration++;
-*/
-        if(id == 4){
-            //System.err.println("stop");
-        }
+        ticksSinceLastMessageGeneration++;*/
 
         router.tick();
     }

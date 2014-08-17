@@ -116,7 +116,7 @@ public class ModelRunner implements Runnable {
             for(SMP smp: MPPNetwork.getAll()) {
                 smp.tick();
             }
-            System.err.println("tick");
+            //System.err.println("tick");
             ticks++;
         }
         System.out.println("Ended at... " + new Date());

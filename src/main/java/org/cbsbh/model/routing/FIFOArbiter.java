@@ -32,6 +32,9 @@ public class FIFOArbiter implements Tickable {
     private Long popped;
     private Packet packet;
 
+    private FIFOBuff<Long> receivedData; // Временно решение за тестване на приетите данни.
+    private boolean receivingData = false;
+
     /**
      * @param arbiterId      logically it's the arbiter id
      * @param channelId      the channel this here arbiter belongs to
@@ -50,16 +53,26 @@ public class FIFOArbiter implements Tickable {
         fifoBuff = new FIFOBuff<>();
         grantQueue = new ArrayList<>();
         possibleNextChannels = new ArrayList<>();
+        receivedData = new FIFOBuff<>();
     }
 
     public void tick() {
-       /* if (this.channelId == Integer.MAX_VALUE - 1) {
+        if (this.channelId == Integer.MAX_VALUE - 1) {
            // System.err.println("DMA! Fuck.");
         }
-        if(channelId == 5 && nodeId == 4 && fifoBuff.getItemCount() > 0){
-            System.err.println("stop1");
+        // Временен код за тестване на приемането
+        if(receivingData){
+            // Yeah, baby! austinpowers.jpg
+            popped = fifoBuff.pop();
+            if (popped == null) {
+                receivingData = false;
+                return;
+            }
+            receivedData.push(popped);
+            return;
         }
-        if(channelId == 4 && nodeId == 6 && fifoBuff.getItemCount() > 0){
+
+        /*if(channelId == 4 && nodeId == 6 && fifoBuff.getItemCount() > 0){
             System.err.println("stop10");
         }
         if(channelId == 6 && nodeId == 14 && fifoBuff.getItemCount() > 0){
@@ -67,10 +80,14 @@ public class FIFOArbiter implements Tickable {
         }*/
         switch (step) {
             case 0:
-                popped = fifoBuff.pop();
-                if (popped == null || popped == 0) {
+                /*
+                peek(), защото може да се случи така, че в текущия такт няма grant и в следващия да се pop-не нещо неправилно.
+                 */
+                popped = fifoBuff.peek();
+                if (popped == null) {
                     return;
                 }
+                System.err.println("popped: " + popped);
              //   if(packet.getHeader_1() == 0){
                     packet.setHeader_1(popped);
             //    }
@@ -78,12 +95,13 @@ public class FIFOArbiter implements Tickable {
                 long dna = packet.getDNA();
 
 
-                if (packet.getTR() == 0) {
+                if (packet.getDNA() == nodeId) {
                     // TODO: Пакетът е за текущия възел => няма какво да се прави тук.
-                    System.err.printf("Received! Boom! I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
-
-                    //System.exit(0xb);
-
+                    //System.err.printf(" (a flit)Received! Boom! I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
+                    System.err.printf("I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
+                    //fifoBuff.clear();// TODO: вместо clear данни
+                    receivingData = true;
+                    break;
                 }
 
                 boolean grantSent = false;
@@ -101,23 +119,31 @@ public class FIFOArbiter implements Tickable {
                 }
                 if (grantSent) {
                     step++;
+                    fifoBuff.pop();
                 }
                 break;
             case 1:
                 if (!grantQueue.isEmpty()) {
                     outputChannels.get(grantQueue.get(0)).grantAcknowledge();
                     long oldtr = packet.getTR();
-                    packet.setTR(packet.getDNA() ^ outputChannels.get(grantQueue.get(0)).getNextNodeId());
-                    System.err.printf("old tr: %d, new tr: %d\n", oldtr, packet.getTR());
+
+                    packet.setTR(packet.getDNA() ^ outputChannels.get(grantQueue.get(0)).getNextNodeId()); // верен ред.
+                    System.err.printf("current input channel: %d, node: %d, arbiter: %d, old tr: %d, new tr: %d\n", this.channelId, this.nodeId, this.arbiterId, oldtr, packet.getTR());
                     popped = packet.getHeader_1();
 
                     step++;
                 }
                 break;
             case 2:
+                if(channelId == 0 && nodeId == 1 && fifoBuff.getItemCount() > 0){
+                    System.err.println("stop1");
+                }
                 if (outputChannels.get(grantQueue.get(0)).putData(popped)) {
                     popped = fifoBuff.pop();
                     if (popped == null) {
+                        if (packet.getDNA() == nodeId) {
+                            System.err.printf("Received! Boom! I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
+                        }
                         step = 0;
                         outputChannels.get(grantQueue.get(0)).releaseChannel();
                         grantQueue.clear();//TODO: make sure this is correctly written kyp
