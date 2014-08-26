@@ -1,6 +1,7 @@
 package org.cbsbh.model.structures;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A class for the buffers used in some of the components.
@@ -23,9 +24,9 @@ public class FIFOBuff<T> {
     }
 
     public void push(T ob) {
-        if(ob.equals(0)){
+        /*if(ob.equals(0)){
             System.err.println("stopmeh");
-        }
+        }*/
         if(content.size()+1 > maxSize){
             full = true;
             return;
@@ -60,5 +61,9 @@ public class FIFOBuff<T> {
         } else {
             return null;
         }
+    }
+
+    public List<T> toList(){
+        return content;
     }
 }

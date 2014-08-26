@@ -66,6 +66,15 @@ public class FIFOArbiter implements Tickable {
             popped = fifoBuff.pop();
             if (popped == null) {
                 receivingData = false;
+                System.err.println("Receiving completed. Received data: ");
+                if(receivedData.toList().size() < 4){
+                    System.err.println("sadface");
+                }
+                for(Long l : receivedData.toList()){
+                    System.err.println("" + l);
+                }
+                System.err.println("eo received crap");
+
                 return;
             }
             receivedData.push(popped);
@@ -87,7 +96,7 @@ public class FIFOArbiter implements Tickable {
                 if (popped == null) {
                     return;
                 }
-                System.err.println("popped: " + popped);
+                //System.err.println("popped: " + popped);
              //   if(packet.getHeader_1() == 0){
                     packet.setHeader_1(popped);
             //    }
@@ -98,7 +107,7 @@ public class FIFOArbiter implements Tickable {
                 if (packet.getDNA() == nodeId) {
                     // TODO: Пакетът е за текущия възел => няма какво да се прави тук.
                     //System.err.printf(" (a flit)Received! Boom! I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
-                    System.err.printf("I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
+                    //System.err.printf("I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
                     //fifoBuff.clear();// TODO: вместо clear данни
                     receivingData = true;
                     break;
@@ -128,22 +137,22 @@ public class FIFOArbiter implements Tickable {
                     long oldtr = packet.getTR();
 
                     packet.setTR(packet.getDNA() ^ outputChannels.get(grantQueue.get(0)).getNextNodeId()); // верен ред.
-                    System.err.printf("current input channel: %d, node: %d, arbiter: %d, old tr: %d, new tr: %d\n", this.channelId, this.nodeId, this.arbiterId, oldtr, packet.getTR());
+                    //System.err.printf("current input channel: %d, node: %d, arbiter: %d, old tr: %d, new tr: %d\n", this.channelId, this.nodeId, this.arbiterId, oldtr, packet.getTR());
                     popped = packet.getHeader_1();
 
                     step++;
                 }
                 break;
             case 2:
-                if(channelId == 0 && nodeId == 1 && fifoBuff.getItemCount() > 0){
+               /* if(channelId == 0 && nodeId == 1 && fifoBuff.getItemCount() > 0){
                     System.err.println("stop1");
-                }
+                }*/
                 if (outputChannels.get(grantQueue.get(0)).putData(popped)) {
                     popped = fifoBuff.pop();
                     if (popped == null) {
-                        if (packet.getDNA() == nodeId) {
+                        /*if (packet.getDNA() == nodeId) {
                             System.err.printf("Received! Boom! I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
-                        }
+                        }*/
                         step = 0;
                         outputChannels.get(grantQueue.get(0)).releaseChannel();
                         grantQueue.clear();//TODO: make sure this is correctly written kyp

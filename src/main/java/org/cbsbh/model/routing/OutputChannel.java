@@ -77,7 +77,11 @@ public class OutputChannel {
                         }
                         grantToArbiterId = grantToArbiterId < arbiterCount ? grantToArbiterId + 1 : 0;
                     }
+                    try{
                     MPPNetwork.get(currentRouterId).getRouter().getInputChannel(requestQueue.get(grantToArbiterId)).getArbiter(grantToArbiterId).grant(nextNodeId);
+                    }catch (Exception e){
+                        System.err.println("goeba");
+                    }
                     step++;
                 }
                 break;
@@ -108,8 +112,9 @@ public class OutputChannel {
     public boolean putData(long data) {
         //System.err.println("put data");
         if (this.data != 0) {
-            System.err.println("Data not sent! You can't put your dirty data in me!");
-            System.exit(-0xB00B);
+            //System.out.println("Data not sent! You can't put your dirty data in me!");
+            return false;
+            //System.exit(-0xB00B);
         }
         //if (dataSent) {
             dataSent = false;

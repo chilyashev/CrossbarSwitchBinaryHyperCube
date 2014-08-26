@@ -21,10 +21,12 @@ public class SMP implements Tickable {
     private int id;
     private Router router;
     private int ticksSinceLastMessageGeneration = 0;
+    int generatedMessageCount = 0;
 
     //TODO: packet doesn't need to be a field?
     //Packet packet;
     private int[] adjacentNodeIDs;
+    private int generatedPacketCount;
 
     public SMP(int id, Router router, int[] adjacentNodeIDs) {
         this.id = id;
@@ -60,12 +62,16 @@ public class SMP implements Tickable {
         ret.setTarget(target);
 
         if (maxSize <= 4) {
-            data.add(r.nextLong());
+            data.add(id + 0l);
+            data.add(id + 0l);
         } else {
-            int n = maxSize != minSize? r.nextInt(maxSize - minSize): minSize; // If maxSize == minSize, the random class makes a boo-boo. So, if they are equal, just take one. TODO: maybe get rid of this shit.
-            for (int i = 0; i <= n + minSize; i += 4) {
-                data.add(r.nextLong());
-            }
+            /*int n = maxSize != minSize? r.nextInt(maxSize - minSize): minSize; // If maxSize == minSize, the random class makes a boo-boo. So, if they are equal, just take one. TODO: maybe get rid of this shit.
+            for (int i = 0; i <= n + minSize; i += 4) {*/
+            data.add(id + 0l);
+            data.add(id + 0l);
+            data.add(id + 0l);
+            data.add(id + 0l);
+            //}
         }
 
         ret.setData(data);
@@ -76,7 +82,7 @@ public class SMP implements Tickable {
     @Override
     public void tick() {
         // Generate and send (a) message(s)
-
+/*
         //TODO:: ALL of the shit in the block bellow is WRONG and should be removed after testing is finished (in about 4-5 years).
         //##########################################################################################################################
         if (((this.id == 0) || (id == 4) || (id == 8)) && !hasMessage) {
@@ -89,12 +95,21 @@ public class SMP implements Tickable {
             msg = new Message();
             msg.setSource(id);
             LinkedList<Long> d = new LinkedList<>();
-            d.add(0x80088000L+id);
-            d.add(0x80088000L+id);
+            d.add(0x0L+id);
+            d.add(0x0L+id);
             msg.setData(d);
 //            msg.setTarget(0b1111);
             if(id == 0){
-                msg.setTarget(5);
+                if(!generated){
+                    msg = new Message();
+                    msg.setSource(id);
+                    d = new LinkedList<>();
+                    d.add(0x0L+id);
+                    d.add(0x0L+id);
+                    msg.setData(d);
+                    msg.setTarget((int) (Math.random()%15)+1);
+                    generated = true;
+                }
             }else if(id == 4){
                 msg.setTarget(8);
             }else{
@@ -115,22 +130,40 @@ public class SMP implements Tickable {
                 router.getDmaOUT().setPacket(packet);
                 System.err.printf("Sending from %d to %d\n", id, 4-id);
             }
-        }
+        }else {
+            if(id == 0){
+                generated = false;
+                hasMessage = false;
+            }
+        }*/
         //##########################################################################################################################
 
-        /*if (ticksSinceLastMessageGeneration == Context.getInstance().getInteger("messageGenerationFrequency")) {
+        if (!hasMessage && ticksSinceLastMessageGeneration >= Context.getInstance().getInteger("messageGenerationFrequency")) {
             msg = this.generateMessage(Context.getInstance().getInteger("minMessageSize"), Context.getInstance().getInteger("maxMessageSize"));
+            System.err.printf("Sending from %d to %d\n", id, msg.getTarget());
             hasMessage = true;
             ticksSinceLastMessageGeneration = 0;
+            generatedMessageCount++;
         } else if(hasMessage){
             Packet packet = msg.getPacket();
-            assert packet != null;
-            router.getDmaOUT().setPacket(packet); // TODO: дали е валидно за един такт да се пращат 4 флита?
-            hasMessage = false;
+            //assert packet != null;
+            if(packet != null){
+                generatedPacketCount ++;
+                router.getDmaOUT().setPacket(packet); // TODO: дали е валидно за един такт да се пращат 4 флита?
+            }else{
+                hasMessage = false;
+            }
         }
-        ticksSinceLastMessageGeneration++;*/
-
+        ticksSinceLastMessageGeneration++;
         router.tick();
+    }
+
+    public int getGeneratedMessageCount(){
+        return generatedMessageCount;
+    }
+
+    public int getGeneratedPacketCount(){
+        return generatedPacketCount;
     }
 
     public int getId() {
