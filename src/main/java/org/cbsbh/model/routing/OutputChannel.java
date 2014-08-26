@@ -2,6 +2,7 @@ package org.cbsbh.model.routing;
 
 import org.cbsbh.model.structures.SMP;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -14,8 +15,9 @@ public class OutputChannel {
 
     int currentRouterId;
     int nextNodeId;
-    // ArbiterID => ChanneID
-    HashMap<Integer, Integer> requestQueue;
+    // ArbiterID => ChannelID
+    // ChannelID => List of arbiter IDs
+    HashMap<Integer, ArrayList<Integer>> requestQueue;
 
     int currentArbiterId;
     int grantToArbiterId;
@@ -31,6 +33,8 @@ public class OutputChannel {
      */
     private long data;
     private boolean dataSent = false;
+    Router router;
+    InputChannel inputChannel;
 
     public OutputChannel(int nextNodeId, int currentRouterId, int arbiterCount) {
         this.nextNodeId = nextNodeId;
@@ -69,20 +73,45 @@ public class OutputChannel {
 
         switch (step) {
             case 0:
-                if (!requestQueue.isEmpty()) {
+                int grantToChannel = -1;
+                if (!requestQueue.isEmpty()) { // There are requests.
                     grantToArbiterId = currentArbiterId;
-                    for (int arbiterId : requestQueue.keySet()) {
-                        if (grantToArbiterId == arbiterId) {
-                            break;
+//TODO: GrantToChannelID
+
+                    outer:for(int i = currentArbiterId;;i = grantToArbiterId < arbiterCount ? i + 1 : 0){
+                        for(Integer channelId: requestQueue.keySet()){
+                            ArrayList<Integer> arbiters = requestQueue.get(channelId);
+                            for(Integer arbiterId : arbiters){
+                                if (i == arbiterId) {
+                                    grantToArbiterId = arbiterId;
+                                    grantToChannel = channelId;
+                                    break outer;
+                                }
+                            }
+//                        grantToArbiterId = grantToArbiterId < arbiterCount ? grantToArbiterId + 1 : 0;
+                        }
+                    }
+
+                    //////////////////////
+                    outer:for(int i = 0; i < arbiterCount; i++){
+                        for (int arbiterId : requestQueue.keySet()) {
+                            if (grantToArbiterId == arbiterId) {
+                                break outer;
+                            }
                         }
                         grantToArbiterId = grantToArbiterId < arbiterCount ? grantToArbiterId + 1 : 0;
                     }
+
                     try{
-                    MPPNetwork.get(currentRouterId).getRouter().getInputChannel(requestQueue.get(grantToArbiterId)).getArbiter(grantToArbiterId).grant(nextNodeId);
+                        router = MPPNetwork.get(currentRouterId).getRouter();
+                        inputChannel = router.getInputChannel(requestQueue.get(grantToArbiterId));
+                        FIFOArbiter arbiter = inputChannel.getArbiter(grantToArbiterId);
+                        arbiter.grant(nextNodeId);
+                        step++;
                     }catch (Exception e){
+                        e.printStackTrace();
                         System.err.println("goeba");
                     }
-                    step++;
                 }
                 break;
             case 1:
@@ -129,9 +158,15 @@ public class OutputChannel {
         grantAckReceived = false;
     }
 
-    public boolean requestToSend(int arbiterId, int channelId) {
+    public boolean requestToSend(int channelId, int arbiterId) {
         if(!busy){
-            requestQueue.put(arbiterId, channelId);
+            if(requestQueue.get(channelId) != null){
+                requestQueue.get(channelId).add(arbiterId);
+            }else{
+                ArrayList<Integer> arbiters = new ArrayList<>();
+                arbiters.add(arbiterId);
+                requestQueue.put(channelId, arbiters);
+            }
             return true;
         }
         return false;

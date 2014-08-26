@@ -2,6 +2,7 @@ package org.cbsbh.model.structures;
 
 import org.cbsbh.model.routing.packet.Packet;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -25,20 +26,39 @@ public class Message {
         this.data = data;
     }
 
-    public Packet getPacket(){
-        if(data.size() < 1){
+    public Packet getPacket() {
+        if (data.size() < 1) {
             // throw an exception
             return null;
         }
 
         long data_l = data.pop();
 
-        if(data.size() < 1){
-            return new Packet(target, target^source, 0x00000000, data_l, 0x00000000);
+        if (data.size() < 1) {
+            return new Packet(target, target ^ source, 0x00000000, data_l, 0x00000000);
         }
 
 
-        return new Packet(target, target^source, 0x00000000, data_l, data.pop());
+        return new Packet(target, target ^ source, 0x00000000, data_l, data.pop());
+    }
+
+    public ArrayList<Packet> getAsPackets() {
+        ArrayList<Packet> ret = new ArrayList<>();
+        /*if (data.size() < 1) {
+            // throw an exception
+            return null;
+        }*/
+        while (!data.isEmpty()) {
+
+            long data_l = data.pop();
+            if (data.size() >= 1) {
+                ret.add(new Packet(target, target ^ source, 0x00000000, data_l, data.pop()));
+            } else {
+                ret.add(new Packet(target, target ^ source, 0x00000000, data_l, 0x00000007));
+            }
+
+        }
+        return ret;
     }
 
 

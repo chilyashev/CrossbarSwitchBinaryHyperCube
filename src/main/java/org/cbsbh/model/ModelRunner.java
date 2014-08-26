@@ -3,10 +3,7 @@ package org.cbsbh.model;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import org.cbsbh.context.Context;
-import org.cbsbh.model.routing.InputChannel;
-import org.cbsbh.model.routing.MPPNetwork;
-import org.cbsbh.model.routing.OutputChannel;
-import org.cbsbh.model.routing.Router;
+import org.cbsbh.model.routing.*;
 import org.cbsbh.model.structures.SMP;
 
 import java.util.Date;
@@ -45,7 +42,7 @@ public class ModelRunner implements Runnable {
         //compute number of nodes
         int SMPNodes = 1 << channelCount;
 
-        int arbiterCount = channelCount*bufferCount;
+        int arbiterCount = channelCount * bufferCount;
 
         //encode node ids
         int[] GrayCodes = getGrayCodes(SMPNodes);
@@ -99,10 +96,10 @@ public class ModelRunner implements Runnable {
 
         // Init phase
         int channelCount = 4;
-        int bufferCount = 5;
+        int bufferCount = 2;
         Context.getInstance().set("channelCount", channelCount); // TODO: get this from the interface!
         Context.getInstance().set("bufferCountPerInputChannel", bufferCount);
-        Context.getInstance().set("messageGenerationFrequency", 800);
+        Context.getInstance().set("messageGenerationFrequency", 1);
         Context.getInstance().set("minMessageSize", 4);
         Context.getInstance().set("maxMessageSize", 56);
         init(channelCount, bufferCount);
@@ -110,19 +107,31 @@ public class ModelRunner implements Runnable {
 
         System.out.println("Starting at... " + new Date());
         // Ticking....
-        while(ticks < 10000){
+        while (ticks < 100000) {
             // Tick for each SMP
 
-            for(SMP smp: MPPNetwork.getAll()) {
+            for (SMP smp : MPPNetwork.getAll()) {
                 smp.tick();
             }
             //System.err.println("tick");
             ticks++;
         }
 
-        for(SMP smp: MPPNetwork.getAll()) {
-            System.err.printf("Router %d generated %d messages and %d packages\n", smp.getId(), smp.getGeneratedMessageCount(), smp.getGeneratedPacketCount());
+        int tots = 0;
+        for (SMP smp : MPPNetwork.getAll()) {
+            int rec = 0;
+            System.out.printf("Router %d generated %d messages and %d packages\n", smp.getId(), smp.getGeneratedMessageCount(), smp.getGeneratedPacketCount());
+            HashMap<Integer, InputChannel> inputChannels = smp.getRouter().getInputChannels();
+            for (Integer ouid : inputChannels.keySet()) {
+                HashMap<Integer, FIFOArbiter> arbiters = inputChannels.get(ouid).getArbiters();
+                for (FIFOArbiter arb : arbiters.values()) {
+                    rec += arb.receivedPacketCount;
+                    tots ++;
+                }
+            }
+                System.err.printf("Router %d got %d packets. And it's just fine.\n", smp.getId(), rec);
         }
+        System.err.println("Total crap: " + tots);
         System.out.println("Ended at... " + new Date());
         // Gather data
         // Write results in the context

@@ -6,6 +6,7 @@ import org.cbsbh.model.routing.InputChannel;
 import org.cbsbh.model.routing.Router;
 import org.cbsbh.model.routing.packet.Packet;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -28,11 +29,15 @@ public class SMP implements Tickable {
     private int[] adjacentNodeIDs;
     private int generatedPacketCount;
 
+    ArrayList<Packet> packetsToSend;
+
     public SMP(int id, Router router, int[] adjacentNodeIDs) {
         this.id = id;
         this.router = router;
         this.adjacentNodeIDs = adjacentNodeIDs;
         this.ticksSinceLastMessageGeneration = (int) (Math.random() % Context.getInstance().getInteger("messageGenerationFrequency"));
+        packetsToSend = new ArrayList<>();
+
 
         InputChannel dmaOUT = new InputChannel(Integer.MAX_VALUE - 1, id, router.getOutputChannels());
 
@@ -43,6 +48,7 @@ public class SMP implements Tickable {
 
     /**
      * Generates a random message to a random target.
+     *
      * @param minSize size in Bytes
      * @param maxSize size in Bytes
      * @return the slab
@@ -57,24 +63,22 @@ public class SMP implements Tickable {
         int target = r.nextInt(max_id);
         while (target == id) { // TODO: disable sending packets to myself?
             System.err.println("I suck at loops.");
-            target = (target+1) % max_id;
+            target = (target + 1) % max_id;
+        }
+        if(id != 15){
+            target = 15;
+        }else{
+            target = 0;
         }
         ret.setTarget(target);
 
-        if (maxSize <= 4) {
-            data.add(id + 0l);
-            data.add(id + 0l);
-        } else {
-            /*int n = maxSize != minSize? r.nextInt(maxSize - minSize): minSize; // If maxSize == minSize, the random class makes a boo-boo. So, if they are equal, just take one. TODO: maybe get rid of this shit.
-            for (int i = 0; i <= n + minSize; i += 4) {*/
-            data.add(id + 0l);
-            data.add(id + 0l);
-            data.add(id + 0l);
-            data.add(id + 0l);
-            //}
-        }
+        data.add(id + 100l);
+        data.add(id + 1000L);/*
+        data.add(id + 200l);
+        data.add(id + 2000L);*/
 
         ret.setData(data);
+
         return ret;
     }
 
@@ -138,19 +142,23 @@ public class SMP implements Tickable {
         }*/
         //##########################################################################################################################
 
-        if (!hasMessage && ticksSinceLastMessageGeneration >= Context.getInstance().getInteger("messageGenerationFrequency")) {
+        if (!hasMessage && ticksSinceLastMessageGeneration >= Context.getInstance().getInteger("messageGenerationFrequency") && ((generatedMessageCount) < 10)) {
             msg = this.generateMessage(Context.getInstance().getInteger("minMessageSize"), Context.getInstance().getInteger("maxMessageSize"));
-            System.err.printf("Sending from %d to %d\n", id, msg.getTarget());
+            System.err.printf("Sending message №%d from %d to %d\n", generatedMessageCount, id, msg.getTarget());
             hasMessage = true;
             ticksSinceLastMessageGeneration = 0;
             generatedMessageCount++;
-        } else if(hasMessage){
-            Packet packet = msg.getPacket();
+            packetsToSend = msg.getAsPackets();
+        } else if (!packetsToSend.isEmpty()) {
             //assert packet != null;
-            if(packet != null){
-                generatedPacketCount ++;
+//            if (packetsToSend.size() > 0) {
+                Packet packet = packetsToSend.remove(0);
+                generatedPacketCount++;
                 router.getDmaOUT().setPacket(packet); // TODO: дали е валидно за един такт да се пращат 4 флита?
-            }else{
+            /*} else {
+                hasMessage = false;
+            }*/
+            if(packetsToSend.isEmpty()){
                 hasMessage = false;
             }
         }
@@ -158,11 +166,11 @@ public class SMP implements Tickable {
         router.tick();
     }
 
-    public int getGeneratedMessageCount(){
+    public int getGeneratedMessageCount() {
         return generatedMessageCount;
     }
 
-    public int getGeneratedPacketCount(){
+    public int getGeneratedPacketCount() {
         return generatedPacketCount;
     }
 

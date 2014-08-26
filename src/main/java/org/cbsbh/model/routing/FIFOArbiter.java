@@ -35,6 +35,8 @@ public class FIFOArbiter implements Tickable {
     private FIFOBuff<Long> receivedData; // Временно решение за тестване на приетите данни.
     private boolean receivingData = false;
 
+    public int receivedPacketCount = 0;
+
     /**
      * @param arbiterId      logically it's the arbiter id
      * @param channelId      the channel this here arbiter belongs to
@@ -58,23 +60,23 @@ public class FIFOArbiter implements Tickable {
 
     public void tick() {
         if (this.channelId == Integer.MAX_VALUE - 1) {
-           // System.err.println("DMA! Fuck.");
+            // System.err.println("DMA! Fuck.");
         }
         // Временен код за тестване на приемането
-        if(receivingData){
+        if (receivingData) {
             // Yeah, baby! austinpowers.jpg
             popped = fifoBuff.pop();
             if (popped == null) {
                 receivingData = false;
                 System.err.println("Receiving completed. Received data: ");
-                if(receivedData.toList().size() < 4){
+                if (receivedData.toList().size() < 4) {
                     System.err.println("sadface");
                 }
-                for(Long l : receivedData.toList()){
+                for (Long l : receivedData.toList()) {
                     System.err.println("" + l);
                 }
                 System.err.println("eo received crap");
-
+                receivedPacketCount++;
                 return;
             }
             receivedData.push(popped);
@@ -97,9 +99,9 @@ public class FIFOArbiter implements Tickable {
                     return;
                 }
                 //System.err.println("popped: " + popped);
-             //   if(packet.getHeader_1() == 0){
-                    packet.setHeader_1(popped);
-            //    }
+                //   if(packet.getHeader_1() == 0){
+                packet.setHeader_1(popped);
+                //    }
                 long tr = packet.getTR();
                 long dna = packet.getDNA();
 
@@ -120,7 +122,7 @@ public class FIFOArbiter implements Tickable {
                         OutputChannel outputChannel = outputChannels.get(Integer.valueOf(outPutChannelId));
 
                         try {
-                            grantSent = grantSent || outputChannel.requestToSend(arbiterId, channelId);
+                            grantSent = grantSent || outputChannel.requestToSend(channelId, arbiterId);
                         } catch (NullPointerException e) {
                             System.err.println("fuck you _|_");
                         }

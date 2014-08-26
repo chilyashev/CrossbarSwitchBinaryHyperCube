@@ -51,6 +51,10 @@ public class InputChannel implements Tickable {
         return arbiters.get(id);
     }
 
+    public HashMap<Integer, FIFOArbiter> getArbiters() {
+        return arbiters;
+    }
+
     public void setPacket(Packet packet) {
         boolean sent = pushFlit(packet.getHeader_1()) &&
         pushFlit(packet.getMemoryAddress()) &&
