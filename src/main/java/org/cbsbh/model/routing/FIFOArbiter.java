@@ -59,9 +59,9 @@ public class FIFOArbiter implements Tickable {
     }
 
     public void tick() {
-        if (this.channelId == Integer.MAX_VALUE - 1) {
+        /*if (this.channelId == Integer.MAX_VALUE - 1) {
             // System.err.println("DMA! Fuck.");
-        }
+        }*/
         // Временен код за тестване на приемането
         if (receivingData) {
             // Yeah, baby! austinpowers.jpg
@@ -71,12 +71,13 @@ public class FIFOArbiter implements Tickable {
                 System.err.println("Receiving completed. Received data: ");
                 if (receivedData.toList().size() < 4) {
                     System.err.println("sadface");
+                    System.exit(-9);
                 }
                 for (Long l : receivedData.toList()) {
                     System.err.println("" + l);
                 }
-                System.err.println("eo received crap");
                 receivedPacketCount++;
+                System.err.printf("eo received crap, Router %d gpt %d packets.\n", nodeId, receivedPacketCount);
                 return;
             }
             receivedData.push(popped);

@@ -78,13 +78,31 @@ public class SMP implements Tickable {
         data.add(id + 2000L);*/
 
         ret.setData(data);
-
         return ret;
     }
 
 
     @Override
     public void tick() {
+/*        if(!hasMessage && id == 5){
+            msg = new Message();
+            msg.setSource(id);
+            msg.setTarget(14);
+            LinkedList<Long> d = new LinkedList<>();
+            d.add(0x0L+id);
+            d.add(0x0L+id);
+            msg.setData(d);
+            hasMessage = true;
+
+        }
+        if (msg != null) {
+            Packet packet = msg.getPacket();
+
+            if (packet != null) {
+                router.getDmaOUT().setPacket(packet);
+                System.err.printf("Sending from %d to %d\n", id, 14);
+            }
+        }*/
         // Generate and send (a) message(s)
 /*
         //TODO:: ALL of the shit in the block bellow is WRONG and should be removed after testing is finished (in about 4-5 years).
