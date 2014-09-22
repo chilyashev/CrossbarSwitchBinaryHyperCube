@@ -46,6 +46,7 @@ public class MainController extends AbstractScreen {
         boolean fine = true;
         double workingTime = 0;
         errorLabel.setText("");
+        modelWorkTime.setText("6");
 
         ModelRunner runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
             @Override

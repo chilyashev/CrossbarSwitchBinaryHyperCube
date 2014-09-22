@@ -28,6 +28,7 @@ public class InputChannel implements Tickable {
     }
 
 
+    // TODO: Това не работи правилно, защото се застъпват отделните пакети
     public boolean pushFlit(long data) {
         for (int id : arbiters.keySet()) {
             if (!arbiters.get(id).isBusy()) {
@@ -55,11 +56,11 @@ public class InputChannel implements Tickable {
         return arbiters;
     }
 
-    public void setPacket(Packet packet) {
+    public boolean setPacket(Packet packet) {
         boolean sent = pushFlit(packet.getHeader_1()) &&
         pushFlit(packet.getMemoryAddress()) &&
         pushFlit(packet.getData_l()) &&
         pushFlit(packet.getData_h());
-        assert sent;
+        return sent;
     }
 }

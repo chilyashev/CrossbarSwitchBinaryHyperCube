@@ -5,6 +5,7 @@ import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.InputChannel;
 import org.cbsbh.model.routing.Router;
 import org.cbsbh.model.routing.packet.Packet;
+import org.cbsbh.model.statistics.DataCollector;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -61,13 +62,14 @@ public class SMP implements Tickable {
         ret.setSource(id);
         int max_id = 1 << Context.getInstance().getInteger("channelCount");
         int target = r.nextInt(max_id);
+        // TODO: do-while
         while (target == id) { // TODO: disable sending packets to myself?
             System.err.println("I suck at loops.");
             target = (target + 1) % max_id;
         }
-        if(id != 15){
+        if (id != 15) {
             target = 15;
-        }else{
+        } else {
             target = 0;
         }
         ret.setTarget(target);
@@ -78,6 +80,8 @@ public class SMP implements Tickable {
         data.add(id + 2000L);*/
 
         ret.setData(data);
+        DataCollector.getInstance().addToSum("generated_messages", 1);
+        DataCollector.getInstance().addToSum("generated_messages_" + id, 1);
         return ret;
     }
 
@@ -170,13 +174,14 @@ public class SMP implements Tickable {
         } else if (!packetsToSend.isEmpty()) {
             //assert packet != null;
 //            if (packetsToSend.size() > 0) {
-                Packet packet = packetsToSend.remove(0);
-                generatedPacketCount++;
-                router.getDmaOUT().setPacket(packet); // TODO: дали е валидно за един такт да се пращат 4 флита?
+            Packet packet = packetsToSend.remove(0);
+            generatedPacketCount++;
+            DataCollector.getInstance().addToSum("packets_sent_by_"+id, 1);
+            router.getDmaOUT().setPacket(packet); // TODO: дали е валидно за един такт да се пращат 4 флита?
             /*} else {
                 hasMessage = false;
             }*/
-            if(packetsToSend.isEmpty()){
+            if (packetsToSend.isEmpty()) {
                 hasMessage = false;
             }
         }

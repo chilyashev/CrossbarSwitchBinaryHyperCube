@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.routing.*;
+import org.cbsbh.model.statistics.DataCollector;
 import org.cbsbh.model.structures.SMP;
 
 import java.util.Date;
@@ -117,6 +118,7 @@ public class ModelRunner implements Runnable {
             //System.err.println("tick");
             ticks++;
         }
+        DataCollector.getInstance().log();
 
        /* int tots = 0;
         for (SMP smp : MPPNetwork.getAll()) {

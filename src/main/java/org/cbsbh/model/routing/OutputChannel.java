@@ -57,19 +57,31 @@ public class OutputChannel {
         SMP smp = MPPNetwork.get(nextNodeId);
         Router router = smp.getRouter();
         InputChannel in = router.getInputChannel(currentRouterId);
-  /*      if(currentRouterId == 5 && nextNodeId == 4){
+        if(currentRouterId == 15 && nextNodeId == 14){
             System.err.println("brayk");
         }
-        if(currentRouterId == 4 && nextNodeId == 6){
-            System.err.println("brayk");
+        if(currentRouterId == 8 && nextNodeId == 0){
+            System.err.println("brayk 1");
         }
-        if(currentRouterId == 6 && nextNodeId == 14){
+ /*       if(currentRouterId == 6 && nextNodeId == 14){
             System.err.println("brayk");
         }
 */
-        return MPPNetwork.get(nextNodeId).getRouter().getInputChannel(currentRouterId).pushFlit(data);
-        /*boolean pushFlit = in.pushFlit(data);
-        return pushFlit;*/
+        //return MPPNetwork.get(nextNodeId).getRouter().getInputChannel(currentRouterId).pushFlit(data);
+        boolean pushFlit = in.pushFlit(data);
+        if(currentRouterId == 8 && nextNodeId == 0){
+            System.err.printf("pushClit is %s\n", pushFlit);
+        }
+        if(currentRouterId == 4 && nextNodeId == 0){
+            System.err.printf("pushClit is %s\n", pushFlit);
+        }
+        if(currentRouterId == 2 && nextNodeId == 0){
+            System.err.printf("pushClit is %s\n", pushFlit);
+        }
+        if(currentRouterId == 1 && nextNodeId == 0){
+            System.err.printf("pushClit is %s\n", pushFlit);
+        }
+        return pushFlit;
 
     }
 

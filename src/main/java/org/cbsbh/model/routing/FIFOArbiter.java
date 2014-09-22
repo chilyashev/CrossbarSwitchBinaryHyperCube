@@ -2,6 +2,7 @@ package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.Packet;
+import org.cbsbh.model.statistics.DataCollector;
 import org.cbsbh.model.structures.FIFOBuff;
 
 import java.util.ArrayList;
@@ -77,6 +78,8 @@ public class FIFOArbiter implements Tickable {
                     System.err.println("" + l);
                 }
                 receivedPacketCount++;
+                DataCollector.getInstance().addToSum(String.format("packet_%d_%d_%d_for_%d_rcvd", nodeId, channelId, arbiterId, packet.getDNA()), 1);
+                DataCollector.getInstance().addToSum(String.format("router_%d", nodeId), 1);
                 System.err.printf("eo received crap, Router %d gpt %d packets.\n", nodeId, receivedPacketCount);
                 return;
             }
@@ -84,62 +87,72 @@ public class FIFOArbiter implements Tickable {
             return;
         }
 
-        /*if(channelId == 4 && nodeId == 6 && fifoBuff.getItemCount() > 0){
+        if(channelId == 8 && nodeId == 0 && fifoBuff.getItemCount() > 0){
             System.err.println("stop10");
-        }
+        }/*//* /
         if(channelId == 6 && nodeId == 14 && fifoBuff.getItemCount() > 0){
             System.err.println("stop3");
-        }*/
+        }//*/
         switch (step) {
             case 0:
+
                 /*
                 peek(), защото може да се случи така, че в текущия такт няма grant и в следващия да се pop-не нещо неправилно.
                  */
                 popped = fifoBuff.peek();
-                if (popped == null) {
+                if (popped == null || !fifoBuff.isFull()) {
                     return;
                 }
-                //System.err.println("popped: " + popped);
-                //   if(packet.getHeader_1() == 0){
+
                 packet.setHeader_1(popped);
-                //    }
+
                 long tr = packet.getTR();
                 long dna = packet.getDNA();
 
 
                 if (packet.getDNA() == nodeId) {
                     // TODO: Пакетът е за текущия възел => няма какво да се прави тук.
-                    //System.err.printf(" (a flit)Received! Boom! I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
-                    //System.err.printf("I am arbiter %d, living deep in channel %d, and my Router is %d\n", +this.arbiterId, this.channelId, this.nodeId);
-                    //fifoBuff.clear();// TODO: вместо clear данни
                     receivingData = true;
                     break;
                 }
 
-                boolean grantSent = false;
+                boolean requestSent = false;
                 for (int i = 0; i < 12; i++) { // 12. Like the 12 bits in the header. Duh...
                     if ((tr & (1 << i)) == 1 << i) {
                         int outPutChannelId = nodeId ^ (1 << i);
                         OutputChannel outputChannel = outputChannels.get(Integer.valueOf(outPutChannelId));
 
-                        try {
-                            grantSent = grantSent || outputChannel.requestToSend(channelId, arbiterId);
-                        } catch (NullPointerException e) {
-                            System.err.println("fuck you _|_");
-                        }
+                        requestSent = requestSent || outputChannel.requestToSend(channelId, arbiterId);
                     }
                 }
-                if (grantSent) {
+
+                if (requestSent) {
                     step++;
                     fifoBuff.pop();
+                }else{
+                    DataCollector.getInstance().addToSum(String.format("router_%d_step_%d_ticks", nodeId, step), 1);
                 }
+
                 break;
             case 1:
+                if(nodeId == 8 && packet.getDNA() == 0){
+                    System.err.println("");
+                }
+                if(nodeId == 4 && packet.getDNA() == 0){
+                    System.err.println("");
+                }
+                if(nodeId == 2 && packet.getDNA() == 0){
+                    System.err.println("");
+                }
+                if(nodeId == 1 && packet.getDNA() == 0){
+                    System.err.println("");
+                }
+
                 if (!grantQueue.isEmpty()) {
                     outputChannels.get(grantQueue.get(0)).grantAcknowledge();
                     long oldtr = packet.getTR();
-
                     packet.setTR(packet.getDNA() ^ outputChannels.get(grantQueue.get(0)).getNextNodeId()); // верен ред.
+                    DataCollector.getInstance().addToList(String.format("packet_%d_%d_%d_for_%d_trs", nodeId, channelId, arbiterId, packet.getDNA()), packet.getTR());
                     //System.err.printf("current input channel: %d, node: %d, arbiter: %d, old tr: %d, new tr: %d\n", this.channelId, this.nodeId, this.arbiterId, oldtr, packet.getTR());
                     popped = packet.getHeader_1();
 
@@ -158,6 +171,7 @@ public class FIFOArbiter implements Tickable {
                         }*/
                         step = 0;
                         outputChannels.get(grantQueue.get(0)).releaseChannel();
+                        fifoBuff.setBusy(false);
                         grantQueue.clear();//TODO: make sure this is correctly written kyp
                         break;
                     }
@@ -173,7 +187,7 @@ public class FIFOArbiter implements Tickable {
     }
 
     public boolean isBusy() {
-        return fifoBuff.isFull();
+        return fifoBuff.isBusy();
     }
 
     public long getNodeId() {

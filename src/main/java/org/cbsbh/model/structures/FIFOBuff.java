@@ -14,6 +14,7 @@ public class FIFOBuff<T> {
     private int maxSize = 4;
     private boolean full;
     private LinkedList<T> content;
+    private boolean busy = false;
 
     public FIFOBuff(int maxSize) {
         this.maxSize = maxSize;
@@ -27,8 +28,9 @@ public class FIFOBuff<T> {
         /*if(ob.equals(0)){
             System.err.println("stopmeh");
         }*/
-        if(content.size()+1 > maxSize){
+        if(content.size() == maxSize){
             full = true;
+            busy = true;
             return;
         }
         content.add(ob);
@@ -65,5 +67,13 @@ public class FIFOBuff<T> {
 
     public List<T> toList(){
         return content;
+    }
+
+    public boolean isBusy() {
+        return busy;
+    }
+
+    public void setBusy(boolean busy) {
+        this.busy = busy;
     }
 }
