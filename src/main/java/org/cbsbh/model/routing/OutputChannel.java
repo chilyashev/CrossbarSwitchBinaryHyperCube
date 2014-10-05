@@ -53,39 +53,6 @@ public class OutputChannel {
         step = 0;
     }
 
-    public boolean sendData() {
-        SMP smp = MPPNetwork.get(nextNodeId);
-        Router router = smp.getRouter();
-        InputChannel in = router.getInputChannel(currentRouterId);
-        if(currentRouterId == 15 && nextNodeId == 14){
-            System.err.println("brayk");
-        }
-        if(currentRouterId == 8 && nextNodeId == 0){
-            System.err.println("brayk 1");
-        }
- /*       if(currentRouterId == 6 && nextNodeId == 14){
-            System.err.println("brayk");
-        }
-*/
-        //return MPPNetwork.get(nextNodeId).getRouter().getInputChannel(currentRouterId).pushFlit(data);
-        boolean pushFlit = in.pushFlit(data);
-        if(currentRouterId == 8 && nextNodeId == 0){
-            System.err.printf("pushClit is %s\n", pushFlit);
-        }
-        if(currentRouterId == 4 && nextNodeId == 0){
-            System.err.printf("pushClit is %s\n", pushFlit);
-        }
-        if(currentRouterId == 2 && nextNodeId == 0){
-            System.err.printf("pushClit is %s\n", pushFlit);
-        }
-        if(currentRouterId == 1 && nextNodeId == 0){
-            System.err.printf("pushClit is %s\n", pushFlit);
-        }
-        return pushFlit;
-
-    }
-
-
     public void tick() {
 
         switch (step) {
@@ -175,6 +142,39 @@ public class OutputChannel {
 
                 break;
         }
+    }
+
+
+    public boolean sendData() {
+        SMP smp = MPPNetwork.get(nextNodeId);
+        Router router = smp.getRouter();
+        InputChannel in = router.getInputChannel(currentRouterId);
+        if(currentRouterId == 15 && nextNodeId == 14){
+            System.err.println("brayk");
+        }
+        if(currentRouterId == 8 && nextNodeId == 0){
+            System.err.println("brayk 1");
+        }
+ /*       if(currentRouterId == 6 && nextNodeId == 14){
+            System.err.println("brayk");
+        }
+*/
+        return MPPNetwork.get(nextNodeId).getRouter().getInputChannel(currentRouterId).pushFlit(data);
+        /*boolean pushFlit = in.pushFlit(data); // fhtagn!
+        if(currentRouterId == 8 && nextNodeId == 0){
+            System.err.printf("pushClit is %s\n", pushFlit);
+        }
+        if(currentRouterId == 4 && nextNodeId == 0){
+            System.err.printf("pushClit is %s\n", pushFlit);
+        }
+        if(currentRouterId == 2 && nextNodeId == 0){
+            System.err.printf("pushClit is %s\n", pushFlit);
+        }
+        if(currentRouterId == 1 && nextNodeId == 0){
+            System.err.printf("pushClit is %s\n", pushFlit);
+        }
+        return pushFlit;
+*/
     }
 
     public void grantAcknowledge() {

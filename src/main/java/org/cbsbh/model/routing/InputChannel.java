@@ -31,8 +31,14 @@ public class InputChannel implements Tickable {
     // TODO: Това не работи правилно, защото се застъпват отделните пакети
     public boolean pushFlit(long data) {
         for (int id : arbiters.keySet()) {
+            if(arbiters.get(id).getFifoBuff().getItemCount() == 0 && arbiters.get(id).getFifoBuff().isBusy()){
+                arbiters.get(id).getFifoBuff().setBusy(false);
+            }
             if (!arbiters.get(id).isBusy()) {
                 arbiters.get(id).getFifoBuff().push(data);
+                if(arbiters.get(id).getFifoBuff().getItemCount() == arbiters.get(id).getFifoBuff().maxSize){
+                    arbiters.get(id).getFifoBuff().setBusy(true);
+                }
                 //System.err.println("[InputChannel] Found arbiter: " + id);
                 return true;
             }
@@ -57,10 +63,26 @@ public class InputChannel implements Tickable {
     }
 
     public boolean setPacket(Packet packet) {
-        boolean sent = pushFlit(packet.getHeader_1()) &&
+        for (int id : arbiters.keySet()) {
+            if(arbiters.get(id).getFifoBuff().getItemCount() == 0 && arbiters.get(id).getFifoBuff().isBusy()){
+                arbiters.get(id).getFifoBuff().setBusy(false);
+            }
+
+            if (!arbiters.get(id).isBusy() && arbiters.get(id).getFifoBuff().getItemCount() == 0) {
+                arbiters.get(id).getFifoBuff().setBusy(true);
+                arbiters.get(id).getFifoBuff().push(packet.getHeader_1());
+                arbiters.get(id).getFifoBuff().push(packet.getMemoryAddress());
+                arbiters.get(id).getFifoBuff().push(packet.getData_l());
+                arbiters.get(id).getFifoBuff().push(packet.getData_h());
+                return true;
+            }
+        }
+
+        return false;
+        /*boolean sent = pushFlit(packet.getHeader_1()) &&
         pushFlit(packet.getMemoryAddress()) &&
         pushFlit(packet.getData_l()) &&
         pushFlit(packet.getData_h());
-        return sent;
+        return sent;*/
     }
 }

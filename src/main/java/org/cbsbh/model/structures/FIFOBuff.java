@@ -11,7 +11,7 @@ import java.util.List;
  * @author Mihail Chilyashev
  */
 public class FIFOBuff<T> {
-    private int maxSize = 4;
+    public int maxSize = 4;
     private boolean full;
     private LinkedList<T> content;
     private boolean busy = false;
@@ -28,11 +28,11 @@ public class FIFOBuff<T> {
         /*if(ob.equals(0)){
             System.err.println("stopmeh");
         }*/
-        if(content.size() == maxSize){
+        /*if(content.size() == maxSize){
             full = true;
             busy = true;
             return;
-        }
+        }*/
         content.add(ob);
     }
 

@@ -74,8 +74,8 @@ public class SMP implements Tickable {
         }
         ret.setTarget(target);
 
-        data.add(id + 100l);
-        data.add(id + 1000L);/*
+        data.add(id + 100l+generatedPacketCount);
+        data.add(id + 1000L+generatedPacketCount);/*
         data.add(id + 200l);
         data.add(id + 2000L);*/
 
@@ -164,11 +164,14 @@ public class SMP implements Tickable {
         }*/
         //##########################################################################################################################
 
-        if (!hasMessage && ticksSinceLastMessageGeneration >= Context.getInstance().getInteger("messageGenerationFrequency") && ((generatedMessageCount) < 10)) {
+        if (!hasMessage && ticksSinceLastMessageGeneration >= Context.getInstance().getInteger("messageGenerationFrequency") && ((generatedMessageCount) < 5)) {
             msg = this.generateMessage(Context.getInstance().getInteger("minMessageSize"), Context.getInstance().getInteger("maxMessageSize"));
             System.err.printf("Sending message №%d from %d to %d\n", generatedMessageCount, id, msg.getTarget());
             hasMessage = true;
             ticksSinceLastMessageGeneration = 0;
+            /*if(generatedMessageCount == 1){
+                System.out.println();
+            }*/
             generatedMessageCount++;
             packetsToSend = msg.getAsPackets();
         } else if (!packetsToSend.isEmpty()) {
@@ -177,7 +180,10 @@ public class SMP implements Tickable {
             Packet packet = packetsToSend.remove(0);
             generatedPacketCount++;
             DataCollector.getInstance().addToSum("packets_sent_by_"+id, 1);
-            router.getDmaOUT().setPacket(packet); // TODO: дали е валидно за един такт да се пращат 4 флита?
+            boolean sent = router.getDmaOUT().setPacket(packet); // TODO: дали е валидно за един такт да се пращат 4 флита?
+            if(!sent){
+                System.err.println("serr");
+            }
             /*} else {
                 hasMessage = false;
             }*/

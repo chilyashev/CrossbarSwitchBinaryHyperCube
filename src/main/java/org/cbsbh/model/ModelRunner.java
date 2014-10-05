@@ -98,7 +98,7 @@ public class ModelRunner implements Runnable {
 
         // Init phase
         int channelCount = 4;
-        int bufferCount = 15;
+        int bufferCount = 6;
         Context.getInstance().set("channelCount", channelCount); // TODO: get this from the interface!
         Context.getInstance().set("bufferCountPerInputChannel", bufferCount);
         Context.getInstance().set("messageGenerationFrequency", 1);
@@ -120,7 +120,7 @@ public class ModelRunner implements Runnable {
         }
         DataCollector.getInstance().log();
 
-       /* int tots = 0;
+       int tots = 0;
         for (SMP smp : MPPNetwork.getAll()) {
             int rec = 0;
             System.out.printf("Router %d generated %d messages and %d packages\n", smp.getId(), smp.getGeneratedMessageCount(), smp.getGeneratedPacketCount());
@@ -134,7 +134,7 @@ public class ModelRunner implements Runnable {
             }
             System.err.printf("Router %d got %d packets. And it's just fine.\n", smp.getId(), rec);
         }
-        System.err.println("Total crap: " + tots);*/
+        System.err.println("Total crap: " + tots);//*/
         System.out.println("Ended at... " + new Date());
         // Gather data
         // Write results in the context

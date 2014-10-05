@@ -80,27 +80,26 @@ public class FIFOArbiter implements Tickable {
                 receivedPacketCount++;
                 DataCollector.getInstance().addToSum(String.format("packet_%d_%d_%d_for_%d_rcvd", nodeId, channelId, arbiterId, packet.getDNA()), 1);
                 DataCollector.getInstance().addToSum(String.format("router_%d", nodeId), 1);
-                System.err.printf("eo received crap, Router %d gpt %d packets.\n", nodeId, receivedPacketCount);
+                System.err.printf("eo received crap, Router %d got %d packets.\n", nodeId, receivedPacketCount);
                 return;
             }
             receivedData.push(popped);
             return;
         }
 
-        if(channelId == 8 && nodeId == 0 && fifoBuff.getItemCount() > 0){
-            System.err.println("stop10");
+        if(nodeId == 0xf){
+         //  System.err.println("stop10");
         }/*//* /
         if(channelId == 6 && nodeId == 14 && fifoBuff.getItemCount() > 0){
             System.err.println("stop3");
         }//*/
         switch (step) {
             case 0:
-
                 /*
                 peek(), защото може да се случи така, че в текущия такт няма grant и в следващия да се pop-не нещо неправилно.
                  */
                 popped = fifoBuff.peek();
-                if (popped == null || !fifoBuff.isFull()) {
+                if (popped == null/* || !fifoBuff.isFull()*/) {
                     return;
                 }
 
@@ -132,22 +131,15 @@ public class FIFOArbiter implements Tickable {
                 }else{
                     DataCollector.getInstance().addToSum(String.format("router_%d_step_%d_ticks", nodeId, step), 1);
                 }
+                /*//region Deleteme
+                if(nodeId == 0 || nodeId == 1 || nodeId == 3 || nodeId == 7 || nodeId == 15){
+                    System.out.println(); // break;
+                }
+                //endregion*/
+
 
                 break;
             case 1:
-                if(nodeId == 8 && packet.getDNA() == 0){
-                    System.err.println("");
-                }
-                if(nodeId == 4 && packet.getDNA() == 0){
-                    System.err.println("");
-                }
-                if(nodeId == 2 && packet.getDNA() == 0){
-                    System.err.println("");
-                }
-                if(nodeId == 1 && packet.getDNA() == 0){
-                    System.err.println("");
-                }
-
                 if (!grantQueue.isEmpty()) {
                     outputChannels.get(grantQueue.get(0)).grantAcknowledge();
                     long oldtr = packet.getTR();
@@ -158,11 +150,19 @@ public class FIFOArbiter implements Tickable {
 
                     step++;
                 }
+                /*//region Deleteme
+                if(nodeId == 0 || nodeId == 1 || nodeId == 3 || nodeId == 7 || nodeId == 15){
+                    System.out.println(); // break;
+                }
+                //endregion*/
+
                 break;
             case 2:
-               /* if(channelId == 0 && nodeId == 1 && fifoBuff.getItemCount() > 0){
-                    System.err.println("stop1");
+                /*//region Deleteme
+                if(nodeId == 0 || nodeId == 1 || nodeId == 3 || nodeId == 7 || nodeId == 15){
+                    System.out.println(); // break;
                 }*/
+                //endregion
                 if (outputChannels.get(grantQueue.get(0)).putData(popped)) {
                     popped = fifoBuff.pop();
                     if (popped == null) {
@@ -171,12 +171,13 @@ public class FIFOArbiter implements Tickable {
                         }*/
                         step = 0;
                         outputChannels.get(grantQueue.get(0)).releaseChannel();
-                        fifoBuff.setBusy(false);
-                        grantQueue.clear();//TODO: make sure this is correctly written kyp
+                        //fifoBuff.setBusy(false);
+                        grantQueue.clear();//TODO: make sure this is correctly written
                         break;
                     }
 
                 }
+
                 break;
         }
     }
