@@ -52,9 +52,9 @@ public class Message {
 
             long data_l = data.pop();
             if (data.size() >= 1) {
-                ret.add(new Packet(target, target ^ source, 0x00000000, data_l, data.pop()));
+                ret.add(new Packet(target, target ^ source, 0xffffffff, data_l, data.pop()));
             } else {
-                ret.add(new Packet(target, target ^ source, 0x00000000, data_l, 0x00000007));
+                ret.add(new Packet(target, target ^ source, 0xffffffff, data_l, 0x00000007));
             }
 
         }

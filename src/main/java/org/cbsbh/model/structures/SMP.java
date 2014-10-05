@@ -67,15 +67,16 @@ public class SMP implements Tickable {
             System.err.println("I suck at loops.");
             target = (target + 1) % max_id;
         }
+
         if (id != 15) {
             target = 15;
         } else {
-            target = 0;
+            target = 6;
         }
         ret.setTarget(target);
 
-        data.add(id + 100l+generatedPacketCount);
-        data.add(id + 1000L+generatedPacketCount);/*
+        data.add(100l+id);
+        data.add(generatedPacketCount + 1000l);/*
         data.add(id + 200l);
         data.add(id + 2000L);*/
 

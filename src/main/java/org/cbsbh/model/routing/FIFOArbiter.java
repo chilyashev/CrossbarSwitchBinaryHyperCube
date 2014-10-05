@@ -71,35 +71,31 @@ public class FIFOArbiter implements Tickable {
                 receivingData = false;
                 System.err.println("Receiving completed. Received data: ");
                 if (receivedData.toList().size() < 4) {
-                    System.err.println("sadface");
-                    System.exit(-9);
+                    System.err.println("Wrong packet size!");
+                    //System.exit(-9);
                 }
                 for (Long l : receivedData.toList()) {
                     System.err.println("" + l);
                 }
                 receivedPacketCount++;
                 DataCollector.getInstance().addToSum(String.format("packet_%d_%d_%d_for_%d_rcvd", nodeId, channelId, arbiterId, packet.getDNA()), 1);
-                DataCollector.getInstance().addToSum(String.format("router_%d", nodeId), 1);
-                System.err.printf("eo received crap, Router %d got %d packets.\n", nodeId, receivedPacketCount);
+                DataCollector.getInstance().addToSum(String.format("total_received_router_%d", nodeId), 1);
+                System.err.printf("eo received print, Router %d got %d packets.\n", nodeId, receivedPacketCount);
+                receivedData.clear();
                 return;
             }
             receivedData.push(popped);
             return;
         }
 
-        if(nodeId == 0xf){
-         //  System.err.println("stop10");
-        }/*//* /
-        if(channelId == 6 && nodeId == 14 && fifoBuff.getItemCount() > 0){
-            System.err.println("stop3");
-        }//*/
+
         switch (step) {
             case 0:
                 /*
                 peek(), защото може да се случи така, че в текущия такт няма grant и в следващия да се pop-не нещо неправилно.
                  */
                 popped = fifoBuff.peek();
-                if (popped == null/* || !fifoBuff.isFull()*/) {
+                if (popped == null || fifoBuff.getItemCount() != fifoBuff.maxSize ) {
                     return;
                 }
 
@@ -112,6 +108,7 @@ public class FIFOArbiter implements Tickable {
                 if (packet.getDNA() == nodeId) {
                     // TODO: Пакетът е за текущия възел => няма какво да се прави тук.
                     receivingData = true;
+                    receivedData.push(fifoBuff.pop());
                     break;
                 }
 
@@ -121,23 +118,20 @@ public class FIFOArbiter implements Tickable {
                         int outPutChannelId = nodeId ^ (1 << i);
                         OutputChannel outputChannel = outputChannels.get(Integer.valueOf(outPutChannelId));
 
-                        requestSent = requestSent || outputChannel.requestToSend(channelId, arbiterId);
+                        try {
+                            requestSent = requestSent || outputChannel.requestToSend(channelId, arbiterId);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
                 if (requestSent) {
                     step++;
                     fifoBuff.pop();
-                }else{
+                } else {
                     DataCollector.getInstance().addToSum(String.format("router_%d_step_%d_ticks", nodeId, step), 1);
                 }
-                /*//region Deleteme
-                if(nodeId == 0 || nodeId == 1 || nodeId == 3 || nodeId == 7 || nodeId == 15){
-                    System.out.println(); // break;
-                }
-                //endregion*/
-
-
                 break;
             case 1:
                 if (!grantQueue.isEmpty()) {
@@ -150,19 +144,9 @@ public class FIFOArbiter implements Tickable {
 
                     step++;
                 }
-                /*//region Deleteme
-                if(nodeId == 0 || nodeId == 1 || nodeId == 3 || nodeId == 7 || nodeId == 15){
-                    System.out.println(); // break;
-                }
-                //endregion*/
-
                 break;
             case 2:
-                /*//region Deleteme
-                if(nodeId == 0 || nodeId == 1 || nodeId == 3 || nodeId == 7 || nodeId == 15){
-                    System.out.println(); // break;
-                }*/
-                //endregion
+
                 if (outputChannels.get(grantQueue.get(0)).putData(popped)) {
                     popped = fifoBuff.pop();
                     if (popped == null) {

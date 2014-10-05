@@ -98,7 +98,7 @@ public class ModelRunner implements Runnable {
 
         // Init phase
         int channelCount = 4;
-        int bufferCount = 6;
+        int bufferCount = 10;
         Context.getInstance().set("channelCount", channelCount); // TODO: get this from the interface!
         Context.getInstance().set("bufferCountPerInputChannel", bufferCount);
         Context.getInstance().set("messageGenerationFrequency", 1);
@@ -128,6 +128,9 @@ public class ModelRunner implements Runnable {
             for (Integer ouid : inputChannels.keySet()) {
                 HashMap<Integer, FIFOArbiter> arbiters = inputChannels.get(ouid).getArbiters();
                 for (FIFOArbiter arb : arbiters.values()) {
+                    if(arb.getFifoBuff().getItemCount() > 0){
+                    System.err.printf("Fifo buff count for %d: %d\n", ouid, arb.getFifoBuff().getItemCount());
+                    }
                     rec += arb.receivedPacketCount;
                     tots++;
                 }
