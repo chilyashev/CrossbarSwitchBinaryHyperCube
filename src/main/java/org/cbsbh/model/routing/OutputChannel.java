@@ -81,7 +81,7 @@ public class OutputChannel {
                                     step++;
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    System.err.println("goeba");
+                                    System.err.println("boom");
                                 }
                                 break;
                             }
@@ -141,6 +141,7 @@ public class OutputChannel {
                 }
 
                 break;
+            // TODO: Add another step for clearing the data "register".
         }
     }
 

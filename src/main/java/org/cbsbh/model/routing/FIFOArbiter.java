@@ -192,7 +192,7 @@ public class FIFOArbiter implements Tickable {
         this.arbiterId = arbiterId;
     }
 
-    public void grant(int outputChannelId) {
+    public void grant(int outputChannelId) { // TODO: grant only if !busy
         grantQueue.add(outputChannelId);
     }
 }

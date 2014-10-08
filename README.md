@@ -111,3 +111,42 @@ DMA_IN
 Нов проблем:
 След промяната на pushFlit нещата уж сработиха, ма се оказа, че не работят точно. Sadface проблемът още е налице.
 Буферите продължават да се застъпват.
+
+
+
+
+
+
+
+Newest TODO:
+  - add tail flit
+  - grant only if FIFOArbiter is not busy
+  - adaptiveness
+  - фиксатор в OutputChannel-а
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
