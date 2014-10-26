@@ -123,30 +123,6 @@ Newest TODO:
   - grant only if FIFOArbiter is not busy
   - adaptiveness
   - фиксатор в OutputChannel-а
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  - remove old TODO stuff
 
 
