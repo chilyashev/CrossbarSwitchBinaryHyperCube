@@ -3,8 +3,10 @@ package org.cbsbh.model;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import org.cbsbh.context.Context;
-import org.cbsbh.model.routing.*;
-import org.cbsbh.model.statistics.DataCollector;
+import org.cbsbh.model.routing.InputChannel;
+import org.cbsbh.model.routing.MPPNetwork;
+import org.cbsbh.model.routing.OutputChannel;
+import org.cbsbh.model.routing.Router;
 import org.cbsbh.model.structures.SMP;
 
 import java.util.Date;
@@ -80,10 +82,10 @@ public class ModelRunner implements Runnable {
         +--------------------+
 
  */
-            for (int j : adjacentChannelIDs) {
+            /*for (int j : adjacentChannelIDs) {
                 InputChannel iChannel = new InputChannel(j, currentNodeID, ocs);
                 ics.put(j, iChannel);
-            }
+            }*/
 
             //construct the router
             Router router = new Router(ics, ocs);
@@ -112,33 +114,9 @@ public class ModelRunner implements Runnable {
         while (ticks < 1_000_00) {
             // Tick for each SMP
 
-            for (SMP smp : MPPNetwork.getAll()) {
-                smp.tick();
-            }
-            //System.err.println("tick");
             ticks++;
         }
-        DataCollector.getInstance().log();
 
-       int tots = 0;
-        for (SMP smp : MPPNetwork.getAll()) {
-            int rec = 0;
-            System.out.printf("Router %d generated %d messages and %d packages\n", smp.getId(), smp.getGeneratedMessageCount(), smp.getGeneratedPacketCount());
-            HashMap<Integer, InputChannel> inputChannels = smp.getRouter().getInputChannels();
-            for (Integer ouid : inputChannels.keySet()) {
-                HashMap<Integer, FIFOArbiter> arbiters = inputChannels.get(ouid).getArbiters();
-                for (FIFOArbiter arb : arbiters.values()) {
-                    if(arb.getFifoBuff().getItemCount() > 0){
-                    System.err.printf("Fifo buff count for %d: %d\n", ouid, arb.getFifoBuff().getItemCount());
-                    }
-                    rec += arb.receivedPacketCount;
-                    tots++;
-                }
-            }
-            System.err.printf("Router %d got %d packets. And it's just fine.\n", smp.getId(), rec);
-        }
-        System.err.println("Total crap: " + tots);//*/
-        System.out.println("Ended at... " + new Date());
         // Gather data
         // Write results in the context
         // More work

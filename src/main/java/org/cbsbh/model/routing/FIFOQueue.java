@@ -1,23 +1,28 @@
 package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
+import org.cbsbh.model.routing.packet.Flit;
 import org.cbsbh.model.structures.InputSignalArray;
 import org.cbsbh.model.structures.OutputSignalArray;
 
+import java.util.Queue;
+
 /**
- * Description goes here
- * Date: 6/1/14 7:44 PM
+ * Проверката на сигнали се случва в *SignalArray класовете. getSignal(index), например.
+ * Date: 3/16/15 10:48 AM
  *
  * @author Mihail Chilyashev
  */
-public class OutputChannel implements Tickable {
-
-    RRA rra;
+public class FIFOQueue implements Tickable {
+    /**
+     *
+     */
+    Queue<Flit> fifo;
 
     /**
-     * ID на възела, към който води този изходен канал
+     * Грижи се за комуникацията с Output Channel.
      */
-    int nextNodeId;
+    Arbiter arby;
 
     /**
      * Масив от флагове. Всеки флаг отговаря на изходен сигнал.
@@ -32,30 +37,28 @@ public class OutputChannel implements Tickable {
 
     /**
      * Издаване на сигнал(и) – към Signal Array на друг хардуерен елемент.
-     *
      * @param index име на сигнала
-     * @param val   стойност на сигнала (0/1, true/false)
-     * @param ic    хардуерния елемент
+     * @param val стойност на сигнала (0/1, true/false)
+     * @param ic хардуерния елемент
      */
-    public void sendSignal(int index, int val, InputChannel ic) {
-        //ic.setInputSignal(index, val);
+    public void sendSignal(int index, int val, InputChannel ic){
+            //ic.setInputSignal(index, val);
     }
 
     /**
      * Издаване на сигнал(и) – към Signal Array на друг хардуерен елемент.
-     *
      * @param index име на сигнала
-     * @param val   стойност на сигнала (0/1, true/false)
-     * @param oc    хардуерния елемент
+     * @param val стойност на сигнала (0/1, true/false)
+     * @param oc хардуерния елемент
      */
-    public void sendSignal(int index, int val, OutputChannel oc) {
-        //ic.setInputSignal(index, val);
+    public void sendSignal(int index, int val, OutputChannel oc){
+            //ic.setInputSignal(index, val);
     }
 
     /**
      * Определяне на състоянието на автомата според текущите активни входни сигнали и издаване на изходни сигнали.
      */
-    public int calculateState() {
+    public int calculateState(){
         return 0xb00b5;
     }
 
@@ -63,18 +66,44 @@ public class OutputChannel implements Tickable {
     @Override
     public void tick() {
         int newState = calculateState();
-        switch (newState) {
+        switch (newState){
             // doStuff
         }
     }
 
-
-    public RRA getRra() {
-        return rra;
+    /**
+     * Добавяне в опашката
+     * @param flit елемент.
+     */
+    public void push(Flit flit){
+        fifo.add(flit);
     }
 
-    public void setRra(RRA rra) {
-        this.rra = rra;
+    /**
+     * Махане от опашката
+     */
+    public void pop(){
+        fifo.remove();
+    }
+
+
+
+    /////////////////////// Clutter
+
+    public Queue<Flit> getFifo() {
+        return fifo;
+    }
+
+    public void setFifo(Queue<Flit> fifo) {
+        this.fifo = fifo;
+    }
+
+    public Arbiter getArby() {
+        return arby;
+    }
+
+    public void setArby(Arbiter arby) {
+        this.arby = arby;
     }
 
     public OutputSignalArray getOutputSignalArray() {
@@ -91,13 +120,5 @@ public class OutputChannel implements Tickable {
 
     public void setInputSignalArray(InputSignalArray inputSignalArray) {
         this.inputSignalArray = inputSignalArray;
-    }
-
-    public int getNextNodeId() {
-        return nextNodeId;
-    }
-
-    public void setNextNodeId(int nextNodeId) {
-        this.nextNodeId = nextNodeId;
     }
 }
