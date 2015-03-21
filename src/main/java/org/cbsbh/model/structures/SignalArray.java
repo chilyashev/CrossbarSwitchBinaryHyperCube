@@ -1,5 +1,7 @@
 package org.cbsbh.model.structures;
 
+import java.util.Arrays;
+
 /**
  * Description goes here
  * Date: 3/16/15 11:34 AM
@@ -11,6 +13,7 @@ public class SignalArray {
 
     public SignalArray() {
         signals = new boolean[40]; // TODO: това да се направи достатъчно голямо, когато се разбере колко сигнала има.
+        Arrays.fill(signals, false);
     }
 
     public void setSignal(int index, boolean value) {
@@ -18,7 +21,7 @@ public class SignalArray {
         signals[index] = value;
     }
 
-    public boolean getSignal(int index){
+    public boolean hasSignal(int index){
         assert index > 0 && index < signals.length : "this index doesn't exist. Sucker.";
         return signals[index];
     }

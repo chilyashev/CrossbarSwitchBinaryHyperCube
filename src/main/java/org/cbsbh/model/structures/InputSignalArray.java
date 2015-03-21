@@ -7,5 +7,11 @@ package org.cbsbh.model.structures;
  * @author Mihail Chilyashev
  */
 public class InputSignalArray extends SignalArray {
-    public static int CHANNEL_BUSY = 0;
+    public static int RESET = 0;
+    public static int INIT = 1;
+    public static int FIFO_SELECT = 2;
+    public static int DEMUX_RDY = 3;
+    public static int VALID_DATA = 4;
+    public static int TIME_ONE = 5;
+    public static int CHANNEL_BUSY = 10;
 }

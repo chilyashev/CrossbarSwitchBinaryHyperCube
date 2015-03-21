@@ -41,6 +41,12 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+        boolean a = false,
+        b = true;
+        System.out.println(a & b);
+        System.out.println(a && b);
+
+
+        //launch(args);
     }
 }

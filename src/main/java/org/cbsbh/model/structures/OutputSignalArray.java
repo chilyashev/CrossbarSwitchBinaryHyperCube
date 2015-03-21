@@ -7,6 +7,5 @@ package org.cbsbh.model.structures;
  * @author Mihail Chilyashev
  */
 public class OutputSignalArray extends SignalArray {
-    public static int CHANNEL_BUSY = 0;
-    public static int CHAN_BUSY = 1;
+    public static int CHAN_BUSY = 0;
 }

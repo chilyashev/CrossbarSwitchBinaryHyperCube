@@ -1,23 +1,36 @@
 package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
-import org.cbsbh.model.routing.packet.Flit;
+import org.cbsbh.model.routing.packet.flit.Flit;
+import org.cbsbh.model.routing.packet.flit.HeadFlit;
+import org.cbsbh.model.routing.packet.flit.TailFlit;
 import org.cbsbh.model.structures.InputSignalArray;
 import org.cbsbh.model.structures.OutputSignalArray;
 
 import java.util.Queue;
 
 /**
- * Проверката на сигнали се случва в *SignalArray класовете. getSignal(index), например.
+ * Проверката на сигнали се случва в *SignalArray класовете. hasSignal(index), например.
  * Date: 3/16/15 10:48 AM
  *
  * @author Mihail Chilyashev
  */
 public class FIFOQueue implements Tickable {
+
     /**
-     *
+     * Head flit
+     */
+    HeadFlit head = null;
+
+    /**
+     * баш флит
      */
     Queue<Flit> fifo;
+
+    /**
+     * Tail flit
+     */
+    TailFlit tail = null;
 
     /**
      * Грижи се за комуникацията с Output Channel.
@@ -34,31 +47,14 @@ public class FIFOQueue implements Tickable {
      */
     InputSignalArray inputSignalArray;
 
-
-    /**
-     * Издаване на сигнал(и) – към Signal Array на друг хардуерен елемент.
-     * @param index име на сигнала
-     * @param val стойност на сигнала (0/1, true/false)
-     * @param ic хардуерния елемент
-     */
-    public void sendSignal(int index, int val, InputChannel ic){
-            //ic.setInputSignal(index, val);
-    }
-
-    /**
-     * Издаване на сигнал(и) – към Signal Array на друг хардуерен елемент.
-     * @param index име на сигнала
-     * @param val стойност на сигнала (0/1, true/false)
-     * @param oc хардуерния елемент
-     */
-    public void sendSignal(int index, int val, OutputChannel oc){
-            //ic.setInputSignal(index, val);
+    public FIFOQueue() {
+        // TODO: големината на fifo трябва да е "размерът, указан в интерфейса - 2" заради Head/Tail флитовете
     }
 
     /**
      * Определяне на състоянието на автомата според текущите активни входни сигнали и издаване на изходни сигнали.
      */
-    public int calculateState(){
+    public int calculateState() {
         return 0xb00b5;
     }
 
@@ -66,26 +62,26 @@ public class FIFOQueue implements Tickable {
     @Override
     public void tick() {
         int newState = calculateState();
-        switch (newState){
+        switch (newState) {
             // doStuff
         }
     }
 
     /**
      * Добавяне в опашката
+     *
      * @param flit елемент.
      */
-    public void push(Flit flit){
+    public void push(Flit flit) {
         fifo.add(flit);
     }
 
     /**
      * Махане от опашката
      */
-    public void pop(){
+    public void pop() {
         fifo.remove();
     }
-
 
 
     /////////////////////// Clutter

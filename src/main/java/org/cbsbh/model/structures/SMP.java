@@ -40,10 +40,10 @@ public class SMP implements Tickable {
         packetsToSend = new ArrayList<>();
 
 
-        InputChannel dmaOUT = new InputChannel(Integer.MAX_VALUE - 1, id, router.getOutputChannels());
+        //InputChannel dmaOUT = new InputChannel(Integer.MAX_VALUE - 1, id, router.getOutputChannels());
 
 
-        router.setDmaOUT(dmaOUT);
+        //router.setDmaOUT(dmaOUT);
     }
 
 
