@@ -18,19 +18,9 @@ import java.util.Queue;
 public class FIFOQueue implements Tickable {
 
     /**
-     * Head flit
-     */
-    HeadFlit head = null;
-
-    /**
      * баш флит
      */
     Queue<Flit> fifo;
-
-    /**
-     * Tail flit
-     */
-    TailFlit tail = null;
 
     /**
      * Грижи се за комуникацията с Output Channel.
@@ -116,5 +106,18 @@ public class FIFOQueue implements Tickable {
 
     public void setInputSignalArray(InputSignalArray inputSignalArray) {
         this.inputSignalArray = inputSignalArray;
+    }
+
+    public int getCurrentFlitType() {
+        assert fifo.peek() != null : "This is not the flit you are looking for.";
+        if(fifo.peek() != null){
+            return fifo.peek().getFlitType();
+        }
+        return -1;
+    }
+
+    public boolean isCurrentFlitDataValid() {
+        assert fifo.peek() != null : "This is not the flit you are looking for.";
+        return fifo.peek().isDataValid();
     }
 }

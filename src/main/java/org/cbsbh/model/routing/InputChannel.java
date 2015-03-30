@@ -2,6 +2,7 @@ package org.cbsbh.model.routing;
 
 import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
+import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.Channel;
 import org.cbsbh.model.structures.InputSignalArray;
 import org.cbsbh.model.structures.OutputSignalArray;
@@ -88,7 +89,11 @@ public class InputChannel extends Channel implements Tickable {
         }
 
         // Ако сме в STATE2 и са налични сигналите VALID_DATA и HEAD_FLIT, преминаваме в S3
-        if (state == STATE2_READY && hasInputSignal(InputSignalArray.VALID_DATA) && fifoQueues.get(activeFIFOIndex).head != null) {
+        FIFOQueue currentQueue = fifoQueues.get(activeFIFOIndex);
+        assert currentQueue != null;
+
+        if (state == STATE2_READY && currentQueue.isCurrentFlitDataValid()
+                && (currentQueue.getCurrentFlitType() == Flit.FLIT_TYPE_HEADER)) {
             return STATE3_REQUEST_FOR_ROUTING;
         }
 
@@ -100,9 +105,10 @@ public class InputChannel extends Channel implements Tickable {
         // Ако сме в STATE4
         if (state == STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL) {
             // NOT(VALID_DATA) AND NOT(TIME_ONE) AND TAIL_FLIT
-            if (!hasInputSignal(InputSignalArray.VALID_DATA) && !hasInputSignal(InputSignalArray.TIME_ONE) && fifoQueues.get(activeFIFOIndex).tail != null) {
+            if (!currentQueue.isCurrentFlitDataValid() && !hasInputSignal(InputSignalArray.TIME_ONE)
+                    && currentQueue.getCurrentFlitType() == Flit.FLIT_TYPE_TAIL) {
                 return STATE5_READ_PACKET;
-            // Timeout
+                // Timeout
             } else if (hasInputSignal(InputSignalArray.TIME_ONE)) {
                 return STATE0_INIT;
             }
@@ -111,8 +117,14 @@ public class InputChannel extends Channel implements Tickable {
 
         // Ако сме в STATE5, може да започне да се чете пакет или вече се чете пакет, ако това е започнало в S4
         // TODO: да се разбере как се разбира дали е започнало предаването. Най-вероятно ще стане в tick()
-        if(state == STATE5_READ_PACKET){
+        if (state == STATE5_READ_PACKET) {
             return STATE6_WAIT_FOR_END_OF_PACKET;
+        }
+
+        if (state == STATE6_WAIT_FOR_END_OF_PACKET){
+            if(hasInputSignal(InputSignalArray.CNT_EQU) || hasInputSignal(InputSignalArray.TIME_TWO)){
+                return STATE0_INIT;
+            }
         }
         return 0xb00b5;
     }
