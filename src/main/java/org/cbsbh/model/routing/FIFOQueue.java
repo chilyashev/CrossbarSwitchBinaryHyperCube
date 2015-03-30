@@ -6,6 +6,7 @@ import org.cbsbh.model.routing.packet.flit.HeadFlit;
 import org.cbsbh.model.routing.packet.flit.TailFlit;
 import org.cbsbh.model.structures.InputSignalArray;
 import org.cbsbh.model.structures.OutputSignalArray;
+import org.cbsbh.model.structures.StateStructure;
 
 import java.util.Queue;
 
@@ -15,7 +16,15 @@ import java.util.Queue;
  *
  * @author Mihail Chilyashev
  */
-public class FIFOQueue implements Tickable {
+public class FIFOQueue extends StateStructure implements Tickable {
+
+    public static final int STATE0_INIT = 0;
+    public static final int STATE1_UPDATE_FIFO_STATUS = 1;
+    public static final int STATE2_WRITE_IN_FIFO = 2;
+    public static final int STATE3_END_WRITE = 3;
+
+    protected int state;
+
 
     /**
      * баш флит
@@ -23,28 +32,27 @@ public class FIFOQueue implements Tickable {
     Queue<Flit> fifo;
 
     /**
-     * Грижи се за комуникацията с Output Channel.
+     * Грижи се за комуникацията с Output StateStructure.
      */
     Arbiter arby;
 
-    /**
-     * Масив от флагове. Всеки флаг отговаря на изходен сигнал.
-     */
-    OutputSignalArray outputSignalArray;
-
-    /**
-     * Масив от флагове. Всеки флаг отговаря на входен сигнал.
-     */
-    InputSignalArray inputSignalArray;
-
     public FIFOQueue() {
         // TODO: големината на fifo трябва да е "размерът, указан в интерфейса - 2" заради Head/Tail флитовете
+        setState(STATE0_INIT);
     }
 
     /**
      * Определяне на състоянието на автомата според текущите активни входни сигнали и издаване на изходни сигнали.
      */
     public int calculateState() {
+        if(hasInputSignal(InputSignalArray.RESET) || hasInputSignal(InputSignalArray.INIT)){
+            state = STATE0_INIT;
+        }
+
+        if(state == STATE0_INIT){
+            //if()
+        }
+
         return 0xb00b5;
     }
 
@@ -92,22 +100,6 @@ public class FIFOQueue implements Tickable {
         this.arby = arby;
     }
 
-    public OutputSignalArray getOutputSignalArray() {
-        return outputSignalArray;
-    }
-
-    public void setOutputSignalArray(OutputSignalArray outputSignalArray) {
-        this.outputSignalArray = outputSignalArray;
-    }
-
-    public InputSignalArray getInputSignalArray() {
-        return inputSignalArray;
-    }
-
-    public void setInputSignalArray(InputSignalArray inputSignalArray) {
-        this.inputSignalArray = inputSignalArray;
-    }
-
     public int getCurrentFlitType() {
         assert fifo.peek() != null : "This is not the flit you are looking for.";
         if(fifo.peek() != null){
@@ -119,5 +111,13 @@ public class FIFOQueue implements Tickable {
     public boolean isCurrentFlitDataValid() {
         assert fifo.peek() != null : "This is not the flit you are looking for.";
         return fifo.peek().isDataValid();
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

@@ -13,11 +13,11 @@ import java.util.HashMap;
 public class Router implements Tickable {
 
     HashMap<Integer, InputChannel> inputChannels;
-    HashMap<Integer, OutputChannel> outputChannels;
+    HashMap<Integer, OutputStateStructure> outputChannels;
 //    InputChannel dmaIN;
-//    OutputChannel dmaOUT;
+//    OutputStateStructure dmaOUT;
 
-    public Router(HashMap<Integer, InputChannel> inputChannels, HashMap<Integer, OutputChannel> outputChannels) {
+    public Router(HashMap<Integer, InputChannel> inputChannels, HashMap<Integer, OutputStateStructure> outputChannels) {
         this.inputChannels = inputChannels;
         this.outputChannels = outputChannels;
     }
@@ -39,7 +39,7 @@ public class Router implements Tickable {
         return inputChannels;
     }
 
-    public HashMap<Integer, OutputChannel> getOutputChannels() {
+    public HashMap<Integer, OutputStateStructure> getOutputChannels() {
         return outputChannels;
     }
 

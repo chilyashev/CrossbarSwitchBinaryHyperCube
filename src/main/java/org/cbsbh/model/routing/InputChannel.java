@@ -3,7 +3,7 @@ package org.cbsbh.model.routing;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
-import org.cbsbh.model.structures.Channel;
+import org.cbsbh.model.structures.StateStructure;
 import org.cbsbh.model.structures.InputSignalArray;
 import org.cbsbh.model.structures.OutputSignalArray;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Mihail Chilyashev
  */
-public class InputChannel extends Channel implements Tickable {
+public class InputChannel extends StateStructure implements Tickable {
 
 
     /**

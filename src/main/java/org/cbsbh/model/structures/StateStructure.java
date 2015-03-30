@@ -6,7 +6,7 @@ package org.cbsbh.model.structures;
  *
  * @author Mihail Chilyashev
  */
-public class Channel {
+abstract public class StateStructure {
 
     protected int state;
 
@@ -28,7 +28,7 @@ public class Channel {
      * @param val   стойност на сигнала (0/1, true/false)
      * @param c     хардуерния елемент
      */
-    public void sendSignal(int index, boolean val, Channel c) {
+    public void sendSignal(int index, boolean val, StateStructure c) {
         c.getInputSignalArray().setSignal(index, val);
     }
 

@@ -2,7 +2,6 @@ package org.cbsbh.model.structures;
 
 import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
-import org.cbsbh.model.routing.InputChannel;
 import org.cbsbh.model.routing.Router;
 import org.cbsbh.model.routing.packet.Packet;
 import org.cbsbh.model.statistics.DataCollector;

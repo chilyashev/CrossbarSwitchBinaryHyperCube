@@ -1,7 +1,7 @@
 package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
-import org.cbsbh.model.structures.Channel;
+import org.cbsbh.model.structures.StateStructure;
 
 /**
  * Description goes here
@@ -9,7 +9,7 @@ import org.cbsbh.model.structures.Channel;
  *
  * @author Mihail Chilyashev
  */
-public class OutputChannel extends Channel implements Tickable {
+public class OutputStateStructure extends StateStructure implements Tickable {
 
     RRA rra;
 

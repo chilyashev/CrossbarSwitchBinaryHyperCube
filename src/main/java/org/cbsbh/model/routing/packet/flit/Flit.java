@@ -63,8 +63,8 @@ public class Flit { // *C
     }
 
     /**
-     * 0 - Channel is not load
-     * 1 - Channel is very load
+     * 0 - StateStructure is not load
+     * 1 - StateStructure is very load
      *
      * @return true or false
      */

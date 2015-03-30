@@ -17,11 +17,11 @@ public class SMPNode {
 
     ArrayList<InputChannel> inputChannels;
 
-    ArrayList<OutputChannel> outputChannels;
+    ArrayList<OutputStateStructure> outputChannels;
 
     InputChannel DMA_OUT;
 
-    OutputChannel DMA_IN;
+    OutputStateStructure DMA_IN;
 
 
     // TODO: do.
@@ -61,11 +61,11 @@ public class SMPNode {
         this.inputChannels = inputChannels;
     }
 
-    public ArrayList<OutputChannel> getOutputChannels() {
+    public ArrayList<OutputStateStructure> getOutputChannels() {
         return outputChannels;
     }
 
-    public void setOutputChannels(ArrayList<OutputChannel> outputChannels) {
+    public void setOutputChannels(ArrayList<OutputStateStructure> outputChannels) {
         this.outputChannels = outputChannels;
     }
 
@@ -77,11 +77,11 @@ public class SMPNode {
         this.DMA_OUT = DMA_OUT;
     }
 
-    public OutputChannel getDMA_IN() {
+    public OutputStateStructure getDMA_IN() {
         return DMA_IN;
     }
 
-    public void setDMA_IN(OutputChannel DMA_IN) {
+    public void setDMA_IN(OutputStateStructure DMA_IN) {
         this.DMA_IN = DMA_IN;
     }
 }
