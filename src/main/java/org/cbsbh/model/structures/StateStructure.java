@@ -57,7 +57,7 @@ abstract public class StateStructure {
         this.state = state;
     }
 
-    public boolean hasInputSignal(int index) {
+    protected boolean hasInputSignal(int index) {
         return inputSignalArray.hasSignal(index);
     }
 

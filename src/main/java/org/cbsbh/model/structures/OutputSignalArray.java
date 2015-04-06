@@ -8,4 +8,9 @@ package org.cbsbh.model.structures;
  */
 public class OutputSignalArray extends SignalArray {
     public static int CHAN_BUSY = 0;
+    public static final int PACK_WAIT = 1;
+    public static final int FIFO_BUSY = 2;
+    public static final int CNT_EQU = 3;
+    public static final int DATA_ACK = 4;
+
 }

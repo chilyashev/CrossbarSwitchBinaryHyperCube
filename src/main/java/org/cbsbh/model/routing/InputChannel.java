@@ -100,7 +100,7 @@ i0------|              O0|------>|I               |
 
         if (state == STATE2_WRITE_IN_FIFO) {
             // Ако текущата активна опашка е заета...
-            if (getActiveFifo().hasOutputSignal(InputSignalArray.FIFO_BUSY)
+            if (getActiveFifo().hasOutputSignal(OutputSignalArray.FIFO_BUSY)
                     && hasInputSignal(InputSignalArray.WR_IN_FIFO)
                     ) {
                 return STATE3_END_WRITE;
@@ -109,7 +109,7 @@ i0------|              O0|------>|I               |
 
         if (state == STATE3_END_WRITE) {
             if (!hasInputSignal(InputSignalArray.WR_IN_FIFO)
-                    && getActiveFifo().hasOutputSignal(InputSignalArray.FIFO_BUSY)) {
+                    && getActiveFifo().hasOutputSignal(OutputSignalArray.FIFO_BUSY)) {
                 return STATE0_INIT;
             }
         }

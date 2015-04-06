@@ -1,7 +1,9 @@
 package org.cbsbh.model.routing;
 
+import com.sun.javaws.jnl.MatcherReturnCode;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.structures.InputSignalArray;
+import org.cbsbh.model.structures.OutputSignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
 import java.util.ArrayList;
@@ -38,9 +40,8 @@ public class OutputChannel extends StateStructure implements Tickable {
      */
     int nextNodeId;
 
-    private ArrayList<FIFOQueue> acceptList; // Опашки, върнали Accept
+    private FIFOQueue accepted; // Опашка, върнала Accept
     private ArrayList<FIFOQueue> requestList; // Опашки, пусннали Request
-
 
 
     /**
@@ -55,20 +56,51 @@ public class OutputChannel extends StateStructure implements Tickable {
             return STATE1_ROUTING_AND_ARBITRAGING1;
         }
 
-        if(state == STATE1_ROUTING_AND_ARBITRAGING1){
+        if (state == STATE1_ROUTING_AND_ARBITRAGING1) {
             return STATE2_ROUTING_AND_ARBITRAGING2;
         }
 
-        if(state == STATE2_ROUTING_AND_ARBITRAGING2){
-            InputChannel nextInputChannel = MPPNetwork.get(nextNodeId).getInputChannel(this.id);
-            if(
-            nextInputChannel.hasInputSignal(InputSignalArray.CHANNEL_BUSY)
-           || !hasInputSignal(InputSignalArray.TRANSFER)
-
-                    ){
-
+        InputChannel nextInputChannel = MPPNetwork.get(nextNodeId).getInputChannel(this.id);
+        if (state == STATE2_ROUTING_AND_ARBITRAGING2) {
+            if (nextInputChannel.hasOutputSignal(OutputSignalArray.CHAN_BUSY)
+                    || !hasInputSignal(InputSignalArray.TRANSFER)) {
+                return STATE1_ROUTING_AND_ARBITRAGING1;
+            } else if (!nextInputChannel.hasOutputSignal(OutputSignalArray.CHAN_BUSY) && hasInputSignal(InputSignalArray.TRANSFER)) {
+                return STATE3_READY_FOR_TRANSFER;
             }
         }
+
+        if (state == STATE3_READY_FOR_TRANSFER) {
+            if (nextInputChannel.hasOutputSignal(OutputSignalArray.PACK_WAIT)) {
+                return STATE4_START_OF_TRANSFER;
+            }
+        }
+
+        if (state == STATE4_START_OF_TRANSFER) {
+            return STATE5_TRANSFER1;
+        }
+
+        if (state == STATE5_TRANSFER1) {
+            assert accepted != null : "Dang! sadface.wma";
+            if (!accepted.hasOutputSignal(OutputSignalArray.CNT_EQU)) { // TODO: CNT_EQU
+                return STATE6_TRANSFER2;
+            } else {
+                return STATE7_END_OF_TRANSFER;
+            }
+        }
+
+        if (state == STATE6_TRANSFER2) {
+            return STATE5_TRANSFER1;
+        }
+
+        if (state == STATE7_END_OF_TRANSFER) {
+            if (!hasInputSignal(InputSignalArray.TIME_ONE) && nextInputChannel.hasOutputSignal(OutputSignalArray.DATA_ACK)) {
+                return STATE1_ROUTING_AND_ARBITRAGING1;
+            } else if (hasInputSignal(InputSignalArray.TIME_ONE)) {
+                return STATE0_INIT;
+            }
+        }
+
         return state;
     }
 
