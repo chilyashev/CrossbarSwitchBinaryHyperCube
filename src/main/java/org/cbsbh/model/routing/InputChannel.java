@@ -1,5 +1,6 @@
 package org.cbsbh.model.routing;
 
+import jdk.internal.util.xml.impl.Input;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
@@ -23,6 +24,8 @@ public class InputChannel extends StateStructure implements Tickable {
     public static final int STATE2_WRITE_IN_FIFO = 2;
     public static final int STATE3_END_WRITE = 3;
 
+    SMPNode node;
+
 /*
        Node0                Node1
         +----------------+  CB   +----------------+
@@ -32,6 +35,11 @@ i0------|              O0|------>|I               |
         |                | DATA  |                |
         |              o0|-------|i0              |
         +----------------+       +----------------+
+
+    InputChannel.SMPNode
+    OutputChannel.SMPNode
+    SMPNode.HashMap<Integer, InputChannel>
+    SMPNode.HashMap<Integer, OutputChannel>
 
 
  */
@@ -73,20 +81,52 @@ i0------|              O0|------>|I               |
      */
     public int calculateState() {
         if (hasInputSignal(InputSignalArray.RESET) || hasInputSignal(InputSignalArray.INIT)) {
-            state = STATE0_INIT;
+            return STATE0_INIT;
         }
 
         if (state == STATE0_INIT) {
-            //if()
+            if (!hasInputSignal(InputSignalArray.CHANNEL_BUSY)) {
+                return STATE1_UPDATE_FIFO_STATUS;
+            }
         }
 
-        return 0xb00b5;
+        if (state == STATE1_UPDATE_FIFO_STATUS) {
+            if (!hasInputSignal(InputSignalArray.CHANNEL_BUSY)) {
+                return STATE2_WRITE_IN_FIFO;
+            } else {
+                return STATE0_INIT;
+            }
+        }
+
+        if (state == STATE2_WRITE_IN_FIFO) {
+            // Ако текущата активна опашка е заета...
+            if (getActiveFifo().hasOutputSignal(InputSignalArray.FIFO_BUSY)
+                    && hasInputSignal(InputSignalArray.WR_IN_FIFO)
+                    ) {
+                return STATE3_END_WRITE;
+            }
+        }
+
+        if (state == STATE3_END_WRITE) {
+            if (!hasInputSignal(InputSignalArray.WR_IN_FIFO)
+                    && getActiveFifo().hasOutputSignal(InputSignalArray.FIFO_BUSY)) {
+                return STATE0_INIT;
+            }
+        }
+
+        return state;
+    }
+
+    private FIFOQueue getActiveFifo() {
+        return getQueue(activeFIFOIndex);
     }
 
 
     @Override
     public void tick() {
-
+        if (state == STATE0_INIT) {
+            // TODO: обикаляме всички опашки и проверяваме дали са свободни. Ако всички са заети, вдигаме CHAN_BUSY.
+        }
 
     }
 
@@ -103,5 +143,30 @@ i0------|              O0|------>|I               |
             }
         }
         return -1;
+    }
+
+    public FIFOQueue getFirstAvailableQueue() {
+        return fifoQueues.get(getFirstAvailableQueueIndex());
+    }
+
+    public FIFOQueue getQueue(int index) {
+        return fifoQueues.get(index);
+    }
+
+
+    public SMPNode getNode() {
+        return node;
+    }
+
+    public void setNode(SMPNode node) {
+        this.node = node;
+    }
+
+    public ArrayList<FIFOQueue> getFifoQueues() {
+        return fifoQueues;
+    }
+
+    public void setFifoQueues(ArrayList<FIFOQueue> fifoQueues) {
+        this.fifoQueues = fifoQueues;
     }
 }

@@ -1,9 +1,11 @@
 package org.cbsbh.model.routing;
 
+import jdk.internal.util.xml.impl.Input;
 import org.cbsbh.model.routing.packet.Packet;
 import org.cbsbh.model.structures.Message;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Description goes here
@@ -15,13 +17,13 @@ public class SMPNode {
 
     int id;
 
-    ArrayList<InputChannel> inputChannels;
+    HashMap<Integer, InputChannel> inputChannels;
 
-    ArrayList<OutputStateStructure> outputChannels;
+    HashMap<Integer, OutputChannel> outputChannels;
 
     InputChannel DMA_OUT;
 
-    OutputStateStructure DMA_IN;
+    OutputChannel DMA_IN;
 
 
     // TODO: do.
@@ -45,6 +47,11 @@ public class SMPNode {
         return null;
     }
 
+
+    public InputChannel getInputChannel(int index){
+        return inputChannels.get(index);
+    }
+
     public int getId() {
         return id;
     }
@@ -53,19 +60,19 @@ public class SMPNode {
         this.id = id;
     }
 
-    public ArrayList<InputChannel> getInputChannels() {
+    public HashMap<Integer, InputChannel> getInputChannels() {
         return inputChannels;
     }
 
-    public void setInputChannels(ArrayList<InputChannel> inputChannels) {
+    public void setInputChannels(HashMap<Integer, InputChannel> inputChannels) {
         this.inputChannels = inputChannels;
     }
 
-    public ArrayList<OutputStateStructure> getOutputChannels() {
+    public HashMap<Integer, OutputChannel> getOutputChannels() {
         return outputChannels;
     }
 
-    public void setOutputChannels(ArrayList<OutputStateStructure> outputChannels) {
+    public void setOutputChannels(HashMap<Integer, OutputChannel> outputChannels) {
         this.outputChannels = outputChannels;
     }
 
@@ -77,11 +84,11 @@ public class SMPNode {
         this.DMA_OUT = DMA_OUT;
     }
 
-    public OutputStateStructure getDMA_IN() {
+    public OutputChannel getDMA_IN() {
         return DMA_IN;
     }
 
-    public void setDMA_IN(OutputStateStructure DMA_IN) {
+    public void setDMA_IN(OutputChannel DMA_IN) {
         this.DMA_IN = DMA_IN;
     }
 }

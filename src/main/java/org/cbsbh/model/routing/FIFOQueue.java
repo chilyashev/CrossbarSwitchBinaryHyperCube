@@ -152,6 +152,14 @@ public class FIFOQueue extends StateStructure implements Tickable {
         fifo.remove();
     }
 
+    /**
+     * Извиква се в началото на вски такт
+     * Определя състоянията на сигналите. Примерно. Де да знам.
+     */
+    public void updateSignals(){
+        // TODO: CHAN_BUSY, FIFO_BUSY, WR_IN_FIFO
+    }
+
 
     /////////////////////// Clutter
 

@@ -61,6 +61,10 @@ abstract public class StateStructure {
         return inputSignalArray.hasSignal(index);
     }
 
+    public boolean hasOutputSignal(int index) {
+        return outputSignalArray.hasSignal(index);
+    }
+
     /**
      * Обикаля всички сигнали и им прави AND
      * @param signals всички сигнали

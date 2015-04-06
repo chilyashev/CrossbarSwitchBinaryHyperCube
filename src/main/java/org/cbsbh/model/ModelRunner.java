@@ -5,7 +5,7 @@ import javafx.event.EventHandler;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.routing.InputChannel;
 import org.cbsbh.model.routing.MPPNetwork;
-import org.cbsbh.model.routing.OutputStateStructure;
+import org.cbsbh.model.routing.OutputChannel;
 import org.cbsbh.model.routing.Router;
 import org.cbsbh.model.structures.SMP;
 
@@ -62,10 +62,10 @@ public class ModelRunner implements Runnable {
             }
 
             HashMap<Integer, InputChannel> ics = new HashMap<>();
-            HashMap<Integer, OutputStateStructure> ocs = new HashMap<>();
+            HashMap<Integer, OutputChannel> ocs = new HashMap<>();
             //populate input/output channel collections
             for (int nextRouterId : adjacentChannelIDs) {
-                OutputStateStructure oChannel = new OutputStateStructure(nextRouterId, currentNodeID, bufferCount, (1 << channelCount));
+                OutputChannel oChannel = new OutputChannel(nextRouterId, currentNodeID, bufferCount, (1 << channelCount));
                 ocs.put(nextRouterId, oChannel);
             }
 /*

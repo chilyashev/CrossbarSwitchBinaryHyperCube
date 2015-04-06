@@ -23,7 +23,7 @@ public class FIFOArbiter implements Tickable {
     //Input queue for the arbiter. Contains one WHOLE packet.
     private FIFOBuff<Long> fifoBuff;
 
-    private HashMap<Integer, OutputStateStructure> outputChannels;
+    private HashMap<Integer, OutputChannel> outputChannels;
 
     private ArrayList<Integer> grantQueue;
 
@@ -44,7 +44,7 @@ public class FIFOArbiter implements Tickable {
      * @param nodeId         id of current smp
      * @param outputChannels output channels.
      */
-    public FIFOArbiter(int arbiterId, int channelId, int nodeId, HashMap<Integer, OutputStateStructure> outputChannels) {
+    public FIFOArbiter(int arbiterId, int channelId, int nodeId, HashMap<Integer, OutputChannel> outputChannels) {
         this.arbiterId = arbiterId;
         this.nodeId = nodeId;
         this.channelId = channelId;
@@ -116,7 +116,7 @@ public class FIFOArbiter implements Tickable {
                 for (int i = 0; i < 12; i++) { // 12. Like the 12 bits in the header. Duh...
                     if ((tr & (1 << i)) == 1 << i) {
                         int outPutChannelId = nodeId ^ (1 << i);
-                        OutputStateStructure outputChannel = outputChannels.get(Integer.valueOf(outPutChannelId));
+                        OutputChannel outputChannel = outputChannels.get(Integer.valueOf(outPutChannelId));
 
                         try {
                             requestSent = requestSent || outputChannel.requestToSend(channelId, arbiterId);

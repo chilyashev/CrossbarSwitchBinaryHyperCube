@@ -1,0 +1,111 @@
+package org.cbsbh.model.routing;
+
+import org.cbsbh.model.Tickable;
+import org.cbsbh.model.structures.InputSignalArray;
+import org.cbsbh.model.structures.StateStructure;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+/**
+ * Description goes here
+ * Date: 6/1/14 7:44 PM
+ *
+ * @author Mihail Chilyashev
+ */
+public class OutputChannel extends StateStructure implements Tickable {
+
+    public static final int STATE0_INIT = 0;
+    public static final int STATE1_ROUTING_AND_ARBITRAGING1 = 1;
+    public static final int STATE2_ROUTING_AND_ARBITRAGING2 = 2;
+    public static final int STATE3_READY_FOR_TRANSFER = 3;
+    public static final int STATE4_START_OF_TRANSFER = 4;
+    public static final int STATE5_TRANSFER1 = 5;
+    public static final int STATE6_TRANSFER2 = 6;
+    public static final int STATE7_END_OF_TRANSFER = 7;
+
+
+    int id;
+
+
+    /**
+     * БРрррра!
+     */
+    RRA rra;
+
+    /**
+     * ID на възела, към който води този изходен канал
+     */
+    int nextNodeId;
+
+    private ArrayList<FIFOQueue> acceptList; // Опашки, върнали Accept
+    private ArrayList<FIFOQueue> requestList; // Опашки, пусннали Request
+
+
+
+    /**
+     * Определяне на състоянието на автомата според текущите активни входни сигнали и издаване на изходни сигнали.
+     */
+    public int calculateState() {
+        if (hasInputSignal(InputSignalArray.RESET) || hasInputSignal(InputSignalArray.INIT)) {
+            return STATE0_INIT;
+        }
+
+        if (state == STATE0_INIT) {
+            return STATE1_ROUTING_AND_ARBITRAGING1;
+        }
+
+        if(state == STATE1_ROUTING_AND_ARBITRAGING1){
+            return STATE2_ROUTING_AND_ARBITRAGING2;
+        }
+
+        if(state == STATE2_ROUTING_AND_ARBITRAGING2){
+            InputChannel nextInputChannel = MPPNetwork.get(nextNodeId).getInputChannel(this.id);
+            if(
+            nextInputChannel.hasInputSignal(InputSignalArray.CHANNEL_BUSY)
+           || !hasInputSignal(InputSignalArray.TRANSFER)
+
+                    ){
+
+            }
+        }
+        return state;
+    }
+
+
+    @Override
+    public void tick() {
+
+
+        int newState = calculateState();
+        switch (newState) {
+            // doStuff
+        }
+    }
+
+
+    public RRA getRra() {
+        return rra;
+    }
+
+    public void setRra(RRA rra) {
+        this.rra = rra;
+    }
+
+    public int getNextNodeId() {
+        return nextNodeId;
+    }
+
+    public void setNextNodeId(int nextNodeId) {
+        this.nextNodeId = nextNodeId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+}

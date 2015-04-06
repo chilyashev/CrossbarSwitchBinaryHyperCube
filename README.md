@@ -42,87 +42,12 @@
 
 #TODO
 
-    G:
-       1. Routing algorithms
+
+Имаме проблем със signal array-ите, защото (още) нямаме връзка от outputSignalArray-а на един елемент към inputSignalArray-а
 
 
-    M:
-       1. +Packet generator
-       2. interface--
+->А->
+A.hasInputSignal(...)
 
-    :
-       1. +Buffer count per channel = ?
-       2. +Initializing
-
-
-
-+Transport Mask да се променя във всеки изходен канал, за да нямаме връщане назад. +
-
-Left:
-
-1. Interface
-    - Data collection
-        - easy as pie
-            - DataCollectionClass.addMetric("Metric", value);
-- Main loop
-- Message generation +
-    - Cuz messages consist of one or more packets +
-- MPPNetwork becomes SMP +
-    - MPP has many SMP +
-        - Every SMP has a Router +
-- SMP class
-    - has memory
-    - can store messages inside
-    - can split messages into packets +
-    - has DMA
-        - can do stuff with the DMA. Eventually.
-    - and that's it.
-- Debug
-- Work it
-- ???
-- Profit!
-
-
-//////
-
-1. При първоначално изпращане от DMAOUT навън на какъв принцип се избира следващият възел
-2. DMAOUT към всички output канали ли е вързан
-3. Честота на изпращане на пакетите, т.е. на всеки такт ли се праща пакет?
-!4. Дали е валидно за един такт да се пращат 4 флита?
-
-
-За следващия път
-=================
-Stress test. Done. Shit not working is pretty stressful.
-DMA_IN
-Временното решение да отива в DMA_IN
-
-Има ли значение редът, в който се пращат пакетите от дадено съобщение?
-
-
-
-Проблемът с безкрайното зацикляне след определен период от време е, че се застъпват пакетите в буферите.
-Застъпването се дължи на това, че част от пакета се изпраща, след което буферът става свободен и се навират части от други пакети.
-
-Може да се реши като се направи така, че в един буфер да не се слагат данни, ако не е празен.
-Т.е. pushFlit() трябва да се преправи.
-
-
-Нов проблем:
-След промяната на pushFlit нещата уж сработиха, ма се оказа, че не работят точно. Sadface проблемът още е налице.
-Буферите продължават да се застъпват.
-
-
-
-
-
-
-
-Newest TODO:
-  - add tail flit
-  - grant only if FIFOArbiter is not busy
-  - adaptiveness
-  - фиксатор в OutputChannel-а
-  - remove old TODO stuff
-
-
+->B->
+A.hasOtputSignal(...)

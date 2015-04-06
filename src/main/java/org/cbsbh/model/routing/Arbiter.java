@@ -16,12 +16,12 @@ public class Arbiter implements Tickable{
     *
     * Всички изходни канали, достъпни от арбитъра
     */
-    ArrayList<OutputStateStructure> allChannels;
+    ArrayList<OutputChannel> allChannels;
 
     /**
      * Канали, които са отговорили с Grant
      */
-    ArrayList<OutputStateStructure> grantOutputChannels;
+    ArrayList<OutputChannel> grantOutputChannels;
 
 
     @Override
@@ -36,7 +36,7 @@ public class Arbiter implements Tickable{
         boolean found = false;
         // Обикалят се всички канали и се търси канал с точното id.
         // Като се намери, му се взема RRA-то и на него се праща заявка за пращане
-        for (OutputStateStructure channel : allChannels) {
+        for (OutputChannel channel : allChannels) {
             if(channel.getNextNodeId() == id){
                 found = true;
                 channel.getRra().requestToSend(this);
