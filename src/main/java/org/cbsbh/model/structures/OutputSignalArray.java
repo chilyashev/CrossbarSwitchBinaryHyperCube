@@ -12,5 +12,10 @@ public class OutputSignalArray extends SignalArray {
     public static final int FIFO_BUSY = 2;
     public static final int CNT_EQU = 3;
     public static final int DATA_ACK = 4;
+    public static final int CLR_FIFO = 5;
+    public static final int WR_FIFO_EN = 6;
+    public static final int WR_IN_FIFO = 7;
+    public static final int TIMER_EN = 8;
+    public static final int TIME_ONE = 9;
 
 }

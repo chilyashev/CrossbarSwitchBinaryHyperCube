@@ -1,6 +1,5 @@
 package org.cbsbh.model.routing;
 
-import org.cbsbh.model.Tickable;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author Mihail Chilyashev
  */
-public class Arbiter implements Tickable{
+public class Arbiter {
     /*
     *
     * Всички изходни канали, достъпни от арбитъра
@@ -21,33 +20,54 @@ public class Arbiter implements Tickable{
     /**
      * Канали, които са отговорили с Grant
      */
-    ArrayList<OutputChannel> grantOutputChannels;
+    ArrayList<Integer> grantOutputChannelIds;
 
 
-    @Override
-    public void tick() {
+    private int nodeId;
 
+
+    public Arbiter(int nodeId, ArrayList<OutputChannel> allChannels) {
+        this.nodeId = nodeId;
+        this.allChannels = allChannels;
     }
 
     /**
      * Праща заявка до изходен канал
      */
-    public void sendRequest(int id) {
+    public boolean sendRequest(int id) {
         boolean found = false;
         // Обикалят се всички канали и се търси канал с точното id.
         // Като се намери, му се взема RRA-то и на него се праща заявка за пращане
         for (OutputChannel channel : allChannels) {
-            if(channel.getNextNodeId() == id){
+            if (channel.getNextNodeId() == id) {
                 found = true;
                 channel.getRra().requestToSend(this);
                 break;
             }
         }
         assert found : "Input channel with id " + id + " not found. A bitch, ain't it?";
+        return found;
+    }
+
+    /**
+     * Вижда кой е върнал Grant.
+     * Избира първия output канал, който е върнал Grant.
+     * Изчиства списъка
+     * Изпраща ACK на избрания output канал
+     * Връща id-то на избрания канал.
+     * @return
+     */
+    public int getNextNodeId() {
+        assert grantOutputChannelIds.size() > 0 : "";
+        int id = grantOutputChannelIds.remove(0);
+        grantOutputChannelIds.clear();
+        sendGrantAck(id);
+        return id;
     }
 
     /**
      * Праща заявки до списък от id-та на канали
+     *
      * @param ids списък от id-та на канали
      */
     public void sendRequest(int ids[]) {
@@ -57,10 +77,29 @@ public class Arbiter implements Tickable{
     }
 
     /**
-     * Връща Grant Acknowledge на първия канал, върнал Grant (първия канал в grantOutputChannels)
-     * След като се върне ACK, grantOutputChannels се изпразва. Yeah.
+     * Връща Grant Acknowledge на първия канал, върнал Grant (първия канал в grantOutputChannelIds)
+     * След като се върне ACK, grantOutputChannelIds се изпразва. Yeah.
      */
-    public void sendGrantAck() {
+    private void sendGrantAck(int outputChannelId) {
         throw new NotImplementedException();
+    }
+
+    public void sendRequestByTR(long tr) {
+        boolean requestSent = false;
+        for (int i = 0; i < 12; i++) { // 12. Like the 12 bits in the TR. Duh...
+            if ((tr & (1 << i)) == 1 << i) {
+                int outputChannelId = nodeId ^ (1 << i);
+                requestSent = requestSent || sendRequest(outputChannelId);
+            }
+        }
+    }
+
+    public int getNodeId() {
+        return nodeId;
+    }
+
+
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
     }
 }

@@ -91,4 +91,8 @@ public class SMPNode {
     public void setDMA_IN(OutputChannel DMA_IN) {
         this.DMA_IN = DMA_IN;
     }
+
+    public OutputChannel getOutputChannel(int outputChannelId) {
+        return outputChannels.get(outputChannelId);
+    }
 }

@@ -8,6 +8,7 @@ import org.cbsbh.model.structures.InputSignalArray;
 import org.cbsbh.model.structures.OutputSignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
+import java.util.ArrayList;
 import java.util.Queue;
 
 /**
@@ -36,6 +37,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
     public static final int STATE6_WAIT_FOR_END_OF_PACKET = 6; // S6
 
 
+    long timer = 0;
     /**
      * баш флит
      */
@@ -46,8 +48,18 @@ public class FIFOQueue extends StateStructure implements Tickable {
      */
     Arbiter arby;
 
+
+    /**
+     * Входният канал, за който е това FIFO
+     */
+    InputChannel channel;
+
     public FIFOQueue() {
         // TODO: големината на fifo трябва да е "размерът, указан в интерфейса - 2" заради Head/Tail флитовете
+        int nodeId = channel.getNode().getId();
+        ArrayList<OutputChannel> outputChannels = new ArrayList<>();
+        outputChannels.addAll(MPPNetwork.get(nodeId).getOutputChannels().values());
+        arby = new Arbiter(nodeId, outputChannels);
         setState(STATE0_INIT);
     }
 
@@ -113,12 +125,54 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
     @Override
     public void tick() {
+        if (hasOutputSignal(OutputSignalArray.TIMER_EN)) {
+            timer++;
+
+            /*
+            TODO: timerMax се задава от модела, когато се инициализира. Трябва да се види къде ще набием TIME_ONE и TIME_TWO
+            if(timer >= timerMax){
+                getOutputSignalArray().setSignal(OutputSignalArray.TIME_ONE, true);
+            }*/
+        }
         // Действия, които се извършват преди да се изчисли новото състояние.
         switch (state) {
+            case STATE0_INIT:
+                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.CLR_FIFO, true);
+                fifo.clear();
+                break;
+            case STATE1_IDLE:
+                // Нищо.
+                break;
             case STATE2_READY:
+                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_FIFO_EN, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.PACK_WAIT, true);
+
                 // Вземане на първата свободна опашка според B_FIFO_STATUS регистъра
                 //activeFIFOIndex = getFirstAvailableQueueIndex();
                 //assert activeFIFOIndex < 0 || activeFIFOIndex > fifoQueues.size() : "Invalid active queue index returned. Fuck you!";
+                break;
+            case STATE3_REQUEST_FOR_ROUTING:
+                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_FIFO_EN, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_IN_FIFO, true);
+
+                // TODO:
+                // Вече има head флит и поне един във fifo
+                assert fifo.size() == 1 : "Тук трябва да има само един flit";
+                assert fifo.peek().getFlitType() == Flit.FLIT_TYPE_HEADER : "Този флит трябва да е Head.";
+                Flit head = fifo.peek(); // TODO: това дали трябва да се pop-ва
+                arby.sendRequestByTR(head.getTR());
+                break;
+            case STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL:
+                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_FIFO_EN, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_IN_FIFO, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.TIMER_EN, true); //  TODO: да реализираме таймера
+
+                arby.getNextNodeId();
+                // TODO: трябва да започне четенето на пакета към следващия възел
                 break;
         }
 
@@ -127,9 +181,6 @@ public class FIFOQueue extends StateStructure implements Tickable {
         // Вземаме новото състояние
         state = calculateState();
         switch (state) {
-            case STATE0_INIT:
-                state = STATE1_IDLE;
-                break;
             case STATE2_READY:
 
                 break;
@@ -156,7 +207,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
      * Извиква се в началото на вски такт
      * Определя състоянията на сигналите. Примерно. Де да знам.
      */
-    public void updateSignals(){
+    public void updateSignals() {
         // TODO: CHAN_BUSY, FIFO_BUSY, WR_IN_FIFO
     }
 
@@ -198,5 +249,13 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public InputChannel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(InputChannel channel) {
+        this.channel = channel;
     }
 }
