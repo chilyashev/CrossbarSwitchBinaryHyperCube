@@ -52,6 +52,7 @@ i0------|              O0|------>|I               |
     private int fifoQueueCount; // TODO: това е сложено, щото може да се наложи да се разбере броя на опашките. Ако се остави без него, няма да е яко.
 
     private boolean[] B_FIFO_STATUS; // TODO: това що е тука? Не може ли да е в някой от signalArray-ите? Или не е такъв сигнал?
+    private Flit inputBuffer;
 
 
     public InputChannel() {
@@ -122,10 +123,57 @@ i0------|              O0|------>|I               |
     }
 
 
-    @Override
     public void tick() {
-        if (state == STATE0_INIT) {
-            // TODO: обикаляме всички опашки и проверяваме дали са свободни. Ако всички са заети, вдигаме CHAN_BUSY.
+        for (FIFOQueue queue : fifoQueues) {
+            if (queue.hasOutputSignal(OutputSignalArray.WR_IN_FIFO)) {
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_IN_FIFO, true);
+                break;
+            }
+        }
+        // Вземаме новото състояние
+        state = calculateState();
+
+        switch (state) {
+            case STATE0_INIT:
+                getOutputSignalArray().setSignal(OutputSignalArray.BUFF_BUSY, true);
+
+                // Обикаляме всички опашки и проверяваме дали са свободни. Ако всички са заети, вдигаме CHAN_BUSY.
+                boolean allBusy = true;
+                for (FIFOQueue queue : fifoQueues) {
+                    if (!queue.hasOutputSignal(OutputSignalArray.FIFO_BUSY)) {
+                        allBusy = false;
+                        break;
+                    }
+                }
+
+                getOutputSignalArray().setSignal(OutputSignalArray.CHAN_BUSY, allBusy);
+
+                break;
+            case STATE1_UPDATE_FIFO_STATUS:
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_B_RG, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.BUFF_BUSY, true);
+                for (int i = 0; i < fifoQueues.size(); i++) {
+                    FIFOQueue queue = fifoQueues.get(i);
+                    B_FIFO_STATUS[i] = queue.hasOutputSignal(OutputSignalArray.FIFO_BUSY);
+                }
+                break;
+
+            case STATE2_WRITE_IN_FIFO:
+                getOutputSignalArray().setSignal(OutputSignalArray.DEMUX_RDY, true);
+                activeFIFOIndex = getFirstAvailableQueueIndex();
+                FIFOQueue qq = fifoQueues.get(activeFIFOIndex);
+                assert inputBuffer != null : "Trying to push a null flit in the FIFO";
+                qq.push(inputBuffer);
+                break;
+            case STATE3_END_WRITE:
+                getOutputSignalArray().setSignal(OutputSignalArray.DEMUX_RDY, true);
+                for (FIFOQueue queue : fifoQueues) {
+                    if (queue.hasOutputSignal(OutputSignalArray.FIFO_BUSY)) {
+                        getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
+                        break;
+                    }
+                }
+                break;
         }
 
     }
@@ -168,5 +216,13 @@ i0------|              O0|------>|I               |
 
     public void setFifoQueues(ArrayList<FIFOQueue> fifoQueues) {
         this.fifoQueues = fifoQueues;
+    }
+
+    public Flit getInputBuffer() {
+        return inputBuffer;
+    }
+
+    public void setInputBuffer(Flit inputBuffer) {
+        this.inputBuffer = inputBuffer;
     }
 }

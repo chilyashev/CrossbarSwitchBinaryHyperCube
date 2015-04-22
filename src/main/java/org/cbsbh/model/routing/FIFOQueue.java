@@ -2,8 +2,6 @@ package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
-import org.cbsbh.model.routing.packet.flit.HeadFlit;
-import org.cbsbh.model.routing.packet.flit.TailFlit;
 import org.cbsbh.model.structures.InputSignalArray;
 import org.cbsbh.model.structures.OutputSignalArray;
 import org.cbsbh.model.structures.StateStructure;
@@ -53,6 +51,9 @@ public class FIFOQueue extends StateStructure implements Tickable {
      * Входният канал, за който е това FIFO
      */
     InputChannel channel;
+
+
+    int nextNodeId = -1;
 
     public FIFOQueue() {
         // TODO: големината на fifo трябва да е "размерът, указан в интерфейса - 2" заради Head/Tail флитовете
@@ -119,12 +120,13 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 return STATE0_INIT;
             }
         }
-        return 0xb00b5;
+        return state;
     }
 
 
     @Override
     public void tick() {
+        Flit head;
         if (hasOutputSignal(OutputSignalArray.TIMER_EN)) {
             timer++;
 
@@ -134,7 +136,11 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 getOutputSignalArray().setSignal(OutputSignalArray.TIME_ONE, true);
             }*/
         }
-        // Действия, които се извършват преди да се изчисли новото състояние.
+
+
+        // Вземаме новото състояние
+        state = calculateState();
+
         switch (state) {
             case STATE0_INIT:
                 getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
@@ -162,29 +168,44 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 // Вече има head флит и поне един във fifo
                 assert fifo.size() == 1 : "Тук трябва да има само един flit";
                 assert fifo.peek().getFlitType() == Flit.FLIT_TYPE_HEADER : "Този флит трябва да е Head.";
-                Flit head = fifo.peek(); // TODO: това дали трябва да се pop-ва
+                head = fifo.peek(); // TODO: това дали трябва да се pop-ва
                 arby.sendRequestByTR(head.getTR());
                 break;
             case STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL:
                 getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
                 getOutputSignalArray().setSignal(OutputSignalArray.WR_FIFO_EN, true);
                 getOutputSignalArray().setSignal(OutputSignalArray.WR_IN_FIFO, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.TIMER_EN, true); //  TODO: да реализираме таймера
+                getOutputSignalArray().setSignal(OutputSignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 1
 
-                arby.getNextNodeId();
-                // TODO: трябва да започне четенето на пакета към следващия възел
+                // TODO: тука да видим кога ще се "занулява" това nextNodeID
+                if (nextNodeId == -1) {
+                    nextNodeId = arby.getNextNodeId();
+                } else {
+                    sendDataToNextNode();
+                }
+                break;
+            case STATE5_READ_PACKET: // TODO: изпращането да го изкараме в метод
+                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.DATA_ACK, true);
+
+                sendDataToNextNode();
+                break;
+            case STATE6_WAIT_FOR_END_OF_PACKET:
+                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 2
+
+                sendDataToNextNode();
                 break;
         }
 
-        ////////////////////////////////////////////////////////////////////////////////
+    }
 
-        // Вземаме новото състояние
-        state = calculateState();
-        switch (state) {
-            case STATE2_READY:
-
-                break;
+    public void sendDataToNextNode(){
+        Flit nextFlit = fifo.remove();
+        if(nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER){
+            nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
         }
+        channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit.getFlitData());
     }
 
     /**

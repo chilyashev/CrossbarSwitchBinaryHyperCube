@@ -78,15 +78,36 @@ public class Flit { // *C
      * @return the Transport Mask
      */
     public long getTR() {
-        if(getFlitType() != FLIT_TYPE_HEADER){
+        if (getFlitType() != FLIT_TYPE_HEADER) {
             return -1;
         }
         return (flitData & 0xfff0000) >> 0x10;
+    }
+
+    /**
+     * Get the Destination Node Address
+     *
+     * @return the Transport Mask
+     */
+    public long getDNA() {
+        if (getFlitType() != FLIT_TYPE_HEADER) {
+            return -1;
+        }
+
+        return (flitData & 0xfff);
     }
 
 
     public void setTR(long tr) {
         assert getFlitType() == FLIT_TYPE_HEADER : "Wrong flit type";
         flitData = ((tr & 0xfff) << 16);
+    }
+
+    public long getFlitData() {
+        return flitData;
+    }
+
+    public void setFlitData(long flitData) {
+        this.flitData = flitData;
     }
 }

@@ -17,5 +17,8 @@ public class OutputSignalArray extends SignalArray {
     public static final int WR_IN_FIFO = 7;
     public static final int TIMER_EN = 8;
     public static final int TIME_ONE = 9;
+    public static final int BUFF_BUSY = 10;
+    public static final int WR_B_RG = 11;
+    public static final int DEMUX_RDY = 12;
 
 }

@@ -44,6 +44,9 @@ public class OutputChannel extends StateStructure implements Tickable {
     private ArrayList<FIFOQueue> requestList; // Опашки, пусннали Request
 
 
+    private long buffer = 0;
+
+
     /**
      * Определяне на състоянието на автомата според текущите активни входни сигнали и издаване на изходни сигнали.
      */
@@ -105,7 +108,6 @@ public class OutputChannel extends StateStructure implements Tickable {
     }
 
 
-    @Override
     public void tick() {
 
 
@@ -116,6 +118,7 @@ public class OutputChannel extends StateStructure implements Tickable {
     }
 
 
+    // Clutter
     public RRA getRra() {
         return rra;
     }
@@ -140,4 +143,11 @@ public class OutputChannel extends StateStructure implements Tickable {
         this.id = id;
     }
 
+    public long getBuffer() {
+        return buffer;
+    }
+
+    public void setBuffer(long buffer) {
+        this.buffer = buffer;
+    }
 }

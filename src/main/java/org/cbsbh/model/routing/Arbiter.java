@@ -55,10 +55,13 @@ public class Arbiter {
      * Изчиства списъка
      * Изпраща ACK на избрания output канал
      * Връща id-то на избрания канал.
-     * @return
+     * @return -1, ако никой не е върнал Grant
      */
     public int getNextNodeId() {
-        assert grantOutputChannelIds.size() > 0 : "";
+        if(grantOutputChannelIds.size() < 1){
+            return -1;
+        }
+        //assert grantOutputChannelIds.size() > 0 : "";
         int id = grantOutputChannelIds.remove(0);
         grantOutputChannelIds.clear();
         sendGrantAck(id);
