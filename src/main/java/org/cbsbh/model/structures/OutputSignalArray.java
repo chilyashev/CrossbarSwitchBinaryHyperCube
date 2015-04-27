@@ -20,5 +20,14 @@ public class OutputSignalArray extends SignalArray {
     public static final int BUFF_BUSY = 10;
     public static final int WR_B_RG = 11;
     public static final int DEMUX_RDY = 12;
+    public static final int RRA_BUSY = 13;
+    public static final int RRA_WORK = 14;
+    public static final int STRB_SIG = 15;
+    public static final int WR_MUX_ADR = 16;
+    public static final int WR_RRA_PTR = 17;
+    public static final int VALID_DATA = 18;
+    public static final int WR_RG_OUT = 19;
+    public static final int FLT_RD = 20;
+    public static final int CLR_MUX_ADDR = 21;
 
 }

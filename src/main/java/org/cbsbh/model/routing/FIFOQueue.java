@@ -35,6 +35,9 @@ public class FIFOQueue extends StateStructure implements Tickable {
     public static final int STATE6_WAIT_FOR_END_OF_PACKET = 6; // S6
 
 
+    private int id;
+
+
     long timer = 0;
     /**
      * баш флит
@@ -42,7 +45,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
     Queue<Flit> fifo;
 
     /**
-     * Грижи се за комуникацията с Output StateStructure.
+     * Грижи се за комуникацията с OutputChannel-а.
      */
     Arbiter arby;
 
@@ -55,12 +58,13 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
     int nextNodeId = -1;
 
-    public FIFOQueue() {
+    public FIFOQueue(InputChannel channel, int id) {
         // TODO: големината на fifo трябва да е "размерът, указан в интерфейса - 2" заради Head/Tail флитовете
         int nodeId = channel.getNode().getId();
         ArrayList<OutputChannel> outputChannels = new ArrayList<>();
         outputChannels.addAll(MPPNetwork.get(nodeId).getOutputChannels().values());
-        arby = new Arbiter(nodeId, outputChannels);
+        arby = new Arbiter(nodeId, outputChannels, id, channel.getId());
+        this.id = id;
         setState(STATE0_INIT);
     }
 
@@ -164,11 +168,10 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 getOutputSignalArray().setSignal(OutputSignalArray.WR_FIFO_EN, true);
                 getOutputSignalArray().setSignal(OutputSignalArray.WR_IN_FIFO, true);
 
-                // TODO:
                 // Вече има head флит и поне един във fifo
                 assert fifo.size() == 1 : "Тук трябва да има само един flit";
                 assert fifo.peek().getFlitType() == Flit.FLIT_TYPE_HEADER : "Този флит трябва да е Head.";
-                head = fifo.peek(); // TODO: това дали трябва да се pop-ва
+                head = fifo.peek();
                 arby.sendRequestByTR(head.getTR());
                 break;
             case STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL:
@@ -205,7 +208,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
         if(nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER){
             nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
         }
-        channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit.getFlitData());
+        channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit);
     }
 
     /**

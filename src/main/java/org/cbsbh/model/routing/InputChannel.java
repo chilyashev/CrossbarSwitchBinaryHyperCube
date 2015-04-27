@@ -44,6 +44,8 @@ i0------|              O0|------>|I               |
 
  */
 
+    int id;
+
     ArrayList<FIFOQueue> fifoQueues;
 
     // Индексът на активната опашка
@@ -58,7 +60,9 @@ i0------|              O0|------>|I               |
     public InputChannel() {
         this.fifoQueueCount = Context.getInstance().getInteger("fifoQueueCount");
         fifoQueues = new ArrayList<>(fifoQueueCount);
-
+        for(int i = 0; i < fifoQueueCount; i++){
+            fifoQueues.add(new FIFOQueue(this, i));
+        }
         setState(STATE0_INIT);
     }
 
@@ -224,5 +228,13 @@ i0------|              O0|------>|I               |
 
     public void setInputBuffer(Flit inputBuffer) {
         this.inputBuffer = inputBuffer;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

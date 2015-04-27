@@ -1,13 +1,12 @@
 package org.cbsbh.model.routing;
 
-import com.sun.javaws.jnl.MatcherReturnCode;
 import org.cbsbh.model.Tickable;
+import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.InputSignalArray;
 import org.cbsbh.model.structures.OutputSignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Description goes here
@@ -18,17 +17,15 @@ import java.util.HashMap;
 public class OutputChannel extends StateStructure implements Tickable {
 
     public static final int STATE0_INIT = 0;
-    public static final int STATE1_ROUTING_AND_ARBITRAGING1 = 1;
-    public static final int STATE2_ROUTING_AND_ARBITRAGING2 = 2;
-    public static final int STATE3_READY_FOR_TRANSFER = 3;
-    public static final int STATE4_START_OF_TRANSFER = 4;
-    public static final int STATE5_TRANSFER1 = 5;
-    public static final int STATE6_TRANSFER2 = 6;
-    public static final int STATE7_END_OF_TRANSFER = 7;
+    public static final int STATE1_ROUTING_AND_ARBITRAGING = 1;
+    public static final int STATE2_READY_FOR_TRANSFER = 2;
+    public static final int STATE3_START_OF_TRANSFER = 3;
+    public static final int STATE4_TRANSFER1 = 4;
+    public static final int STATE5_TRANSFER2 = 5;
+    public static final int STATE6_END_OF_TRANSFER = 6;
 
 
     int id;
-
 
     /**
      * БРрррра!
@@ -44,7 +41,8 @@ public class OutputChannel extends StateStructure implements Tickable {
     private ArrayList<FIFOQueue> requestList; // Опашки, пусннали Request
 
 
-    private long buffer = 0;
+    private Flit buffer;
+    private InputChannel nextInputChannel;
 
 
     /**
@@ -56,49 +54,43 @@ public class OutputChannel extends StateStructure implements Tickable {
         }
 
         if (state == STATE0_INIT) {
-            return STATE1_ROUTING_AND_ARBITRAGING1;
+            return STATE1_ROUTING_AND_ARBITRAGING;
         }
 
-        if (state == STATE1_ROUTING_AND_ARBITRAGING1) {
-            return STATE2_ROUTING_AND_ARBITRAGING2;
-        }
 
         InputChannel nextInputChannel = MPPNetwork.get(nextNodeId).getInputChannel(this.id);
-        if (state == STATE2_ROUTING_AND_ARBITRAGING2) {
-            if (nextInputChannel.hasOutputSignal(OutputSignalArray.CHAN_BUSY)
-                    || !hasInputSignal(InputSignalArray.TRANSFER)) {
-                return STATE1_ROUTING_AND_ARBITRAGING1;
-            } else if (!nextInputChannel.hasOutputSignal(OutputSignalArray.CHAN_BUSY) && hasInputSignal(InputSignalArray.TRANSFER)) {
-                return STATE3_READY_FOR_TRANSFER;
+        if (state == STATE1_ROUTING_AND_ARBITRAGING) {
+            if (!nextInputChannel.hasOutputSignal(OutputSignalArray.CHAN_BUSY) && rra.isGrantAckReceived()) {
+                return STATE2_READY_FOR_TRANSFER;
             }
         }
 
-        if (state == STATE3_READY_FOR_TRANSFER) {
+        if (state == STATE2_READY_FOR_TRANSFER) {
             if (nextInputChannel.hasOutputSignal(OutputSignalArray.PACK_WAIT)) {
-                return STATE4_START_OF_TRANSFER;
+                return STATE3_START_OF_TRANSFER;
             }
         }
 
-        if (state == STATE4_START_OF_TRANSFER) {
-            return STATE5_TRANSFER1;
+        if (state == STATE3_START_OF_TRANSFER) {
+            return STATE4_TRANSFER1;
         }
 
-        if (state == STATE5_TRANSFER1) {
+        if (state == STATE4_TRANSFER1) {
             assert accepted != null : "Dang! sadface.wma";
             if (!accepted.hasOutputSignal(OutputSignalArray.CNT_EQU)) { // TODO: CNT_EQU
-                return STATE6_TRANSFER2;
+                return STATE5_TRANSFER2;
             } else {
-                return STATE7_END_OF_TRANSFER;
+                return STATE6_END_OF_TRANSFER;
             }
         }
 
-        if (state == STATE6_TRANSFER2) {
-            return STATE5_TRANSFER1;
+        if (state == STATE5_TRANSFER2) {
+            return STATE4_TRANSFER1;
         }
 
-        if (state == STATE7_END_OF_TRANSFER) {
+        if (state == STATE6_END_OF_TRANSFER) {
             if (!hasInputSignal(InputSignalArray.TIME_ONE) && nextInputChannel.hasOutputSignal(OutputSignalArray.DATA_ACK)) {
-                return STATE1_ROUTING_AND_ARBITRAGING1;
+                return STATE1_ROUTING_AND_ARBITRAGING;
             } else if (hasInputSignal(InputSignalArray.TIME_ONE)) {
                 return STATE0_INIT;
             }
@@ -113,8 +105,53 @@ public class OutputChannel extends StateStructure implements Tickable {
 
         int newState = calculateState();
         switch (newState) {
-            // doStuff
+            case STATE0_INIT:
+                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
+                rra.init(); // Вика се, защото от S6 обикновено не се връща в S0, а в S1.
+                break;
+            case STATE1_ROUTING_AND_ARBITRAGING:
+                getOutputSignalArray().setSignal(OutputSignalArray.RRA_WORK, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.STRB_SIG, true);
+                if (rra.hasRequests()) {
+                    rra.sendGrant();
+                }
+                break;
+            case STATE2_READY_FOR_TRANSFER:
+                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_MUX_ADR, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_RRA_PTR, true);
+
+                nextInputChannel = MPPNetwork.get(nextNodeId).getInputChannel(id);
+                assert nextInputChannel != null : "This can't be null";
+                break;
+            case STATE3_START_OF_TRANSFER:
+                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.VALID_DATA, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_RG_OUT, true);
+                // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
+                assert nextInputChannel != null : "This can't be null";
+                nextInputChannel.setInputBuffer(buffer);
+                break;
+            case STATE4_TRANSFER1:
+                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.VALID_DATA, true);
+                // и EXT_CLK, 'ма него не го ползваме
+                break;
+            case STATE5_TRANSFER2:
+                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.VALID_DATA, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.WR_RG_OUT, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.FLT_RD, true);
+                // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
+                break;
+            case STATE6_END_OF_TRANSFER:
+                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.CLR_MUX_ADDR, true);
+                getOutputSignalArray().setSignal(OutputSignalArray.TIMER_EN, true);
+
+                break;
         }
+
     }
 
 
@@ -143,11 +180,11 @@ public class OutputChannel extends StateStructure implements Tickable {
         this.id = id;
     }
 
-    public long getBuffer() {
+    public Flit getBuffer() {
         return buffer;
     }
 
-    public void setBuffer(long buffer) {
+    public void setBuffer(Flit buffer) {
         this.buffer = buffer;
     }
 }

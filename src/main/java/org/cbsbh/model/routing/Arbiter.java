@@ -11,6 +11,10 @@ import java.util.ArrayList;
  * @author Mihail Chilyashev
  */
 public class Arbiter {
+
+    int id;
+
+    int channelId;
     /*
     *
     * Всички изходни канали, достъпни от арбитъра
@@ -26,9 +30,11 @@ public class Arbiter {
     private int nodeId;
 
 
-    public Arbiter(int nodeId, ArrayList<OutputChannel> allChannels) {
+    public Arbiter(int nodeId, ArrayList<OutputChannel> allChannels, int id, int channelId) {
+        this.id = id;
         this.nodeId = nodeId;
         this.allChannels = allChannels;
+        this.channelId = channelId;
     }
 
     /**
@@ -104,5 +110,21 @@ public class Arbiter {
 
     public void setNodeId(int nodeId) {
         this.nodeId = nodeId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(int channelId) {
+        this.channelId = channelId;
     }
 }
