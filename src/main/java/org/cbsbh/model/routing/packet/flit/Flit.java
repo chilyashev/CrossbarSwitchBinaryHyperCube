@@ -98,6 +98,10 @@ public class Flit { // *C
     }
 
 
+    public void setValidDataBit() {
+        controlByte = (short)(controlByte | (1 << 4));
+    }
+
     public void setTR(long tr) {
         assert getFlitType() == FLIT_TYPE_HEADER : "Wrong flit type";
         flitData = ((tr & 0xfff) << 16);

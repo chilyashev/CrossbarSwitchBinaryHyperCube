@@ -79,7 +79,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
         }
 
         // Ако се намираме в STATE1 и са налични сигналите FIFO_SELECT и DEMUX_RDY, преминаваме в S2
-        if (state == STATE1_IDLE && hasSignalsAnd(SignalArray.FIFO_SELECT, SignalArray.DEMUX_RDY)) {
+        if (state == STATE1_IDLE && channel.hasSignalsAnd(SignalArray.FIFO_SELECT, SignalArray.DEMUX_RDY)) {
             return STATE2_READY;
         }
 

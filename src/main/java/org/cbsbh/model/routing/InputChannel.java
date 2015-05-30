@@ -129,12 +129,12 @@ i0------|              O0|------>|I               |
 
 
     public void tick() {
-        for (FIFOQueue queue : fifoQueues) {
+        /*for (FIFOQueue queue : fifoQueues) {
             if (queue.hasSignal(SignalArray.WR_IN_FIFO)) {
                 getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
                 break;
             }
-        }
+        }*/
         // Вземаме новото състояние
         state = calculateState();
         boolean allBusy;

@@ -28,7 +28,7 @@ public class SignalArray {
     public static final int STRB_SIG = 15;
     public static final int WR_MUX_ADR = 16;
     public static final int WR_RRA_PTR = 17;
-    public static final int VALID_DATA = 18;
+    public static final int VALID_DATA = 18; // не е сигнал. Valid Data е писане в контролния байт на флита
     public static final int WR_RG_OUT = 19;
     public static final int FLT_RD = 20;
     public static final int CLR_MUX_ADDR = 21;

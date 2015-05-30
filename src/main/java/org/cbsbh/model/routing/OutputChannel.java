@@ -137,23 +137,26 @@ public class OutputChannel extends StateStructure implements Tickable {
                 break;
             case STATE3_START_OF_TRANSFER:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
-                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
+//                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
                 getSignalArray().setSignal(SignalArray.WR_RG_OUT, true);
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
                 assert nextInputChannel != null : "This can't be null";
                 assert buffer.getFlitType() == Flit.FLIT_TYPE_HEADER : "Този Flit трябва да е HeaderFlit!";
+                buffer.setValidDataBit();
                 //nextInputChannel.setInputBuffer(buffer);
                 break;
             case STATE4_TRANSFER1:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
-                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
+//                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
+                buffer.setValidDataBit();
                 // и EXT_CLK, 'ма него не го ползваме
                 assert buffer != null : "Този buffer трябва да е не-null!";
                 nextInputChannel.setInputBuffer(buffer);
                 break;
             case STATE5_TRANSFER2:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
-                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
+//                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
+                buffer.setValidDataBit();
                 getSignalArray().setSignal(SignalArray.WR_RG_OUT, true);
                 getSignalArray().setSignal(SignalArray.FLT_RD, true);
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
