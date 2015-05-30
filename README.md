@@ -43,11 +43,11 @@
 #TODO
 
 
-Имаме проблем със signal array-ите, защото (още) нямаме връзка от outputSignalArray-а на един елемент към inputSignalArray-а
+Имаме проблем със signal array-ите, защото (още) нямаме връзка от SignalArray-а на един елемент към signalArray-а
 
 
 ->А->
-A.hasInputSignal(...)
+A.hasSignal(...)
 
 ->B->
 A.hasOtputSignal(...)
@@ -55,3 +55,26 @@ A.hasOtputSignal(...)
 
 да разберем откъде идва CNT_EQU и как се издава.
 Най-вероятно идва от FIFO опашката, когато се предаде и последния флит.
+
+
+# План за действие.
+
+
+1. Инициализация
+    1. Input/Output channels
+        1. RRA
+        2. FIFOQueues
+            1. Arbiters (lil' arby guys)
+    2. SMPNode
+    3. MPPNetwork
+2. Генериране на тестови данни
+    1. Съобщения
+        1. По 1 пакет
+        2. По 2 пакета
+        3. По 4 пакета
+        4. По 3 пакета
+        5. По 5 пакета
+    2. DMA-тата
+        1. Да се случва нещо, когато нещо се получи напълно
+3. Статистика
+    1. Graphics

@@ -25,6 +25,9 @@ public class SMPNode {
 
     OutputChannel DMA_IN;
 
+    public SMPNode(int id) {
+        this.id = id;
+    }
 
     // TODO: do.
     public Message generateMessage() {

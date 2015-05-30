@@ -24,7 +24,7 @@ public class Flit { // *C
      * <li>бит 2 - EXTERNAL_CLOCK</li>
      * <li>бит 3 - VALID_DATA</li>
      * <li>бит 4 - DATA_ACK</li>
-     * <li>бит 5 - CHANNEL_BUSY (0 - free, 1 - busy)</li>
+     * <li>бит 5 - CHAN_BUSY (0 - free, 1 - busy)</li>
      * <li>бит 6 - CHANNEL_LOAD</li>
      * <li>бит 7 - празен :(</li>
      * </ul>

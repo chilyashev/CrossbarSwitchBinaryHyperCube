@@ -3,10 +3,7 @@ package org.cbsbh.model;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import org.cbsbh.context.Context;
-import org.cbsbh.model.routing.InputChannel;
-import org.cbsbh.model.routing.MPPNetwork;
-import org.cbsbh.model.routing.OutputChannel;
-import org.cbsbh.model.routing.Router;
+import org.cbsbh.model.routing.*;
 import org.cbsbh.model.structures.SMP;
 
 import java.util.Date;
@@ -58,22 +55,31 @@ public class ModelRunner implements Runnable {
             //for each node compute adjacent nodes
             int[] adjacentChannelIDs = new int[channelCount];
             for (int j = 0; j < channelCount; j++) {
-                adjacentChannelIDs[j] = currentNodeID ^ (1 << j); //magic
+                adjacentChannelIDs[j] = currentNodeID ^ (1 << j); // bit guru magic
             }
 
             HashMap<Integer, InputChannel> ics = new HashMap<>();
             HashMap<Integer, OutputChannel> ocs = new HashMap<>();
+
+            //construct the router
+            SMPNode smp = new SMPNode(currentNodeID);
+            
             //populate input/output channel collections
-            for (int nextRouterId : adjacentChannelIDs) {
-                OutputChannel oChannel = new OutputChannel(nextRouterId, currentNodeID, bufferCount, (1 << channelCount));
-                ocs.put(nextRouterId, oChannel);
+            for (int j : adjacentChannelIDs) {
+                InputChannel iChannel = new InputChannel(j, currentNodeID);
+                ics.put(j, iChannel);
+                OutputChannel oChannel = new OutputChannel(j, currentNodeID);
+                ocs.put(j, oChannel);
             }
+            smp.setInputChannels(ics);
+            smp.setOutputChannels(ocs);
 /*
     (.)(.)
     (Y)
-        +--------------------+
-0001 -> |                    | -> 0001
-        |                    |
+    // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
+        +--------------------+                            +--------------------+
+0001 -> |                    | -> 0001 ---------> 0000 -> |                    |
+        |                    |                            |        0001        |
 0010 -> |                    | -> 0010
         |        0000        |
 0100 -> |                    | -> 0100
@@ -82,14 +88,9 @@ public class ModelRunner implements Runnable {
         +--------------------+
 
  */
-            /*for (int j : adjacentChannelIDs) {
-                InputChannel iChannel = new InputChannel(j, currentNodeID, ocs);
-                ics.put(j, iChannel);
-            }*/
+            
 
-            //construct the router
-            Router router = new Router(ics, ocs);
-            SMP smp = new SMP(currentNodeID, router, adjacentChannelIDs);
+
             //include the bad boy in the network
             MPPNetwork.push(smp);
         }

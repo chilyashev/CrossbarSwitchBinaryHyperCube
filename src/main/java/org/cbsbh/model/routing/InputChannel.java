@@ -1,12 +1,11 @@
 package org.cbsbh.model.routing;
 
-import jdk.internal.util.xml.impl.Input;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
+import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
-import org.cbsbh.model.structures.InputSignalArray;
-import org.cbsbh.model.structures.OutputSignalArray;
+import org.cbsbh.model.structures.SignalArray;
 
 import java.util.ArrayList;
 
@@ -30,7 +29,7 @@ public class InputChannel extends StateStructure implements Tickable {
        Node0                Node1
         +----------------+  CB   +----------------+
 i0------|              O0|------>|I               |
-        |    InputSignals|<------|OutputSignals   |
+        |    Signals|<------|OutputSignals   |
         |                |       |                |
         |                | DATA  |                |
         |              o0|-------|i0              |
@@ -57,7 +56,9 @@ i0------|              O0|------>|I               |
     private Flit inputBuffer;
 
 
-    public InputChannel() {
+    public InputChannel(int id, int currentNodeId) {
+        this.id = id;
+        this.node = MPPNetwork.get(currentNodeId);
         this.fifoQueueCount = Context.getInstance().getInteger("fifoQueueCount");
         fifoQueues = new ArrayList<>(fifoQueueCount);
         for(int i = 0; i < fifoQueueCount; i++){
@@ -77,7 +78,7 @@ i0------|              O0|------>|I               |
             }
         }
         // Издаване на CHAN_BUSY
-        outputSignalArray.setSignal(OutputSignalArray.CHAN_BUSY, true);
+        signalArray.setSignal(SignalArray.CHAN_BUSY, true);
         return null;
     }
 
@@ -85,18 +86,18 @@ i0------|              O0|------>|I               |
      * Определяне на състоянието на автомата според текущите активни входни сигнали и издаване на изходни сигнали.
      */
     public int calculateState() {
-        if (hasInputSignal(InputSignalArray.RESET) || hasInputSignal(InputSignalArray.INIT)) {
+        if (hasSignal(SignalArray.RESET) || hasSignal(SignalArray.INIT)) {
             return STATE0_INIT;
         }
 
         if (state == STATE0_INIT) {
-            if (!hasInputSignal(InputSignalArray.CHANNEL_BUSY)) {
+            if (!hasSignal(SignalArray.CHAN_BUSY)) {
                 return STATE1_UPDATE_FIFO_STATUS;
             }
         }
 
         if (state == STATE1_UPDATE_FIFO_STATUS) {
-            if (!hasInputSignal(InputSignalArray.CHANNEL_BUSY)) {
+            if (!hasSignal(SignalArray.CHAN_BUSY)) {
                 return STATE2_WRITE_IN_FIFO;
             } else {
                 return STATE0_INIT;
@@ -105,16 +106,16 @@ i0------|              O0|------>|I               |
 
         if (state == STATE2_WRITE_IN_FIFO) {
             // Ако текущата активна опашка е заета...
-            if (getActiveFifo().hasOutputSignal(OutputSignalArray.FIFO_BUSY)
-                    && hasInputSignal(InputSignalArray.WR_IN_FIFO)
+            if (getActiveFifo().hasSignal(SignalArray.FIFO_BUSY)
+                    && hasSignal(SignalArray.WR_IN_FIFO)
                     ) {
                 return STATE3_END_WRITE;
             }
         }
 
         if (state == STATE3_END_WRITE) {
-            if (!hasInputSignal(InputSignalArray.WR_IN_FIFO)
-                    && getActiveFifo().hasOutputSignal(OutputSignalArray.FIFO_BUSY)) {
+            if (!hasSignal(SignalArray.WR_IN_FIFO)
+                    && getActiveFifo().hasSignal(SignalArray.FIFO_BUSY)) {
                 return STATE0_INIT;
             }
         }
@@ -129,8 +130,8 @@ i0------|              O0|------>|I               |
 
     public void tick() {
         for (FIFOQueue queue : fifoQueues) {
-            if (queue.hasOutputSignal(OutputSignalArray.WR_IN_FIFO)) {
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_IN_FIFO, true);
+            if (queue.hasSignal(SignalArray.WR_IN_FIFO)) {
+                getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
                 break;
             }
         }
@@ -139,41 +140,42 @@ i0------|              O0|------>|I               |
 
         switch (state) {
             case STATE0_INIT:
-                getOutputSignalArray().setSignal(OutputSignalArray.BUFF_BUSY, true);
+                getSignalArray().setSignal(SignalArray.BUFF_BUSY, true);
 
                 // Обикаляме всички опашки и проверяваме дали са свободни. Ако всички са заети, вдигаме CHAN_BUSY.
                 boolean allBusy = true;
                 for (FIFOQueue queue : fifoQueues) {
-                    if (!queue.hasOutputSignal(OutputSignalArray.FIFO_BUSY)) {
+                    if (!queue.hasSignal(SignalArray.FIFO_BUSY)) {
                         allBusy = false;
                         break;
                     }
                 }
 
-                getOutputSignalArray().setSignal(OutputSignalArray.CHAN_BUSY, allBusy);
+                getSignalArray().setSignal(SignalArray.CHAN_BUSY, allBusy);
+                getSignalArray().setSignal(SignalArray.CHAN_BUSY, allBusy);
 
                 break;
             case STATE1_UPDATE_FIFO_STATUS:
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_B_RG, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.BUFF_BUSY, true);
+                getSignalArray().setSignal(SignalArray.WR_B_RG, true);
+                getSignalArray().setSignal(SignalArray.BUFF_BUSY, true);
                 for (int i = 0; i < fifoQueues.size(); i++) {
                     FIFOQueue queue = fifoQueues.get(i);
-                    B_FIFO_STATUS[i] = queue.hasOutputSignal(OutputSignalArray.FIFO_BUSY);
+                    B_FIFO_STATUS[i] = queue.hasSignal(SignalArray.FIFO_BUSY);
                 }
                 break;
 
             case STATE2_WRITE_IN_FIFO:
-                getOutputSignalArray().setSignal(OutputSignalArray.DEMUX_RDY, true);
+                getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
                 activeFIFOIndex = getFirstAvailableQueueIndex();
                 FIFOQueue qq = fifoQueues.get(activeFIFOIndex);
                 assert inputBuffer != null : "Trying to push a null flit in the FIFO";
                 qq.push(inputBuffer);
                 break;
             case STATE3_END_WRITE:
-                getOutputSignalArray().setSignal(OutputSignalArray.DEMUX_RDY, true);
+                getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
                 for (FIFOQueue queue : fifoQueues) {
-                    if (queue.hasOutputSignal(OutputSignalArray.FIFO_BUSY)) {
-                        getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
+                    if (queue.hasSignal(SignalArray.FIFO_BUSY)) {
+                        getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
                         break;
                     }
                 }

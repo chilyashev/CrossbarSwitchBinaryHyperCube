@@ -2,8 +2,7 @@ package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
-import org.cbsbh.model.structures.InputSignalArray;
-import org.cbsbh.model.structures.OutputSignalArray;
+import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
 import java.util.ArrayList;
@@ -35,7 +34,8 @@ public class OutputChannel extends StateStructure implements Tickable {
     /**
      * ID на възела, към който води този изходен канал
      */
-    int nextNodeId;
+    // ID-то на възела, към който води този изходен канал е същото като ID-то на текущия канал
+    //int nextNodeId;
 
     private FIFOQueue accepted; // Опашка, върнала Accept
     private ArrayList<FIFOQueue> requestList; // Опашки, пусннали Request
@@ -43,13 +43,18 @@ public class OutputChannel extends StateStructure implements Tickable {
 
     private Flit buffer;
     private InputChannel nextInputChannel;
+    private int currentNodeId;
 
+    public OutputChannel(int id, int currentNodeId) {
+        this.id = id;
+        this.currentNodeId = currentNodeId;
+    }
 
     /**
      * Определяне на състоянието на автомата според текущите активни входни сигнали и издаване на изходни сигнали.
      */
     public int calculateState() {
-        if (hasInputSignal(InputSignalArray.RESET) || hasInputSignal(InputSignalArray.INIT)) {
+        if (hasSignal(SignalArray.RESET) || hasSignal(SignalArray.INIT)) {
             return STATE0_INIT;
         }
 
@@ -58,15 +63,16 @@ public class OutputChannel extends StateStructure implements Tickable {
         }
 
 
-        InputChannel nextInputChannel = MPPNetwork.get(nextNodeId).getInputChannel(this.id);
+        // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
+        InputChannel nextInputChannel = MPPNetwork.get(this.id).getInputChannel(this.currentNodeId);
         if (state == STATE1_ROUTING_AND_ARBITRAGING) {
-            if (!nextInputChannel.hasOutputSignal(OutputSignalArray.CHAN_BUSY) && rra.isGrantAckReceived()) {
+            if (!nextInputChannel.hasSignal(SignalArray.CHAN_BUSY) && rra.isGrantAckReceived()) {
                 return STATE2_READY_FOR_TRANSFER;
             }
         }
 
         if (state == STATE2_READY_FOR_TRANSFER) {
-            if (nextInputChannel.hasOutputSignal(OutputSignalArray.PACK_WAIT)) {
+            if (nextInputChannel.hasSignal(SignalArray.PACK_WAIT)) {
                 return STATE3_START_OF_TRANSFER;
             }
         }
@@ -77,7 +83,7 @@ public class OutputChannel extends StateStructure implements Tickable {
 
         if (state == STATE4_TRANSFER1) {
             assert accepted != null : "Dang! sadface.wma";
-            if (!accepted.hasOutputSignal(OutputSignalArray.CNT_EQU)) { // TODO: CNT_EQU
+            if (!accepted.hasSignal(SignalArray.CNT_EQU)) { // TODO: CNT_EQU
                 return STATE5_TRANSFER2;
             } else {
                 return STATE6_END_OF_TRANSFER;
@@ -89,9 +95,9 @@ public class OutputChannel extends StateStructure implements Tickable {
         }
 
         if (state == STATE6_END_OF_TRANSFER) {
-            if (!hasInputSignal(InputSignalArray.TIME_ONE) && nextInputChannel.hasOutputSignal(OutputSignalArray.DATA_ACK)) {
+            if (!hasSignal(SignalArray.TIME_ONE) && nextInputChannel.hasSignal(SignalArray.DATA_ACK)) {
                 return STATE1_ROUTING_AND_ARBITRAGING;
-            } else if (hasInputSignal(InputSignalArray.TIME_ONE)) {
+            } else if (hasSignal(SignalArray.TIME_ONE)) {
                 return STATE0_INIT;
             }
         }
@@ -106,48 +112,49 @@ public class OutputChannel extends StateStructure implements Tickable {
         int newState = calculateState();
         switch (newState) {
             case STATE0_INIT:
-                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
+                getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
                 rra.init(); // Вика се, защото от S6 обикновено не се връща в S0, а в S1.
                 break;
             case STATE1_ROUTING_AND_ARBITRAGING:
-                getOutputSignalArray().setSignal(OutputSignalArray.RRA_WORK, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.STRB_SIG, true);
+                getSignalArray().setSignal(SignalArray.RRA_WORK, true);
+                getSignalArray().setSignal(SignalArray.STRB_SIG, true);
                 if (rra.hasRequests()) {
                     rra.sendGrant();
                 }
                 break;
             case STATE2_READY_FOR_TRANSFER:
-                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_MUX_ADR, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_RRA_PTR, true);
+                getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
+                getSignalArray().setSignal(SignalArray.WR_MUX_ADR, true);
+                getSignalArray().setSignal(SignalArray.WR_RRA_PTR, true);
 
-                nextInputChannel = MPPNetwork.get(nextNodeId).getInputChannel(id);
+                // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
+                nextInputChannel = MPPNetwork.get(this.id).getInputChannel(id);
                 assert nextInputChannel != null : "This can't be null";
                 break;
             case STATE3_START_OF_TRANSFER:
-                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.VALID_DATA, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_RG_OUT, true);
+                getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
+                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
+                getSignalArray().setSignal(SignalArray.WR_RG_OUT, true);
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
                 assert nextInputChannel != null : "This can't be null";
                 nextInputChannel.setInputBuffer(buffer);
                 break;
             case STATE4_TRANSFER1:
-                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.VALID_DATA, true);
+                getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
+                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
                 // и EXT_CLK, 'ма него не го ползваме
                 break;
             case STATE5_TRANSFER2:
-                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.VALID_DATA, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_RG_OUT, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.FLT_RD, true);
+                getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
+                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
+                getSignalArray().setSignal(SignalArray.WR_RG_OUT, true);
+                getSignalArray().setSignal(SignalArray.FLT_RD, true);
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
                 break;
             case STATE6_END_OF_TRANSFER:
-                getOutputSignalArray().setSignal(OutputSignalArray.RRA_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.CLR_MUX_ADDR, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.TIMER_EN, true);
+                getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
+                getSignalArray().setSignal(SignalArray.CLR_MUX_ADDR, true);
+                getSignalArray().setSignal(SignalArray.TIMER_EN, true);
 
                 break;
         }
@@ -162,14 +169,6 @@ public class OutputChannel extends StateStructure implements Tickable {
 
     public void setRra(RRA rra) {
         this.rra = rra;
-    }
-
-    public int getNextNodeId() {
-        return nextNodeId;
-    }
-
-    public void setNextNodeId(int nextNodeId) {
-        this.nextNodeId = nextNodeId;
     }
 
     public int getId() {

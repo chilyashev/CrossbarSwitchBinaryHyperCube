@@ -2,8 +2,7 @@ package org.cbsbh.model.routing;
 
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
-import org.cbsbh.model.structures.InputSignalArray;
-import org.cbsbh.model.structures.OutputSignalArray;
+import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
 import java.util.ArrayList;
@@ -73,8 +72,8 @@ public class FIFOQueue extends StateStructure implements Tickable {
      */
     public int calculateState() {
 
-        // TODO: освен RESET и INIT S0 трябва да се върне и при освобождаване на опашката и изтичане на таймаут.
-        if (hasInputSignal(InputSignalArray.RESET) || inputSignalArray.hasSignal(InputSignalArray.INIT)) {
+        // TODO: освен при RESET и INIT, S0 трябва да се върне и при освобождаване на опашката и изтичане на таймаут.
+        if (hasSignal(SignalArray.RESET) || signalArray.hasSignal(SignalArray.INIT)) {
             return STATE0_INIT;
         }
 
@@ -84,7 +83,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
         }
 
         // Ако се намираме в STATE1 и са налични сигналите FIFO_SELECT и DEMUX_RDY, преминаваме в S2
-        if (state == STATE1_IDLE && hasInputSignalsAnd(InputSignalArray.FIFO_SELECT, InputSignalArray.DEMUX_RDY)) {
+        if (state == STATE1_IDLE && hasSignalsAnd(SignalArray.FIFO_SELECT, SignalArray.DEMUX_RDY)) {
             return STATE2_READY;
         }
 
@@ -103,11 +102,11 @@ public class FIFOQueue extends StateStructure implements Tickable {
         // Ако сме в STATE4
         if (state == STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL) {
             // NOT(VALID_DATA) AND NOT(TIME_ONE) AND TAIL_FLIT
-            if (!isCurrentFlitDataValid() && !hasInputSignal(InputSignalArray.TIME_ONE)
+            if (!isCurrentFlitDataValid() && !hasSignal(SignalArray.TIME_ONE)
                     && getCurrentFlitType() == Flit.FLIT_TYPE_TAIL) {
                 return STATE5_READ_PACKET;
                 // Timeout
-            } else if (hasInputSignal(InputSignalArray.TIME_ONE)) {
+            } else if (hasSignal(SignalArray.TIME_ONE)) {
                 return STATE0_INIT;
             }
             return STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL;
@@ -120,7 +119,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
         }
 
         if (state == STATE6_WAIT_FOR_END_OF_PACKET) {
-            if (hasInputSignal(InputSignalArray.CNT_EQU) || hasInputSignal(InputSignalArray.TIME_TWO)) {
+            if (hasSignal(SignalArray.CNT_EQU) || hasSignal(SignalArray.TIME_TWO)) {
                 return STATE0_INIT;
             }
         }
@@ -131,13 +130,13 @@ public class FIFOQueue extends StateStructure implements Tickable {
     @Override
     public void tick() {
         Flit head;
-        if (hasOutputSignal(OutputSignalArray.TIMER_EN)) {
+        if (hasSignal(SignalArray.TIMER_EN)) {
             timer++;
 
             /*
             TODO: timerMax се задава от модела, когато се инициализира. Трябва да се види къде ще набием TIME_ONE и TIME_TWO
             if(timer >= timerMax){
-                getOutputSignalArray().setSignal(OutputSignalArray.TIME_ONE, true);
+                getSignalArray().setSignal(SignalArray.TIME_ONE, true);
             }*/
         }
 
@@ -147,26 +146,26 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
         switch (state) {
             case STATE0_INIT:
-                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.CLR_FIFO, true);
+                getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+                getSignalArray().setSignal(SignalArray.CLR_FIFO, true);
                 fifo.clear();
                 break;
             case STATE1_IDLE:
                 // Нищо.
                 break;
             case STATE2_READY:
-                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_FIFO_EN, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.PACK_WAIT, true);
+                getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+                getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
+                getSignalArray().setSignal(SignalArray.PACK_WAIT, true);
 
                 // Вземане на първата свободна опашка според B_FIFO_STATUS регистъра
                 //activeFIFOIndex = getFirstAvailableQueueIndex();
                 //assert activeFIFOIndex < 0 || activeFIFOIndex > fifoQueues.size() : "Invalid active queue index returned. Fuck you!";
                 break;
             case STATE3_REQUEST_FOR_ROUTING:
-                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_FIFO_EN, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_IN_FIFO, true);
+                getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+                getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
+                getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
 
                 // Вече има head флит и поне един във fifo
                 assert fifo.size() == 1 : "Тук трябва да има само един flit";
@@ -175,12 +174,13 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 arby.sendRequestByTR(head.getTR());
                 break;
             case STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL:
-                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_FIFO_EN, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.WR_IN_FIFO, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 1
+                getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+                getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
+                getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
+                getSignalArray().setSignal(SignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 1
 
                 // TODO: тука да видим кога ще се "занулява" това nextNodeID
+                // sadface
                 if (nextNodeId == -1) {
                     nextNodeId = arby.getNextNodeId();
                 } else {
@@ -188,14 +188,14 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 }
                 break;
             case STATE5_READ_PACKET: // TODO: изпращането да го изкараме в метод
-                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.DATA_ACK, true);
+                getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+                getSignalArray().setSignal(SignalArray.DATA_ACK, true);
 
                 sendDataToNextNode();
                 break;
             case STATE6_WAIT_FOR_END_OF_PACKET:
-                getOutputSignalArray().setSignal(OutputSignalArray.FIFO_BUSY, true);
-                getOutputSignalArray().setSignal(OutputSignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 2
+                getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+                getSignalArray().setSignal(SignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 2
 
                 sendDataToNextNode();
                 break;
