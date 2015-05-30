@@ -52,7 +52,7 @@ public class Flit { // *C
     }
 
     public boolean isDataValid() {
-        return (controlByte & (1 << 3)) != 0;
+        return (controlByte & (1 << 4)) != 0;
     }
 
     /**

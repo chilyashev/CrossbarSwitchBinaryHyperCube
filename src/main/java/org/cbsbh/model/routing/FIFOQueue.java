@@ -34,9 +34,6 @@ public class FIFOQueue extends StateStructure implements Tickable {
     public static final int STATE6_WAIT_FOR_END_OF_PACKET = 6; // S6
 
 
-    private int id;
-
-
     long timer = 0;
     /**
      * баш флит
@@ -63,7 +60,6 @@ public class FIFOQueue extends StateStructure implements Tickable {
         ArrayList<OutputChannel> outputChannels = new ArrayList<>();
         outputChannels.addAll(MPPNetwork.get(nodeId).getOutputChannels().values());
         arby = new Arbiter(nodeId, outputChannels, id, channel.getId());
-        this.id = id;
         setState(STATE0_INIT);
     }
 
@@ -88,7 +84,6 @@ public class FIFOQueue extends StateStructure implements Tickable {
         }
 
         // Ако сме в STATE2 и са налични сигналите VALID_DATA и HEAD_FLIT, преминаваме в S3
-
         if (state == STATE2_READY && isCurrentFlitDataValid()
                 && (getCurrentFlitType() == Flit.FLIT_TYPE_HEADER)) {
             return STATE3_REQUEST_FOR_ROUTING;
@@ -149,6 +144,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
                 getSignalArray().setSignal(SignalArray.CLR_FIFO, true);
                 fifo.clear();
+                nextNodeId = -1;
                 break;
             case STATE1_IDLE:
                 // Нищо.
@@ -157,6 +153,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
                 getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
                 getSignalArray().setSignal(SignalArray.PACK_WAIT, true);
+                getChannel().getSignalArray().setSignal(SignalArray.PACK_WAIT, true);
 
                 // Вземане на първата свободна опашка според B_FIFO_STATUS регистъра
                 //activeFIFOIndex = getFirstAvailableQueueIndex();
@@ -179,17 +176,19 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
                 getSignalArray().setSignal(SignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 1
 
-                // TODO: тука да видим кога ще се "занулява" това nextNodeID
-                // sadface
+                // possible sadface
                 if (nextNodeId == -1) {
-                    nextNodeId = arby.getNextNodeId();
+                    nextNodeId = arby.getNextNodeId(this);
                 } else {
                     sendDataToNextNode();
                 }
                 break;
             case STATE5_READ_PACKET: // TODO: изпращането да го изкараме в метод
+                // TODO: Тези сигнали трябва да се издадат към предишния възел. Единственият проблем е, FIFO_BUSY не се използва. Вторият единствен проблем е, че вместо InputChannel-а да пише в сигналите на OutputChannel-а, той пише в своите и OutputChannel-а ги проверява.
+                // TODO: Уж работи правилно.
                 getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
                 getSignalArray().setSignal(SignalArray.DATA_ACK, true);
+                getChannel().getSignalArray().setSignal(SignalArray.DATA_ACK, true);
 
                 sendDataToNextNode();
                 break;
@@ -208,7 +207,13 @@ public class FIFOQueue extends StateStructure implements Tickable {
         if(nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER){
             nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
         }
-        channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit);
+
+
+        if(nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL){
+            System.err.println("FINALLY! A tail flit! FIFOQueue size: " + fifo.size());
+            getSignalArray().setSignal(SignalArray.CNT_EQU, true);
+        }
+        channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
     }
 
     /**

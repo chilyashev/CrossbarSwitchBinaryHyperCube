@@ -63,14 +63,15 @@ public class Arbiter {
      * Връща id-то на избрания канал.
      * @return -1, ако никой не е върнал Grant
      */
-    public int getNextNodeId() {
+    public int getNextNodeId(FIFOQueue fifoQueue) {
         if(grantOutputChannelIds.size() < 1){
             return -1;
         }
-        //assert grantOutputChannelIds.size() > 0 : "";
+
+        //assert grantOutputChannelIds.size() > 0 : "Никой не е върнал Grant";
         int id = grantOutputChannelIds.remove(0);
         grantOutputChannelIds.clear();
-        sendGrantAck(id);
+        sendGrantAck(fifoQueue, id);
         return id;
     }
 
@@ -89,10 +90,14 @@ public class Arbiter {
      * Връща Grant Acknowledge на първия канал, върнал Grant (първия канал в grantOutputChannelIds)
      * След като се върне ACK, grantOutputChannelIds се изпразва. Yeah.
      */
-    private void sendGrantAck(int outputChannelId) {
-        throw new NotImplementedException();
+    private void sendGrantAck(FIFOQueue fifoQueue, int outputChannelId) {
+        MPPNetwork.get(nodeId).getOutputChannel(outputChannelId).setAccepted(fifoQueue);
     }
 
+    /**
+     * Праща заявка за маршрутизиране
+     * @param tr Transport Mask.
+     */
     public void sendRequestByTR(long tr) {
         boolean requestSent = false;
         for (int i = 0; i < 12; i++) { // 12. Like the 12 bits in the TR. Duh...

@@ -37,6 +37,9 @@ public class OutputChannel extends StateStructure implements Tickable {
     // ID-то на възела, към който води този изходен канал е същото като ID-то на текущия канал
     //int nextNodeId;
 
+    /**
+     * Попълва се от sendGrantAck в Arbiter
+     */
     private FIFOQueue accepted; // Опашка, върнала Accept
     private ArrayList<FIFOQueue> requestList; // Опашки, пусннали Request
 
@@ -63,16 +66,17 @@ public class OutputChannel extends StateStructure implements Tickable {
         }
 
 
-        // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
-        InputChannel nextInputChannel = MPPNetwork.get(this.id).getInputChannel(this.currentNodeId);
         if (state == STATE1_ROUTING_AND_ARBITRAGING) {
+            // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
+            InputChannel nextInputChannel = MPPNetwork.get(this.id).getInputChannel(this.currentNodeId);
             if (!nextInputChannel.hasSignal(SignalArray.CHAN_BUSY) && rra.isGrantAckReceived()) {
                 return STATE2_READY_FOR_TRANSFER;
             }
         }
 
         if (state == STATE2_READY_FOR_TRANSFER) {
-            if (nextInputChannel.hasSignal(SignalArray.PACK_WAIT)) {
+            if (nextInputChannel.getActiveFIFOIndex() != -1
+                    && nextInputChannel.getActiveFIFOQueue().hasSignal(SignalArray.PACK_WAIT)) {
                 return STATE3_START_OF_TRANSFER;
             }
         }
@@ -128,7 +132,7 @@ public class OutputChannel extends StateStructure implements Tickable {
                 getSignalArray().setSignal(SignalArray.WR_RRA_PTR, true);
 
                 // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
-                nextInputChannel = MPPNetwork.get(this.id).getInputChannel(id);
+                nextInputChannel = MPPNetwork.get(id).getInputChannel(currentNodeId);
                 assert nextInputChannel != null : "This can't be null";
                 break;
             case STATE3_START_OF_TRANSFER:
@@ -137,12 +141,15 @@ public class OutputChannel extends StateStructure implements Tickable {
                 getSignalArray().setSignal(SignalArray.WR_RG_OUT, true);
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
                 assert nextInputChannel != null : "This can't be null";
-                nextInputChannel.setInputBuffer(buffer);
+                assert buffer.getFlitType() == Flit.FLIT_TYPE_HEADER : "Този Flit трябва да е HeaderFlit!";
+                //nextInputChannel.setInputBuffer(buffer);
                 break;
             case STATE4_TRANSFER1:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
                 getSignalArray().setSignal(SignalArray.VALID_DATA, true);
                 // и EXT_CLK, 'ма него не го ползваме
+                assert buffer != null : "Този buffer трябва да е не-null!";
+                nextInputChannel.setInputBuffer(buffer);
                 break;
             case STATE5_TRANSFER2:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
@@ -150,6 +157,8 @@ public class OutputChannel extends StateStructure implements Tickable {
                 getSignalArray().setSignal(SignalArray.WR_RG_OUT, true);
                 getSignalArray().setSignal(SignalArray.FLT_RD, true);
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
+                assert buffer != null : "Този buffer трябва да е не-null!";
+                //nextInputChannel.setInputBuffer(buffer);
                 break;
             case STATE6_END_OF_TRANSFER:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
@@ -159,6 +168,14 @@ public class OutputChannel extends StateStructure implements Tickable {
                 break;
         }
 
+    }
+
+    /**
+     * Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
+     * @return
+     */
+    public int getNextNodeId(){
+        return id;
     }
 
 
@@ -185,5 +202,21 @@ public class OutputChannel extends StateStructure implements Tickable {
 
     public void setBuffer(Flit buffer) {
         this.buffer = buffer;
+    }
+
+    public int getCurrentNodeId() {
+        return currentNodeId;
+    }
+
+    public void setCurrentNodeId(int currentNodeId) {
+        this.currentNodeId = currentNodeId;
+    }
+
+    public FIFOQueue getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(FIFOQueue accepted) {
+        this.accepted = accepted;
     }
 }

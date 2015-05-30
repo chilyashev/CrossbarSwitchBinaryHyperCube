@@ -48,7 +48,7 @@ i0------|              O0|------>|I               |
     ArrayList<FIFOQueue> fifoQueues;
 
     // Индексът на активната опашка
-    private int activeFIFOIndex;
+    private int activeFIFOIndex = -1;
 
     private int fifoQueueCount; // TODO: това е сложено, щото може да се наложи да се разбере броя на опашките. Ако се остави без него, няма да е яко.
 
@@ -61,7 +61,7 @@ i0------|              O0|------>|I               |
         this.node = MPPNetwork.get(currentNodeId);
         this.fifoQueueCount = Context.getInstance().getInteger("fifoQueueCount");
         fifoQueues = new ArrayList<>(fifoQueueCount);
-        for(int i = 0; i < fifoQueueCount; i++){
+        for (int i = 0; i < fifoQueueCount; i++) {
             fifoQueues.add(new FIFOQueue(this, i));
         }
         setState(STATE0_INIT);
@@ -137,13 +137,13 @@ i0------|              O0|------>|I               |
         }
         // Вземаме новото състояние
         state = calculateState();
-
+        boolean allBusy;
         switch (state) {
             case STATE0_INIT:
                 getSignalArray().setSignal(SignalArray.BUFF_BUSY, true);
 
                 // Обикаляме всички опашки и проверяваме дали са свободни. Ако всички са заети, вдигаме CHAN_BUSY.
-                boolean allBusy = true;
+                allBusy = true;
                 for (FIFOQueue queue : fifoQueues) {
                     if (!queue.hasSignal(SignalArray.FIFO_BUSY)) {
                         allBusy = false;
@@ -152,27 +152,39 @@ i0------|              O0|------>|I               |
                 }
 
                 getSignalArray().setSignal(SignalArray.CHAN_BUSY, allBusy);
-                getSignalArray().setSignal(SignalArray.CHAN_BUSY, allBusy);
 
                 break;
             case STATE1_UPDATE_FIFO_STATUS:
                 getSignalArray().setSignal(SignalArray.WR_B_RG, true);
                 getSignalArray().setSignal(SignalArray.BUFF_BUSY, true);
+                allBusy = true;
                 for (int i = 0; i < fifoQueues.size(); i++) {
                     FIFOQueue queue = fifoQueues.get(i);
                     B_FIFO_STATUS[i] = queue.hasSignal(SignalArray.FIFO_BUSY);
+                    if (!queue.hasSignal(SignalArray.FIFO_BUSY)) {
+                        allBusy = false;
+                        break;
+                    }
                 }
+                getSignalArray().setSignal(SignalArray.CHAN_BUSY, allBusy);
                 break;
 
+            // TODO: I'm watching you.
             case STATE2_WRITE_IN_FIFO:
                 getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
-                activeFIFOIndex = getFirstAvailableQueueIndex();
+                produceWR_IN_FIFO();
+                if (activeFIFOIndex == -1) {
+                    activeFIFOIndex = getFirstAvailableQueueIndex();
+                }
+                assert activeFIFOIndex != -1 : "activeFIFOIndex не би трябвало да е -1. Чекираут, мейн!";
                 FIFOQueue qq = fifoQueues.get(activeFIFOIndex);
                 assert inputBuffer != null : "Trying to push a null flit in the FIFO";
                 qq.push(inputBuffer);
+
                 break;
             case STATE3_END_WRITE:
                 getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
+                produceWR_IN_FIFO();
                 for (FIFOQueue queue : fifoQueues) {
                     if (queue.hasSignal(SignalArray.FIFO_BUSY)) {
                         getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
@@ -182,6 +194,17 @@ i0------|              O0|------>|I               |
                 break;
         }
 
+    }
+
+    private void produceWR_IN_FIFO() {
+        boolean hasWR_IN_FIFO = false;
+        for (FIFOQueue queue : fifoQueues) {
+            if (queue.hasSignal(SignalArray.WR_IN_FIFO)) {
+                hasWR_IN_FIFO = true;
+                break;
+            }
+        }
+        getSignalArray().setSignal(SignalArray.WR_IN_FIFO, hasWR_IN_FIFO);
     }
 
     /**
@@ -238,5 +261,16 @@ i0------|              O0|------>|I               |
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getActiveFIFOIndex() {
+        return activeFIFOIndex;
+    }
+
+    public FIFOQueue getActiveFIFOQueue(){
+        if(activeFIFOIndex != -1) {
+            return fifoQueues.get(activeFIFOIndex);
+        }
+        return null;
     }
 }
