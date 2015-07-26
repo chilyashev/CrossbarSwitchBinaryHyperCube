@@ -56,24 +56,29 @@ A.hasOtputSignal(...)
 # План за действие.
 
 
-1. Инициализация
-    1. Input/Output channels
-        1. RRA
-        2. FIFOQueues
-            1. Arbiters (lil' arby guys)
-    2. SMPNode
-    3. MPPNetwork
+1. Инициализация *check*
+    1. Input/Output channels *check*
+        1. RRA *check*
+        2. FIFOQueues *check*
+            1. Arbiters (lil' arby guys) *check*
+    2. SMPNode *check*
+    3. MPPNetwork *check*
 2. Генериране на тестови данни
+    0. Бернули.
     1. Съобщения
         1. По 1 пакет
         2. По 2 пакета
         3. По 4 пакета
         4. По 3 пакета
         5. По 5 пакета
-    2. DMA-тата
+    2. DMA-тата!
         1. Да се случва нещо, когато нещо се получи напълно
 3. Статистика
     1. Graphics
 
 
 4. Да се провери дали всички сигнали се зануляват, когато трябва.
+
+
+- Изчисляване на всички сигнали, които зависят от сигнали на други чаркове (PACK_WAIT например)
+        - WR_IN_FIFO

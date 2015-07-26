@@ -1,5 +1,6 @@
 package org.cbsbh.model.routing;
 
+import org.cbsbh.Debug;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.structures.StateStructure;
 
@@ -50,5 +51,11 @@ public class OutputStateStructure extends StateStructure implements Tickable {
 
     public void setNextNodeId(int nextNodeId) {
         this.nextNodeId = nextNodeId;
+    }
+
+    @Override
+    public void init() {
+        Debug.println(getClass() + " init");
+        // cockle
     }
 }

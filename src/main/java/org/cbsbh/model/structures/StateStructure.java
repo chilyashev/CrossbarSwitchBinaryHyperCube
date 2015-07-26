@@ -15,6 +15,9 @@ abstract public class StateStructure {
      */
     protected SignalArray signalArray;
 
+    public StateStructure() {
+        signalArray = new SignalArray();
+    }
 
     /**
      * Издаване на сигнал(и) – към Signal Array на друг хардуерен елемент.
@@ -79,4 +82,6 @@ abstract public class StateStructure {
     public void setSignalArray(SignalArray signalArray) {
         this.signalArray = signalArray;
     }
+
+    public abstract void init();
 }

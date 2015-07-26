@@ -1,5 +1,6 @@
 package org.cbsbh.model.routing;
 
+import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
@@ -55,14 +56,24 @@ i0------|              O0|------>|I               |
     private boolean[] B_FIFO_STATUS; // TODO: това що е тука? Не може ли да е в някой от signalArray-ите? Или не е такъв сигнал?
     private Flit inputBuffer;
 
+    private int nodeId;
 
     public InputChannel(int id, int currentNodeId) {
         this.id = id;
-        this.node = MPPNetwork.get(currentNodeId);
+        /*this.node = MPPNetwork.get(currentNodeId);
+        assert this.node != null : "The node can't be null. Fuck";*/
+        this.nodeId = currentNodeId;
         this.fifoQueueCount = Context.getInstance().getInteger("fifoQueueCount");
         fifoQueues = new ArrayList<>(fifoQueueCount);
+    }
+
+    @Override
+    public void init() {
+        Debug.println(getClass() + " init");
         for (int i = 0; i < fifoQueueCount; i++) {
-            fifoQueues.add(new FIFOQueue(this, i));
+            FIFOQueue e = new FIFOQueue(this, i);
+            e.init();
+            fifoQueues.add(e);
         }
         setState(STATE0_INIT);
     }
@@ -123,10 +134,10 @@ i0------|              O0|------>|I               |
         return state;
     }
 
+
     private FIFOQueue getActiveFifo() {
         return getQueue(activeFIFOIndex);
     }
-
 
     public void tick() {
         /*for (FIFOQueue queue : fifoQueues) {
@@ -194,6 +205,8 @@ i0------|              O0|------>|I               |
                 break;
         }
 
+        fifoQueues.forEach(FIFOQueue::tick);
+
     }
 
     private void produceWR_IN_FIFO() {
@@ -226,10 +239,10 @@ i0------|              O0|------>|I               |
         return fifoQueues.get(getFirstAvailableQueueIndex());
     }
 
+
     public FIFOQueue getQueue(int index) {
         return fifoQueues.get(index);
     }
-
 
     public SMPNode getNode() {
         return node;
@@ -272,5 +285,13 @@ i0------|              O0|------>|I               |
             return fifoQueues.get(activeFIFOIndex);
         }
         return null;
+    }
+
+    public int getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
     }
 }

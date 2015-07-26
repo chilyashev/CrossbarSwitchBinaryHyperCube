@@ -1,5 +1,6 @@
 package org.cbsbh.model.routing;
 
+import org.cbsbh.Debug;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.SignalArray;
@@ -52,6 +53,14 @@ public class OutputChannel extends StateStructure implements Tickable {
         this.id = id;
         this.currentNodeId = currentNodeId;
     }
+
+
+    @Override
+    public void init() {
+        Debug.println(getClass() + " init");
+        rra = new RRA();
+    }
+
 
     /**
      * Определяне на състоянието на автомата според текущите активни входни сигнали и издаване на изходни сигнали.

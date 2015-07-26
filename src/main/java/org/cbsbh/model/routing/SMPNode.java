@@ -1,6 +1,7 @@
 package org.cbsbh.model.routing;
 
 import jdk.internal.util.xml.impl.Input;
+import org.cbsbh.Debug;
 import org.cbsbh.model.routing.packet.Packet;
 import org.cbsbh.model.structures.Message;
 
@@ -29,10 +30,22 @@ public class SMPNode {
         this.id = id;
     }
 
+    public void init() {
+        Debug.println(getClass() + " init");
+        inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::init);
+        outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::init);
+    }
+
+    public void tick() {
+        inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::tick);
+        outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::tick);
+    }
+
     // TODO: do.
     public Message generateMessage() {
         return null;
     }
+
 
     /**
      * Изпращане на съобщение пакет по пакет
@@ -49,7 +62,6 @@ public class SMPNode {
     public Packet[] messageAsPackets(Message m){
         return null;
     }
-
 
     public InputChannel getInputChannel(int index){
         return inputChannels.get(index);

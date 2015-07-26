@@ -18,6 +18,10 @@ public class MPPNetwork {
         return instance;
     }
 
+    /**
+     * Be gentle
+     * @param smpNode the thing to be pushed.
+     */
     public static void push(SMPNode smpNode) {
         SMPNodes.put(smpNode.getId(), smpNode);
     }
@@ -28,5 +32,9 @@ public class MPPNetwork {
 
     public static Collection<SMPNode> getAll() {
         return SMPNodes.values();
+    }
+
+    public void tick() {
+        SMPNodes.values().forEach(org.cbsbh.model.routing.SMPNode::tick);
     }
 }

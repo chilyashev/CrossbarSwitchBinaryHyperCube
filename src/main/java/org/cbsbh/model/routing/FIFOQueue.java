@@ -1,5 +1,6 @@
 package org.cbsbh.model.routing;
 
+import org.cbsbh.Debug;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.SignalArray;
@@ -53,11 +54,20 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
 
     int nextNodeId = -1;
+    int id;
 
     public FIFOQueue(InputChannel channel, int id) {
+        this.channel = channel;
+        this.id = id;
+    }
+
+    public void init (){
+        Debug.println(getClass() + " init");
         // TODO: големината на fifo трябва да е "размерът, указан в интерфейса - 2" заради Head/Tail флитовете
-        int nodeId = channel.getNode().getId();
+        int nodeId = channel.getNodeId();//.getId();
+
         ArrayList<OutputChannel> outputChannels = new ArrayList<>();
+        assert (MPPNetwork.get(nodeId)) != null : "nopew.";
         outputChannels.addAll(MPPNetwork.get(nodeId).getOutputChannels().values());
         arby = new Arbiter(nodeId, outputChannels, id, channel.getId());
         setState(STATE0_INIT);

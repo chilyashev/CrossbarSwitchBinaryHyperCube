@@ -2,12 +2,14 @@ package org.cbsbh.model;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
+import org.cbsbh.model.generator.BernoulliGenerator;
 import org.cbsbh.model.routing.*;
-import org.cbsbh.model.structures.SMP;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 
 /**
@@ -39,6 +41,7 @@ public class ModelRunner implements Runnable {
     }
 
     private void init(int channelCount, int bufferCount) {
+        Debug.println(getClass() + " init");
         //compute number of nodes
         int SMPNodes = 1 << channelCount;
 
@@ -51,7 +54,8 @@ public class ModelRunner implements Runnable {
         //iterate all nodes
         for (int i = 0; i < SMPNodes; i++) {
             int currentNodeID = GrayCodes[i];
-
+            //construct the router
+            SMPNode smp = new SMPNode(currentNodeID);
             //for each node compute adjacent nodes
             int[] adjacentChannelIDs = new int[channelCount];
             for (int j = 0; j < channelCount; j++) {
@@ -61,9 +65,7 @@ public class ModelRunner implements Runnable {
             HashMap<Integer, InputChannel> ics = new HashMap<>();
             HashMap<Integer, OutputChannel> ocs = new HashMap<>();
 
-            //construct the router
-            SMPNode smp = new SMPNode(currentNodeID);
-            
+
             //populate input/output channel collections
             for (int j : adjacentChannelIDs) {
                 InputChannel iChannel = new InputChannel(j, currentNodeID);
@@ -73,6 +75,15 @@ public class ModelRunner implements Runnable {
             }
             smp.setInputChannels(ics);
             smp.setOutputChannels(ocs);
+            MPPNetwork.push(smp);
+        }
+
+        for (int i = 0; i < SMPNodes; i++) {
+            SMPNode smp = MPPNetwork.get(i);
+            smp.init();
+            // TODO: .init() every mofo.
+
+
 /*
     (.)(.)
     (Y)
@@ -92,7 +103,6 @@ public class ModelRunner implements Runnable {
 
 
             //include the bad boy in the network
-            MPPNetwork.push(smp);
         }
     }
 
@@ -107,16 +117,22 @@ public class ModelRunner implements Runnable {
         Context.getInstance().set("messageGenerationFrequency", 1);
         Context.getInstance().set("minMessageSize", 4);
         Context.getInstance().set("maxMessageSize", 56);
-        init(channelCount, bufferCount);
+        Context.getInstance().set("fifoQueueCount", 5);
+                init(channelCount, bufferCount);
         //End of init
 
         System.out.println("Starting at... " + new Date());
         // Ticking....
-        while (ticks < 1_000_00) {
+        BernoulliGenerator g = new BernoulliGenerator();
+        while (ticks < 1__0__0) {
+            if(g.newValueReady()){
+                // inject
+            }
+            MPPNetwork.getInstance().tick();
             // Tick for each SMP
-
             ticks++;
         }
+        System.out.println("Ended at... " + new Date());
 
         // Gather data
         // Write results in the context

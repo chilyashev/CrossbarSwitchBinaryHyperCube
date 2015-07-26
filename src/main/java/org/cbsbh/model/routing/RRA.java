@@ -1,5 +1,6 @@
 package org.cbsbh.model.routing;
 
+import org.cbsbh.Debug;
 import org.cbsbh.model.Tickable;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -77,9 +78,11 @@ public class RRA implements Tickable {
     }
 
     public void init() {
+        Debug.println(getClass() + " init");
         grantAckReceived = false;
         currentArbiterId = -1;
         currentChannelId = -1;
+        requestMap = new TreeMap<>();
         requestMap.clear();
     }
 
