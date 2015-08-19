@@ -11,12 +11,13 @@ abstract public class StateStructure {
     protected int state;
 
     /**
-     * Масив от флагове. Всеки флаг отговаря на изходен сигнал.
+     * Масив от флагове. Всеки флаг отговаря на изходен, входен или вътрешен сигнал.
      */
     protected SignalArray signalArray;
 
     public StateStructure() {
         signalArray = new SignalArray();
+        getSignalArray().setSignal(SignalArray.RESET, true);
     }
 
     /**
@@ -45,6 +46,7 @@ abstract public class StateStructure {
 
     /**
      * Обикаля всички сигнали и им прави AND
+     *
      * @param signals всички сигнали
      * @return резултат
      */
@@ -61,6 +63,7 @@ abstract public class StateStructure {
 
     /**
      * Обикаля всички сигнали и им прави OR.
+     *
      * @param signals всички всички сигнали
      * @return резултат
      */

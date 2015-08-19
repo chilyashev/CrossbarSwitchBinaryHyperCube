@@ -123,9 +123,11 @@ public class OutputChannel extends StateStructure implements Tickable {
 
 
         int newState = calculateState();
+        setState(newState);
         switch (newState) {
             case STATE0_INIT:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
+                getSignalArray().setSignal(SignalArray.RESET, false);
                 rra.init(); // Вика се, защото от S6 обикновено не се връща в S0, а в S1.
                 break;
             case STATE1_ROUTING_AND_ARBITRAGING:

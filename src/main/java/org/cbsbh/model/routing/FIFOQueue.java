@@ -7,6 +7,7 @@ import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
@@ -59,6 +60,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
     public FIFOQueue(InputChannel channel, int id) {
         this.channel = channel;
         this.id = id;
+        fifo = new PriorityQueue<>();
     }
 
     public void init (){
@@ -153,6 +155,7 @@ public class FIFOQueue extends StateStructure implements Tickable {
             case STATE0_INIT:
                 getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
                 getSignalArray().setSignal(SignalArray.CLR_FIFO, true);
+                getSignalArray().setSignal(SignalArray.RESET, false);
                 fifo.clear();
                 nextNodeId = -1;
                 break;

@@ -76,6 +76,7 @@ i0------|              O0|------>|I               |
             e.init();
             fifoQueues.add(e);
         }
+        getSignalArray().setSignal(SignalArray.RESET, true);
         setState(STATE0_INIT);
     }
 
@@ -148,11 +149,15 @@ i0------|              O0|------>|I               |
             }
         }*/
         // Вземаме новото състояние
+        Debug.println(String.format("[%s, id=%d] Calling calculateState with state %d", getClass(), id, state));
         state = calculateState();
+        setState(state);
+        Debug.println(String.format("[%s, id=%d] New: state %d", getClass(), id, state));
         boolean allBusy;
         switch (state) {
             case STATE0_INIT:
                 getSignalArray().setSignal(SignalArray.BUFF_BUSY, true);
+                getSignalArray().setSignal(SignalArray.RESET, false);
 
                 // Обикаляме всички опашки и проверяваме дали са свободни. Ако всички са заети, вдигаме CHAN_BUSY.
                 allBusy = true;

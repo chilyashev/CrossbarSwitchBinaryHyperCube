@@ -6,6 +6,7 @@ import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.generator.BernoulliGenerator;
 import org.cbsbh.model.routing.*;
+import org.cbsbh.model.structures.Message;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -127,6 +128,8 @@ public class ModelRunner implements Runnable {
         while (ticks < 1__0__0) {
             if(g.newValueReady()){
                 // inject
+                Debug.println("New value is being injected!");
+                MPPNetwork.get(0).generateMessage();
             }
             MPPNetwork.getInstance().tick();
             // Tick for each SMP

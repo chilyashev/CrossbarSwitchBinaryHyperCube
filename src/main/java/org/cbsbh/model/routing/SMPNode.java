@@ -26,8 +26,14 @@ public class SMPNode {
 
     OutputChannel DMA_IN;
 
+    ArrayList<Message> messages;
+    ArrayList<Packet> messageData;
+
+
     public SMPNode(int id) {
         this.id = id;
+        messages = new ArrayList<>();
+        messageData = new ArrayList<>();
     }
 
     public void init() {
@@ -39,11 +45,23 @@ public class SMPNode {
     public void tick() {
         inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::tick);
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::tick);
+        if(!messages.isEmpty()){
+            Message m = messages.remove(0);
+            messageData.addAll(m.getAsPackets());
+        }
+        if(!messageData.isEmpty()){
+            Packet p = messageData.remove(0);
+            // TODO: Send this shit!
+        }
     }
 
     // TODO: do.
     public Message generateMessage() {
-        return null;
+        Message m = new Message();
+        m.setSource(this.id);
+        m.setTarget(10); // As random as it gets
+        messages.add(m);
+        return m;
     }
 
 
