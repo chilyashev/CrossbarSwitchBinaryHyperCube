@@ -21,7 +21,7 @@
     4. More goodies
     5. Error showing
 2. Document it
-3. Seriousify comments.
+3. Seriousify comments and documentation.
 4. Tests?
 
 
@@ -46,7 +46,7 @@
 A.hasSignal(...)
 
 ->B->
-A.hasOtputSignal(...)
+A.hasOutputSignal(...)
 
 
 да разберем откъде идва CNT_EQU и как се издава.
@@ -82,3 +82,7 @@ A.hasOtputSignal(...)
 
 - Изчисляване на всички сигнали, които зависят от сигнали на други чаркове (PACK_WAIT например)
         - WR_IN_FIFO
+
+5. Да видим защо FIFO_BUSY не се сваля никога и как, по дяволите, входният канал ще си ходи из състоянията, след като всичките му опашки са винаги заети
+
+6. Изпращането на съобщения **трябва** да се направи.
