@@ -65,6 +65,7 @@ i0------|              O0|------>|I               |
         this.nodeId = currentNodeId;
         this.fifoQueueCount = Context.getInstance().getInteger("fifoQueueCount");
         fifoQueues = new ArrayList<>(fifoQueueCount);
+        B_FIFO_STATUS = new boolean[fifoQueueCount];
     }
 
     @Override

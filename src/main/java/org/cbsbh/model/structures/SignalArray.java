@@ -52,12 +52,12 @@ public class SignalArray {
     }
 
     public void setSignal(int index, boolean value) {
-        assert index > 0 && index < signals.length : "this index doesn't exist. Sucker.";
+        assert index >= 0 && index < signals.length : "this index doesn't exist. Sucker.";
         signals[index] = value;
     }
 
     public boolean hasSignal(int index){
-        assert index > 0 && index < signals.length : "this index doesn't exist. Sucker.";
+        assert index >= 0 && index < signals.length : String.format("this index (%d) doesn't exist. Sucker.", index);
         return signals[index];
     }
 
