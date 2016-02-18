@@ -45,10 +45,15 @@ public class SignalArray {
     boolean signals[];
 
 
-
     public SignalArray() {
         signals = new boolean[40]; // TODO: това да се направи достатъчно голямо, когато се разбере колко сигнала има.
         Arrays.fill(signals, false);
+    }
+
+    public void resetAll() {
+        for (int i = 0; i < signals.length; i++) {
+            signals[i] = false;
+        }
     }
 
     public void setSignal(int index, boolean value) {
@@ -56,7 +61,7 @@ public class SignalArray {
         signals[index] = value;
     }
 
-    public boolean hasSignal(int index){
+    public boolean hasSignal(int index) {
         assert index >= 0 && index < signals.length : String.format("this index (%d) doesn't exist. Sucker.", index);
         return signals[index];
     }

@@ -126,10 +126,11 @@ public class ModelRunner implements Runnable {
         // Ticking....
         BernoulliGenerator g = new BernoulliGenerator();
         while (ticks < 1__0__0) {
-            if(g.newValueReady()){
+//            if(g.newValueReady()){
+            if(ticks == 5){
                 // inject
                 Debug.println("New value is being injected!");
-                MPPNetwork.get(0).generateMessage();
+                MPPNetwork.get(3).generateMessage();
             }
             MPPNetwork.getInstance().tick();
             // Tick for each SMP

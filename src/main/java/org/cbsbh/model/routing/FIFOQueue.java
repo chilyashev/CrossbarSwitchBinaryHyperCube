@@ -6,8 +6,8 @@ import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
@@ -60,10 +60,11 @@ public class FIFOQueue extends StateStructure implements Tickable {
     public FIFOQueue(InputChannel channel, int id) {
         this.channel = channel;
         this.id = id;
-        fifo = new PriorityQueue<>();
+        //fifo = new PriorityQueue<>();
+        fifo = new ArrayDeque<>();
     }
 
-    public void init (){
+    public void init() {
         Debug.println(getClass() + " init");
         // TODO: големината на fifo трябва да е "размерът, указан в интерфейса - 2" заради Head/Tail флитовете
         int nodeId = channel.getNodeId();//.getId();
@@ -91,7 +92,8 @@ public class FIFOQueue extends StateStructure implements Tickable {
         }
 
         // Ако се намираме в STATE1 и са налични сигналите FIFO_SELECT и DEMUX_RDY, преминаваме в S2
-        if (state == STATE1_IDLE && channel.hasSignalsAnd(SignalArray.FIFO_SELECT, SignalArray.DEMUX_RDY)) {
+        //if (state == STATE1_IDLE && channel.hasSignalsAnd(SignalArray.FIFO_SELECT, SignalArray.DEMUX_RDY)) {
+        if (state == STATE1_IDLE && hasSignalsAnd(SignalArray.FIFO_SELECT, SignalArray.DEMUX_RDY)) { // За да може само една опашка да е активна
             return STATE2_READY;
         }
 
@@ -150,6 +152,8 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
         // Вземаме новото състояние
         state = calculateState();
+        lowerEmSignalsHny();
+        Debug.println(getClass() + " new state = " + state);
 
         switch (state) {
             case STATE0_INIT:
@@ -160,13 +164,16 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 nextNodeId = -1;
                 break;
             case STATE1_IDLE:
-                // Нищо.
+                // Нищо. Or is it?
+                /*getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
+                getSignalArray().setSignal(SignalArray.CLR_FIFO, false);*/
                 break;
             case STATE2_READY:
                 getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
                 getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
                 getSignalArray().setSignal(SignalArray.PACK_WAIT, true);
                 getChannel().getSignalArray().setSignal(SignalArray.PACK_WAIT, true);
+                getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
 
                 // Вземане на първата свободна опашка според B_FIFO_STATUS регистъра
                 //activeFIFOIndex = getFirstAvailableQueueIndex();
@@ -213,16 +220,41 @@ public class FIFOQueue extends StateStructure implements Tickable {
                 break;
         }
 
+        //getSignalArray().resetAll();
+        //getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
     }
 
-    public void sendDataToNextNode(){
+    private void lowerEmSignalsHny() {
+        switch (state) {
+            case STATE0_INIT:
+                getSignalArray().resetAll();
+                break;
+            case STATE1_IDLE:
+                getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
+                getSignalArray().setSignal(SignalArray.CLR_FIFO, false);
+                break;
+            case STATE3_REQUEST_FOR_ROUTING:
+                getSignalArray().setSignal(SignalArray.PACK_WAIT, false);
+                break;
+            case STATE5_READ_PACKET:
+                getSignalArray().setSignal(SignalArray.WR_IN_FIFO, false);
+                getSignalArray().setSignal(SignalArray.WR_FIFO_EN, false);
+                getSignalArray().setSignal(SignalArray.TIMER_EN, false);
+                break;
+            case STATE6_WAIT_FOR_END_OF_PACKET:
+                getSignalArray().setSignal(SignalArray.DATA_ACK, false);
+                break;
+        }
+    }
+
+    public void sendDataToNextNode() {
         Flit nextFlit = fifo.remove();
-        if(nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER){
+        if (nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
             nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
         }
 
 
-        if(nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL){
+        if (nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
             System.err.println("FINALLY! A tail flit! FIFOQueue size: " + fifo.size());
             getSignalArray().setSignal(SignalArray.CNT_EQU, true);
         }

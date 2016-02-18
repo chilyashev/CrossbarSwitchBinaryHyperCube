@@ -15,7 +15,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.oracle:javafx:2.2">
         <CLASSES>
-          <root url="jar:///opt/jdk/jdk1.8.0_40/jre/lib/ext/jfxrt.jar!/" />
+          <root url="jar:///opt/jdk/jdk1.8.0_60/jre/lib/ext/jfxrt.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

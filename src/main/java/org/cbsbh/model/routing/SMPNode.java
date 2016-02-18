@@ -2,8 +2,11 @@ package org.cbsbh.model.routing;
 
 import jdk.internal.util.xml.impl.Input;
 import org.cbsbh.Debug;
+import org.cbsbh.context.Context;
 import org.cbsbh.model.routing.packet.Packet;
+import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.Message;
+import org.cbsbh.model.structures.SignalArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,17 +45,37 @@ public class SMPNode {
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::init);
     }
 
+    boolean cockLove = false;
     public void tick() {
+        //if (!messageData.isEmpty())
+        {
+
+            //for(Integer icId : getInputChannels().keySet())
+            Integer icId = 0;
+            if (!cockLove && id == 4) {
+                cockLove = true;
+                /*if (messageData.isEmpty()) {
+                    break;
+                }*/
+                // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
+                Flit flit = new Flit();
+                flit.setFlitType(Flit.FLIT_TYPE_HEADER);
+                flit.setTR(id ^ 10); // 10 is random. I can't even.
+                flit.setValidDataBit();
+                flit.setFlitData(0xb00000b5);
+                inputChannels.get(icId).setInputBuffer(flit);
+//                inputChannels.get(icId).getFifoQueues().get(0).getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
+            }
+        }
         inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::tick);
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::tick);
-        if(!messages.isEmpty()){
+        //getDMA_IN().tick();
+        //getDMA_OUT().tick();
+        if (!messages.isEmpty()) {
             Message m = messages.remove(0);
             messageData.addAll(m.getAsPackets());
         }
-        if(!messageData.isEmpty()){
-            Packet p = messageData.remove(0);
-            // TODO: Send this shit!
-        }
+
     }
 
     // TODO: do.
@@ -68,20 +91,21 @@ public class SMPNode {
     /**
      * Изпращане на съобщение пакет по пакет
      */
-    public void sendMessage(){
+    public void sendMessage() {
 
     }
 
     /**
      * Разделяне на съобщение на пакети
+     *
      * @param m съобщението
      * @return колекция от пакети
      */
-    public Packet[] messageAsPackets(Message m){
+    public Packet[] messageAsPackets(Message m) {
         return null;
     }
 
-    public InputChannel getInputChannel(int index){
+    public InputChannel getInputChannel(int index) {
         return inputChannels.get(index);
     }
 

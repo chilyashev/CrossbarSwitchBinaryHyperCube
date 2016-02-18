@@ -110,7 +110,7 @@ i0------|              O0|------>|I               |
         }
 
         if (state == STATE1_UPDATE_FIFO_STATUS) {
-            if (!hasSignal(SignalArray.CHAN_BUSY)) {
+            if (!hasSignal(SignalArray.CHAN_BUSY) && inputBuffer != null) {
                 return STATE2_WRITE_IN_FIFO;
             } else {
                 return STATE0_INIT;
@@ -142,6 +142,9 @@ i0------|              O0|------>|I               |
     }
 
     public void tick() {
+        if (id == 0 && nodeId == 4) {
+            Debug.println(String.format("[%s, id=%d] stop %d", getClass(), id, state));
+        }
         /*for (FIFOQueue queue : fifoQueues) {
             if (queue.hasSignal(SignalArray.WR_IN_FIFO)) {
                 getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
@@ -151,6 +154,7 @@ i0------|              O0|------>|I               |
         // Вземаме новото състояние
         Debug.println(String.format("[%s, id=%d] Calling calculateState with state %d", getClass(), id, state));
         state = calculateState();
+        lowerEmSignalsHny();
         setState(state);
         Debug.println(String.format("[%s, id=%d] New: state %d", getClass(), id, state));
         boolean allBusy;
@@ -188,16 +192,22 @@ i0------|              O0|------>|I               |
 
             // TODO: I'm watching you.
             case STATE2_WRITE_IN_FIFO:
-                getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
+                //getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
                 produceWR_IN_FIFO();
                 if (activeFIFOIndex == -1) {
                     activeFIFOIndex = getFirstAvailableQueueIndex();
                 }
                 assert activeFIFOIndex != -1 : "activeFIFOIndex не би трябвало да е -1. Чекираут, мейн!";
-                FIFOQueue qq = fifoQueues.get(activeFIFOIndex);
-                assert inputBuffer != null : "Trying to push a null flit in the FIFO";
-                qq.push(inputBuffer);
+                if (activeFIFOIndex != -1 && getActiveFifo().hasSignal(SignalArray.FIFO_BUSY) && hasSignal(SignalArray.WR_IN_FIFO)) {
 
+                    //FIFOQueue qq = ;
+                    assert inputBuffer != null : "Trying to push a null flit in the FIFO";
+                    fifoQueues.get(activeFIFOIndex).push(inputBuffer);
+                    //getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
+                    fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
+                    fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
+                    inputBuffer = null;
+                }
                 break;
             case STATE3_END_WRITE:
                 getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
@@ -212,9 +222,26 @@ i0------|              O0|------>|I               |
         }
 
         fifoQueues.forEach(FIFOQueue::tick);
-
+        //getSignalArray().resetAll();
     }
 
+    private void lowerEmSignalsHny() {
+        switch (state) {
+            case STATE0_INIT:
+                getSignalArray().resetAll();
+                break;
+            case STATE1_UPDATE_FIFO_STATUS:
+                getSignalArray().setSignal(SignalArray.RESET, false);
+                break;
+            case STATE2_WRITE_IN_FIFO:
+                getSignalArray().setSignal(SignalArray.WR_B_RG, false);
+                break;
+        }
+    }
+
+    /**
+     * Produces WR_IN_FIFO
+     */
     private void produceWR_IN_FIFO() {
         boolean hasWR_IN_FIFO = false;
         for (FIFOQueue queue : fifoQueues) {
@@ -286,8 +313,8 @@ i0------|              O0|------>|I               |
         return activeFIFOIndex;
     }
 
-    public FIFOQueue getActiveFIFOQueue(){
-        if(activeFIFOIndex != -1) {
+    public FIFOQueue getActiveFIFOQueue() {
+        if (activeFIFOIndex != -1) {
             return fifoQueues.get(activeFIFOIndex);
         }
         return null;

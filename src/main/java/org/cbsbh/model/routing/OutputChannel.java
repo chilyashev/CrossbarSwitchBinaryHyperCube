@@ -124,6 +124,9 @@ public class OutputChannel extends StateStructure implements Tickable {
 
         int newState = calculateState();
         setState(newState);
+
+        lowerEmSignalsHny();
+
         switch (newState) {
             case STATE0_INIT:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
@@ -181,14 +184,41 @@ public class OutputChannel extends StateStructure implements Tickable {
 
                 break;
         }
+        //getSignalArray().resetAll();
+    }
 
+    private void lowerEmSignalsHny() {
+        switch (state) {
+            case STATE0_INIT:
+                getSignalArray().resetAll();
+                break;
+            case STATE1_ROUTING_AND_ARBITRAGING:
+                getSignalArray().setSignal(SignalArray.RRA_BUSY, false);
+                break;
+            case STATE2_READY_FOR_TRANSFER:
+                getSignalArray().setSignal(SignalArray.RRA_WORK, false);
+                getSignalArray().setSignal(SignalArray.STRB_SIG, false);
+                break;
+            case STATE3_START_OF_TRANSFER:
+                getSignalArray().setSignal(SignalArray.WR_MUX_ADR, false);
+                getSignalArray().setSignal(SignalArray.WR_RRA_PTR, false);
+                break;
+            case STATE4_TRANSFER1:
+                getSignalArray().setSignal(SignalArray.WR_RG_OUT, false);
+                break;
+            case STATE6_END_OF_TRANSFER:
+                getSignalArray().setSignal(SignalArray.WR_RG_OUT, false);
+                getSignalArray().setSignal(SignalArray.FLT_RD, false);
+                break;
+        }
     }
 
     /**
      * Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
+     *
      * @return
      */
-    public int getNextNodeId(){
+    public int getNextNodeId() {
         return id;
     }
 

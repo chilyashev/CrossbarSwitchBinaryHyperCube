@@ -35,6 +35,7 @@ public class Arbiter {
         this.nodeId = nodeId;
         this.allChannels = allChannels;
         this.channelId = channelId;
+        grantOutputChannelIds = new ArrayList<>();
     }
 
     /**

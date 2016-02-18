@@ -18,6 +18,7 @@ public class Message {
     private LinkedList<Long> data;
 
     public Message() {
+        data = new LinkedList<>();
     }
 
     public Message(int target, int source, LinkedList<Long> data) {
