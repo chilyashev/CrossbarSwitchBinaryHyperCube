@@ -10,7 +10,7 @@ import org.cbsbh.model.structures.StateStructure;
  *
  * @author Mihail Chilyashev
  */
-public class OutputStateStructure extends StateStructure implements Tickable {
+public abstract  class OutputStateStructure extends StateStructure implements Tickable {
 
     RRA rra;
 

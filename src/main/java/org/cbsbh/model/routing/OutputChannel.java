@@ -57,8 +57,9 @@ public class OutputChannel extends StateStructure implements Tickable {
 
     @Override
     public void init() {
-        Debug.println(getClass() + " init");
         rra = new RRA();
+        Debug.printf(getWho() + " init");
+
     }
 
 
@@ -124,6 +125,8 @@ public class OutputChannel extends StateStructure implements Tickable {
 
         int newState = calculateState();
         setState(newState);
+        Debug.printf("%s current state: %d", getWho(), state);
+        Debug.printSignals(Debug.CLASS_OUTPUT_CHANNEL, this);
 
         lowerEmSignalsHny();
 
@@ -138,7 +141,9 @@ public class OutputChannel extends StateStructure implements Tickable {
                 getSignalArray().setSignal(SignalArray.STRB_SIG, true);
                 if (rra.hasRequests()) {
                     rra.sendGrant();
+                    Debug.printf("%s Sending grants", getWho());
                 }
+                Debug.printf("%s (S1) ready for transfer", getWho());
                 break;
             case STATE2_READY_FOR_TRANSFER:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
@@ -148,6 +153,8 @@ public class OutputChannel extends StateStructure implements Tickable {
                 // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
                 nextInputChannel = MPPNetwork.get(id).getInputChannel(currentNodeId);
                 assert nextInputChannel != null : "This can't be null";
+                assert nextInputChannel.id == currentNodeId : "This shall not be.";
+                Debug.printf("%s, ready for transfer %d", getWho(), nextInputChannel.id);
                 break;
             case STATE3_START_OF_TRANSFER:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
@@ -156,6 +163,7 @@ public class OutputChannel extends StateStructure implements Tickable {
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
                 assert nextInputChannel != null : "This can't be null";
                 assert buffer.getFlitType() == Flit.FLIT_TYPE_HEADER : "Този Flit трябва да е HeaderFlit!";
+                Debug.printf("%s, starting to transfer to %d", getWho(), nextInputChannel.id);
                 buffer.setValidDataBit();
                 //nextInputChannel.setInputBuffer(buffer);
                 break;
@@ -166,6 +174,7 @@ public class OutputChannel extends StateStructure implements Tickable {
                 // и EXT_CLK, 'ма него не го ползваме
                 assert buffer != null : "Този buffer трябва да е не-null!";
                 nextInputChannel.setInputBuffer(buffer);
+                Debug.printf("%s, Set buffer to %d", getWho(), nextInputChannel.id);
                 break;
             case STATE5_TRANSFER2:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
@@ -185,6 +194,8 @@ public class OutputChannel extends StateStructure implements Tickable {
                 break;
         }
         //getSignalArray().resetAll();
+        Debug.printSignals(Debug.CLASS_OUTPUT_CHANNEL, this);
+        Debug.printf("End of tick");
     }
 
     private void lowerEmSignalsHny() {
@@ -262,5 +273,9 @@ public class OutputChannel extends StateStructure implements Tickable {
 
     public void setAccepted(FIFOQueue accepted) {
         this.accepted = accepted;
+    }
+
+    public String getWho() {
+        return String.format("\tOutputChannel {id: %d (%s), currentNodeID: %d (%s)}", id, Integer.toBinaryString(id), currentNodeId, Integer.toBinaryString(currentNodeId));
     }
 }

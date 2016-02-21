@@ -100,7 +100,6 @@ public class ModelRunner implements Runnable {
         +--------------------+
 
  */
-            
 
 
             //include the bad boy in the network
@@ -118,26 +117,29 @@ public class ModelRunner implements Runnable {
         Context.getInstance().set("messageGenerationFrequency", 1);
         Context.getInstance().set("minMessageSize", 4);
         Context.getInstance().set("maxMessageSize", 56);
-        Context.getInstance().set("fifoQueueCount", 5);
-                init(channelCount, bufferCount);
+        Context.getInstance().set("fifoQueueCount", 2);
+        init(channelCount, bufferCount);
         //End of init
 
-        System.out.println("Starting at... " + new Date());
+        Debug.println("Starting at... " + new Date());
         // Ticking....
         BernoulliGenerator g = new BernoulliGenerator();
-        while (ticks < 1__0__0) {
+        while (ticks < 1____0) {
+            Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
 //            if(g.newValueReady()){
-            if(ticks == 5){
+            if (ticks == 5) {
                 // inject
                 Debug.println("New value is being injected!");
                 MPPNetwork.get(3).generateMessage();
             }
             MPPNetwork.getInstance().tick();
             // Tick for each SMP
+            Debug.printf("\n\n====== NO MORE TICKL-TOCKL №%d ======\n\n", ticks);
             ticks++;
-        }
-        System.out.println("Ended at... " + new Date());
 
+        }
+        Debug.println("Ended at... " + new Date());
+        Debug.endTheMisery();
         // Gather data
         // Write results in the context
         // More work

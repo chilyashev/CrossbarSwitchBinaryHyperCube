@@ -1,5 +1,7 @@
 package org.cbsbh.model.routing.packet.flit;
 
+import org.cbsbh.Debug;
+
 /**
  * C*
  * Date: 3/16/15 10:52 AM
@@ -108,7 +110,12 @@ public class Flit { // *C
 
     public void setTR(long tr) {
         assert getFlitType() == FLIT_TYPE_HEADER : "Wrong flit type";
-        flitData = ((tr & 0xfff) << 16);
+        long dong = ~((0xfff << 16)); // 0xFFFFFFFFF000FFFF
+
+        flitData = flitData & dong; // Занулява TR
+
+        // След като TR е занулена, слагаме новата
+        flitData |= ((tr & 0xfff) << 16);
     }
 
     public long getFlitData() {
@@ -117,5 +124,11 @@ public class Flit { // *C
 
     public void setFlitData(long flitData) {
         this.flitData = flitData;
+    }
+
+    public void setDNA(int DNA) {
+        assert getFlitType() == FLIT_TYPE_HEADER : "Wrong flit type";
+        assert (flitData & 0xfff) == 0 : "There's something in the 12 least significant bits";
+        this.flitData |= (DNA & 0xfff);
     }
 }

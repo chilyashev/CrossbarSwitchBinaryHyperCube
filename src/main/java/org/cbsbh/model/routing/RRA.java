@@ -78,7 +78,6 @@ public class RRA implements Tickable {
     }
 
     public void init() {
-        Debug.println(getClass() + " init");
         grantAckReceived = false;
         currentArbiterId = -1;
         currentChannelId = -1;

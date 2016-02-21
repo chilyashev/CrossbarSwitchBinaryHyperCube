@@ -42,8 +42,10 @@ public class SignalArray {
     public static final int TIME_TWO = 25;
     public static final int TRANSFER = 26;
 
+    public static final int LAST_SIGNAL = 26;
     boolean signals[];
 
+    String[] signalDescriptors = new String[LAST_SIGNAL + 1];
 
     public SignalArray() {
         signals = new boolean[40]; // TODO: това да се направи достатъчно голямо, когато се разбере колко сигнала има.
@@ -66,4 +68,46 @@ public class SignalArray {
         return signals[index];
     }
 
+
+    public String getSignalName(int signal) {
+        // Kinda output:
+        signalDescriptors[CHAN_BUSY] = "CHAN_BUSY";
+        signalDescriptors[PACK_WAIT] = "PACK_WAIT";
+        signalDescriptors[FIFO_BUSY] = "FIFO_BUSY";
+        signalDescriptors[CNT_EQU] = "CNT_EQU";
+        signalDescriptors[DATA_ACK] = "DATA_ACK";
+        signalDescriptors[CLR_FIFO] = "CLR_FIFO";
+        signalDescriptors[WR_FIFO_EN] = "WR_FIFO_EN";
+        signalDescriptors[WR_IN_FIFO] = "WR_IN_FIFO";
+        signalDescriptors[TIMER_EN] = "TIMER_EN";
+        signalDescriptors[TIME_ONE] = "TIME_ONE";
+        signalDescriptors[BUFF_BUSY] = "BUFF_BUSY";
+        signalDescriptors[WR_B_RG] = "WR_B_RG";
+        signalDescriptors[DEMUX_RDY] = "DEMUX_RDY";
+        signalDescriptors[RRA_BUSY] = "RRA_BUSY";
+        signalDescriptors[RRA_WORK] = "RRA_WORK";
+        signalDescriptors[STRB_SIG] = "STRB_SIG";
+        signalDescriptors[WR_MUX_ADR] = "WR_MUX_ADR";
+        signalDescriptors[WR_RRA_PTR] = "WR_RRA_PTR";
+        signalDescriptors[VALID_DATA] = "VALID_DATA";
+        signalDescriptors[WR_RG_OUT] = "WR_RG_OUT";
+        signalDescriptors[FLT_RD] = "FLT_RD";
+        signalDescriptors[CLR_MUX_ADDR] = "CLR_MUX_ADDR";
+
+        // Kinda input:
+        signalDescriptors[RESET] = "RESET";
+        signalDescriptors[INIT] = "INIT";
+        signalDescriptors[FIFO_SELECT] = "FIFO_SELECT";
+        signalDescriptors[VALID_DATA] = "VALID_DATA";
+        signalDescriptors[TIME_TWO] = "TIME_TWO";
+        signalDescriptors[TRANSFER] = "TRANSFER";
+
+        assert signalDescriptors[signal] != null;
+
+        return signalDescriptors[signal];
+    }
+
+    public boolean[] getSignals() {
+        return signals;
+    }
 }

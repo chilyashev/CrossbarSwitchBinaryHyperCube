@@ -40,14 +40,15 @@ public class SMPNode {
     }
 
     public void init() {
-        Debug.println(getClass() + " init");
+        Debug.printf("%s init", getWho());
         inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::init);
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::init);
     }
 
-    boolean cockLove = false;
+    boolean cockLove = false; // Who doesn't love roosters?
     public void tick() {
         //if (!messageData.isEmpty())
+        Debug.printf("%s tick", getWho());
         {
 
             //for(Integer icId : getInputChannels().keySet())
@@ -60,21 +61,28 @@ public class SMPNode {
                 // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
                 Flit flit = new Flit();
                 flit.setFlitType(Flit.FLIT_TYPE_HEADER);
-                flit.setTR(id ^ 10); // 10 is random. I can't even.
+                flit.setDNA(10); // 10 is random. I can't even.
+                flit.setTR(id ^ flit.getDNA());
+                Debug.printf("> Generating a message. From 4 to %d", flit.getDNA());
                 flit.setValidDataBit();
-                flit.setFlitData(0xb00000b5);
+                //flit.setFlitData(0xb00000b5);
                 inputChannels.get(icId).setInputBuffer(flit);
+                /*
+                inputChannels.get(icId).getQueue(0).push(flit);
+                inputChannels.get(icId).getQueue(0).getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);*/
 //                inputChannels.get(icId).getFifoQueues().get(0).getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
             }
         }
+
         inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::tick);
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::tick);
+
         //getDMA_IN().tick();
         //getDMA_OUT().tick();
-        if (!messages.isEmpty()) {
+        /*if (!messages.isEmpty()) {
             Message m = messages.remove(0);
             messageData.addAll(m.getAsPackets());
-        }
+        }*/
 
     }
 
@@ -151,5 +159,9 @@ public class SMPNode {
 
     public OutputChannel getOutputChannel(int outputChannelId) {
         return outputChannels.get(outputChannelId);
+    }
+
+    public String getWho() {
+        return String.format("SMPNode {id: %d (%s)}", id, String.format("%s", Integer.toBinaryString(id)));
     }
 }

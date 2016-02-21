@@ -46,6 +46,9 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch(args);
+
+
+
         Context context = Context.getInstance();
         ModelRunner runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
             @Override

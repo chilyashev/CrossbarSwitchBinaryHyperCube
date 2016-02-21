@@ -1,8 +1,11 @@
 package org.cbsbh.model.routing;
 
+import com.sun.deploy.util.ArrayUtil;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Description goes here
@@ -132,5 +135,14 @@ public class Arbiter {
 
     public void setChannelId(int channelId) {
         this.channelId = channelId;
+    }
+
+    public String grantOutputChannelIdsToString() {
+        StringBuffer ret = new StringBuffer();
+        for (Integer grantOutputChannelId : grantOutputChannelIds) {
+            ret.append(grantOutputChannelId);
+        }
+
+        return String.join(", ", ret);
     }
 }

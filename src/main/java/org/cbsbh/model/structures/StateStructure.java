@@ -87,4 +87,5 @@ abstract public class StateStructure {
     }
 
     public abstract void init();
+    public abstract String getWho();
 }

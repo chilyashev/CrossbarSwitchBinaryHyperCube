@@ -57,6 +57,7 @@ i0------|              O0|------>|I               |
     private Flit inputBuffer;
 
     private int nodeId;
+    private String who;
 
     public InputChannel(int id, int currentNodeId) {
         this.id = id;
@@ -70,7 +71,8 @@ i0------|              O0|------>|I               |
 
     @Override
     public void init() {
-        Debug.println(getClass() + " init");
+        Debug.printf(getWho() + " init");
+
         for (int i = 0; i < fifoQueueCount; i++) {
             FIFOQueue e = new FIFOQueue(this, i);
             e.init();
@@ -142,9 +144,15 @@ i0------|              O0|------>|I               |
     }
 
     public void tick() {
-        if (id == 0 && nodeId == 4) {
-            Debug.println(String.format("[%s, id=%d] stop %d", getClass(), id, state));
-        }
+        fifoQueues.forEach(FIFOQueue::tick);
+
+        /*for (FIFOQueue queue : fifoQueues) {
+            Debug.printf("\n\nQueue %d status: %s\n\n", queue.id, queue.getStatus());
+        }*/
+
+        /*if (id == 0 && nodeId == 4) {
+            Debug.println(String.format("[%s, id=%d] stop %d", getWho(), id, state));
+        }*/
         /*for (FIFOQueue queue : fifoQueues) {
             if (queue.hasSignal(SignalArray.WR_IN_FIFO)) {
                 getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
@@ -152,11 +160,11 @@ i0------|              O0|------>|I               |
             }
         }*/
         // Вземаме новото състояние
-        Debug.println(String.format("[%s, id=%d] Calling calculateState with state %d", getClass(), id, state));
         state = calculateState();
-        lowerEmSignalsHny();
         setState(state);
-        Debug.println(String.format("[%s, id=%d] New: state %d", getClass(), id, state));
+        Debug.println(String.format("%s current state %d", getWho(), state));
+        Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
+        lowerEmSignalsHny();
         boolean allBusy;
         switch (state) {
             case STATE0_INIT:
@@ -197,15 +205,19 @@ i0------|              O0|------>|I               |
                 if (activeFIFOIndex == -1) {
                     activeFIFOIndex = getFirstAvailableQueueIndex();
                 }
+                Debug.printf("activeFIFOIndex: %d", activeFIFOIndex);
                 assert activeFIFOIndex != -1 : "activeFIFOIndex не би трябвало да е -1. Чекираут, мейн!";
+                fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
+                fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
+                getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
                 if (activeFIFOIndex != -1 && getActiveFifo().hasSignal(SignalArray.FIFO_BUSY) && hasSignal(SignalArray.WR_IN_FIFO)) {
 
                     //FIFOQueue qq = ;
                     assert inputBuffer != null : "Trying to push a null flit in the FIFO";
                     fifoQueues.get(activeFIFOIndex).push(inputBuffer);
                     //getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
-                    fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
-                    fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
+                    /*fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
+                    fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);*/
                     inputBuffer = null;
                 }
                 break;
@@ -221,7 +233,8 @@ i0------|              O0|------>|I               |
                 break;
         }
 
-        fifoQueues.forEach(FIFOQueue::tick);
+        Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
+        Debug.printf("End of tick");
         //getSignalArray().resetAll();
     }
 
@@ -326,5 +339,9 @@ i0------|              O0|------>|I               |
 
     public void setNodeId(int nodeId) {
         this.nodeId = nodeId;
+    }
+
+    public String getWho() {
+        return String.format("\tInputChannel {id: %d (%s), nodeID: %d (%s)}", id, Integer.toBinaryString(id), nodeId, Integer.toBinaryString(nodeId));
     }
 }

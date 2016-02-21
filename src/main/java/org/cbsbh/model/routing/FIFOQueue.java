@@ -1,14 +1,13 @@
 package org.cbsbh.model.routing;
 
 import org.cbsbh.Debug;
+import org.cbsbh.model.StatusReporter;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Проверката на сигнали се случва в *SignalArray класовете. hasSignal(index), например.
@@ -16,7 +15,7 @@ import java.util.Queue;
  *
  * @author Mihail Chilyashev
  */
-public class FIFOQueue extends StateStructure implements Tickable {
+public class FIFOQueue extends StateStructure implements Tickable, StatusReporter {
     /**
      * Начално състояние. По него се влиза след RESET, след INIT,
      * след освобождаване на опашката от вече приет и прочетен пакет пакет или след изтекъл timeout.
@@ -56,6 +55,8 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
     int nextNodeId = -1;
     int id;
+    private String who;
+    int nodeId;//.getId();
 
     public FIFOQueue(InputChannel channel, int id) {
         this.channel = channel;
@@ -65,9 +66,9 @@ public class FIFOQueue extends StateStructure implements Tickable {
     }
 
     public void init() {
-        Debug.println(getClass() + " init");
         // TODO: големината на fifo трябва да е "размерът, указан в интерфейса - 2" заради Head/Tail флитовете
-        int nodeId = channel.getNodeId();//.getId();
+        nodeId = channel.getNodeId();
+        Debug.printf(getWho() + " init");
 
         ArrayList<OutputChannel> outputChannels = new ArrayList<>();
         assert (MPPNetwork.get(nodeId)) != null : "nopew.";
@@ -152,8 +153,10 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
         // Вземаме новото състояние
         state = calculateState();
+        Debug.println(getWho() + " current state = " + state);
+        Debug.printSignals(Debug.CLASS_FIFO_QUEUE, this);
         lowerEmSignalsHny();
-        Debug.println(getClass() + " new state = " + state);
+
 
         switch (state) {
             case STATE0_INIT:
@@ -222,6 +225,8 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
         //getSignalArray().resetAll();
         //getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+        Debug.printSignals(Debug.CLASS_FIFO_QUEUE, this);
+        Debug.printf("End of tick");
     }
 
     private void lowerEmSignalsHny() {
@@ -331,5 +336,17 @@ public class FIFOQueue extends StateStructure implements Tickable {
 
     public void setChannel(InputChannel channel) {
         this.channel = channel;
+    }
+
+    @Override
+    public Map<String, String> getStatus() {
+        HashMap<String, String> status = new HashMap<>();
+        status.put("state", String.valueOf(state));
+        status.put("arby_grants", arby.grantOutputChannelIdsToString());
+        return status;
+    }
+
+    public String getWho() {
+        return String.format("\t\tFIFOQueue {id: %d, nodeID: %d, channelID: %d}", id, nodeId, channel.id);
     }
 }
