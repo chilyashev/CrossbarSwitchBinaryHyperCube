@@ -46,36 +46,56 @@ public class SMPNode {
     }
 
     boolean cockLove = false; // Who doesn't love roosters?
+    boolean doLove = true;
+
     public void tick() {
         //if (!messageData.isEmpty())
         Debug.printf("%s tick", getWho());
         {
-
             //for(Integer icId : getInputChannels().keySet())
-            Integer icId = 0;
-            if (!cockLove && id == 4) {
-                cockLove = true;
-                /*if (messageData.isEmpty()) {
-                    break;
-                }*/
-                // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
-                Flit flit = new Flit();
-                flit.setFlitType(Flit.FLIT_TYPE_HEADER);
-                flit.setDNA(10); // 10 is random. I can't even.
-                flit.setTR(id ^ flit.getDNA());
-                Debug.printf("> Generating a message. From 4 to %d", flit.getDNA());
-                flit.setValidDataBit();
-                //flit.setFlitData(0xb00000b5);
-                inputChannels.get(icId).setInputBuffer(flit);
-                /*
-                inputChannels.get(icId).getQueue(0).push(flit);
-                inputChannels.get(icId).getQueue(0).getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);*/
-//                inputChannels.get(icId).getFifoQueues().get(0).getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
+            Integer icId = 2;
+
+
+            if (doLove) {
+                if (id == 0) {
+                    if (!cockLove) {
+
+                        if (inputChannels.get(icId).getState() == 1) {
+                            Flit flit = new Flit();
+                            flit.setFlitType(Flit.FLIT_TYPE_HEADER);
+                            flit.setDNA(10); // 10 is random. I can't even.
+                            flit.setTR(id ^ flit.getDNA());
+                            flit.setValidDataBit();
+                            Debug.printf("> [Just the tip] Generating a message. From %d to %d", id, flit.getDNA());
+
+                            inputChannels.get(icId).setInputBuffer(flit);
+                            inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
+                            inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
+                            inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+                            inputChannels.get(icId).getActiveFifo().setState(3);
+                            cockLove = true;
+                        }
+                    } else if(inputChannels.get(icId).getActiveFifo().getFifo().size() <1) {
+                        doLove = false;
+                        Flit flit = new Flit();
+                        flit.setFlitType(Flit.FLIT_TYPE_TAIL);
+                        flit.setValidDataBit();
+                        flit.setFlitData(0x999);
+                        Debug.printf("> [Just the dick] Generating a message. From %d to %d", id, flit.getDNA());
+
+                        inputChannels.get(icId).setInputBuffer(flit);
+                        inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
+                        inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
+                        inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+                        inputChannels.get(icId).getActiveFifo().setState(4);
+
+                    }
+                }
             }
         }
 
-        inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::tick);
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::tick);
+        inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::tick);
 
         //getDMA_IN().tick();
         //getDMA_OUT().tick();
@@ -163,5 +183,10 @@ public class SMPNode {
 
     public String getWho() {
         return String.format("SMPNode {id: %d (%s)}", id, String.format("%s", Integer.toBinaryString(id)));
+    }
+
+    public void calculateNewStates() {
+        outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::calculateNewState);
+        inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::calculateNewState);
     }
 }

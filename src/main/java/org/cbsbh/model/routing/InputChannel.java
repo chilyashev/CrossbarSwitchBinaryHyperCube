@@ -59,10 +59,11 @@ i0------|              O0|------>|I               |
     private int nodeId;
     private String who;
 
+    boolean gotoS2 = false;
+
     public InputChannel(int id, int currentNodeId) {
         this.id = id;
-        /*this.node = MPPNetwork.get(currentNodeId);
-        assert this.node != null : "The node can't be null. Fuck";*/
+
         this.nodeId = currentNodeId;
         this.fifoQueueCount = Context.getInstance().getInteger("fifoQueueCount");
         fifoQueues = new ArrayList<>(fifoQueueCount);
@@ -72,6 +73,9 @@ i0------|              O0|------>|I               |
     @Override
     public void init() {
         Debug.printf(getWho() + " init");
+
+        this.node = MPPNetwork.get(nodeId);
+        assert this.node != null : "The node can't be null. Fuck";
 
         for (int i = 0; i < fifoQueueCount; i++) {
             FIFOQueue e = new FIFOQueue(this, i);
@@ -112,7 +116,7 @@ i0------|              O0|------>|I               |
         }
 
         if (state == STATE1_UPDATE_FIFO_STATUS) {
-            if (!hasSignal(SignalArray.CHAN_BUSY) && inputBuffer != null) {
+            if (!hasSignal(SignalArray.CHAN_BUSY) /*&& gotoS2/* && inputBuffer != null*/) {
                 return STATE2_WRITE_IN_FIFO;
             } else {
                 return STATE0_INIT;
@@ -138,13 +142,27 @@ i0------|              O0|------>|I               |
         return state;
     }
 
+    @Override
+    public void calculateNewState() {
+        state = calculateState();
+        setState(state);
+        lowerEmSignalsHny();
+        // Фаза 1: Определяне на състоянието
+        fifoQueues.forEach(FIFOQueue::calculateNewState);
+    }
 
-    private FIFOQueue getActiveFifo() {
+    public FIFOQueue getActiveFifo() {
         return getQueue(activeFIFOIndex);
     }
 
     public void tick() {
+
+        // Фаза 2: ...
         fifoQueues.forEach(FIFOQueue::tick);
+
+
+        Debug.println(String.format("%s current state %d", getWho(), state));
+        Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
 
         /*for (FIFOQueue queue : fifoQueues) {
             Debug.printf("\n\nQueue %d status: %s\n\n", queue.id, queue.getStatus());
@@ -160,11 +178,7 @@ i0------|              O0|------>|I               |
             }
         }*/
         // Вземаме новото състояние
-        state = calculateState();
-        setState(state);
-        Debug.println(String.format("%s current state %d", getWho(), state));
-        Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
-        lowerEmSignalsHny();
+
         boolean allBusy;
         switch (state) {
             case STATE0_INIT:
@@ -213,8 +227,11 @@ i0------|              O0|------>|I               |
                 if (activeFIFOIndex != -1 && getActiveFifo().hasSignal(SignalArray.FIFO_BUSY) && hasSignal(SignalArray.WR_IN_FIFO)) {
 
                     //FIFOQueue qq = ;
-                    assert inputBuffer != null : "Trying to push a null flit in the FIFO";
-                    fifoQueues.get(activeFIFOIndex).push(inputBuffer);
+                    //assert inputBuffer != null : "Trying to push a null flit in the FIFO";
+
+                    //fifoQueues.get(activeFIFOIndex).push(inputBuffer);
+
+
                     //getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
                     /*fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
                     fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);*/
@@ -311,7 +328,11 @@ i0------|              O0|------>|I               |
     }
 
     public void setInputBuffer(Flit inputBuffer) {
+        if (activeFIFOIndex == -1) {
+            activeFIFOIndex = getFirstAvailableQueueIndex();
+        }
         this.inputBuffer = inputBuffer;
+        getActiveFifo().push(inputBuffer);
     }
 
     public int getId() {

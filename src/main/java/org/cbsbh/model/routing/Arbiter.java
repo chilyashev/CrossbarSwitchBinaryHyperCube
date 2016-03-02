@@ -72,7 +72,7 @@ public class Arbiter {
             return -1;
         }
 
-        //assert grantOutputChannelIds.size() > 0 : "Никой не е върнал Grant";
+        assert grantOutputChannelIds.size() > 0 : "Никой не е върнал Grant";
         int id = grantOutputChannelIds.remove(0);
         grantOutputChannelIds.clear();
         sendGrantAck(fifoQueue, id);
@@ -144,5 +144,9 @@ public class Arbiter {
         }
 
         return String.join(", ", ret);
+    }
+
+    public void takeGrant(Integer outputChannelId) {
+        grantOutputChannelIds.add(outputChannelId);
     }
 }

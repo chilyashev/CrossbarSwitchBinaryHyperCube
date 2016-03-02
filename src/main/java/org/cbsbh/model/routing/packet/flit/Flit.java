@@ -54,7 +54,7 @@ public class Flit { // *C
     }
 
     public boolean isDataValid() {
-        return (controlByte & (1 << 4)) != 0;
+        return (controlByte & (1 << 3)) != 0;
     }
 
     /**
@@ -101,7 +101,7 @@ public class Flit { // *C
 
 
     public void setValidDataBit() {
-        controlByte = (short)(controlByte | (1 << 4));
+        controlByte = (short)(controlByte | (1 << 3));
     }
 
     public void setFlitType(int flitType) {

@@ -138,8 +138,17 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
 
     @Override
+    public void calculateNewState() {
+        // Вземаме новото състояние
+        state = calculateState();
+        lowerEmSignalsHny();
+    }
+
+    @Override
     public void tick() {
         Flit head;
+        Debug.println(getWho() + " current state = " + state);
+        Debug.printSignals(Debug.CLASS_FIFO_QUEUE, this);
         if (hasSignal(SignalArray.TIMER_EN)) {
             timer++;
 
@@ -149,13 +158,6 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 getSignalArray().setSignal(SignalArray.TIME_ONE, true);
             }*/
         }
-
-
-        // Вземаме новото състояние
-        state = calculateState();
-        Debug.println(getWho() + " current state = " + state);
-        Debug.printSignals(Debug.CLASS_FIFO_QUEUE, this);
-        lowerEmSignalsHny();
 
 
         switch (state) {
@@ -198,6 +200,10 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
                 getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
                 getSignalArray().setSignal(SignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 1
+
+                if (channel.id == 2) {
+                    Debug.printf("Size of queue: %d", fifo.size());
+                }
 
                 // possible sadface
                 if (nextNodeId == -1) {
@@ -248,11 +254,15 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 break;
             case STATE6_WAIT_FOR_END_OF_PACKET:
                 getSignalArray().setSignal(SignalArray.DATA_ACK, false);
+                getChannel().getSignalArray().setSignal(SignalArray.DATA_ACK, false);
                 break;
         }
     }
 
     public void sendDataToNextNode() {
+        if (fifo.isEmpty()) {
+            return;
+        }
         Flit nextFlit = fifo.remove();
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
             nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
@@ -260,9 +270,11 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
 
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
-            System.err.println("FINALLY! A tail flit! FIFOQueue size: " + fifo.size());
+            Debug.println("FINALLY! A tail flit! FIFOQueue size: " + fifo.size());
             getSignalArray().setSignal(SignalArray.CNT_EQU, true);
+            //System.exit(-1);
         }
+        // sadfase.dwg
         channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
     }
 
@@ -310,8 +322,9 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
     }
 
     public int getCurrentFlitType() {
-        assert fifo.peek() != null : "This is not the flit you are looking for.";
+        //assert fifo.peek() != null : "This is not the flit you are looking for.";
         if (fifo.peek() != null) {
+            Debug.printf("Flit type: %d", fifo.peek().getFlitType());
             return fifo.peek().getFlitType();
         }
         return -1;
@@ -319,7 +332,10 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
     public boolean isCurrentFlitDataValid() {
         assert fifo.peek() != null : "This is not the flit you are looking for.";
-        return fifo.peek().isDataValid();
+        if (fifo.size() > 0) {
+            return fifo.peek().isDataValid();
+        }
+        return false;
     }
 
     public int getState() {

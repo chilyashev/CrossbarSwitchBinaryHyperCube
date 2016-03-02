@@ -32,6 +32,7 @@ public class Debug {
                 SignalArray.DEMUX_RDY,
                 SignalArray.CHAN_BUSY,
                 SignalArray.FIFO_BUSY,
+                SignalArray.WR_IN_FIFO,
         };
 
         signals[CLASS_OUTPUT_CHANNEL] = new int[]{
@@ -54,6 +55,8 @@ public class Debug {
                 SignalArray.WR_IN_FIFO,
                 SignalArray.DATA_ACK,
                 SignalArray.TIMER_EN,
+                SignalArray.FIFO_SELECT,
+                SignalArray.CNT_EQU
         };
 
         try {

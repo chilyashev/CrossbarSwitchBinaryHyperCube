@@ -37,4 +37,8 @@ public class MPPNetwork {
     public void tick() {
         SMPNodes.values().forEach(org.cbsbh.model.routing.SMPNode::tick);
     }
+
+    public void calculateNewStates() {
+        SMPNodes.values().forEach(org.cbsbh.model.routing.SMPNode::calculateNewStates);
+    }
 }

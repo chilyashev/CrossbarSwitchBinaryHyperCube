@@ -10,5 +10,7 @@ public interface Tickable {
     /**
      * For logic done tick by tick.
      */
-    public void tick();
+    void tick();
+
+    void calculateNewState();
 }

@@ -83,6 +83,9 @@ public class ModelRunner implements Runnable {
             SMPNode smp = MPPNetwork.get(i);
             smp.init();
             // TODO: .init() every mofo.
+        }
+    }
+
 
 
 /*
@@ -100,11 +103,6 @@ public class ModelRunner implements Runnable {
         +--------------------+
 
  */
-
-
-            //include the bad boy in the network
-        }
-    }
 
     @Override
     public void run() {
@@ -124,14 +122,17 @@ public class ModelRunner implements Runnable {
         Debug.println("Starting at... " + new Date());
         // Ticking....
         BernoulliGenerator g = new BernoulliGenerator();
-        while (ticks < 1____0) {
+        while (ticks < 1__0__0) {
             Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
 //            if(g.newValueReady()){
             if (ticks == 5) {
                 // inject
                 Debug.println("New value is being injected!");
-                MPPNetwork.get(3).generateMessage();
+                // MPPNetwork.get(3).generateMessage();
+
             }
+
+            MPPNetwork.getInstance().calculateNewStates();
             MPPNetwork.getInstance().tick();
             // Tick for each SMP
             Debug.printf("\n\n====== NO MORE TICKL-TOCKL №%d ======\n\n", ticks);

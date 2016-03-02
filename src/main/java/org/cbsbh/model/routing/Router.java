@@ -35,6 +35,11 @@ public class Router implements Tickable {
 
     }
 
+    @Override
+    public void calculateNewState() {
+
+    }
+
     public HashMap<Integer, InputChannel> getInputChannels() {
         return inputChannels;
     }

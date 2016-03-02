@@ -57,7 +57,7 @@ public class OutputChannel extends StateStructure implements Tickable {
 
     @Override
     public void init() {
-        rra = new RRA();
+        rra = new RRA(id);
         Debug.printf(getWho() + " init");
 
     }
@@ -79,7 +79,7 @@ public class OutputChannel extends StateStructure implements Tickable {
         if (state == STATE1_ROUTING_AND_ARBITRAGING) {
             // Входният канал за всички изходни канали на рутер XXXX е XXXX на рутер YYYY, където YYYY ID-то на изходния канал.
             InputChannel nextInputChannel = MPPNetwork.get(this.id).getInputChannel(this.currentNodeId);
-            if (!nextInputChannel.hasSignal(SignalArray.CHAN_BUSY) && rra.isGrantAckReceived()) {
+            if (!nextInputChannel.hasSignal(SignalArray.CHAN_BUSY) && accepted != null) {
                 return STATE2_READY_FOR_TRANSFER;
             }
         }
@@ -109,7 +109,7 @@ public class OutputChannel extends StateStructure implements Tickable {
         }
 
         if (state == STATE6_END_OF_TRANSFER) {
-            if (!hasSignal(SignalArray.TIME_ONE) && nextInputChannel.hasSignal(SignalArray.DATA_ACK)) {
+            if (!hasSignal(SignalArray.TIME_ONE) && nextInputChannel.getActiveFifo().hasSignal(SignalArray.DATA_ACK)) {
                 return STATE1_ROUTING_AND_ARBITRAGING;
             } else if (hasSignal(SignalArray.TIME_ONE)) {
                 return STATE0_INIT;
@@ -119,18 +119,19 @@ public class OutputChannel extends StateStructure implements Tickable {
         return state;
     }
 
+    @Override
+    public void calculateNewState() {
+        int newState = calculateState();
+        setState(newState);
+        lowerEmSignalsHny();
+    }
 
     public void tick() {
 
-
-        int newState = calculateState();
-        setState(newState);
         Debug.printf("%s current state: %d", getWho(), state);
         Debug.printSignals(Debug.CLASS_OUTPUT_CHANNEL, this);
 
-        lowerEmSignalsHny();
-
-        switch (newState) {
+        switch (state) {
             case STATE0_INIT:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
                 getSignalArray().setSignal(SignalArray.RESET, false);
@@ -154,7 +155,9 @@ public class OutputChannel extends StateStructure implements Tickable {
                 nextInputChannel = MPPNetwork.get(id).getInputChannel(currentNodeId);
                 assert nextInputChannel != null : "This can't be null";
                 assert nextInputChannel.id == currentNodeId : "This shall not be.";
-                Debug.printf("%s, ready for transfer %d", getWho(), nextInputChannel.id);
+                //nextInputChannel.gotoS2 = true;
+                //nextInputChannel.getActiveFifo().getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
+                Debug.printf("%s, ready for transfer channel id = %d, node id = %d", getWho(), nextInputChannel.id, nextInputChannel.node.id);
                 break;
             case STATE3_START_OF_TRANSFER:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
@@ -273,6 +276,7 @@ public class OutputChannel extends StateStructure implements Tickable {
 
     public void setAccepted(FIFOQueue accepted) {
         this.accepted = accepted;
+        rra.setGrantAckReceived(true);
     }
 
     public String getWho() {

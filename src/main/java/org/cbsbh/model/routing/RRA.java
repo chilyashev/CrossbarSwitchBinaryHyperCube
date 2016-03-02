@@ -11,12 +11,18 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 
 /**
- * Description goes here
+ * Round (Batman and) Robin логика.
  * Date: 3/16/15 11:40 AM
  *
  * @author Mihail Chilyashev
  */
 public class RRA implements Tickable {
+
+
+    int outputChannelId; // ID на канала, в който е този RRA
+
+
+
     /**
      * Идентификатори на арбитри (Arbiter), които са изпратили Request.
      */
@@ -39,7 +45,8 @@ public class RRA implements Tickable {
 
     private boolean grantAckReceived;
 
-    public RRA() {
+    public RRA(int id) {
+        outputChannelId = id;
         init();
     }
 
@@ -69,11 +76,13 @@ public class RRA implements Tickable {
          * арбитри, които са изпратили заявки.
          */
         if(!valuesChanged){
+            // Тези редове правят завъртането на указателите. CurrentChannelId и CurrentArbiterID са указателя на RR логиката.
             TreeMap map = requestMap.firstEntry().getValue();
             Arbiter firstArbiter = (Arbiter) map.firstEntry().getValue();
             currentChannelId = firstArbiter.getChannelId();
             currentArbiterId = firstArbiter.getId();
         }
+        requestMap.get(currentChannelId).get(currentArbiterId).takeGrant(outputChannelId);
 
     }
 
@@ -93,8 +102,10 @@ public class RRA implements Tickable {
         // TODO: doStuff!
     }
 
+    @Override
+    public void calculateNewState() {
 
-
+    }
 
     /**
      * Вика се не просто от някъде, а от арбитъра, за да се каже, че дадения арбитър иска да праща.
@@ -115,5 +126,9 @@ public class RRA implements Tickable {
 
     public boolean isGrantAckReceived() {
         return grantAckReceived;
+    }
+
+    public void setGrantAckReceived(boolean grantAckReceived) {
+        this.grantAckReceived = grantAckReceived;
     }
 }
