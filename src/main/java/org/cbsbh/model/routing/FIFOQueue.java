@@ -52,6 +52,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
      */
     InputChannel channel;
 
+    ArrayList<Flit> receivedData; // Only to check what's in nyah
 
     int nextNodeId = -1;
     int id;
@@ -201,10 +202,6 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
                 getSignalArray().setSignal(SignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 1
 
-                if (channel.id == 2) {
-                    Debug.printf("Size of queue: %d", fifo.size());
-                }
-
                 // possible sadface
                 if (nextNodeId == -1) {
                     nextNodeId = arby.getNextNodeId(this);
@@ -266,15 +263,37 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         Flit nextFlit = fifo.remove();
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
             nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
+            if((nextFlit.getTR()) == 0) {
+                Debug.println("FINALLY! A header flit! FIFOQueue size: " + fifo.size());
+                receivedData = new ArrayList<>();
+                receivedData.add(nextFlit);
+            }
         }
 
+        if (nextFlit.getFlitType() == Flit.FLIT_TYPE_BODY) {
+            Debug.println("FINALLY! A body flit! FIFOQueue size: " + fifo.size());
+            if(receivedData != null) {
+                receivedData.add(nextFlit);
+            }
+        }
 
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
             Debug.println("FINALLY! A tail flit! FIFOQueue size: " + fifo.size());
+            if(receivedData != null) {
+                receivedData.add(nextFlit);
+
+                Debug.println(getWho() + " Flits: ");
+                for (Flit flit : receivedData) {
+                    Debug.println("Flit: " + flit.toString());
+                }
+            }
+
+
             getSignalArray().setSignal(SignalArray.CNT_EQU, true);
             //System.exit(-1);
         }
         // sadfase.dwg
+        nextFlit.history.add(getWho() + " oc: " + channel.getNode().getOutputChannel(nextNodeId).getWho());
         channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
     }
 
@@ -331,11 +350,11 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
     }
 
     public boolean isCurrentFlitDataValid() {
-        assert fifo.peek() != null : "This is not the flit you are looking for.";
-        if (fifo.size() > 0) {
-            return fifo.peek().isDataValid();
-        }
-        return false;
+        //assert fifo.peek() != null : "This is not the flit you are looking for.";
+        //.isDataValid();
+        // TODO: да проверим дали наистина няма смисъл да се проверява бита за валидни данни.
+        // Защото все пак не предаваме апаратно и няма как да има грешки при предаването на ниво бит.
+        return fifo.size() > 0 && fifo.peek() != null;
     }
 
     public int getState() {
@@ -363,6 +382,6 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
     }
 
     public String getWho() {
-        return String.format("\t\tFIFOQueue {id: %d, nodeID: %d, channelID: %d}", id, nodeId, channel.id);
+        return String.format("\t\tFIFOQueue {id: %d, nodeID: %d, channelID: %d, queue size: %d", id, nodeId, channel.id, fifo.size());
     }
 }

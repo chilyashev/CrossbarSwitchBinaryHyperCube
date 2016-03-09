@@ -6,6 +6,7 @@ import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.generator.BernoulliGenerator;
 import org.cbsbh.model.routing.*;
+import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.Message;
 
 import java.util.Date;
@@ -127,7 +128,7 @@ public class ModelRunner implements Runnable {
 //            if(g.newValueReady()){
             if (ticks == 5) {
                 // inject
-                Debug.println("New value is being injected!");
+                //Debug.println("New value is being injected!");
                 // MPPNetwork.get(3).generateMessage();
 
             }
@@ -139,6 +140,16 @@ public class ModelRunner implements Runnable {
             ticks++;
 
         }
+
+        Debug.println("Sent flits: ");
+        for (Flit flit : MPPNetwork.get(0).sentFlits) {
+            Debug.println("Flit jumps for " + flit.toString());
+            for (String jump : flit.history) {
+                Debug.println("" + jump);
+            }
+            Debug.println("------");
+        }
+
         Debug.println("Ended at... " + new Date());
         Debug.endTheMisery();
         // Gather data

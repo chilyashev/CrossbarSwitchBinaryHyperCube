@@ -85,6 +85,7 @@ public class OutputChannel extends StateStructure implements Tickable {
         }
 
         if (state == STATE2_READY_FOR_TRANSFER) {
+            Debug.printf("%s, state 2, nextInputChannel.getActiveFIFOIndex() = %s\n", getWho(), nextInputChannel.getActiveFIFOIndex());
             if (nextInputChannel.getActiveFIFOIndex() != -1
                     && nextInputChannel.getActiveFIFOQueue().hasSignal(SignalArray.PACK_WAIT)) {
                 return STATE3_START_OF_TRANSFER;
@@ -173,20 +174,29 @@ public class OutputChannel extends StateStructure implements Tickable {
             case STATE4_TRANSFER1:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
 //                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
+                if (buffer == null){
+                    Debug.printf("womp wopm woooomp (sad_trombone.bj)");
+                    break;
+                }
+                assert buffer != null : "Този buffer трябва да е не-null!";
                 buffer.setValidDataBit();
                 // и EXT_CLK, 'ма него не го ползваме
-                assert buffer != null : "Този buffer трябва да е не-null!";
                 nextInputChannel.setInputBuffer(buffer);
-                Debug.printf("%s, Set buffer to %d", getWho(), nextInputChannel.id);
+                buffer = null;
+                Debug.printf("%s, Set buffer to %s", getWho(), nextInputChannel.getWho());
                 break;
             case STATE5_TRANSFER2:
+                if (buffer == null){
+                    Debug.printf("womp wopm woooomp (sad_trombone.bj)");
+                    break;
+                }
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
 //                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
+                assert buffer != null : "Този buffer трябва да е не-null!";
                 buffer.setValidDataBit();
                 getSignalArray().setSignal(SignalArray.WR_RG_OUT, true);
                 getSignalArray().setSignal(SignalArray.FLT_RD, true);
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
-                assert buffer != null : "Този buffer трябва да е не-null!";
                 //nextInputChannel.setInputBuffer(buffer);
                 break;
             case STATE6_END_OF_TRANSFER:

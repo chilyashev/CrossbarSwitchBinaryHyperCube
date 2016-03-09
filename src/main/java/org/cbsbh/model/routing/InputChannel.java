@@ -60,6 +60,7 @@ i0------|              O0|------>|I               |
     private String who;
 
     boolean gotoS2 = false;
+    private boolean chanBusy;
 
     public InputChannel(int id, int currentNodeId) {
         this.id = id;
@@ -110,13 +111,13 @@ i0------|              O0|------>|I               |
         }
 
         if (state == STATE0_INIT) {
-            if (!hasSignal(SignalArray.CHAN_BUSY)) {
+            if (!isChanBusy()) {
                 return STATE1_UPDATE_FIFO_STATUS;
             }
         }
 
         if (state == STATE1_UPDATE_FIFO_STATUS) {
-            if (!hasSignal(SignalArray.CHAN_BUSY) /*&& gotoS2/* && inputBuffer != null*/) {
+            if (!isChanBusy()) {//hasSignal(SignalArray.CHAN_BUSY) /*&& gotoS2/* && inputBuffer != null*/) {
                 return STATE2_WRITE_IN_FIFO;
             } else {
                 return STATE0_INIT;
@@ -186,30 +187,14 @@ i0------|              O0|------>|I               |
                 getSignalArray().setSignal(SignalArray.RESET, false);
 
                 // Обикаляме всички опашки и проверяваме дали са свободни. Ако всички са заети, вдигаме CHAN_BUSY.
-                allBusy = true;
-                for (FIFOQueue queue : fifoQueues) {
-                    if (!queue.hasSignal(SignalArray.FIFO_BUSY)) {
-                        allBusy = false;
-                        break;
-                    }
-                }
-
-                getSignalArray().setSignal(SignalArray.CHAN_BUSY, allBusy);
+                getSignalArray().setSignal(SignalArray.CHAN_BUSY, isChanBusy());
 
                 break;
             case STATE1_UPDATE_FIFO_STATUS:
                 getSignalArray().setSignal(SignalArray.WR_B_RG, true);
                 getSignalArray().setSignal(SignalArray.BUFF_BUSY, true);
-                allBusy = true;
-                for (int i = 0; i < fifoQueues.size(); i++) {
-                    FIFOQueue queue = fifoQueues.get(i);
-                    B_FIFO_STATUS[i] = queue.hasSignal(SignalArray.FIFO_BUSY);
-                    if (!queue.hasSignal(SignalArray.FIFO_BUSY)) {
-                        allBusy = false;
-                        break;
-                    }
-                }
-                getSignalArray().setSignal(SignalArray.CHAN_BUSY, allBusy);
+
+                getSignalArray().setSignal(SignalArray.CHAN_BUSY, isChanBusy());
                 break;
 
             // TODO: I'm watching you.
@@ -364,5 +349,16 @@ i0------|              O0|------>|I               |
 
     public String getWho() {
         return String.format("\tInputChannel {id: %d (%s), nodeID: %d (%s)}", id, Integer.toBinaryString(id), nodeId, Integer.toBinaryString(nodeId));
+    }
+
+    public boolean isChanBusy() {
+        for (int i = 0; i < fifoQueues.size(); i++) {
+            FIFOQueue queue = fifoQueues.get(i);
+            B_FIFO_STATUS[i] = queue.hasSignal(SignalArray.FIFO_BUSY);
+            if (!queue.hasSignal(SignalArray.FIFO_BUSY)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

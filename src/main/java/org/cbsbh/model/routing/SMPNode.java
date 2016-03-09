@@ -31,6 +31,7 @@ public class SMPNode {
 
     ArrayList<Message> messages;
     ArrayList<Packet> messageData;
+    public ArrayList<Flit> sentFlits = new ArrayList<>();
 
 
     public SMPNode(int id) {
@@ -47,6 +48,9 @@ public class SMPNode {
 
     boolean cockLove = false; // Who doesn't love roosters?
     boolean doLove = true;
+    int tock = 12;
+    int flitters = 13;
+    int queueId;
 
     public void tick() {
         //if (!messageData.isEmpty())
@@ -63,31 +67,42 @@ public class SMPNode {
                         if (inputChannels.get(icId).getState() == 1) {
                             Flit flit = new Flit();
                             flit.setFlitType(Flit.FLIT_TYPE_HEADER);
-                            flit.setDNA(10); // 10 is random. I can't even.
+                            flit.setDNA(15); // 10 is random. I can't even.
                             flit.setTR(id ^ flit.getDNA());
                             flit.setValidDataBit();
                             Debug.printf("> [Just the tip] Generating a message. From %d to %d", id, flit.getDNA());
-
+                            sentFlits.add(flit);
                             inputChannels.get(icId).setInputBuffer(flit);
+                            queueId = inputChannels.get(icId).getActiveFIFOIndex();
                             inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
                             inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
                             inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
                             inputChannels.get(icId).getActiveFifo().setState(3);
                             cockLove = true;
                         }
-                    } else if(inputChannels.get(icId).getActiveFifo().getFifo().size() <1) {
-                        doLove = false;
-                        Flit flit = new Flit();
-                        flit.setFlitType(Flit.FLIT_TYPE_TAIL);
-                        flit.setValidDataBit();
-                        flit.setFlitData(0x999);
-                        Debug.printf("> [Just the dick] Generating a message. From %d to %d", id, flit.getDNA());
+                    } else if (tock-- == 0 && inputChannels.get(icId).getFifoQueues().get(queueId).getState() == 4) {// && inputChannels.get(icId).getActiveFifo().getFifo().size() <1) {
+                        tock = 1;
+                        flitters --;
 
+                        //doLove = false;
+                        Flit flit = new Flit();
+                        if (flitters >= 0) {
+                            flit.setFlitData(0x8008);
+                            flit.setFlitType(Flit.FLIT_TYPE_BODY);
+                        } else {
+                            flit.setFlitType(Flit.FLIT_TYPE_TAIL);
+                            doLove = false;
+                        }
+                        flit.setValidDataBit();
+                        //flit.setFlitData(0x999);
+                        Debug.printf("> [Just the dick] Generating a message. From %d, type %d", id, flit.getFlitType());
+
+                        sentFlits.add(flit);
                         inputChannels.get(icId).setInputBuffer(flit);
-                        inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
-                        inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
-                        inputChannels.get(icId).getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
-                        inputChannels.get(icId).getActiveFifo().setState(4);
+                        inputChannels.get(icId).getFifoQueues().get(queueId).getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
+                        inputChannels.get(icId).getFifoQueues().get(queueId).getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
+                        inputChannels.get(icId).getFifoQueues().get(queueId).getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
+                        inputChannels.get(icId).getFifoQueues().get(queueId).setState(4);
 
                     }
                 }
@@ -110,7 +125,7 @@ public class SMPNode {
     public Message generateMessage() {
         Message m = new Message();
         m.setSource(this.id);
-        m.setTarget(10); // As random as it gets
+        m.setTarget(3);
         messages.add(m);
         return m;
     }

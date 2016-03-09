@@ -2,6 +2,8 @@ package org.cbsbh.model.routing.packet.flit;
 
 import org.cbsbh.Debug;
 
+import java.util.ArrayList;
+
 /**
  * C*
  * Date: 3/16/15 10:52 AM
@@ -16,6 +18,8 @@ public class Flit { // *C
     public static final int FLIT_TYPE_HEADER = 0b01;
     public static final int FLIT_TYPE_TAIL = 0b10;
     public static final int FLIT_TYPE_BODY = 0b11;
+
+    public ArrayList<String> history = new ArrayList<>();
 
     long flitData; // c*
 
@@ -130,5 +134,13 @@ public class Flit { // *C
         assert getFlitType() == FLIT_TYPE_HEADER : "Wrong flit type";
         assert (flitData & 0xfff) == 0 : "There's something in the 12 least significant bits";
         this.flitData |= (DNA & 0xfff);
+    }
+
+    @Override
+    public String toString() {
+        return "Flit{" +
+                "\nflitType=" + getFlitType() +
+                "\n, data=" + getFlitData() +
+                "\n}\n";
     }
 }
