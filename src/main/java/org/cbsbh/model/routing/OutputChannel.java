@@ -129,8 +129,8 @@ public class OutputChannel extends StateStructure implements Tickable {
 
     public void tick() {
 
-        Debug.printf("%s current state: %d", getWho(), state);
-        Debug.printSignals(Debug.CLASS_OUTPUT_CHANNEL, this);
+        //Debug.printf("%s current state: %d", getWho(), state);
+        //Debug.printSignals(Debug.CLASS_OUTPUT_CHANNEL, this);
 
         switch (state) {
             case STATE0_INIT:
@@ -145,7 +145,7 @@ public class OutputChannel extends StateStructure implements Tickable {
                     rra.sendGrant();
                     Debug.printf("%s Sending grants", getWho());
                 }
-                Debug.printf("%s (S1) ready for transfer", getWho());
+                //Debug.printf("%s (S1) ready for transfer", getWho());
                 break;
             case STATE2_READY_FOR_TRANSFER:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
@@ -181,9 +181,10 @@ public class OutputChannel extends StateStructure implements Tickable {
                 assert buffer != null : "Този buffer трябва да е не-null!";
                 buffer.setValidDataBit();
                 // и EXT_CLK, 'ма него не го ползваме
+                Debug.printf("%s, Set buffer to %s", getWho(), nextInputChannel.getWho());
+                Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
                 nextInputChannel.setInputBuffer(buffer);
                 buffer = null;
-                Debug.printf("%s, Set buffer to %s", getWho(), nextInputChannel.getWho());
                 break;
             case STATE5_TRANSFER2:
                 if (buffer == null){
@@ -207,8 +208,8 @@ public class OutputChannel extends StateStructure implements Tickable {
                 break;
         }
         //getSignalArray().resetAll();
-        Debug.printSignals(Debug.CLASS_OUTPUT_CHANNEL, this);
-        Debug.printf("End of tick");
+        //Debug.printSignals(Debug.CLASS_OUTPUT_CHANNEL, this);
+        //Debug.printf("End of tick");
     }
 
     private void lowerEmSignalsHny() {
@@ -290,6 +291,6 @@ public class OutputChannel extends StateStructure implements Tickable {
     }
 
     public String getWho() {
-        return String.format("\tOutputChannel {id: %d (%s), currentNodeID: %d (%s)}", id, Integer.toBinaryString(id), currentNodeId, Integer.toBinaryString(currentNodeId));
+        return String.format("\tOutputChannel {id: %d (%s), currentNodeID: %d (%s), state: %d}", id, Integer.toBinaryString(id), currentNodeId, Integer.toBinaryString(currentNodeId), state);
     }
 }

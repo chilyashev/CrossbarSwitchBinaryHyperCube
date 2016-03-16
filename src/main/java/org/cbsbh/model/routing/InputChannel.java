@@ -26,6 +26,10 @@ public class InputChannel extends StateStructure implements Tickable {
 
     SMPNode node;
 
+
+    ArrayList<Flit> receivedData; // Only to check what's in nyah
+
+    boolean transferStartedForMe = false; // If true, the virtual channel is set and every next flit is for the current node. Reset when a tail flit is encountered casually. Like a careless whisper
 /*
        Node0                Node1
         +----------------+  CB   +----------------+
@@ -145,7 +149,9 @@ i0------|              O0|------>|I               |
 
     @Override
     public void calculateNewState() {
+        // Debug.printf("%s Old state: %d", getWho(), state);
         state = calculateState();
+        // Debug.printf("%s New state: %d", getWho(), state);
         setState(state);
         lowerEmSignalsHny();
         // Фаза 1: Определяне на състоянието
@@ -162,8 +168,8 @@ i0------|              O0|------>|I               |
         fifoQueues.forEach(FIFOQueue::tick);
 
 
-        Debug.println(String.format("%s current state %d", getWho(), state));
-        Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
+        //Debug.println(String.format("%s current state %d", getWho(), state));
+        //Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
 
         /*for (FIFOQueue queue : fifoQueues) {
             Debug.printf("\n\nQueue %d status: %s\n\n", queue.id, queue.getStatus());
@@ -195,6 +201,11 @@ i0------|              O0|------>|I               |
                 getSignalArray().setSignal(SignalArray.BUFF_BUSY, true);
 
                 getSignalArray().setSignal(SignalArray.CHAN_BUSY, isChanBusy());
+
+                if (activeFIFOIndex == -1) {
+                    activeFIFOIndex = getFirstAvailableQueueIndex();
+                    Debug.printf("Got a new FIFO, activeFIFOIndex: %d", activeFIFOIndex);
+                }
                 break;
 
             // TODO: I'm watching you.
@@ -203,8 +214,8 @@ i0------|              O0|------>|I               |
                 produceWR_IN_FIFO();
                 if (activeFIFOIndex == -1) {
                     activeFIFOIndex = getFirstAvailableQueueIndex();
+                    Debug.printf("Got a new FIFO, activeFIFOIndex: %d", activeFIFOIndex);
                 }
-                Debug.printf("activeFIFOIndex: %d", activeFIFOIndex);
                 assert activeFIFOIndex != -1 : "activeFIFOIndex не би трябвало да е -1. Чекираут, мейн!";
                 fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
                 fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.DEMUX_RDY, true);
@@ -235,8 +246,8 @@ i0------|              O0|------>|I               |
                 break;
         }
 
-        Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
-        Debug.printf("End of tick");
+        //Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
+        //Debug.printf("End of tick");
         //getSignalArray().resetAll();
     }
 
@@ -312,12 +323,39 @@ i0------|              O0|------>|I               |
         return inputBuffer;
     }
 
-    public void setInputBuffer(Flit inputBuffer) {
+    public void setInputBuffer(Flit flit) {
+        Debug.printf("%s Got a flitter: %s", getWho(), flit);
+
+        Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
+
+
+        if (flit.getFlitType() == Flit.FLIT_TYPE_HEADER && flit.getTR() == 0) {
+            transferStartedForMe = true;
+            receivedData = new ArrayList<>();
+            Debug.println("FINALLY! A header flit!");
+        }
+
+        if (transferStartedForMe) {
+            receivedData.add(flit);
+            if(flit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
+                transferStartedForMe = false;
+                Debug.printf("Received for %s", getWho());
+                for (Flit flit1 : receivedData) {
+                    Debug.println("Flit: " + flit1.toString());
+                }
+
+            }
+        }
+
+
         if (activeFIFOIndex == -1) {
             activeFIFOIndex = getFirstAvailableQueueIndex();
         }
-        this.inputBuffer = inputBuffer;
-        getActiveFifo().push(inputBuffer);
+
+        this.inputBuffer = flit;
+        getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
+        getActiveFifo().push(flit);
+        Debug.printf("After push: size: %d", getActiveFifo().fifo.size());
     }
 
     public int getId() {
@@ -348,7 +386,7 @@ i0------|              O0|------>|I               |
     }
 
     public String getWho() {
-        return String.format("\tInputChannel {id: %d (%s), nodeID: %d (%s)}", id, Integer.toBinaryString(id), nodeId, Integer.toBinaryString(nodeId));
+        return String.format("\tInputChannel {id: %d (%s), nodeID: %d (%s), state: %d}", id, Integer.toBinaryString(id), nodeId, Integer.toBinaryString(nodeId), state);
     }
 
     public boolean isChanBusy() {

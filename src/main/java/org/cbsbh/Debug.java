@@ -94,7 +94,7 @@ public class Debug {
         if (_instance == null) {
             _instance = new Debug();
         }
-        System.out.println(o);
+        //System.out.println(o);
         _instance.writeln(o);
     }
 
@@ -106,7 +106,7 @@ public class Debug {
         if (_instance == null) {
             _instance = new Debug();
         }
-        System.out.printf(o + "\n", a);
+        //System.out.printf(o + "\n", a);
         _instance.writef(o + "\n", a);
     }
 

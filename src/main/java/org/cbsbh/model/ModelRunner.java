@@ -141,13 +141,18 @@ public class ModelRunner implements Runnable {
 
         }
 
-        Debug.println("Sent flits: ");
-        for (Flit flit : MPPNetwork.get(0).sentFlits) {
-            Debug.println("Flit jumps for " + flit.toString());
-            for (String jump : flit.history) {
-                Debug.println("" + jump);
+        for(SMPNode node: MPPNetwork.getAll()) {
+            if(node.sentFlits.size() < 1) {
+                continue;
             }
-            Debug.println("------");
+            Debug.printf("Sent flits for %d: ", node.getId());
+            for (Flit flit : node.sentFlits) {
+                Debug.println("Flit jumps for " + flit.toString());
+                for (String jump : flit.history) {
+                    Debug.println("" + jump);
+                }
+                Debug.println("------");
+            }
         }
 
         Debug.println("Ended at... " + new Date());

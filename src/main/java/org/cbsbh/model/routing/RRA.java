@@ -114,6 +114,7 @@ public class RRA implements Tickable {
      */
     public void requestToSend(Arbiter arbiter) {
         int channelId = arbiter.getChannelId();
+        Debug.printf("requestToSend from Node(%d), arbiter(%d), channel(%d)", arbiter.getNodeId(), arbiter.getId(), arbiter.getChannelId());
         if (requestMap.get(channelId) == null) {
             requestMap.put(channelId, new TreeMap<Integer, Arbiter>());
         }
