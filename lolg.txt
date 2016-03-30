@@ -12,10 +12,10 @@ SMPNode {id: 0 (0)} init
 	InputChannel {id: 8 (1000), nodeID: 0 (0), state: 0} init
 		FIFOQueue {id: 0, nodeID: 0, channelID: 8, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 0, channelID: 8, queue size: 0, state: 0 init
-	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 0} init
-	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 0} init
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 0} init
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 0} init
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 0} init
 		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 0, state: 0 init
@@ -32,10 +32,10 @@ SMPNode {id: 1 (1)} init
 	InputChannel {id: 9 (1001), nodeID: 1 (1), state: 0} init
 		FIFOQueue {id: 0, nodeID: 1, channelID: 9, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 1, channelID: 9, queue size: 0, state: 0 init
-	OutputChannel {id: 0 (0), currentNodeID: 1 (1), state: 0} init
-	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 0} init
-	OutputChannel {id: 5 (101), currentNodeID: 1 (1), state: 0} init
-	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 0} init
+	OutputChannel {id: 0 (0), currentNodeID: 1 (1), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 5 (101), currentNodeID: 1 (1), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 1 (1), state: 0} init
 		FIFOQueue {id: 0, nodeID: 1, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 1, channelID: 16, queue size: 0, state: 0 init
@@ -52,10 +52,10 @@ SMPNode {id: 2 (10)} init
 	InputChannel {id: 10 (1010), nodeID: 2 (10), state: 0} init
 		FIFOQueue {id: 0, nodeID: 2, channelID: 10, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 2, channelID: 10, queue size: 0, state: 0 init
-	OutputChannel {id: 0 (0), currentNodeID: 2 (10), state: 0} init
-	OutputChannel {id: 3 (11), currentNodeID: 2 (10), state: 0} init
-	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 0} init
-	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 0} init
+	OutputChannel {id: 0 (0), currentNodeID: 2 (10), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 3 (11), currentNodeID: 2 (10), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 2 (10), state: 0} init
 		FIFOQueue {id: 0, nodeID: 2, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 2, channelID: 16, queue size: 0, state: 0 init
@@ -72,10 +72,10 @@ SMPNode {id: 3 (11)} init
 	InputChannel {id: 11 (1011), nodeID: 3 (11), state: 0} init
 		FIFOQueue {id: 0, nodeID: 3, channelID: 11, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 3, channelID: 11, queue size: 0, state: 0 init
-	OutputChannel {id: 1 (1), currentNodeID: 3 (11), state: 0} init
-	OutputChannel {id: 2 (10), currentNodeID: 3 (11), state: 0} init
-	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 0} init
-	OutputChannel {id: 11 (1011), currentNodeID: 3 (11), state: 0} init
+	OutputChannel {id: 1 (1), currentNodeID: 3 (11), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 2 (10), currentNodeID: 3 (11), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 11 (1011), currentNodeID: 3 (11), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 3 (11), state: 0} init
 		FIFOQueue {id: 0, nodeID: 3, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 3, channelID: 16, queue size: 0, state: 0 init
@@ -92,10 +92,10 @@ SMPNode {id: 4 (100)} init
 	InputChannel {id: 12 (1100), nodeID: 4 (100), state: 0} init
 		FIFOQueue {id: 0, nodeID: 4, channelID: 12, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 4, channelID: 12, queue size: 0, state: 0 init
-	OutputChannel {id: 0 (0), currentNodeID: 4 (100), state: 0} init
-	OutputChannel {id: 5 (101), currentNodeID: 4 (100), state: 0} init
-	OutputChannel {id: 6 (110), currentNodeID: 4 (100), state: 0} init
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 0} init
+	OutputChannel {id: 0 (0), currentNodeID: 4 (100), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 5 (101), currentNodeID: 4 (100), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 6 (110), currentNodeID: 4 (100), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 4 (100), state: 0} init
 		FIFOQueue {id: 0, nodeID: 4, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 4, channelID: 16, queue size: 0, state: 0 init
@@ -112,10 +112,10 @@ SMPNode {id: 5 (101)} init
 	InputChannel {id: 13 (1101), nodeID: 5 (101), state: 0} init
 		FIFOQueue {id: 0, nodeID: 5, channelID: 13, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 5, channelID: 13, queue size: 0, state: 0 init
-	OutputChannel {id: 1 (1), currentNodeID: 5 (101), state: 0} init
-	OutputChannel {id: 4 (100), currentNodeID: 5 (101), state: 0} init
-	OutputChannel {id: 7 (111), currentNodeID: 5 (101), state: 0} init
-	OutputChannel {id: 13 (1101), currentNodeID: 5 (101), state: 0} init
+	OutputChannel {id: 1 (1), currentNodeID: 5 (101), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 4 (100), currentNodeID: 5 (101), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 7 (111), currentNodeID: 5 (101), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 13 (1101), currentNodeID: 5 (101), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 5 (101), state: 0} init
 		FIFOQueue {id: 0, nodeID: 5, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 5, channelID: 16, queue size: 0, state: 0 init
@@ -132,10 +132,10 @@ SMPNode {id: 6 (110)} init
 	InputChannel {id: 14 (1110), nodeID: 6 (110), state: 0} init
 		FIFOQueue {id: 0, nodeID: 6, channelID: 14, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 6, channelID: 14, queue size: 0, state: 0 init
-	OutputChannel {id: 2 (10), currentNodeID: 6 (110), state: 0} init
-	OutputChannel {id: 4 (100), currentNodeID: 6 (110), state: 0} init
-	OutputChannel {id: 7 (111), currentNodeID: 6 (110), state: 0} init
-	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 0} init
+	OutputChannel {id: 2 (10), currentNodeID: 6 (110), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 4 (100), currentNodeID: 6 (110), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 7 (111), currentNodeID: 6 (110), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 6 (110), state: 0} init
 		FIFOQueue {id: 0, nodeID: 6, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 6, channelID: 16, queue size: 0, state: 0 init
@@ -152,10 +152,10 @@ SMPNode {id: 7 (111)} init
 	InputChannel {id: 15 (1111), nodeID: 7 (111), state: 0} init
 		FIFOQueue {id: 0, nodeID: 7, channelID: 15, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 7, channelID: 15, queue size: 0, state: 0 init
-	OutputChannel {id: 3 (11), currentNodeID: 7 (111), state: 0} init
-	OutputChannel {id: 5 (101), currentNodeID: 7 (111), state: 0} init
-	OutputChannel {id: 6 (110), currentNodeID: 7 (111), state: 0} init
-	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 0} init
+	OutputChannel {id: 3 (11), currentNodeID: 7 (111), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 5 (101), currentNodeID: 7 (111), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 6 (110), currentNodeID: 7 (111), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 7 (111), state: 0} init
 		FIFOQueue {id: 0, nodeID: 7, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 7, channelID: 16, queue size: 0, state: 0 init
@@ -172,10 +172,10 @@ SMPNode {id: 8 (1000)} init
 	InputChannel {id: 12 (1100), nodeID: 8 (1000), state: 0} init
 		FIFOQueue {id: 0, nodeID: 8, channelID: 12, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 8, channelID: 12, queue size: 0, state: 0 init
-	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 0} init
-	OutputChannel {id: 9 (1001), currentNodeID: 8 (1000), state: 0} init
-	OutputChannel {id: 10 (1010), currentNodeID: 8 (1000), state: 0} init
-	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 0} init
+	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 9 (1001), currentNodeID: 8 (1000), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 10 (1010), currentNodeID: 8 (1000), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 8 (1000), state: 0} init
 		FIFOQueue {id: 0, nodeID: 8, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 8, channelID: 16, queue size: 0, state: 0 init
@@ -192,10 +192,10 @@ SMPNode {id: 9 (1001)} init
 	InputChannel {id: 13 (1101), nodeID: 9 (1001), state: 0} init
 		FIFOQueue {id: 0, nodeID: 9, channelID: 13, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 9, channelID: 13, queue size: 0, state: 0 init
-	OutputChannel {id: 1 (1), currentNodeID: 9 (1001), state: 0} init
-	OutputChannel {id: 8 (1000), currentNodeID: 9 (1001), state: 0} init
-	OutputChannel {id: 11 (1011), currentNodeID: 9 (1001), state: 0} init
-	OutputChannel {id: 13 (1101), currentNodeID: 9 (1001), state: 0} init
+	OutputChannel {id: 1 (1), currentNodeID: 9 (1001), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 8 (1000), currentNodeID: 9 (1001), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 11 (1011), currentNodeID: 9 (1001), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 13 (1101), currentNodeID: 9 (1001), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 9 (1001), state: 0} init
 		FIFOQueue {id: 0, nodeID: 9, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 9, channelID: 16, queue size: 0, state: 0 init
@@ -212,10 +212,10 @@ SMPNode {id: 10 (1010)} init
 	InputChannel {id: 14 (1110), nodeID: 10 (1010), state: 0} init
 		FIFOQueue {id: 0, nodeID: 10, channelID: 14, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 10, channelID: 14, queue size: 0, state: 0 init
-	OutputChannel {id: 2 (10), currentNodeID: 10 (1010), state: 0} init
-	OutputChannel {id: 8 (1000), currentNodeID: 10 (1010), state: 0} init
-	OutputChannel {id: 11 (1011), currentNodeID: 10 (1010), state: 0} init
-	OutputChannel {id: 14 (1110), currentNodeID: 10 (1010), state: 0} init
+	OutputChannel {id: 2 (10), currentNodeID: 10 (1010), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 8 (1000), currentNodeID: 10 (1010), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 11 (1011), currentNodeID: 10 (1010), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 14 (1110), currentNodeID: 10 (1010), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 10 (1010), state: 0} init
 		FIFOQueue {id: 0, nodeID: 10, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 10, channelID: 16, queue size: 0, state: 0 init
@@ -232,10 +232,10 @@ SMPNode {id: 11 (1011)} init
 	InputChannel {id: 15 (1111), nodeID: 11 (1011), state: 0} init
 		FIFOQueue {id: 0, nodeID: 11, channelID: 15, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 11, channelID: 15, queue size: 0, state: 0 init
-	OutputChannel {id: 3 (11), currentNodeID: 11 (1011), state: 0} init
-	OutputChannel {id: 9 (1001), currentNodeID: 11 (1011), state: 0} init
-	OutputChannel {id: 10 (1010), currentNodeID: 11 (1011), state: 0} init
-	OutputChannel {id: 15 (1111), currentNodeID: 11 (1011), state: 0} init
+	OutputChannel {id: 3 (11), currentNodeID: 11 (1011), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 9 (1001), currentNodeID: 11 (1011), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 10 (1010), currentNodeID: 11 (1011), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 15 (1111), currentNodeID: 11 (1011), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 11 (1011), state: 0} init
 		FIFOQueue {id: 0, nodeID: 11, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 11, channelID: 16, queue size: 0, state: 0 init
@@ -252,10 +252,10 @@ SMPNode {id: 12 (1100)} init
 	InputChannel {id: 14 (1110), nodeID: 12 (1100), state: 0} init
 		FIFOQueue {id: 0, nodeID: 12, channelID: 14, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 12, channelID: 14, queue size: 0, state: 0 init
-	OutputChannel {id: 4 (100), currentNodeID: 12 (1100), state: 0} init
-	OutputChannel {id: 8 (1000), currentNodeID: 12 (1100), state: 0} init
-	OutputChannel {id: 13 (1101), currentNodeID: 12 (1100), state: 0} init
-	OutputChannel {id: 14 (1110), currentNodeID: 12 (1100), state: 0} init
+	OutputChannel {id: 4 (100), currentNodeID: 12 (1100), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 8 (1000), currentNodeID: 12 (1100), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 13 (1101), currentNodeID: 12 (1100), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 14 (1110), currentNodeID: 12 (1100), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 12 (1100), state: 0} init
 		FIFOQueue {id: 0, nodeID: 12, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 12, channelID: 16, queue size: 0, state: 0 init
@@ -272,10 +272,10 @@ SMPNode {id: 13 (1101)} init
 	InputChannel {id: 15 (1111), nodeID: 13 (1101), state: 0} init
 		FIFOQueue {id: 0, nodeID: 13, channelID: 15, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 13, channelID: 15, queue size: 0, state: 0 init
-	OutputChannel {id: 5 (101), currentNodeID: 13 (1101), state: 0} init
-	OutputChannel {id: 9 (1001), currentNodeID: 13 (1101), state: 0} init
-	OutputChannel {id: 12 (1100), currentNodeID: 13 (1101), state: 0} init
-	OutputChannel {id: 15 (1111), currentNodeID: 13 (1101), state: 0} init
+	OutputChannel {id: 5 (101), currentNodeID: 13 (1101), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 9 (1001), currentNodeID: 13 (1101), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 12 (1100), currentNodeID: 13 (1101), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 15 (1111), currentNodeID: 13 (1101), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 13 (1101), state: 0} init
 		FIFOQueue {id: 0, nodeID: 13, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 13, channelID: 16, queue size: 0, state: 0 init
@@ -292,10 +292,10 @@ SMPNode {id: 14 (1110)} init
 	InputChannel {id: 15 (1111), nodeID: 14 (1110), state: 0} init
 		FIFOQueue {id: 0, nodeID: 14, channelID: 15, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 14, channelID: 15, queue size: 0, state: 0 init
-	OutputChannel {id: 6 (110), currentNodeID: 14 (1110), state: 0} init
-	OutputChannel {id: 10 (1010), currentNodeID: 14 (1110), state: 0} init
-	OutputChannel {id: 12 (1100), currentNodeID: 14 (1110), state: 0} init
-	OutputChannel {id: 15 (1111), currentNodeID: 14 (1110), state: 0} init
+	OutputChannel {id: 6 (110), currentNodeID: 14 (1110), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 10 (1010), currentNodeID: 14 (1110), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 12 (1100), currentNodeID: 14 (1110), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 15 (1111), currentNodeID: 14 (1110), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 14 (1110), state: 0} init
 		FIFOQueue {id: 0, nodeID: 14, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 14, channelID: 16, queue size: 0, state: 0 init
@@ -312,14 +312,14 @@ SMPNode {id: 15 (1111)} init
 	InputChannel {id: 14 (1110), nodeID: 15 (1111), state: 0} init
 		FIFOQueue {id: 0, nodeID: 15, channelID: 14, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 15, channelID: 14, queue size: 0, state: 0 init
-	OutputChannel {id: 7 (111), currentNodeID: 15 (1111), state: 0} init
-	OutputChannel {id: 11 (1011), currentNodeID: 15 (1111), state: 0} init
-	OutputChannel {id: 13 (1101), currentNodeID: 15 (1111), state: 0} init
-	OutputChannel {id: 14 (1110), currentNodeID: 15 (1111), state: 0} init
+	OutputChannel {id: 7 (111), currentNodeID: 15 (1111), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 11 (1011), currentNodeID: 15 (1111), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 13 (1101), currentNodeID: 15 (1111), state: 0, balls: balls, taken: false} init
+	OutputChannel {id: 14 (1110), currentNodeID: 15 (1111), state: 0, balls: balls, taken: false} init
 	InputChannel {id: 16 (10000), nodeID: 15 (1111), state: 0} init
 		FIFOQueue {id: 0, nodeID: 15, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 15, channelID: 16, queue size: 0, state: 0 init
-Starting at... Wed Mar 16 11:22:44 UTC 2016
+Starting at... Wed Mar 30 10:30:23 UTC 2016
 
 
 ====== TICKL-TOCKL №0 ======
@@ -509,7 +509,7 @@ requestToSend from Node(0), arbiter(0), channel(16)
 ====== TICKL-TOCKL №6 ======
 
 
-	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 1} Sending grants
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №6 ======
@@ -520,7 +520,29 @@ requestToSend from Node(0), arbiter(0), channel(16)
 ====== TICKL-TOCKL №7 ======
 
 
-	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2}, ready for transfer channel id = 0, node id = 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=983055
+}
+
+Flit{
+flitType=3
+, data=32783
+}
+
+Flit{
+flitType=2
+, data=0
+}
+
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true} c: Flit{
+flitType=1
+, data=917519
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №7 ======
@@ -531,9 +553,20 @@ requestToSend from Node(0), arbiter(0), channel(16)
 ====== TICKL-TOCKL №8 ======
 
 
-	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
 
-	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 3}, starting to transfer to 0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 3, contents: Flit{
+flitType=3
+, data=32783
+}
+
+Flit{
+flitType=2
+, data=0
+}
+
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 3, balls: false, taken: true}, starting to transfer to 0
 
 
 ====== NO MORE TICKL-TOCKL №8 ======
@@ -544,16 +577,33 @@ requestToSend from Node(0), arbiter(0), channel(16)
 ====== TICKL-TOCKL №9 ======
 
 
-	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 1 (1), state: 2}
-	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 0 (0), nodeID: 1 (1), state: 2} Got a flitter: Flit{
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 3, contents: Flit{
 flitType=3
 , data=32783
+}
+
+Flit{
+flitType=2
+, data=0
+}
+
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 1 (1), state: 2}
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 2} Got a flitter: Flit{
+flitType=1
+, data=917519
 }
 
 	InputChannel {id: 0 (0), nodeID: 1 (1), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
 		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
 After push: size: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 Sending all my ropes to: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{
+flitType=3
+, data=32783
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №9 ======
@@ -564,12 +614,20 @@ After push: size: 1
 ====== TICKL-TOCKL №10 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
-flitType=3
-, data=32783
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 4 Flit type: 2, contents: Flit{
+flitType=2
+, data=0
 }
 
 
+GOTO STATE 5!
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 1, contents: Flit{
+flitType=1
+, data=917519
+}
+
+
+requestToSend from Node(1), arbiter(0), channel(0)
 
 
 ====== NO MORE TICKL-TOCKL №10 ======
@@ -580,12 +638,26 @@ flitType=3
 ====== TICKL-TOCKL №11 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+GOT IN STATE 5!
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3}
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3} Got a flitter: Flit{
 flitType=3
 , data=32783
 }
 
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{
+flitType=2
+, data=0
+}
 
+BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №11 ======
@@ -596,12 +668,32 @@ flitType=3
 ====== TICKL-TOCKL №12 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=917519
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
 
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3} Got a flitter: Flit{
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, ready for transfer channel id = 1, node id = 3
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true} c: Flit{
+flitType=1
+, data=786447
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №12 ======
@@ -612,12 +704,20 @@ flitType=3
 ====== TICKL-TOCKL №13 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 3, balls: false, taken: true}, starting to transfer to 1
 
 
 ====== NO MORE TICKL-TOCKL №13 ======
@@ -628,12 +728,33 @@ flitType=3
 ====== TICKL-TOCKL №14 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 1 (1), nodeID: 3 (11), state: 2}
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 1 (1), nodeID: 3 (11), state: 2} Got a flitter: Flit{
+flitType=1
+, data=786447
+}
+
+	InputChannel {id: 1 (1), nodeID: 3 (11), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 4 Sending all my ropes to: 	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true} c: Flit{
+flitType=3
+, data=32783
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №14 ======
@@ -644,12 +765,20 @@ flitType=3
 ====== TICKL-TOCKL №15 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
-flitType=3
-, data=32783
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 4 Flit type: 2, contents: Flit{
+flitType=2
+, data=0
 }
 
 
+GOTO STATE 5!
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 1, state: 2 Flit type: 1, contents: Flit{
+flitType=1
+, data=786447
+}
+
+
+requestToSend from Node(3), arbiter(0), channel(1)
 
 
 ====== NO MORE TICKL-TOCKL №15 ======
@@ -660,12 +789,26 @@ flitType=3
 ====== TICKL-TOCKL №16 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+GOT IN STATE 5!
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 1 (1), nodeID: 3 (11), state: 3}
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 1 (1), nodeID: 3 (11), state: 3} Got a flitter: Flit{
 flitType=3
 , data=32783
 }
 
+	InputChannel {id: 1 (1), nodeID: 3 (11), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true} c: Flit{
+flitType=2
+, data=0
+}
 
+BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №16 ======
@@ -676,12 +819,33 @@ flitType=3
 ====== TICKL-TOCKL №17 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 2, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=786447
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
 
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 1
+	InputChannel {id: 1 (1), nodeID: 3 (11), state: 3} Got a flitter: Flit{
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 1 (1), nodeID: 3 (11), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true}, ready for transfer channel id = 3, node id = 7
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true} c: Flit{
+flitType=1
+, data=524303
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №17 ======
@@ -692,12 +856,23 @@ flitType=3
 ====== TICKL-TOCKL №18 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 2, state: 4 Flit type: 3, contents: Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 1
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 3, balls: false, taken: true}, starting to transfer to 3
 
 
 ====== NO MORE TICKL-TOCKL №18 ======
@@ -708,12 +883,36 @@ flitType=3
 ====== TICKL-TOCKL №19 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 2, state: 4 Flit type: 3, contents: Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 1
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 3 (11), nodeID: 7 (111), state: 2}
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 3 (11), nodeID: 7 (111), state: 2} Got a flitter: Flit{
+flitType=1
+, data=524303
+}
+
+	InputChannel {id: 3 (11), nodeID: 7 (111), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 2, state: 4 Sending all my ropes to: 	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true} c: Flit{
+flitType=3
+, data=32783
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №19 ======
@@ -724,12 +923,23 @@ flitType=3
 ====== TICKL-TOCKL №20 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
-flitType=3
-, data=32783
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 1, state: 4 Flit type: 2, contents: Flit{
+flitType=2
+, data=0
 }
 
 
+GOTO STATE 5!
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 1, state: 2 Flit type: 1, contents: Flit{
+flitType=1
+, data=524303
+}
+
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 3, balls: false, taken: true}, buffer is null
+requestToSend from Node(7), arbiter(0), channel(3)
 
 
 ====== NO MORE TICKL-TOCKL №20 ======
@@ -740,12 +950,27 @@ flitType=3
 ====== TICKL-TOCKL №21 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+GOT IN STATE 5!
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 3 (11), nodeID: 7 (111), state: 3}
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 3 (11), nodeID: 7 (111), state: 3} Got a flitter: Flit{
 flitType=3
 , data=32783
 }
 
+	InputChannel {id: 3 (11), nodeID: 7 (111), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true} c: Flit{
+flitType=2
+, data=0
+}
 
+BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №21 ======
@@ -756,12 +981,34 @@ flitType=3
 ====== TICKL-TOCKL №22 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 2, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=524303
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
 
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, ready for transfer channel id = 1, node id = 3
+	InputChannel {id: 3 (11), nodeID: 7 (111), state: 3} Got a flitter: Flit{
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 3 (11), nodeID: 7 (111), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
+	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 2, balls: false, taken: true}, ready for transfer channel id = 7, node id = 15
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 2, balls: false, taken: true} c: Flit{
+flitType=1
+, data=15
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №22 ======
@@ -772,12 +1019,24 @@ flitType=3
 ====== TICKL-TOCKL №23 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 2, state: 4 Flit type: 3, contents: Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, ready for transfer channel id = 1, node id = 3
+	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 3, balls: false, taken: true}, starting to transfer to 7
 
 
 ====== NO MORE TICKL-TOCKL №23 ======
@@ -788,12 +1047,38 @@ flitType=3
 ====== TICKL-TOCKL №24 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 2, state: 4 Flit type: 3, contents: Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, ready for transfer channel id = 1, node id = 3
+	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 7 (111), nodeID: 15 (1111), state: 2}
+	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 7 (111), nodeID: 15 (1111), state: 2} Got a flitter: Flit{
+flitType=1
+, data=15
+}
+
+	InputChannel {id: 7 (111), nodeID: 15 (1111), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+FINALLY! A header flit!
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 2, state: 4 Sending all my ropes to: 	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 4, balls: false, taken: true} c: Flit{
+flitType=3
+, data=32783
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №24 ======
@@ -804,12 +1089,23 @@ flitType=3
 ====== TICKL-TOCKL №25 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
-flitType=3
-, data=32783
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 1, state: 4 Flit type: 2, contents: Flit{
+flitType=2
+, data=0
 }
 
 
+GOTO STATE 5!
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 1, state: 2 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 3, balls: false, taken: true}, buffer is null
 
 
 ====== NO MORE TICKL-TOCKL №25 ======
@@ -820,12 +1116,27 @@ flitType=3
 ====== TICKL-TOCKL №26 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+GOT IN STATE 5!
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 7 (111), nodeID: 15 (1111), state: 3}
+	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 7 (111), nodeID: 15 (1111), state: 3} Got a flitter: Flit{
 flitType=3
 , data=32783
 }
 
+	InputChannel {id: 7 (111), nodeID: 15 (1111), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 4, balls: false, taken: true} c: Flit{
+flitType=2
+, data=0
+}
 
+BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
 
 
 ====== NO MORE TICKL-TOCKL №26 ======
@@ -836,12 +1147,44 @@ flitType=3
 ====== TICKL-TOCKL №27 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 2, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
 
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true}, ready for transfer channel id = 3, node id = 7
+	InputChannel {id: 7 (111), nodeID: 15 (1111), state: 3} Got a flitter: Flit{
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 7 (111), nodeID: 15 (1111), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+Received for 	InputChannel {id: 7 (111), nodeID: 15 (1111), state: 3}
+Flit: Flit{
+flitType=1
+, data=15
+}
+
+Flit: Flit{
+flitType=3
+, data=32783
+}
+
+Flit: Flit{
+flitType=2
+, data=0
+}
+
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
 
 
 ====== NO MORE TICKL-TOCKL №27 ======
@@ -852,12 +1195,27 @@ flitType=3
 ====== TICKL-TOCKL №28 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true}, ready for transfer channel id = 3, node id = 7
 
 
 ====== NO MORE TICKL-TOCKL №28 ======
@@ -868,12 +1226,27 @@ flitType=3
 ====== TICKL-TOCKL №29 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true}, ready for transfer channel id = 3, node id = 7
 
 
 ====== NO MORE TICKL-TOCKL №29 ======
@@ -884,12 +1257,27 @@ flitType=3
 ====== TICKL-TOCKL №30 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 3, balls: false, taken: true}, buffer is null
 
 
 ====== NO MORE TICKL-TOCKL №30 ======
@@ -900,12 +1288,25 @@ flitType=3
 ====== TICKL-TOCKL №31 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №31 ======
@@ -916,12 +1317,25 @@ flitType=3
 ====== TICKL-TOCKL №32 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №32 ======
@@ -932,12 +1346,25 @@ flitType=3
 ====== TICKL-TOCKL №33 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №33 ======
@@ -948,12 +1375,25 @@ flitType=3
 ====== TICKL-TOCKL №34 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №34 ======
@@ -964,12 +1404,25 @@ flitType=3
 ====== TICKL-TOCKL №35 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №35 ======
@@ -980,12 +1433,25 @@ flitType=3
 ====== TICKL-TOCKL №36 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №36 ======
@@ -996,12 +1462,25 @@ flitType=3
 ====== TICKL-TOCKL №37 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №37 ======
@@ -1012,12 +1491,25 @@ flitType=3
 ====== TICKL-TOCKL №38 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №38 ======
@@ -1028,12 +1520,25 @@ flitType=3
 ====== TICKL-TOCKL №39 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №39 ======
@@ -1044,12 +1549,25 @@ flitType=3
 ====== TICKL-TOCKL №40 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №40 ======
@@ -1060,12 +1578,25 @@ flitType=3
 ====== TICKL-TOCKL №41 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №41 ======
@@ -1076,12 +1607,25 @@ flitType=3
 ====== TICKL-TOCKL №42 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №42 ======
@@ -1092,12 +1636,25 @@ flitType=3
 ====== TICKL-TOCKL №43 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №43 ======
@@ -1108,12 +1665,25 @@ flitType=3
 ====== TICKL-TOCKL №44 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №44 ======
@@ -1124,12 +1694,25 @@ flitType=3
 ====== TICKL-TOCKL №45 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №45 ======
@@ -1140,12 +1723,25 @@ flitType=3
 ====== TICKL-TOCKL №46 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №46 ======
@@ -1156,12 +1752,25 @@ flitType=3
 ====== TICKL-TOCKL №47 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №47 ======
@@ -1172,12 +1781,25 @@ flitType=3
 ====== TICKL-TOCKL №48 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №48 ======
@@ -1188,12 +1810,25 @@ flitType=3
 ====== TICKL-TOCKL №49 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №49 ======
@@ -1204,12 +1839,25 @@ flitType=3
 ====== TICKL-TOCKL №50 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №50 ======
@@ -1220,12 +1868,25 @@ flitType=3
 ====== TICKL-TOCKL №51 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №51 ======
@@ -1236,12 +1897,25 @@ flitType=3
 ====== TICKL-TOCKL №52 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №52 ======
@@ -1252,12 +1926,25 @@ flitType=3
 ====== TICKL-TOCKL №53 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №53 ======
@@ -1268,12 +1955,25 @@ flitType=3
 ====== TICKL-TOCKL №54 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №54 ======
@@ -1284,12 +1984,25 @@ flitType=3
 ====== TICKL-TOCKL №55 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №55 ======
@@ -1300,12 +2013,25 @@ flitType=3
 ====== TICKL-TOCKL №56 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №56 ======
@@ -1316,12 +2042,25 @@ flitType=3
 ====== TICKL-TOCKL №57 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №57 ======
@@ -1332,12 +2071,25 @@ flitType=3
 ====== TICKL-TOCKL №58 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №58 ======
@@ -1348,12 +2100,25 @@ flitType=3
 ====== TICKL-TOCKL №59 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №59 ======
@@ -1364,12 +2129,25 @@ flitType=3
 ====== TICKL-TOCKL №60 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №60 ======
@@ -1380,12 +2158,25 @@ flitType=3
 ====== TICKL-TOCKL №61 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №61 ======
@@ -1396,12 +2187,25 @@ flitType=3
 ====== TICKL-TOCKL №62 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №62 ======
@@ -1412,12 +2216,25 @@ flitType=3
 ====== TICKL-TOCKL №63 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №63 ======
@@ -1428,12 +2245,25 @@ flitType=3
 ====== TICKL-TOCKL №64 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №64 ======
@@ -1444,12 +2274,25 @@ flitType=3
 ====== TICKL-TOCKL №65 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №65 ======
@@ -1460,12 +2303,25 @@ flitType=3
 ====== TICKL-TOCKL №66 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №66 ======
@@ -1476,12 +2332,25 @@ flitType=3
 ====== TICKL-TOCKL №67 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №67 ======
@@ -1492,12 +2361,25 @@ flitType=3
 ====== TICKL-TOCKL №68 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №68 ======
@@ -1508,12 +2390,25 @@ flitType=3
 ====== TICKL-TOCKL №69 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №69 ======
@@ -1524,12 +2419,25 @@ flitType=3
 ====== TICKL-TOCKL №70 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №70 ======
@@ -1540,12 +2448,25 @@ flitType=3
 ====== TICKL-TOCKL №71 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №71 ======
@@ -1556,12 +2477,25 @@ flitType=3
 ====== TICKL-TOCKL №72 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №72 ======
@@ -1572,12 +2506,25 @@ flitType=3
 ====== TICKL-TOCKL №73 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №73 ======
@@ -1588,12 +2535,25 @@ flitType=3
 ====== TICKL-TOCKL №74 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №74 ======
@@ -1604,12 +2564,25 @@ flitType=3
 ====== TICKL-TOCKL №75 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №75 ======
@@ -1620,12 +2593,25 @@ flitType=3
 ====== TICKL-TOCKL №76 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №76 ======
@@ -1636,12 +2622,25 @@ flitType=3
 ====== TICKL-TOCKL №77 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №77 ======
@@ -1652,12 +2651,25 @@ flitType=3
 ====== TICKL-TOCKL №78 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №78 ======
@@ -1668,12 +2680,25 @@ flitType=3
 ====== TICKL-TOCKL №79 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №79 ======
@@ -1684,12 +2709,25 @@ flitType=3
 ====== TICKL-TOCKL №80 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №80 ======
@@ -1700,12 +2738,25 @@ flitType=3
 ====== TICKL-TOCKL №81 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №81 ======
@@ -1716,12 +2767,25 @@ flitType=3
 ====== TICKL-TOCKL №82 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №82 ======
@@ -1732,12 +2796,25 @@ flitType=3
 ====== TICKL-TOCKL №83 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №83 ======
@@ -1748,12 +2825,25 @@ flitType=3
 ====== TICKL-TOCKL №84 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №84 ======
@@ -1764,12 +2854,25 @@ flitType=3
 ====== TICKL-TOCKL №85 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №85 ======
@@ -1780,12 +2883,25 @@ flitType=3
 ====== TICKL-TOCKL №86 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №86 ======
@@ -1796,12 +2912,25 @@ flitType=3
 ====== TICKL-TOCKL №87 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №87 ======
@@ -1812,12 +2941,25 @@ flitType=3
 ====== TICKL-TOCKL №88 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №88 ======
@@ -1828,12 +2970,25 @@ flitType=3
 ====== TICKL-TOCKL №89 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №89 ======
@@ -1844,12 +2999,25 @@ flitType=3
 ====== TICKL-TOCKL №90 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №90 ======
@@ -1860,12 +3028,25 @@ flitType=3
 ====== TICKL-TOCKL №91 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №91 ======
@@ -1876,12 +3057,25 @@ flitType=3
 ====== TICKL-TOCKL №92 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №92 ======
@@ -1892,12 +3086,25 @@ flitType=3
 ====== TICKL-TOCKL №93 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №93 ======
@@ -1908,12 +3115,25 @@ flitType=3
 ====== TICKL-TOCKL №94 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №94 ======
@@ -1924,12 +3144,25 @@ flitType=3
 ====== TICKL-TOCKL №95 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №95 ======
@@ -1940,12 +3173,25 @@ flitType=3
 ====== TICKL-TOCKL №96 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №96 ======
@@ -1956,12 +3202,25 @@ flitType=3
 ====== TICKL-TOCKL №97 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №97 ======
@@ -1972,12 +3231,25 @@ flitType=3
 ====== TICKL-TOCKL №98 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №98 ======
@@ -1988,12 +3260,25 @@ flitType=3
 ====== TICKL-TOCKL №99 ======
 
 
-		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 3, contents: Flit{
+		FIFOQueue {id: 0, nodeID: 15, channelID: 7, queue size: 3, state: 4 Flit type: 1, contents: Flit{
+flitType=1
+, data=15
+}
+
+Flit{
 flitType=3
 , data=32783
 }
 
+Flit{
+flitType=2
+, data=0
+}
 
+
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
+womp wopm woooomp (sad_trombone.bj)
+	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}womp wopm woooomp (sad_trombone.bj)
 
 
 ====== NO MORE TICKL-TOCKL №99 ======
@@ -2002,23 +3287,32 @@ flitType=3
 Sent flits for 0: 
 Flit jumps for Flit{
 flitType=1
-, data=917519
+, data=15
 }
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 oc: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2}
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 oc: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 3, state: 4 oc: 	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 2, balls: false, taken: true}
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 3, state: 4 oc: 	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 2, balls: false, taken: true}
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 3, state: 4 oc: 	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 2, balls: false, taken: true}
 ------
 Flit jumps for Flit{
 flitType=3
 , data=32783
 }
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 4 oc: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 3}
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 oc: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 4 oc: 	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 2, state: 4 oc: 	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 2, state: 4 oc: 	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 4, balls: false, taken: true}
 ------
 Flit jumps for Flit{
 flitType=2
 , data=0
 }
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 0, state: 4 oc: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4}
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 oc: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 6 oc: 	OutputChannel {id: 3 (11), currentNodeID: 1 (1), state: 4, balls: false, taken: true}
+		FIFOQueue {id: 0, nodeID: 3, channelID: 1, queue size: 1, state: 6 oc: 	OutputChannel {id: 7 (111), currentNodeID: 3 (11), state: 4, balls: false, taken: true}
+		FIFOQueue {id: 0, nodeID: 7, channelID: 3, queue size: 1, state: 6 oc: 	OutputChannel {id: 15 (1111), currentNodeID: 7 (111), state: 4, balls: false, taken: true}
 ------
-Ended at... Wed Mar 16 11:22:44 UTC 2016
+Ended at... Wed Mar 30 10:30:23 UTC 2016

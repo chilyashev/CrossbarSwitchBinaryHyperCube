@@ -12,14 +12,5 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.0" level="project" />
-    <orderEntry type="module-library">
-      <library name="Maven: com.oracle:javafx:2.2">
-        <CLASSES>
-          <root url="jar:///opt/jdk/jdk1.8.0_60/jre/lib/ext/jfxrt.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
   </component>
 </module>

@@ -12,6 +12,7 @@ import org.cbsbh.model.structures.Message;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
 
 
 /**
@@ -123,6 +124,7 @@ public class ModelRunner implements Runnable {
         Debug.println("Starting at... " + new Date());
         // Ticking....
         BernoulliGenerator g = new BernoulliGenerator();
+        Scanner bblock = new Scanner(System.in);
         while (ticks < 1__0__0) {
             Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
 //            if(g.newValueReady()){
@@ -138,7 +140,7 @@ public class ModelRunner implements Runnable {
             // Tick for each SMP
             Debug.printf("\n\n====== NO MORE TICKL-TOCKL №%d ======\n\n", ticks);
             ticks++;
-
+            // bblock.nextLine();
         }
 
         for(SMPNode node: MPPNetwork.getAll()) {

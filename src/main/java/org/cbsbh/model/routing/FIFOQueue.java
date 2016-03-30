@@ -118,8 +118,9 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         // Ако сме в STATE4
         if (state == STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL) {
             // NOT(VALID_DATA) AND NOT(TIME_ONE) AND TAIL_FLIT
-            if (!isCurrentFlitDataValid() && !hasSignal(SignalArray.TIME_ONE)
-                    && getCurrentFlitType() == Flit.FLIT_TYPE_TAIL) {
+            if (/*!isCurrentFlitDataValid() && !hasSignal(SignalArray.TIME_ONE)
+                    &&*/ getCurrentFlitType() == Flit.FLIT_TYPE_TAIL) {
+                Debug.printf("GOTO STATE 5!");
                 return STATE5_READ_PACKET;
                 // Timeout
             } else if (hasSignal(SignalArray.TIME_ONE)) {
@@ -131,6 +132,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         // Ако сме в STATE5, може да започне да се чете пакет или вече се чете пакет, ако това е започнало в S4
         // TODO: да се разбере как се разбира дали е започнало предаването. Най-вероятно ще стане в tick()
         if (state == STATE5_READ_PACKET) {
+            Debug.printf("GOT IN STATE 5!");
             return STATE6_WAIT_FOR_END_OF_PACKET;
         }
 
@@ -257,6 +259,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
             case STATE6_WAIT_FOR_END_OF_PACKET:
                 getSignalArray().setSignal(SignalArray.DATA_ACK, false);
                 getChannel().getSignalArray().setSignal(SignalArray.DATA_ACK, false);
+                getSignalArray().setSignal(SignalArray.CNT_EQU, false);
                 break;
         }
     }
@@ -265,11 +268,11 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         if (fifo.isEmpty()) {
             return;
         }
-        Flit nextFlit = fifo.removeFirst();
+        Flit nextFlit = fifo.peekFirst();
         //Debug
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
             nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
-            if((nextFlit.getTR()) == 0) {
+            if ((nextFlit.getTR()) == 0) {
                 /*Debug.println("FINALLY! A header flit! FIFOQueue size: " + fifo.size());
                 receivedData = new ArrayList<>();
                 receivedData.add(nextFlit);*/
@@ -278,29 +281,27 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_BODY) {
             //Debug.println("FINALLY! A body flit! FIFOQueue size: " + fifo.size());
-            if(receivedData != null) {
+            if (receivedData != null) {
                 receivedData.add(nextFlit);
             }
         }
 
-        if (nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
-            /*Debug.println("FINALLY! A tail flit! FIFOQueue size: " + fifo.size());
-            if(receivedData != null) {
-                receivedData.add(nextFlit);
-
-                Debug.println(getWho() + " Flits: ");
-                for (Flit flit : receivedData) {
-                    Debug.println("Flit: " + flit.toString());
-                }
-            }*/
-
-
-            getSignalArray().setSignal(SignalArray.CNT_EQU, true);
-            //System.exit(-1);
-        }
         // sadfase.dwg
+        // Ако не е изпратен буферът на изходния канал, няма да пишем, защото се омазва
+        OutputChannel out = channel.getNode().getOutputChannel(nextNodeId);
+        if (out.getBuffer() != null) {
+            return;
+        }
+        Debug.println(getWho() + " Sending all my ropes to: " + channel.getNode().getOutputChannel(nextNodeId).getWho() + " c: " + nextFlit.toString());
         nextFlit.history.add(getWho() + " oc: " + channel.getNode().getOutputChannel(nextNodeId).getWho());
         channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
+
+        if (nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
+            Debug.println(getWho() + "FINALLY! A tail flit! FIFOQueue size: " + fifo.size());
+            getSignalArray().setSignal(SignalArray.CNT_EQU, true);
+            Debug.printSignals(Debug.CLASS_FIFO_QUEUE, this);
+        }
+        fifo.removeFirst();
     }
 
     /**

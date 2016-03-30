@@ -34,7 +34,7 @@ public class InputChannel extends StateStructure implements Tickable {
        Node0                Node1
         +----------------+  CB   +----------------+
 i0------|              O0|------>|I               |
-        |    Signals|<------|OutputSignals   |
+        |    Signals     |<------|OutputSignals   |
         |                |       |                |
         |                | DATA  |                |
         |              o0|-------|i0              |
@@ -337,7 +337,7 @@ i0------|              O0|------>|I               |
 
         if (transferStartedForMe) {
             receivedData.add(flit);
-            if(flit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
+            if (flit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
                 transferStartedForMe = false;
                 Debug.printf("Received for %s", getWho());
                 for (Flit flit1 : receivedData) {
@@ -351,6 +351,7 @@ i0------|              O0|------>|I               |
         if (activeFIFOIndex == -1) {
             activeFIFOIndex = getFirstAvailableQueueIndex();
         }
+        assert activeFIFOIndex != 1 : "This shall not be";
 
         this.inputBuffer = flit;
         getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);

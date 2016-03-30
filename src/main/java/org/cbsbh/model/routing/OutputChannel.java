@@ -87,7 +87,8 @@ public class OutputChannel extends StateStructure implements Tickable {
         if (state == STATE2_READY_FOR_TRANSFER) {
             Debug.printf("%s, state 2, nextInputChannel.getActiveFIFOIndex() = %s\n", getWho(), nextInputChannel.getActiveFIFOIndex());
             if (nextInputChannel.getActiveFIFOIndex() != -1
-                    && nextInputChannel.getActiveFIFOQueue().hasSignal(SignalArray.PACK_WAIT)) {
+                    && nextInputChannel.getActiveFIFOQueue().hasSignal(SignalArray.PACK_WAIT)
+                    ) {
                 return STATE3_START_OF_TRANSFER;
             }
         }
@@ -166,6 +167,10 @@ public class OutputChannel extends StateStructure implements Tickable {
                 getSignalArray().setSignal(SignalArray.WR_RG_OUT, true);
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
                 assert nextInputChannel != null : "This can't be null";
+                if (buffer == null) {
+                    Debug.printf("%s, buffer is null", getWho());
+                    break;
+                }
                 assert buffer.getFlitType() == Flit.FLIT_TYPE_HEADER : "Този Flit трябва да е HeaderFlit!";
                 Debug.printf("%s, starting to transfer to %d", getWho(), nextInputChannel.id);
                 buffer.setValidDataBit();
@@ -174,8 +179,8 @@ public class OutputChannel extends StateStructure implements Tickable {
             case STATE4_TRANSFER1:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
 //                getSignalArray().setSignal(SignalArray.VALID_DATA, true);
-                if (buffer == null){
-                    Debug.printf("womp wopm woooomp (sad_trombone.bj)");
+                if (buffer == null) {
+                    Debug.printf(getWho() + "womp wopm woooomp (sad_trombone.bj)");
                     break;
                 }
                 assert buffer != null : "Този buffer трябва да е не-null!";
@@ -187,7 +192,7 @@ public class OutputChannel extends StateStructure implements Tickable {
                 buffer = null;
                 break;
             case STATE5_TRANSFER2:
-                if (buffer == null){
+                if (buffer == null) {
                     Debug.printf("womp wopm woooomp (sad_trombone.bj)");
                     break;
                 }
@@ -199,12 +204,17 @@ public class OutputChannel extends StateStructure implements Tickable {
                 getSignalArray().setSignal(SignalArray.FLT_RD, true);
                 // Попълване на буфера. Става във FIFOQueue.sendDataToNextNode()
                 //nextInputChannel.setInputBuffer(buffer);
+                //buffer = null;
                 break;
             case STATE6_END_OF_TRANSFER:
                 getSignalArray().setSignal(SignalArray.RRA_BUSY, true);
                 getSignalArray().setSignal(SignalArray.CLR_MUX_ADDR, true);
                 getSignalArray().setSignal(SignalArray.TIMER_EN, true);
-
+                if (buffer != null) {
+                    nextInputChannel.setInputBuffer(buffer);
+                    buffer = null;
+                }
+                rra.requestMap.clear();
                 break;
         }
         //getSignalArray().resetAll();
@@ -270,6 +280,8 @@ public class OutputChannel extends StateStructure implements Tickable {
     }
 
     public void setBuffer(Flit buffer) {
+        Debug.printf("BetSuffer called!");
+        assert this.buffer == null;
         this.buffer = buffer;
     }
 
@@ -291,6 +303,6 @@ public class OutputChannel extends StateStructure implements Tickable {
     }
 
     public String getWho() {
-        return String.format("\tOutputChannel {id: %d (%s), currentNodeID: %d (%s), state: %d}", id, Integer.toBinaryString(id), currentNodeId, Integer.toBinaryString(currentNodeId), state);
+        return String.format("\tOutputChannel {id: %d (%s), currentNodeID: %d (%s), state: %d, balls: %s, taken: %s}", id, Integer.toBinaryString(id), currentNodeId, Integer.toBinaryString(currentNodeId), state, nextInputChannel != null ? nextInputChannel.hasSignal(SignalArray.CHAN_BUSY) + "" : "balls", accepted != null);
     }
 }
