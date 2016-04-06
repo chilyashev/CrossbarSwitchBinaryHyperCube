@@ -117,7 +117,7 @@ public class ModelRunner implements Runnable {
         Context.getInstance().set("messageGenerationFrequency", 1);
         Context.getInstance().set("minMessageSize", 4);
         Context.getInstance().set("maxMessageSize", 56);
-        Context.getInstance().set("fifoQueueCount", 2);
+        Context.getInstance().set("fifoQueueCount", 3);
         init(channelCount, bufferCount);
         //End of init
 

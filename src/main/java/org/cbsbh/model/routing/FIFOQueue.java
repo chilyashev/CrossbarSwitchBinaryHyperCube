@@ -53,11 +53,12 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
     InputChannel channel;
 
     ArrayList<Flit> receivedData; // Only to check what's in nyah
+    boolean startedReceiving = false;
 
     int nextNodeId = -1;
     int id;
-    private String who;
     int nodeId;//.getId();
+    private String who;
 
     public FIFOQueue() {
 
@@ -178,6 +179,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 break;
             case STATE1_IDLE:
                 // Нищо. Or is it?
+                getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
                 /*getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
                 getSignalArray().setSignal(SignalArray.CLR_FIFO, false);*/
                 break;
@@ -281,9 +283,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_BODY) {
             //Debug.println("FINALLY! A body flit! FIFOQueue size: " + fifo.size());
-            if (receivedData != null) {
-                receivedData.add(nextFlit);
-            }
+
         }
 
         // sadfase.dwg
@@ -311,6 +311,19 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
      */
     public void push(Flit flit) {
         Debug.printSignals(Debug.CLASS_FIFO_QUEUE, this);
+        if (flit.getFlitType() == Flit.FLIT_TYPE_HEADER && flit.getTR() == 0) {
+            receivedData = new ArrayList<>();
+            startedReceiving = true;
+        }
+        if (startedReceiving) {
+            if (receivedData != null) {
+                receivedData.add(flit);
+            }
+            if (flit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
+                Debug.printf("I am the final gay ninja. I have taken all the spunk packets. Here's the good stuff: %s", receivedData.toString());
+                startedReceiving = false;
+            }
+        }
         fifo.addLast(flit);
     }
 

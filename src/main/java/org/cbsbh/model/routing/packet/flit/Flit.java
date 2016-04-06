@@ -14,6 +14,11 @@ import java.util.ArrayList;
 // Може да е за метаданни
 public class Flit { // *C
 
+    // DEBUG
+    public String id;
+    // /DEBUG
+
+
     public static final int FLIT_TYPE_NO_DATA = 0b00;
     public static final int FLIT_TYPE_HEADER = 0b01;
     public static final int FLIT_TYPE_TAIL = 0b10;
@@ -138,7 +143,7 @@ public class Flit { // *C
 
     @Override
     public String toString() {
-        return "Flit{" +
+        return "Flit{ " + id  +
                 "\nflitType=" + getFlitType() +
                 "\n, data=" + getFlitData() +
                 "\n}\n";

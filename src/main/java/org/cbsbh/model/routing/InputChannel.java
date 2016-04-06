@@ -73,6 +73,9 @@ i0------|              O0|------>|I               |
         this.fifoQueueCount = Context.getInstance().getInteger("fifoQueueCount");
         fifoQueues = new ArrayList<>(fifoQueueCount);
         B_FIFO_STATUS = new boolean[fifoQueueCount];
+        for(int i = 0; i < B_FIFO_STATUS.length; i++) {
+            B_FIFO_STATUS[i] = false;
+        }
     }
 
     @Override
@@ -163,9 +166,9 @@ i0------|              O0|------>|I               |
     }
 
     public void tick() {
-
         // Фаза 2: ...
         fifoQueues.forEach(FIFOQueue::tick);
+
 
 
         //Debug.println(String.format("%s current state %d", getWho(), state));
@@ -194,7 +197,7 @@ i0------|              O0|------>|I               |
 
                 // Обикаляме всички опашки и проверяваме дали са свободни. Ако всички са заети, вдигаме CHAN_BUSY.
                 getSignalArray().setSignal(SignalArray.CHAN_BUSY, isChanBusy());
-
+                activeFIFOIndex = -1;
                 break;
             case STATE1_UPDATE_FIFO_STATUS:
                 getSignalArray().setSignal(SignalArray.WR_B_RG, true);
@@ -204,7 +207,7 @@ i0------|              O0|------>|I               |
 
                 if (activeFIFOIndex == -1) {
                     activeFIFOIndex = getFirstAvailableQueueIndex();
-                    Debug.printf("Got a new FIFO, activeFIFOIndex: %d", activeFIFOIndex);
+                    //Debug.printf("Got a new FIFO, activeFIFOIndex: %d", activeFIFOIndex);
                 }
                 break;
 
@@ -284,7 +287,7 @@ i0------|              O0|------>|I               |
      *
      * @return индексът на първата свободна опашка
      */
-    private int getFirstAvailableQueueIndex() {
+    public int getFirstAvailableQueueIndex() {
         for (int i = 0; i < B_FIFO_STATUS.length; i++) {
             if (!B_FIFO_STATUS[i]) {
                 B_FIFO_STATUS[i] = true;
@@ -343,15 +346,18 @@ i0------|              O0|------>|I               |
                 for (Flit flit1 : receivedData) {
                     Debug.println("Flit: " + flit1.toString());
                 }
-
             }
+            return;
         }
 
+        /*if (activeFIFOIndex != -1 && getActiveFifo().getSignalArray().hasSignal(SignalArray.FIFO_BUSY)) {
+            activeFIFOIndex = -1;
+        }*/
 
-        if (activeFIFOIndex == -1) {
+        if (activeFIFOIndex == -1 ){//|| !getActiveFifo().getFifo().isEmpty()) {
             activeFIFOIndex = getFirstAvailableQueueIndex();
         }
-        assert activeFIFOIndex != 1 : "This shall not be";
+        assert activeFIFOIndex != -1 : "This shall not be";
 
         this.inputBuffer = flit;
         getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
@@ -393,11 +399,15 @@ i0------|              O0|------>|I               |
     public boolean isChanBusy() {
         for (int i = 0; i < fifoQueues.size(); i++) {
             FIFOQueue queue = fifoQueues.get(i);
-            B_FIFO_STATUS[i] = queue.hasSignal(SignalArray.FIFO_BUSY);
+           // B_FIFO_STATUS[i] = queue.hasSignal(SignalArray.FIFO_BUSY);
             if (!queue.hasSignal(SignalArray.FIFO_BUSY)) {
                 return false;
             }
         }
         return true;
+    }
+
+    public void setActiveFIFOIndex(int activeFIFOIndex) {
+        this.activeFIFOIndex = activeFIFOIndex;
     }
 }

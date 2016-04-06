@@ -1,8 +1,6 @@
 package org.cbsbh.model.routing;
 
-import jdk.internal.util.xml.impl.Input;
 import org.cbsbh.Debug;
-import org.cbsbh.context.Context;
 import org.cbsbh.model.routing.packet.Packet;
 import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.Message;
@@ -19,20 +17,21 @@ import java.util.HashMap;
  */
 public class SMPNode {
 
+    public ArrayList<Flit> sentFlits = new ArrayList<>();
     int id;
-
     HashMap<Integer, InputChannel> inputChannels;
-
     HashMap<Integer, OutputChannel> outputChannels;
-
     InputChannel DMA_OUT;
-
     InputChannel DMA_IN;
-
     ArrayList<Message> messages;
     ArrayList<Packet> messageData;
-    public ArrayList<Flit> sentFlits = new ArrayList<>();
-
+    boolean cockLove = false; // Who doesn't love roosters?
+    boolean doLove = true;
+    boolean firstSent = false;
+    int tock = 1;
+    int flitters = 1;
+    int queueId;
+    private boolean lastSent = false;
 
     public SMPNode(int id) {
         this.id = id;
@@ -48,12 +47,6 @@ public class SMPNode {
         DMA_IN.init();
     }
 
-    boolean cockLove = false; // Who doesn't love roosters?
-    boolean doLove = true;
-    int tock = 1;
-    int flitters = 1;
-    int queueId;
-
     public void tick() {
         //if (!messageData.isEmpty())
         //Debug.printf("%s tick", getWho());
@@ -61,23 +54,42 @@ public class SMPNode {
             //for(Integer icId : getInputChannels().keySet())
             Integer icId = 2;
 
-
+            if (firstSent && !lastSent && id == 0) {
+                sendFlits(15); // Send from 0 to 10
+                lastSent = true;
+            }
             if (doLove) {
                 if (id == 0) {
-                    icId = 2;
                     if (DMA_IN.getState() == 2) {
-                        sendFlits(icId, 15); // Send from 0 to 10
+                        sendFlits(15); // Send from 0 to 10
+                        firstSent = true;
+                        /*DMA_IN.isChanBusy();
+                        DMA_IN.setActiveFIFOIndex(DMA_IN.getFirstAvailableQueueIndex());
+                        assert DMA_IN.getActiveFIFOIndex() != 0 : "shiet";
+                        sendFlits(15); // Send from 0 to 10*/
                     }
-                }/*else if(id == 3) {
-                    icId = 1;
-                    sendFlits(icId, 0b1100); // Send from 9 to 1
-                }*/
+                }
+
+                if (id == 15) {
+                    if (DMA_IN.getState() == 2) {
+                        //sendFlits(0); // Send from 0 to 10
+                    }
+                }
+                if (id == 7) {
+                    if (DMA_IN.getState() == 2) {
+                    //    sendFlits(0); // Send from 0 to 10
+                    }
+                }
+
             }
+
         }
 
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::tick);
         inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::tick);
+
         DMA_IN.tick();
+
         //getDMA_IN().tick();
         //getDMA_OUT().tick();
         /*if (!messages.isEmpty()) {
@@ -87,9 +99,10 @@ public class SMPNode {
 
     }
 
-    private void sendFlits(Integer icId, int target) {
+    private void sendFlits(int target) {
         if (!cockLove) {
             Flit flit = new Flit();
+            flit.id = String.format("%d->%d", id, target);
             flit.setFlitType(Flit.FLIT_TYPE_HEADER);
             flit.setDNA(target); // 10 is random. I can't even.
             flit.setTR(id ^ flit.getDNA());
@@ -98,16 +111,12 @@ public class SMPNode {
             sentFlits.add(flit);
 
             DMA_IN.setInputBuffer(flit);
-            //queueId = DMA_IN.getActiveFIFOIndex();
-            /*DMA_IN.getActiveFifo().getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
-            DMA_IN.getActiveFifo().getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
-            DMA_IN.getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
-            DMA_IN.getActiveFifo().setState(3);*/
             cockLove = true;
             tock = 1;
             while (flitters-- >= 0) {
                 //doLove = false;
                 flit = new Flit();
+                flit.id = String.format("%d->%d", id, target);
                 if (flitters >= 0) {
                     flit.setFlitData(0x8000 + target);
                     flit.setFlitType(Flit.FLIT_TYPE_BODY);
@@ -119,6 +128,9 @@ public class SMPNode {
                 Debug.printf("> [Just the next piece] Generating a message. From %d, type %d", id, flit.getFlitType());
                 sentFlits.add(flit);
                 DMA_IN.setInputBuffer(flit);
+                Debug.printf("\n\n\nDMA DMA DMA");
+                Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, DMA_IN);
+                Debug.printf("DMA DMA DMA\n\n\n");
             }
         }
 
@@ -129,6 +141,7 @@ public class SMPNode {
 
             if (inputChannels.get(icId).getState() == 1) {
                 Flit flit = new Flit();
+                flit.id = String.format("%d->%d", id, target);
                 flit.setFlitType(Flit.FLIT_TYPE_HEADER);
                 flit.setDNA(target); // 10 is random. I can't even.
                 flit.setTR(id ^ flit.getDNA());
@@ -150,6 +163,7 @@ public class SMPNode {
 
             //doLove = false;
             Flit flit = new Flit();
+            flit.setFlitType(Flit.FLIT_TYPE_HEADER);
             if (flitters >= 0) {
                 flit.setFlitData(0x8000 + target);
                 flit.setFlitType(Flit.FLIT_TYPE_BODY);

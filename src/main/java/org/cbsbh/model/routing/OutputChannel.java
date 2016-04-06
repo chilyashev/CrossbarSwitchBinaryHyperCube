@@ -111,10 +111,16 @@ public class OutputChannel extends StateStructure implements Tickable {
         }
 
         if (state == STATE6_END_OF_TRANSFER) {
-            if (!hasSignal(SignalArray.TIME_ONE) && nextInputChannel.getActiveFifo().hasSignal(SignalArray.DATA_ACK)) {
-                return STATE1_ROUTING_AND_ARBITRAGING;
-            } else if (hasSignal(SignalArray.TIME_ONE)) {
-                return STATE0_INIT;
+            try {
+                if (!hasSignal(SignalArray.TIME_ONE) && nextInputChannel.getActiveFifo().hasSignal(SignalArray.DATA_ACK)) {
+                    return STATE1_ROUTING_AND_ARBITRAGING;
+                } else if (hasSignal(SignalArray.TIME_ONE)) {
+                    return STATE0_INIT;
+                }
+            }
+            catch (Exception e) {
+                Debug.endTheMisery();
+                throw e;
             }
         }
 
@@ -215,6 +221,7 @@ public class OutputChannel extends StateStructure implements Tickable {
                     buffer = null;
                 }
                 rra.requestMap.clear();
+                accepted = null;
                 break;
         }
         //getSignalArray().resetAll();
