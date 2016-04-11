@@ -16,27 +16,32 @@ import java.util.HashMap;
  * @author Mihail Chilyashev
  */
 public class SMPNode {
-
-    public ArrayList<Flit> sentFlits = new ArrayList<>();
+    //Core:
     int id;
     HashMap<Integer, InputChannel> inputChannels;
     HashMap<Integer, OutputChannel> outputChannels;
-    InputChannel DMA_OUT;
     InputChannel DMA_IN;
-    ArrayList<Message> messages;
-    ArrayList<Packet> messageData;
+    ArrayList<Flit> packetToSend;
+
+    //Debug:
+    public ArrayList<Flit> sentFlits = new ArrayList<>();
+
+    //Arbitrary (most likely to be removed):
+    static int packetCounter = 1;
+    ArrayList<Message> messages; //POSSIBLY OBSOLETE
+    //ArrayList<Packet> messageData; //OBSOLETE
     boolean cockLove = false; // Who doesn't love roosters?
-    boolean doLove = true;
+    int packetCount = 3;
     boolean firstSent = false;
     int tock = 1;
-    int flitters = 1;
+    int packetSize = 1;
     int queueId;
     private boolean lastSent = false;
 
     public SMPNode(int id) {
         this.id = id;
         messages = new ArrayList<>();
-        messageData = new ArrayList<>();
+        //messageData = new ArrayList<>();
     }
 
     public void init() {
@@ -48,41 +53,25 @@ public class SMPNode {
     }
 
     public void tick() {
-        //if (!messageData.isEmpty())
-        //Debug.printf("%s tick", getWho());
-        {
-            //for(Integer icId : getInputChannels().keySet())
-            Integer icId = 2;
+        if (packetCount != 0) {
+            if (id == 0) {
+                if(DMA_IN.getState() == 1) {
+                    packetToSend = generatePacket(15);
+                } else if (packetToSend != null && !packetToSend.isEmpty() && DMA_IN.getState() == 2) {
+                    Flit flit = packetToSend.get(0);
+                    if (flit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
+                        DMA_IN.setInputBuffer(flit);
+                        sentFlits.add( packetToSend.remove(0));
+                    }
+                } else if (packetToSend != null && !packetToSend.isEmpty() && DMA_IN.getState() > 2) {
+                    DMA_IN.setInputBuffer(packetToSend.get(0));
+                    sentFlits.add( packetToSend.remove(0));
 
-            if (firstSent && !lastSent && id == 0) {
-                sendFlits(15); // Send from 0 to 10
-                lastSent = true;
+                    if(packetToSend.isEmpty()) {
+                        packetCount--;
+                    }
+                }
             }
-            if (doLove) {
-                if (id == 0) {
-                    if (DMA_IN.getState() == 2) {
-                        sendFlits(15); // Send from 0 to 10
-                        firstSent = true;
-                        /*DMA_IN.isChanBusy();
-                        DMA_IN.setActiveFIFOIndex(DMA_IN.getFirstAvailableQueueIndex());
-                        assert DMA_IN.getActiveFIFOIndex() != 0 : "shiet";
-                        sendFlits(15); // Send from 0 to 10*/
-                    }
-                }
-
-                if (id == 15) {
-                    if (DMA_IN.getState() == 2) {
-                        //sendFlits(0); // Send from 0 to 10
-                    }
-                }
-                if (id == 7) {
-                    if (DMA_IN.getState() == 2) {
-                    //    sendFlits(0); // Send from 0 to 10
-                    }
-                }
-
-            }
-
         }
 
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::tick);
@@ -90,8 +79,6 @@ public class SMPNode {
 
         DMA_IN.tick();
 
-        //getDMA_IN().tick();
-        //getDMA_OUT().tick();
         /*if (!messages.isEmpty()) {
             Message m = messages.remove(0);
             messageData.addAll(m.getAsPackets());
@@ -99,10 +86,43 @@ public class SMPNode {
 
     }
 
-    private void sendFlits(int target) {
+    private ArrayList<Flit> generatePacket(int target) {
+        ArrayList<Flit> newPacket = new ArrayList<>();
+
+        Flit flit = new Flit();
+        flit.id = String.format("%d->%d_%d", id, target, packetCounter);
+        flit.setFlitType(Flit.FLIT_TYPE_HEADER);
+        flit.setDNA(target); // 10 is random. I can't even.
+        flit.setTR(id ^ flit.getDNA());
+        flit.setValidDataBit();
+        Debug.printf("> [Just the tip] Generating a message. From %d to %d", id, flit.getDNA());
+        newPacket.add(flit);
+        int localPacketSize = packetSize;
+        while (localPacketSize-- >= 0) {
+            flit = new Flit();
+            flit.id = String.format("%d->%d_%d", id, target, packetCounter);
+            if (localPacketSize >= 0) {
+                flit.setFlitData(0x8000 + target);
+                flit.setFlitType(Flit.FLIT_TYPE_BODY);
+            } else {
+                flit.setFlitType(Flit.FLIT_TYPE_TAIL);
+            }
+            flit.setValidDataBit();
+            Debug.printf("> [Just the next piece] Generating a message. From %d, type %d", id, flit.getFlitType());
+            newPacket.add(flit);
+        }
+        packetCounter++;
+        return newPacket;
+    }
+
+
+/*
+    private boolean sendFlits_o2(int target) {
         if (!cockLove) {
             Flit flit = new Flit();
-            flit.id = String.format("%d->%d", id, target);
+
+            flit.id = String.format("%d->%d_%d", id, target, packetCounter);
+
             flit.setFlitType(Flit.FLIT_TYPE_HEADER);
             flit.setDNA(target); // 10 is random. I can't even.
             flit.setTR(id ^ flit.getDNA());
@@ -110,19 +130,20 @@ public class SMPNode {
             Debug.printf("> [Just the tip] Generating a message. From %d to %d", id, flit.getDNA());
             sentFlits.add(flit);
 
-            DMA_IN.setInputBuffer(flit);
+            if(false == DMA_IN.setInputBuffer(flit)) {
+                return false;//DMA busy. Try again later.
+            }
             cockLove = true;
-            tock = 1;
-            while (flitters-- >= 0) {
-                //doLove = false;
+            while (packetSize-- >= 0) {
+                //packetCount = false;
                 flit = new Flit();
-                flit.id = String.format("%d->%d", id, target);
-                if (flitters >= 0) {
+                flit.id = String.format("%d->%d_%d", id, target, packetCounter);
+                if (packetSize >= 0) {
                     flit.setFlitData(0x8000 + target);
                     flit.setFlitType(Flit.FLIT_TYPE_BODY);
                 } else {
                     flit.setFlitType(Flit.FLIT_TYPE_TAIL);
-                    doLove = false;
+                    packetCount = false;
                 }
                 flit.setValidDataBit();
                 Debug.printf("> [Just the next piece] Generating a message. From %d, type %d", id, flit.getFlitType());
@@ -132,7 +153,10 @@ public class SMPNode {
                 Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, DMA_IN);
                 Debug.printf("DMA DMA DMA\n\n\n");
             }
+            packetCounter++;
+            return true; //flits sent
         }
+        return false;//because I don't know why. Michael should fix this shit.
 
     }
 
@@ -159,17 +183,17 @@ public class SMPNode {
             }
         } else if (tock-- == 0 && inputChannels.get(icId).getFifoQueues().get(queueId).getState() == 4) {// && inputChannels.get(icId).getActiveFifo().getFifo().size() <1) {
             tock = 1;
-            flitters--;
+            packetSize--;
 
-            //doLove = false;
+            //packetCount = false;
             Flit flit = new Flit();
             flit.setFlitType(Flit.FLIT_TYPE_HEADER);
-            if (flitters >= 0) {
+            if (packetSize >= 0) {
                 flit.setFlitData(0x8000 + target);
                 flit.setFlitType(Flit.FLIT_TYPE_BODY);
             } else {
                 flit.setFlitType(Flit.FLIT_TYPE_TAIL);
-                doLove = false;
+                packetCount = false;
             }
             flit.setValidDataBit();
             //flit.setFlitData(0x999);
@@ -184,7 +208,7 @@ public class SMPNode {
 
         }
     }
-
+*/
     // TODO: do.
     public Message generateMessage() {
         Message m = new Message();
@@ -238,14 +262,6 @@ public class SMPNode {
 
     public void setOutputChannels(HashMap<Integer, OutputChannel> outputChannels) {
         this.outputChannels = outputChannels;
-    }
-
-    public InputChannel getDMA_OUT() {
-        return DMA_OUT;
-    }
-
-    public void setDMA_OUT(InputChannel DMA_OUT) {
-        this.DMA_OUT = DMA_OUT;
     }
 
     public OutputChannel getOutputChannel(int outputChannelId) {

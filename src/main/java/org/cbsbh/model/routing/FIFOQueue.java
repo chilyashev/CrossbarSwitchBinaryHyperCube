@@ -288,13 +288,15 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
         // sadfase.dwg
         // Ако не е изпратен буферът на изходния канал, няма да пишем, защото се омазва
-        OutputChannel out = channel.getNode().getOutputChannel(nextNodeId);
-        if (out.getBuffer() != null) {
-            return;
+        if(nextNodeId != -1) {
+            OutputChannel out = channel.getNode().getOutputChannel(nextNodeId);
+            if (out.getBuffer() != null) {
+                return;
+            }
+            Debug.println(getWho() + " Sending all my ropes to: " + channel.getNode().getOutputChannel(nextNodeId).getWho() + " c: " + nextFlit.toString());
+            nextFlit.history.add(getWho() + " oc: " + channel.getNode().getOutputChannel(nextNodeId).getWho());
+            channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
         }
-        Debug.println(getWho() + " Sending all my ropes to: " + channel.getNode().getOutputChannel(nextNodeId).getWho() + " c: " + nextFlit.toString());
-        nextFlit.history.add(getWho() + " oc: " + channel.getNode().getOutputChannel(nextNodeId).getWho());
-        channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
 
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
             Debug.println(getWho() + "FINALLY! A tail flit! FIFOQueue size: " + fifo.size());
@@ -359,14 +361,14 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
     public int getCurrentFlitType() {
         //assert fifo.peek() != null : "This is not the flit you are looking for.";
-        if (fifo.peekFirst() != null) {
+        if (fifo.peekLast() != null) {
             String c = "";
             for (Flit flit : fifo) {
                 c += flit.toString() + "\n";
             }
 
-            Debug.printf("%s Flit type: %d, contents: %s", getWho(), fifo.peekFirst().getFlitType(), c);
-            return fifo.peekFirst().getFlitType();
+            Debug.printf("%s Flit type: %d, contents: %s", getWho(), fifo.peekLast().getFlitType(), c);
+            return fifo.peekLast().getFlitType();
         }
         return -1;
     }

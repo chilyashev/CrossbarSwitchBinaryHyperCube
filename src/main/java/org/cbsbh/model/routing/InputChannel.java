@@ -169,8 +169,6 @@ i0------|              O0|------>|I               |
         // Фаза 2: ...
         fifoQueues.forEach(FIFOQueue::tick);
 
-
-
         //Debug.println(String.format("%s current state %d", getWho(), state));
         //Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
 
@@ -203,6 +201,10 @@ i0------|              O0|------>|I               |
                 getSignalArray().setSignal(SignalArray.WR_B_RG, true);
                 getSignalArray().setSignal(SignalArray.BUFF_BUSY, true);
 
+                for (int i = 0; i < B_FIFO_STATUS.length; i++) {
+                        B_FIFO_STATUS[i] = fifoQueues.get(i).hasSignal(SignalArray.FIFO_BUSY);
+                }
+
                 getSignalArray().setSignal(SignalArray.CHAN_BUSY, isChanBusy());
 
                 if (activeFIFOIndex == -1) {
@@ -217,7 +219,7 @@ i0------|              O0|------>|I               |
                 produceWR_IN_FIFO();
                 if (activeFIFOIndex == -1) {
                     activeFIFOIndex = getFirstAvailableQueueIndex();
-                    Debug.printf("Got a new FIFO, activeFIFOIndex: %d", activeFIFOIndex);
+                    //Debug.printf("Got a new FIFO, activeFIFOIndex: %d", activeFIFOIndex);
                 }
                 assert activeFIFOIndex != -1 : "activeFIFOIndex не би трябвало да е -1. Чекираут, мейн!";
                 fifoQueues.get(activeFIFOIndex).getSignalArray().setSignal(SignalArray.FIFO_SELECT, true);
@@ -331,7 +333,6 @@ i0------|              O0|------>|I               |
 
         Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, this);
 
-
         if (flit.getFlitType() == Flit.FLIT_TYPE_HEADER && flit.getTR() == 0) {
             transferStartedForMe = true;
             receivedData = new ArrayList<>();
@@ -347,20 +348,14 @@ i0------|              O0|------>|I               |
                     Debug.println("Flit: " + flit1.toString());
                 }
             }
-            return;
         }
 
-        /*if (activeFIFOIndex != -1 && getActiveFifo().getSignalArray().hasSignal(SignalArray.FIFO_BUSY)) {
-            activeFIFOIndex = -1;
-        }*/
-
-        if (activeFIFOIndex == -1 ){//|| !getActiveFifo().getFifo().isEmpty()) {
-            activeFIFOIndex = getFirstAvailableQueueIndex();
-        }
         assert activeFIFOIndex != -1 : "This shall not be";
 
         this.inputBuffer = flit;
-        getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
+        //Този ред беше тук до скоро. Експериментирах и го махнах. Продължи да работи, но не знам дали няма да се счупи.
+        //TODO:Да се разкоментира, ако се чупи необяснимо.
+        //getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
         getActiveFifo().push(flit);
         Debug.printf("After push: size: %d", getActiveFifo().fifo.size());
     }
