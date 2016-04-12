@@ -102,7 +102,8 @@ public class Arbiter {
         for (int i = 0; i < 12; i++) { // 12. Like the 12 bits in the TR. Duh...
             if ((tr & (1 << i)) == 1 << i) {
                 int outputChannelId = nodeId ^ (1 << i);
-                requestSent = requestSent || sendRequest(outputChannelId);
+                boolean newRequestSent = sendRequest(outputChannelId);
+                requestSent = requestSent || newRequestSent;
             }
         }
     }
