@@ -5,13 +5,14 @@ import javafx.event.EventHandler;
 import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.generator.BernoulliGenerator;
-import org.cbsbh.model.routing.*;
+import org.cbsbh.model.routing.InputChannel;
+import org.cbsbh.model.routing.MPPNetwork;
+import org.cbsbh.model.routing.OutputChannel;
+import org.cbsbh.model.routing.SMPNode;
 import org.cbsbh.model.routing.packet.flit.Flit;
-import org.cbsbh.model.structures.Message;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Scanner;
 
 
@@ -113,6 +114,7 @@ public class ModelRunner implements Runnable {
         int channelCount = 4;
         int bufferCount = 10;
         Context.getInstance().set("channelCount", channelCount); // TODO: get this from the interface!
+        Context.getInstance().set("nodeCount",  1 << channelCount);
         Context.getInstance().set("bufferCountPerInputChannel", bufferCount);
         Context.getInstance().set("messageGenerationFrequency", 1);
         Context.getInstance().set("minMessageSize", 4);
@@ -125,14 +127,13 @@ public class ModelRunner implements Runnable {
         // Ticking....
         BernoulliGenerator g = new BernoulliGenerator();
         Scanner bblock = new Scanner(System.in);
-        while (ticks < 1__0__0) {
+        while (ticks < 2__0__0) {
             Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
 //            if(g.newValueReady()){
             if (ticks == 5) {
                 // inject
                 //Debug.println("New value is being injected!");
-                // MPPNetwork.get(3).generateMessage();
-
+                MPPNetwork.get(0).generateMessage();
             }
 
             MPPNetwork.getInstance().calculateNewStates();

@@ -1,7 +1,5 @@
 package org.cbsbh.model.routing.packet.flit;
 
-import org.cbsbh.Debug;
-
 import java.util.ArrayList;
 
 /**
@@ -89,6 +87,7 @@ public class Flit { // *C
      * @return the Transport Mask
      */
     public long getTR() {
+        assert getFlitType() == FLIT_TYPE_HEADER;
         if (getFlitType() != FLIT_TYPE_HEADER) {
             return -1;
         }

@@ -1,5 +1,7 @@
 package org.cbsbh.model.routing;
 
+import org.cbsbh.model.structures.SignalArray;
+
 import java.util.ArrayList;
 
 /**
@@ -40,18 +42,24 @@ public class Arbiter {
      * Праща заявка до изходен канал
      */
     public boolean sendRequest(int id) {
-        boolean found = false;
+        boolean found = false,
+                requestSent = false; // Това е нужно, защото каналът винаги трябва да е намерен, но има случаи,
+                                    // в които изходният канал е в състояние 6 и ще си зачисти картата със заявки без значение дали ги е видял
         // Обикалят се всички канали и се търси канал с точното id.
         // Като се намери, му се взема RRA-то и на него се праща заявка за пращане
         for (OutputChannel channel : allChannels) {
             if (channel.getNextNodeId() == id) {
                 found = true;
-                channel.getRra().requestToSend(this);
+                // Заявка за изпращане се праща само на канали, които могат да я поемат, т.е. са в правилното състояние
+                if (channel.hasSignal(SignalArray.STRB_SIG)) {
+                    requestSent = true;
+                    channel.getRra().requestToSend(this);
+                }
                 break;
             }
         }
         assert found : "Input channel with id " + id + " not found. A bitch, ain't it?";
-        return found;
+        return requestSent;
     }
 
     /**
@@ -60,10 +68,11 @@ public class Arbiter {
      * Изчиства списъка
      * Изпраща ACK на избрания output канал
      * Връща id-то на избрания канал.
+     *
      * @return -1, ако никой не е върнал Grant
      */
     public int getNextNodeId(FIFOQueue fifoQueue) {
-        if(grantOutputChannelIds.size() < 1){
+        if (grantOutputChannelIds.size() < 1) {
             return -1;
         }
 
@@ -95,9 +104,10 @@ public class Arbiter {
 
     /**
      * Праща заявка за маршрутизиране
+     *
      * @param tr Transport Mask.
      */
-    public void sendRequestByTR(long tr) {
+    public boolean sendRequestByTR(long tr) {
         boolean requestSent = false;
         for (int i = 0; i < 12; i++) { // 12. Like the 12 bits in the TR. Duh...
             if ((tr & (1 << i)) == 1 << i) {
@@ -106,6 +116,7 @@ public class Arbiter {
                 requestSent = requestSent || newRequestSent;
             }
         }
+        return requestSent;
     }
 
     public int getNodeId() {
@@ -144,5 +155,9 @@ public class Arbiter {
 
     public void takeGrant(Integer outputChannelId) {
         grantOutputChannelIds.add(outputChannelId);
+    }
+
+    public boolean hasGrant() {
+        return !grantOutputChannelIds.isEmpty();
     }
 }

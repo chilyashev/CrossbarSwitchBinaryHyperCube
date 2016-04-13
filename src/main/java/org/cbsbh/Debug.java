@@ -1,11 +1,11 @@
 package org.cbsbh;
 
-import org.cbsbh.model.Tickable;
-import org.cbsbh.model.routing.OutputChannel;
 import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Debug {
 
@@ -15,7 +15,7 @@ public class Debug {
 
     private int[][] signals;
 
-    private static final boolean debug = !(!(true));
+    private static final boolean debug = !(!(!(!(true))));
 
     private static Debug _instance = null;
 

@@ -1,13 +1,13 @@
 package org.cbsbh.model.routing;
 
 import org.cbsbh.Debug;
-import org.cbsbh.model.routing.packet.Packet;
+import org.cbsbh.context.Context;
 import org.cbsbh.model.routing.packet.flit.Flit;
 import org.cbsbh.model.structures.Message;
-import org.cbsbh.model.structures.SignalArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Description goes here
@@ -22,21 +22,15 @@ public class SMPNode {
     HashMap<Integer, OutputChannel> outputChannels;
     InputChannel DMA_IN;
     ArrayList<Flit> packetToSend;
+    ArrayList<ArrayList<Flit>> messageToSend;
+
 
     //Debug:
     public ArrayList<Flit> sentFlits = new ArrayList<>();
 
     //Arbitrary (most likely to be removed):
-    static int packetCounter = 1;
     ArrayList<Message> messages; //POSSIBLY OBSOLETE
     //ArrayList<Packet> messageData; //OBSOLETE
-    boolean cockLove = false; // Who doesn't love roosters?
-    int packetCount = 3;
-    boolean firstSent = false;
-    int tock = 1;
-    int packetSize = 1;
-    int queueId;
-    private boolean lastSent = false;
 
     public SMPNode(int id) {
         this.id = id;
@@ -46,6 +40,8 @@ public class SMPNode {
 
     public void init() {
         Debug.printf("%s init", getWho());
+        messageToSend = new ArrayList<>();
+        packetToSend = new ArrayList<>();
         inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::init);
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::init);
         DMA_IN = new InputChannel(16, id);
@@ -53,25 +49,20 @@ public class SMPNode {
     }
 
     public void tick() {
-        if (packetCount != 0) {
-            if (id == 0) {
-                if(DMA_IN.getState() == 1) {
-                    packetToSend = generatePacket(15);
-                } else if (packetToSend != null && !packetToSend.isEmpty() && DMA_IN.getState() == 2) {
-                    Flit flit = packetToSend.get(0);
-                    if (flit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
-                        DMA_IN.setInputBuffer(flit);
-                        sentFlits.add( packetToSend.remove(0));
-                    }
-                } else if (packetToSend != null && !packetToSend.isEmpty() && DMA_IN.getState() > 2) {
-                    DMA_IN.setInputBuffer(packetToSend.get(0));
-                    sentFlits.add( packetToSend.remove(0));
-
-                    if(packetToSend.isEmpty()) {
-                        packetCount--;
-                    }
-                }
+        if (messageToSend.size() > 0) {
+            if (packetToSend.isEmpty()) {
+                packetToSend.addAll(messageToSend.remove(0));
             }
+        }
+        if (packetToSend.size() > 0 && DMA_IN.getState() == 2) {
+            Flit flit = packetToSend.get(0);
+            if (flit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
+                DMA_IN.setInputBuffer(flit);
+                sentFlits.add(packetToSend.remove(0));
+            }
+        } else if (!packetToSend.isEmpty() && DMA_IN.getState() > 2 && packetToSend.get(0).getFlitType() != Flit.FLIT_TYPE_HEADER) {
+            DMA_IN.setInputBuffer(packetToSend.get(0));
+            sentFlits.add(packetToSend.remove(0));
         }
 
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::tick);
@@ -86,22 +77,21 @@ public class SMPNode {
 
     }
 
-    private ArrayList<Flit> generatePacket(int target) {
+    private ArrayList<Flit> generatePacket(int target, int packetSize) {
         ArrayList<Flit> newPacket = new ArrayList<>();
 
         Flit flit = new Flit();
-        flit.id = String.format("%d->%d_%d", id, target, packetCounter);
+        flit.id = String.format("%d->%d_%d", id, target, packetToSend.size());
         flit.setFlitType(Flit.FLIT_TYPE_HEADER);
         flit.setDNA(target); // 10 is random. I can't even.
         flit.setTR(id ^ flit.getDNA());
         flit.setValidDataBit();
         Debug.printf("> [Just the tip] Generating a message. From %d to %d", id, flit.getDNA());
         newPacket.add(flit);
-        int localPacketSize = packetSize;
-        while (localPacketSize-- >= 0) {
+        while (packetSize-- >= 0) {
             flit = new Flit();
-            flit.id = String.format("%d->%d_%d", id, target, packetCounter);
-            if (localPacketSize >= 0) {
+            flit.id = String.format("%d->%d_%d", id, target, packetToSend.size());
+            if (packetSize >= 0) {
                 flit.setFlitData(0x8000 + target);
                 flit.setFlitType(Flit.FLIT_TYPE_BODY);
             } else {
@@ -111,129 +101,31 @@ public class SMPNode {
             Debug.printf("> [Just the next piece] Generating a message. From %d, type %d", id, flit.getFlitType());
             newPacket.add(flit);
         }
-        packetCounter++;
         return newPacket;
     }
 
+    public void generateMessage() {
+        Debug.printf("Starting the generation for %d.", id);
+        messageToSend.addAll(generateMessage(3, 3, Context.getInstance().getInteger("nodeCount")));
+    }
 
-/*
-    private boolean sendFlits_o2(int target) {
-        if (!cockLove) {
-            Flit flit = new Flit();
+    // TODO: Тая малоумщина (ArrayList<ArrayList<Flit>>) да се сложи в клас.
+    public ArrayList<ArrayList<Flit>> generateMessage(int maxPacketCount, int maxPacketSize, int maxTargetId) {
+        Random r = new Random();
+        int msgSize = 2;//r.nextInt(maxPacketCount - 1) + 1;
+        int target = r.nextInt(maxTargetId);
 
-            flit.id = String.format("%d->%d_%d", id, target, packetCounter);
+        Debug.printf("> Generating a message from %d to %d with %d packet%c", id, target, msgSize, msgSize == 1 ? ' ' : 's');
 
-            flit.setFlitType(Flit.FLIT_TYPE_HEADER);
-            flit.setDNA(target); // 10 is random. I can't even.
-            flit.setTR(id ^ flit.getDNA());
-            flit.setValidDataBit();
-            Debug.printf("> [Just the tip] Generating a message. From %d to %d", id, flit.getDNA());
-            sentFlits.add(flit);
+        ArrayList<ArrayList<Flit>> message = new ArrayList<>();
 
-            if(false == DMA_IN.setInputBuffer(flit)) {
-                return false;//DMA busy. Try again later.
-            }
-            cockLove = true;
-            while (packetSize-- >= 0) {
-                //packetCount = false;
-                flit = new Flit();
-                flit.id = String.format("%d->%d_%d", id, target, packetCounter);
-                if (packetSize >= 0) {
-                    flit.setFlitData(0x8000 + target);
-                    flit.setFlitType(Flit.FLIT_TYPE_BODY);
-                } else {
-                    flit.setFlitType(Flit.FLIT_TYPE_TAIL);
-                    packetCount = false;
-                }
-                flit.setValidDataBit();
-                Debug.printf("> [Just the next piece] Generating a message. From %d, type %d", id, flit.getFlitType());
-                sentFlits.add(flit);
-                DMA_IN.setInputBuffer(flit);
-                Debug.printf("\n\n\nDMA DMA DMA");
-                Debug.printSignals(Debug.CLASS_INPUT_CHANNEL, DMA_IN);
-                Debug.printf("DMA DMA DMA\n\n\n");
-            }
-            packetCounter++;
-            return true; //flits sent
+        while (msgSize-- > 0) {
+            int packetSize = 3;//r.nextInt(maxPacketSize - 1) + 1;
+            Debug.printf(">> Generating a packet of %d flit%c", packetSize, packetSize == 1 ? ' ' : 's');
+            message.add(generatePacket(target, packetSize));
         }
-        return false;//because I don't know why. Michael should fix this shit.
 
-    }
-
-    private void sendFlits_o(Integer icId, int target) {
-        if (!cockLove) {
-
-            if (inputChannels.get(icId).getState() == 1) {
-                Flit flit = new Flit();
-                flit.id = String.format("%d->%d", id, target);
-                flit.setFlitType(Flit.FLIT_TYPE_HEADER);
-                flit.setDNA(target); // 10 is random. I can't even.
-                flit.setTR(id ^ flit.getDNA());
-                flit.setValidDataBit();
-                Debug.printf("> [Just the tip] Generating a message. From %d to %d", id, flit.getDNA());
-                sentFlits.add(flit);
-
-                DMA_IN.setInputBuffer(flit);
-                queueId = DMA_IN.getActiveFIFOIndex();
-                DMA_IN.getActiveFifo().getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
-                DMA_IN.getActiveFifo().getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
-                DMA_IN.getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
-                DMA_IN.getActiveFifo().setState(3);
-                cockLove = true;
-            }
-        } else if (tock-- == 0 && inputChannels.get(icId).getFifoQueues().get(queueId).getState() == 4) {// && inputChannels.get(icId).getActiveFifo().getFifo().size() <1) {
-            tock = 1;
-            packetSize--;
-
-            //packetCount = false;
-            Flit flit = new Flit();
-            flit.setFlitType(Flit.FLIT_TYPE_HEADER);
-            if (packetSize >= 0) {
-                flit.setFlitData(0x8000 + target);
-                flit.setFlitType(Flit.FLIT_TYPE_BODY);
-            } else {
-                flit.setFlitType(Flit.FLIT_TYPE_TAIL);
-                packetCount = false;
-            }
-            flit.setValidDataBit();
-            //flit.setFlitData(0x999);
-            Debug.printf("> [Just the dick] Generating a message. From %d, type %d", id, flit.getFlitType());
-
-            sentFlits.add(flit);
-            inputChannels.get(icId).setInputBuffer(flit);
-            inputChannels.get(icId).getFifoQueues().get(queueId).getSignalArray().setSignal(SignalArray.WR_FIFO_EN, true);
-            inputChannels.get(icId).getFifoQueues().get(queueId).getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
-            inputChannels.get(icId).getFifoQueues().get(queueId).getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
-            inputChannels.get(icId).getFifoQueues().get(queueId).setState(4);
-
-        }
-    }
-*/
-    // TODO: do.
-    public Message generateMessage() {
-        Message m = new Message();
-        m.setSource(this.id);
-        m.setTarget(3);
-        messages.add(m);
-        return m;
-    }
-
-
-    /**
-     * Изпращане на съобщение пакет по пакет
-     */
-    public void sendMessage() {
-
-    }
-
-    /**
-     * Разделяне на съобщение на пакети
-     *
-     * @param m съобщението
-     * @return колекция от пакети
-     */
-    public Packet[] messageAsPackets(Message m) {
-        return null;
+        return message;
     }
 
     public InputChannel getInputChannel(int index) {

@@ -59,6 +59,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
     int id;
     int nodeId;//.getId();
     private String who;
+    private boolean requestSent = false;
 
     public FIFOQueue() {
 
@@ -74,6 +75,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
     public void init() {
         // TODO: големината на fifo трябва да е "размерът, указан в интерфейса - 2" заради Head/Tail флитовете
+        requestSent = false;
         nodeId = channel.getNodeId();
         Debug.printf(getWho() + " init");
 
@@ -119,8 +121,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         // Ако сме в STATE4
         if (state == STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL) {
             // NOT(VALID_DATA) AND NOT(TIME_ONE) AND TAIL_FLIT
-            if (/*!isCurrentFlitDataValid() && !hasSignal(SignalArray.TIME_ONE)
-                    &&*/ getCurrentFlitType() == Flit.FLIT_TYPE_TAIL) {
+            if (getCurrentFlitType() == Flit.FLIT_TYPE_TAIL) {
                 Debug.printf("GOTO STATE 5!");
                 return STATE5_READ_PACKET;
                 // Timeout
@@ -176,6 +177,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 getSignalArray().setSignal(SignalArray.RESET, false);
                 fifo.clear();
                 nextNodeId = -1;
+                requestSent = false;
                 break;
             case STATE1_IDLE:
                 // Нищо. Or is it?
@@ -203,7 +205,10 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 //assert fifo.size() == 1 : "Тук трябва да има само един flit";
                 assert fifo.peek().getFlitType() == Flit.FLIT_TYPE_HEADER : "Този флит трябва да е Head.";
                 head = fifo.peek();
-                arby.sendRequestByTR(head.getTR());
+                requestSent = arby.sendRequestByTR(head.getTR());
+                if (!requestSent) {
+                    Debug.printf("Ay!");
+                }
                 break;
             case STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL:
                 getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
@@ -214,9 +219,15 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 // possible sadface
                 if (nextNodeId == -1) {
                     nextNodeId = arby.getNextNodeId(this);
+
+                    if (nextNodeId == -1 && fifo.peek().getTR() != 0) {
+                        requestSent = arby.sendRequestByTR(fifo.peek().getTR());
+                    }
                 } else {
                     sendDataToNextNode();
                 }
+
+
                 break;
             case STATE5_READ_PACKET: // TODO: изпращането да го изкараме в метод
                 // TODO: Тези сигнали трябва да се издадат към предишния възел. Единственият проблем е, FIFO_BUSY не се използва. Вторият единствен проблем е, че вместо InputChannel-а да пише в сигналите на OutputChannel-а, той пише в своите и OutputChannel-а ги проверява.
@@ -288,7 +299,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
         // sadfase.dwg
         // Ако не е изпратен буферът на изходния канал, няма да пишем, защото се омазва
-        if(nextNodeId != -1) {
+        if (nextNodeId != -1) {
             OutputChannel out = channel.getNode().getOutputChannel(nextNodeId);
             if (out.getBuffer() != null) {
                 return;
@@ -296,6 +307,8 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
             Debug.println(getWho() + " Sending all my ropes to: " + channel.getNode().getOutputChannel(nextNodeId).getWho() + " c: " + nextFlit.toString());
             nextFlit.history.add(getWho() + " oc: " + channel.getNode().getOutputChannel(nextNodeId).getWho());
             channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
+        } else {
+            nextFlit.history.add(getWho() + " I've reached my final destination. Time for masturbation");
         }
 
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
