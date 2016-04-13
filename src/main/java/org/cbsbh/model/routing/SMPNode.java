@@ -105,14 +105,17 @@ public class SMPNode {
     }
 
     public void generateMessage() {
+        if (messageToSend.size() > 0) {
+            return;
+        }
         Debug.printf("Starting the generation for %d.", id);
-        messageToSend.addAll(generateMessage(3, 3, Context.getInstance().getInteger("nodeCount")));
+        messageToSend.addAll(generateMessage(2, 2, Context.getInstance().getInteger("nodeCount")));
     }
 
     // TODO: Тая малоумщина (ArrayList<ArrayList<Flit>>) да се сложи в клас.
     public ArrayList<ArrayList<Flit>> generateMessage(int maxPacketCount, int maxPacketSize, int maxTargetId) {
         Random r = new Random();
-        int msgSize = 2;//r.nextInt(maxPacketCount - 1) + 1;
+        int msgSize = r.nextInt(maxPacketCount - 1) + 1;
         int target = r.nextInt(maxTargetId);
 
         Debug.printf("> Generating a message from %d to %d with %d packet%c", id, target, msgSize, msgSize == 1 ? ' ' : 's');
@@ -120,7 +123,7 @@ public class SMPNode {
         ArrayList<ArrayList<Flit>> message = new ArrayList<>();
 
         while (msgSize-- > 0) {
-            int packetSize = 3;//r.nextInt(maxPacketSize - 1) + 1;
+            int packetSize = r.nextInt(maxPacketSize - 1) + 1;
             Debug.printf(">> Generating a packet of %d flit%c", packetSize, packetSize == 1 ? ' ' : 's');
             message.add(generatePacket(target, packetSize));
         }
@@ -168,5 +171,9 @@ public class SMPNode {
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::calculateNewState);
         inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::calculateNewState);
         DMA_IN.calculateNewState();
+    }
+
+    public ArrayList<ArrayList<Flit>> getMessageToSend() {
+        return messageToSend;
     }
 }

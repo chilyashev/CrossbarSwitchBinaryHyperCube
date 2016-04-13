@@ -114,7 +114,7 @@ public class ModelRunner implements Runnable {
         int channelCount = 4;
         int bufferCount = 10;
         Context.getInstance().set("channelCount", channelCount); // TODO: get this from the interface!
-        Context.getInstance().set("nodeCount",  1 << channelCount);
+        Context.getInstance().set("nodeCount", 1 << channelCount);
         Context.getInstance().set("bufferCountPerInputChannel", bufferCount);
         Context.getInstance().set("messageGenerationFrequency", 1);
         Context.getInstance().set("minMessageSize", 4);
@@ -127,13 +127,17 @@ public class ModelRunner implements Runnable {
         // Ticking....
         BernoulliGenerator g = new BernoulliGenerator();
         Scanner bblock = new Scanner(System.in);
+        int msgCount = 5;
         while (ticks < 2__0__0) {
             Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
-//            if(g.newValueReady()){
-            if (ticks == 5) {
+            if (g.newValueReady() && ticks > 5 && msgCount > 0) {
+                //if (ticks == 5) {
                 // inject
-                //Debug.println("New value is being injected!");
-                MPPNetwork.get(0).generateMessage();
+                if (MPPNetwork.get(0).getMessageToSend().size() == 0) {
+                    Debug.println("New value is being injected!");
+                    MPPNetwork.get(0).generateMessage();
+                    msgCount --;
+                }
             }
 
             MPPNetwork.getInstance().calculateNewStates();
@@ -144,12 +148,17 @@ public class ModelRunner implements Runnable {
             // bblock.nextLine();
         }
 
-        for(SMPNode node: MPPNetwork.getAll()) {
-            if(node.sentFlits.size() < 1) {
+        //
+        int packets = 0;
+        for (SMPNode node : MPPNetwork.getAll()) {
+            if (node.sentFlits.size() < 1) {
                 continue;
             }
             Debug.printf("Sent flits for %d: ", node.getId());
             for (Flit flit : node.sentFlits) {
+                if (flit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
+                    packets++;
+                }
                 Debug.println("Flit jumps for " + flit.toString());
                 for (String jump : flit.history) {
                     Debug.println("" + jump);
@@ -157,6 +166,7 @@ public class ModelRunner implements Runnable {
                 Debug.println("------");
             }
         }
+        Debug.println("Total packets sent (doesn't mean, they got received): " + packets);
 
         Debug.println("Ended at... " + new Date());
         Debug.endTheMisery();

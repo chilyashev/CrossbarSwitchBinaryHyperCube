@@ -399,7 +399,7 @@ SMPNode {id: 15 (1111)} init
 		FIFOQueue {id: 0, nodeID: 15, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 1, nodeID: 15, channelID: 16, queue size: 0, state: 0 init
 		FIFOQueue {id: 2, nodeID: 15, channelID: 16, queue size: 0, state: 0 init
-Starting at... Wed Apr 13 10:01:05 UTC 2016
+Starting at... Wed Apr 13 11:11:32 UTC 2016
 
 
 ====== TICKL-TOCKL №0 ======
@@ -455,28 +455,6 @@ Starting at... Wed Apr 13 10:01:05 UTC 2016
 ====== TICKL-TOCKL №5 ======
 
 
-Starting the generation for 0.
-> Generating a message from 0 to 12 with 2 packets
->> Generating a packet of 3 flits
-> [Just the tip] Generating a message. From 0 to 12
-> [Just the next piece] Generating a message. From 0, type 3
-> [Just the next piece] Generating a message. From 0, type 3
-> [Just the next piece] Generating a message. From 0, type 3
-> [Just the next piece] Generating a message. From 0, type 2
->> Generating a packet of 3 flits
-> [Just the tip] Generating a message. From 0 to 12
-> [Just the next piece] Generating a message. From 0, type 3
-> [Just the next piece] Generating a message. From 0, type 3
-> [Just the next piece] Generating a message. From 0, type 3
-> [Just the next piece] Generating a message. From 0, type 2
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} Got a flitter: Flit{ 0->12_0
-flitType=1
-, data=786444
-}
-
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 1
 
 
 ====== NO MORE TICKL-TOCKL №5 ======
@@ -487,14 +465,21 @@ After push: size: 1
 ====== TICKL-TOCKL №6 ======
 
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->12_0
+New value is being injected!
+Starting the generation for 0.
+> Generating a message from 0 to 9 with 1 packet 
+>> Generating a packet of 1 flit 
+> [Just the tip] Generating a message. From 0 to 9
+> [Just the next piece] Generating a message. From 0, type 3
+> [Just the next piece] Generating a message. From 0, type 2
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} Got a flitter: Flit{ 0->9_0
 flitType=1
-, data=786444
+, data=589833
 }
 
-
-requestToSend from Node(0), arbiter(0), channel(16)
-requestToSend from Node(0), arbiter(0), channel(16)
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
 
 
 ====== NO MORE TICKL-TOCKL №6 ======
@@ -505,16 +490,14 @@ requestToSend from Node(0), arbiter(0), channel(16)
 ====== TICKL-TOCKL №7 ======
 
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->9_0
+flitType=1
+, data=589833
 }
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 2
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+
+requestToSend from Node(0), arbiter(0), channel(16)
+requestToSend from Node(0), arbiter(0), channel(16)
 
 
 ====== NO MORE TICKL-TOCKL №7 ======
@@ -525,33 +508,16 @@ After push: size: 2
 ====== TICKL-TOCKL №8 ======
 
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=1
-, data=786444
-}
-
-Flit{ 0->12_0
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->9_0
 flitType=3
-, data=32780
+, data=32777
 }
 
-
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 3
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 4
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=1
-, data=524300
-}
-
-BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №8 ======
@@ -562,29 +528,40 @@ BetSuffer called!
 ====== TICKL-TOCKL №9 ======
 
 
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
-
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
+New value is being injected!
+Starting the generation for 0.
+> Generating a message from 0 to 14 with 1 packet 
+>> Generating a packet of 1 flit 
+> [Just the tip] Generating a message. From 0 to 14
+> [Just the next piece] Generating a message. From 0, type 3
+> [Just the next piece] Generating a message. From 0, type 2
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->9_0
+flitType=1
+, data=589833
 }
 
-Flit{ 0->12_0
+Flit{ 0->9_0
 flitType=3
-, data=32780
+, data=32777
 }
 
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->9_0
+flitType=2
+, data=0
 }
 
 	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
 After push: size: 3
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 3, balls: false, taken: true}, starting to transfer to 0
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 1
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true} c: Flit{ 0->9_0
+flitType=1
+, data=524297
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №9 ======
@@ -595,47 +572,22 @@ After push: size: 3
 ====== TICKL-TOCKL №10 ======
 
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->9_0
 flitType=3
-, data=32780
+, data=32777
 }
 
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->12_0
+Flit{ 0->9_0
 flitType=2
 , data=0
 }
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 4
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 2}
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 2} Got a flitter: Flit{ 0->12_0
-flitType=1
-, data=524300
-}
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 1
+GOTO STATE 5!
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 3, balls: false, taken: true}, starting to transfer to 0
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 4, state: 4 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №10 ======
@@ -646,31 +598,24 @@ BetSuffer called!
 ====== TICKL-TOCKL №11 ======
 
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 Flit type: 2, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=2
-, data=0
-}
-
-
-GOTO STATE 5!
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->12_0
+GOT IN STATE 5!
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 1 (1), state: 2}
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 2} Got a flitter: Flit{ 0->9_0
 flitType=1
-, data=524300
+, data=524297
 }
 
-
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-requestToSend from Node(4), arbiter(0), channel(0)
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->9_0
+flitType=3
+, data=32777
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №11 ======
@@ -681,25 +626,21 @@ requestToSend from Node(4), arbiter(0), channel(0)
 ====== TICKL-TOCKL №12 ======
 
 
-GOT IN STATE 5!
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3}
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
+New value is being injected!
+Starting the generation for 0.
+> Generating a message from 0 to 4 with 1 packet 
+>> Generating a packet of 1 flit 
+> [Just the tip] Generating a message. From 0 to 4
+> [Just the next piece] Generating a message. From 0, type 3
+> [Just the next piece] Generating a message. From 0, type 2
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->9_0
+flitType=1
+, data=524297
 }
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 2
+
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 6 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-BetSuffer called!
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 1, balls: balls, taken: false} Sending grants
+requestToSend from Node(1), arbiter(0), channel(0)
 
 
 ====== NO MORE TICKL-TOCKL №12 ======
@@ -710,25 +651,34 @@ BetSuffer called!
 ====== TICKL-TOCKL №13 ======
 
 
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} Got a flitter: Flit{ 0->14_1
 flitType=1
-, data=524300
+, data=917518
 }
 
-Flit{ 0->12_0
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 0, state: 1 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 0, CNT_EQU: 0
+After push: size: 1
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3}
+	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3} Got a flitter: Flit{ 0->9_0
 flitType=3
-, data=32780
+, data=32777
 }
 
-
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 2, balls: false, taken: true}, ready for transfer channel id = 4, node id = 12
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 2, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=1
-, data=12
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 1 (1), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->9_0
+flitType=2
+, data=0
 }
 
 BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №13 ======
@@ -739,40 +689,33 @@ BetSuffer called!
 ====== TICKL-TOCKL №14 ======
 
 
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
-
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} Got a flitter: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->9_0
 flitType=1
-, data=786444
+, data=524297
 }
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 0, state: 1 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 0, CNT_EQU: 0
-After push: size: 1
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3}
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} Got a flitter: Flit{ 0->12_0
+Flit{ 0->9_0
 flitType=3
-, data=32780
+, data=32777
 }
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 2
+
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3} Got a flitter: Flit{ 0->9_0
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 0 (0), nodeID: 1 (1), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=3
-, data=32780
+	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, ready for transfer channel id = 1, node id = 9
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 2, balls: false, taken: true} c: Flit{ 0->9_0
+flitType=1
+, data=9
 }
 
 BetSuffer called!
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 3, balls: false, taken: true}, starting to transfer to 4
 
 
 ====== NO MORE TICKL-TOCKL №14 ======
@@ -783,35 +726,31 @@ BetSuffer called!
 ====== TICKL-TOCKL №15 ======
 
 
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 2}
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 2} Got a flitter: Flit{ 0->12_0
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->14_1
 flitType=1
-, data=12
+, data=917518
 }
 
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-FINALLY! A header flit!
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 1
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
+
+	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->9_0
 flitType=3
-, data=32780
+, data=32777
 }
 
-BetSuffer called!
+Flit{ 0->9_0
+flitType=2
+, data=0
+}
+
+
+GOTO STATE 5!
+	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+requestToSend from Node(0), arbiter(1), channel(16)
+requestToSend from Node(0), arbiter(1), channel(16)
+requestToSend from Node(0), arbiter(1), channel(16)
+	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 3, balls: false, taken: true}, starting to transfer to 1
 
 
 ====== NO MORE TICKL-TOCKL №15 ======
@@ -822,45 +761,35 @@ BetSuffer called!
 ====== TICKL-TOCKL №16 ======
 
 
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->12_0
-flitType=1
-, data=786444
-}
-
-
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+GOT IN STATE 5!
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
-
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->12_0
-flitType=1
-, data=12
-}
-
-
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3}
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
 After push: size: 2
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=2
-, data=0
+	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 1 (1), nodeID: 9 (1001), state: 2}
+	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 1 (1), nodeID: 9 (1001), state: 2} Got a flitter: Flit{ 0->9_0
+flitType=1
+, data=9
+}
+
+	InputChannel {id: 1 (1), nodeID: 9 (1001), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+FINALLY! A header flit!
+		FIFOQueue {id: 0, nodeID: 9, channelID: 1, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 4, balls: false, taken: true} c: Flit{ 0->9_0
+flitType=3
+, data=32777
 }
 
 BetSuffer called!
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
-requestToSend from Node(0), arbiter(1), channel(16)
-Ay!
 
 
 ====== NO MORE TICKL-TOCKL №16 ======
@@ -871,51 +800,41 @@ Ay!
 ====== TICKL-TOCKL №17 ======
 
 
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->14_1
+flitType=1
+, data=917518
 }
 
-Flit{ 0->12_0
+Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
+		FIFOQueue {id: 0, nodeID: 9, channelID: 1, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->9_0
+flitType=1
+, data=9
 }
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 2
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} Got a flitter: Flit{ 0->12_0
+
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->14_1
 flitType=2
 , data=0
 }
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
 After push: size: 3
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 2
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-requestToSend from Node(0), arbiter(1), channel(16)
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3}
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 2
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=3
-, data=32780
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 2, balls: false, taken: true} c: Flit{ 0->14_1
+flitType=1
+, data=786446
 }
 
 BetSuffer called!
+Ay!
 
 
 ====== NO MORE TICKL-TOCKL №17 ======
@@ -926,50 +845,41 @@ BetSuffer called!
 ====== TICKL-TOCKL №18 ======
 
 
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=1
-, data=786444
-}
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
 
-Flit{ 0->12_0
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
-
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
+Flit{ 0->14_1
 flitType=2
 , data=0
 }
 
 
 GOTO STATE 5!
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=1
-, data=12
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 3
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 3, balls: false, taken: true}, starting to transfer to 0
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-requestToSend from Node(0), arbiter(1), channel(16)
+	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 1 (1), nodeID: 9 (1001), state: 3}
+	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 1 (1), nodeID: 9 (1001), state: 3} Got a flitter: Flit{ 0->9_0
+flitType=3
+, data=32777
+}
+
+	InputChannel {id: 1 (1), nodeID: 9 (1001), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 9, channelID: 1, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 9 (1001), currentNodeID: 1 (1), state: 4, balls: false, taken: true} c: Flit{ 0->9_0
+flitType=2
+, data=0
+}
+
+BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 1, channelID: 0, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
 
 
 ====== NO MORE TICKL-TOCKL №18 ======
@@ -980,61 +890,80 @@ requestToSend from Node(0), arbiter(1), channel(16)
 ====== TICKL-TOCKL №19 ======
 
 
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 3, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=1
-, data=786444
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
+New value is being injected!
+Starting the generation for 0.
+> Generating a message from 0 to 14 with 1 packet 
+>> Generating a packet of 1 flit 
+> [Just the tip] Generating a message. From 0 to 14
+> [Just the next piece] Generating a message. From 0, type 3
+> [Just the next piece] Generating a message. From 0, type 2
 GOT IN STATE 5!
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 9, channelID: 1, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->9_0
 flitType=1
-, data=12
+, data=9
 }
 
-Flit{ 0->12_0
+Flit{ 0->9_0
 flitType=3
-, data=32780
+, data=32777
 }
 
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 2 (10), state: 2}
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 2 (10), state: 2} Got a flitter: Flit{ 0->14_1
+flitType=1
+, data=786446
 }
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 3, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 4
+	InputChannel {id: 0 (0), nodeID: 2 (10), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-requestToSend from Node(0), arbiter(1), channel(16)
-requestToSend from Node(0), arbiter(1), channel(16)
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3}
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} Got a flitter: Flit{ 0->12_0
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->14_1
 flitType=3
-, data=32780
-}
-
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 3
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=3
-, data=32780
+, data=32782
 }
 
 BetSuffer called!
+	InputChannel {id: 1 (1), nodeID: 9 (1001), state: 3} Got a flitter: Flit{ 0->9_0
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 1 (1), nodeID: 9 (1001), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+Received for 	InputChannel {id: 1 (1), nodeID: 9 (1001), state: 3}
+Flit: Flit{ 0->9_0
+flitType=1
+, data=9
+}
+
+Flit: Flit{ 0->9_0
+flitType=3
+, data=32777
+}
+
+Flit: Flit{ 0->9_0
+flitType=2
+, data=0
+}
+
+		FIFOQueue {id: 0, nodeID: 9, channelID: 1, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+I am the final gay ninja. I have taken all the spunk packets. Here's the good stuff: [Flit{ 0->9_0
+flitType=1
+, data=9
+}
+, Flit{ 0->9_0
+flitType=3
+, data=32777
+}
+, Flit{ 0->9_0
+flitType=2
+, data=0
+}
+]
+After push: size: 3
 
 
 ====== NO MORE TICKL-TOCKL №19 ======
@@ -1045,53 +974,33 @@ BetSuffer called!
 ====== TICKL-TOCKL №20 ======
 
 
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 4, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->14_1
 flitType=1
-, data=786444
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
+, data=786446
 }
 
 
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 3, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 9, channelID: 1, queue size: 3, state: 4 Flit type: 2, contents: Flit{ 0->9_0
 flitType=1
-, data=12
+, data=9
 }
 
-Flit{ 0->12_0
+Flit{ 0->9_0
 flitType=3
-, data=32780
+, data=32777
 }
 
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->12_0
+Flit{ 0->9_0
 flitType=2
 , data=0
 }
 
-	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 4, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 5
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: false, taken: false} Sending grants
+
+GOTO STATE 5!
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+requestToSend from Node(2), arbiter(0), channel(0)
+requestToSend from Node(2), arbiter(0), channel(0)
 
 
 ====== NO MORE TICKL-TOCKL №20 ======
@@ -1102,75 +1011,37 @@ After push: size: 5
 ====== TICKL-TOCKL №21 ======
 
 
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 5, state: 4 Flit type: 2, contents: Flit{ 0->12_0
+GOT IN STATE 5!
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} Got a flitter: Flit{ 0->4_3
 flitType=1
-, data=786444
+, data=262148
 }
 
-Flit{ 0->12_0
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 0, state: 1 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 0, CNT_EQU: 0
+After push: size: 1
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 2 (10), state: 3}
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 2 (10), state: 3} Got a flitter: Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=2
-, data=0
-}
-
-
-GOTO STATE 5!
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 3, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=1
-, data=12
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 4
+	InputChannel {id: 0 (0), nodeID: 2 (10), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 5, state: 5 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=1
-, data=524300
-}
-
-BetSuffer called!
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3}
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 3, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 4
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->14_1
 flitType=2
 , data=0
 }
 
 BetSuffer called!
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №21 ======
@@ -1181,87 +1052,37 @@ BetSuffer called!
 ====== TICKL-TOCKL №22 ======
 
 
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 1
-
-GOT IN STATE 5!
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 4, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->14_1
 flitType=1
-, data=12
+, data=786446
 }
 
-Flit{ 0->12_0
+Flit{ 0->14_1
 flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
+, data=32782
 }
 
 
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 4
+	InputChannel {id: 0 (0), nodeID: 2 (10), state: 3} Got a flitter: Flit{ 0->14_1
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 0 (0), nodeID: 2 (10), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=2
-, data=0
-}
-
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-Received for 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3}
-Flit: Flit{ 0->12_0
+	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 2, balls: false, taken: true}, ready for transfer channel id = 2, node id = 6
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 2, balls: false, taken: true} c: Flit{ 0->14_1
 flitType=1
-, data=12
+, data=524302
 }
 
-Flit: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit: Flit{ 0->12_0
-flitType=2
-, data=0
-}
-
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 4, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-I am the final gay ninja. I have taken all the spunk packets. Here's the good stuff: [Flit{ 0->12_0
-flitType=1
-, data=12
-}
-, Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-, Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-, Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-, Flit{ 0->12_0
-flitType=2
-, data=0
-}
-]
-After push: size: 5
+BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 9, channelID: 1, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 9, channelID: 1, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
 
 
 ====== NO MORE TICKL-TOCKL №22 ======
@@ -1272,37 +1093,31 @@ After push: size: 5
 ====== TICKL-TOCKL №23 ======
 
 
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 1
-
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 5, state: 4 Flit type: 2, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->4_3
 flitType=1
-, data=12
+, data=262148
 }
 
-Flit{ 0->12_0
+
+	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
+Flit{ 0->14_1
 flitType=2
 , data=0
 }
 
 
 GOTO STATE 5!
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 3, balls: false, taken: true}, starting to transfer to 0
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+requestToSend from Node(0), arbiter(0), channel(16)
+	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 3, balls: false, taken: true}, starting to transfer to 2
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №23 ======
@@ -1314,20 +1129,30 @@ GOTO STATE 5!
 
 
 GOT IN STATE 5!
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 2}
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 2} Got a flitter: Flit{ 0->12_0
-flitType=1
-, data=524300
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->4_3
+flitType=3
+, data=32772
 }
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 1
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 4, state: 6 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
+	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 2 (10), nodeID: 6 (110), state: 2}
+	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 2 (10), nodeID: 6 (110), state: 2} Got a flitter: Flit{ 0->14_1
+flitType=1
+, data=524302
+}
+
+	InputChannel {id: 2 (10), nodeID: 6 (110), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 4, balls: false, taken: true} c: Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
 BetSuffer called!
@@ -1341,14 +1166,41 @@ BetSuffer called!
 ====== TICKL-TOCKL №25 ======
 
 
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->4_3
 flitType=1
-, data=524300
+, data=262148
+}
+
+Flit{ 0->4_3
+flitType=3
+, data=32772
 }
 
 
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-requestToSend from Node(4), arbiter(1), channel(0)
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->14_1
+flitType=1
+, data=524302
+}
+
+
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->4_3
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 8
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 2, balls: false, taken: true} c: Flit{ 0->4_3
+flitType=1
+, data=786436
+}
+
+BetSuffer called!
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+requestToSend from Node(6), arbiter(0), channel(2)
 
 
 ====== NO MORE TICKL-TOCKL №25 ======
@@ -1359,24 +1211,42 @@ requestToSend from Node(4), arbiter(1), channel(0)
 ====== TICKL-TOCKL №26 ======
 
 
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3}
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} Got a flitter: Flit{ 0->12_0
+	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->4_3
 flitType=3
-, data=32780
+, data=32772
 }
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 2
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 3, state: 6 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
+Flit{ 0->4_3
+flitType=2
+, data=0
+}
+
+
+GOTO STATE 5!
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 3, balls: false, taken: true}, starting to transfer to 0
+	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 2 (10), nodeID: 6 (110), state: 3}
+	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 2 (10), nodeID: 6 (110), state: 3} Got a flitter: Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
+}
+
+	InputChannel {id: 2 (10), nodeID: 6 (110), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 6 (110), currentNodeID: 2 (10), state: 4, balls: false, taken: true} c: Flit{ 0->14_1
+flitType=2
+, data=0
 }
 
 BetSuffer called!
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 1, balls: false, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 2, channelID: 0, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №26 ======
@@ -1387,27 +1257,58 @@ BetSuffer called!
 ====== TICKL-TOCKL №27 ======
 
 
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+New value is being injected!
+Starting the generation for 0.
+> Generating a message from 0 to 12 with 1 packet 
+>> Generating a packet of 1 flit 
+> [Just the tip] Generating a message. From 0 to 12
+> [Just the next piece] Generating a message. From 0, type 3
+> [Just the next piece] Generating a message. From 0, type 2
+GOT IN STATE 5!
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->14_1
 flitType=1
-, data=524300
+, data=524302
 }
 
-Flit{ 0->12_0
+Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
 
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 2, balls: false, taken: true}, ready for transfer channel id = 4, node id = 12
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 4 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 2, balls: false, taken: true} c: Flit{ 0->12_0
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 8 (1000), state: 2}
+	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 8 (1000), state: 2} Got a flitter: Flit{ 0->4_3
 flitType=1
-, data=12
+, data=786436
+}
+
+	InputChannel {id: 0 (0), nodeID: 8 (1000), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->4_3
+flitType=3
+, data=32772
 }
 
 BetSuffer called!
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	InputChannel {id: 2 (10), nodeID: 6 (110), state: 3} Got a flitter: Flit{ 0->14_1
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 2 (10), nodeID: 6 (110), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 2, balls: false, taken: true}, ready for transfer channel id = 6, node id = 14
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 2, balls: false, taken: true} c: Flit{ 0->14_1
+flitType=1
+, data=14
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №27 ======
@@ -1418,32 +1319,31 @@ BetSuffer called!
 ====== TICKL-TOCKL №28 ======
 
 
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 1
+	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
 
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
+}
+
+Flit{ 0->14_1
+flitType=2
+, data=0
 }
 
 
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3}
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
+GOTO STATE 5!
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->4_3
+flitType=1
+, data=786436
 }
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 2
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
 
-BetSuffer called!
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 3, balls: false, taken: true}, starting to transfer to 4
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 3, balls: false, taken: true}, starting to transfer to 6
+requestToSend from Node(8), arbiter(0), channel(0)
+requestToSend from Node(8), arbiter(0), channel(0)
 
 
 ====== NO MORE TICKL-TOCKL №28 ======
@@ -1454,35 +1354,54 @@ BetSuffer called!
 ====== TICKL-TOCKL №29 ======
 
 
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 2}
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 2} Got a flitter: Flit{ 0->12_0
+GOT IN STATE 5!
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} Got a flitter: Flit{ 0->14_3
 flitType=1
-, data=12
+, data=917518
 }
 
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-FINALLY! A header flit!
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 0, state: 1 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 0, CNT_EQU: 0
 After push: size: 1
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 4 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 8 (1000), state: 3}
+	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 8 (1000), state: 3} Got a flitter: Flit{ 0->4_3
 flitType=3
-, data=32780
+, data=32772
+}
+
+	InputChannel {id: 0 (0), nodeID: 8 (1000), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->4_3
+flitType=2
+, data=0
 }
 
 BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 6 (110), nodeID: 14 (1110), state: 2}
+	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 6 (110), nodeID: 14 (1110), state: 2} Got a flitter: Flit{ 0->14_1
+flitType=1
+, data=14
+}
+
+	InputChannel {id: 6 (110), nodeID: 14 (1110), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+FINALLY! A header flit!
+		FIFOQueue {id: 0, nodeID: 14, channelID: 6, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 4, balls: false, taken: true} c: Flit{ 0->14_1
+flitType=3
+, data=32782
+}
+
+BetSuffer called!
+	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №29 ======
@@ -1493,37 +1412,41 @@ BetSuffer called!
 ====== TICKL-TOCKL №30 ======
 
 
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->4_3
 flitType=1
-, data=12
+, data=786436
 }
 
-
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3}
-	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} Got a flitter: Flit{ 0->12_0
+Flit{ 0->4_3
 flitType=3
-, data=32780
+, data=32772
 }
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 2
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
+
+		FIFOQueue {id: 0, nodeID: 14, channelID: 6, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->14_1
+flitType=1
+, data=14
+}
+
+
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+	InputChannel {id: 0 (0), nodeID: 8 (1000), state: 3} Got a flitter: Flit{ 0->4_3
 flitType=2
 , data=0
 }
 
+	InputChannel {id: 0 (0), nodeID: 8 (1000), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 2, balls: false, taken: true}, ready for transfer channel id = 8, node id = 0
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 2, balls: false, taken: true} c: Flit{ 0->4_3
+flitType=1
+, data=262148
+}
+
 BetSuffer called!
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
 Ay!
 
 
@@ -1535,42 +1458,50 @@ Ay!
 ====== TICKL-TOCKL №31 ======
 
 
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->14_3
+flitType=1
+, data=917518
 }
 
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} Got a flitter: Flit{ 0->12_0
+	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
+
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->4_3
+flitType=3
+, data=32772
+}
+
+Flit{ 0->4_3
 flitType=2
 , data=0
 }
 
-	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 3
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3}
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} Got a flitter: Flit{ 0->12_0
+
+GOTO STATE 5!
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+requestToSend from Node(0), arbiter(1), channel(16)
+requestToSend from Node(0), arbiter(1), channel(16)
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 6 (110), nodeID: 14 (1110), state: 3}
+	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 6 (110), nodeID: 14 (1110), state: 3} Got a flitter: Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+	InputChannel {id: 6 (110), nodeID: 14 (1110), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 14, channelID: 6, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
 After push: size: 2
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=3
-, data=32780
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 14 (1110), currentNodeID: 6 (110), state: 4, balls: false, taken: true} c: Flit{ 0->14_1
+flitType=2
+, data=0
 }
 
 BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 6, channelID: 2, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 3, balls: false, taken: true}, starting to transfer to 8
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №31 ======
@@ -1581,30 +1512,83 @@ BetSuffer called!
 ====== TICKL-TOCKL №32 ======
 
 
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->12_0
-flitType=3
-, data=32780
+GOT IN STATE 5!
+		FIFOQueue {id: 0, nodeID: 14, channelID: 6, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->14_1
+flitType=1
+, data=14
 }
 
-Flit{ 0->12_0
+Flit{ 0->14_1
+flitType=3
+, data=32782
+}
+
+
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->14_3
+flitType=3
+, data=32782
+}
+
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 1, balls: false, taken: false} Sending grants
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	InputChannel {id: 6 (110), nodeID: 14 (1110), state: 3} Got a flitter: Flit{ 0->14_1
 flitType=2
 , data=0
 }
 
-
-GOTO STATE 5!
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+	InputChannel {id: 6 (110), nodeID: 14 (1110), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+Received for 	InputChannel {id: 6 (110), nodeID: 14 (1110), state: 3}
+Flit: Flit{ 0->14_1
 flitType=1
-, data=12
+, data=14
 }
 
-Flit{ 0->12_0
+Flit: Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
+Flit: Flit{ 0->14_1
+flitType=2
+, data=0
+}
 
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 14, channelID: 6, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+I am the final gay ninja. I have taken all the spunk packets. Here's the good stuff: [Flit{ 0->14_1
+flitType=1
+, data=14
+}
+, Flit{ 0->14_1
+flitType=3
+, data=32782
+}
+, Flit{ 0->14_1
+flitType=2
+, data=0
+}
+]
+After push: size: 3
+	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 8 (1000), nodeID: 0 (0), state: 2}
+	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 8 (1000), nodeID: 0 (0), state: 2} Got a flitter: Flit{ 0->4_3
+flitType=1
+, data=262148
+}
+
+	InputChannel {id: 8 (1000), nodeID: 0 (0), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 8, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 4, balls: false, taken: true} c: Flit{ 0->4_3
+flitType=3
+, data=32772
+}
+
+BetSuffer called!
 
 
 ====== NO MORE TICKL-TOCKL №32 ======
@@ -1615,35 +1599,59 @@ flitType=3
 ====== TICKL-TOCKL №33 ======
 
 
-GOT IN STATE 5!
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 8, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->4_3
 flitType=1
-, data=12
+, data=262148
 }
 
-Flit{ 0->12_0
+
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->14_3
+flitType=1
+, data=917518
+}
+
+Flit{ 0->14_3
 flitType=3
-, data=32780
+, data=32782
 }
 
 
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3}
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} Got a flitter: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 14, channelID: 6, queue size: 3, state: 4 Flit type: 2, contents: Flit{ 0->14_1
+flitType=1
+, data=14
+}
+
+Flit{ 0->14_1
 flitType=3
-, data=32780
+, data=32782
 }
 
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+Flit{ 0->14_1
+flitType=2
+, data=0
+}
+
+
+GOTO STATE 5!
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->14_3
+flitType=2
+, data=0
+}
+
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
 After push: size: 3
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
-flitType=3
-, data=32780
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 1, balls: false, taken: false} Sending grants
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, ready for transfer channel id = 0, node id = 4
+Ay!
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 3, state: 4 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true} c: Flit{ 0->14_3
+flitType=1
+, data=655374
 }
 
 BetSuffer called!
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №33 ======
@@ -1654,23 +1662,43 @@ BetSuffer called!
 ====== TICKL-TOCKL №34 ======
 
 
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 3, state: 4 Flit type: 3, contents: Flit{ 0->12_0
-flitType=1
-, data=12
-}
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}, state 2, nextInputChannel.getActiveFIFOIndex() = 0
 
-Flit{ 0->12_0
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 4 Flit type: 2, contents: Flit{ 0->14_3
 flitType=3
-, data=32780
+, data=32782
 }
 
-Flit{ 0->12_0
+Flit{ 0->14_3
+flitType=2
+, data=0
+}
+
+
+GOTO STATE 5!
+GOT IN STATE 5!
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 1, balls: false, taken: false} Sending grants
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 3, balls: false, taken: true}, starting to transfer to 0
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 8 (1000), nodeID: 0 (0), state: 3}
+	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 8 (1000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->4_3
 flitType=3
-, data=32780
+, data=32772
 }
 
+	InputChannel {id: 8 (1000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 8, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 0 (0), currentNodeID: 8 (1000), state: 4, balls: false, taken: true} c: Flit{ 0->4_3
+flitType=2
+, data=0
+}
 
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+BetSuffer called!
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 8, channelID: 0, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
 
 
 ====== NO MORE TICKL-TOCKL №34 ======
@@ -1681,41 +1709,47 @@ flitType=3
 ====== TICKL-TOCKL №35 ======
 
 
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 3, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 8, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->4_3
 flitType=1
-, data=12
+, data=262148
 }
 
-Flit{ 0->12_0
+Flit{ 0->4_3
 flitType=3
-, data=32780
+, data=32772
 }
 
-Flit{ 0->12_0
+
+GOT IN STATE 5!
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 1, balls: false, taken: false} Sending grants
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 2}
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 4 (100), state: 2} Got a flitter: Flit{ 0->14_3
+flitType=1
+, data=655374
+}
+
+	InputChannel {id: 0 (0), nodeID: 4 (100), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 0, state: 2 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 1, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 1
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 6 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->14_3
 flitType=3
-, data=32780
+, data=32782
 }
 
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3}
-	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} Got a flitter: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 3, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-After push: size: 4
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true} c: Flit{ 0->12_0
+BetSuffer called!
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	InputChannel {id: 8 (1000), nodeID: 0 (0), state: 3} Got a flitter: Flit{ 0->4_3
 flitType=2
 , data=0
 }
 
-BetSuffer called!
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	InputChannel {id: 8 (1000), nodeID: 0 (0), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 0, channelID: 8, queue size: 2, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 3
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
+		FIFOQueue {id: 0, nodeID: 14, channelID: 6, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 0, nodeID: 14, channelID: 6, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
 
 
 ====== NO MORE TICKL-TOCKL №35 ======
@@ -1726,83 +1760,34 @@ BetSuffer called!
 ====== TICKL-TOCKL №36 ======
 
 
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 4, state: 4 Flit type: 3, contents: Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 8, queue size: 3, state: 4 Flit type: 2, contents: Flit{ 0->4_3
 flitType=1
-, data=12
+, data=262148
 }
 
-Flit{ 0->12_0
+Flit{ 0->4_3
 flitType=3
-, data=32780
+, data=32772
 }
 
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} Got a flitter: Flit{ 0->12_0
+Flit{ 0->4_3
 flitType=2
 , data=0
 }
 
-	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 1, WR_IN_FIFO: 1
-Received for 	InputChannel {id: 4 (100), nodeID: 12 (1100), state: 3}
-Flit: Flit{ 0->12_0
+
+GOTO STATE 5!
+		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 2 Flit type: 1, contents: Flit{ 0->14_3
 flitType=1
-, data=12
+, data=655374
 }
 
-Flit: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
 
-Flit: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit: Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit: Flit{ 0->12_0
-flitType=2
-, data=0
-}
-
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 4, state: 4 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 0
-I am the final gay ninja. I have taken all the spunk packets. Here's the good stuff: [Flit{ 0->12_0
-flitType=1
-, data=12
-}
-, Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-, Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-, Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-, Flit{ 0->12_0
-flitType=2
-, data=0
-}
-]
-After push: size: 5
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 1, balls: false, taken: false} Sending grants
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+requestToSend from Node(4), arbiter(0), channel(0)
+requestToSend from Node(4), arbiter(0), channel(0)
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №36 ======
@@ -1813,34 +1798,38 @@ After push: size: 5
 ====== TICKL-TOCKL №37 ======
 
 
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 5, state: 4 Flit type: 2, contents: Flit{ 0->12_0
+GOT IN STATE 5!
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} Got a flitter: Flit{ 0->12_3
 flitType=1
-, data=12
+, data=786444
 }
 
-Flit{ 0->12_0
+	InputChannel {id: 16 (10000), nodeID: 0 (0), state: 2} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 0, state: 1 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 0, CNT_EQU: 0
+After push: size: 1
+	OutputChannel {id: 2 (10), currentNodeID: 0 (0), state: 1, balls: false, taken: false} Sending grants
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}, Set buffer to 	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3}
+	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} BUFF_BUSY: 0, WR_B_RG: 0, DEMUX_RDY: 0, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 0
+	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} Got a flitter: Flit{ 0->14_3
 flitType=3
-, data=32780
+, data=32782
 }
 
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-Flit{ 0->12_0
+	InputChannel {id: 0 (0), nodeID: 4 (100), state: 3} BUFF_BUSY: 1, WR_B_RG: 0, DEMUX_RDY: 1, CHAN_BUSY: 0, FIFO_BUSY: 0, WR_IN_FIFO: 1
+		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 4 CLR_FIFO: 0, FIFO_BUSY: 0, WR_FIFO_EN: 1, PACK_WAIT: 0, WR_IN_FIFO: 1, DATA_ACK: 0, TIMER_EN: 0, FIFO_SELECT: 1, CNT_EQU: 0
+After push: size: 2
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6 Sending all my ropes to: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true} c: Flit{ 0->14_3
 flitType=2
 , data=0
 }
 
-
-GOTO STATE 5!
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
+BetSuffer called!
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
+		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
+	OutputChannel {id: 10 (1010), currentNodeID: 2 (10), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 6 (110), currentNodeID: 4 (100), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 1, balls: balls, taken: false} Sending grants
+	OutputChannel {id: 12 (1100), currentNodeID: 8 (1000), state: 1, balls: balls, taken: false} Sending grants
 
 
 ====== NO MORE TICKL-TOCKL №37 ======
@@ -1851,1875 +1840,14 @@ GOTO STATE 5!
 ====== TICKL-TOCKL №38 ======
 
 
-GOT IN STATE 5!
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №38 ======
-
-
-
-
-====== TICKL-TOCKL №39 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №39 ======
-
-
-
-
-====== TICKL-TOCKL №40 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №40 ======
-
-
-
-
-====== TICKL-TOCKL №41 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 1, state: 6FINALLY! A tail flit! FIFOQueue size: 1
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 1, state: 6 CLR_FIFO: 0, FIFO_BUSY: 1, WR_FIFO_EN: 0, PACK_WAIT: 0, WR_IN_FIFO: 0, DATA_ACK: 0, TIMER_EN: 1, FIFO_SELECT: 1, CNT_EQU: 1
-
-
-====== NO MORE TICKL-TOCKL №41 ======
-
-
-
-
-====== TICKL-TOCKL №42 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №42 ======
-
-
-
-
-====== TICKL-TOCKL №43 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №43 ======
-
-
-
-
-====== TICKL-TOCKL №44 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №44 ======
-
-
-
-
-====== TICKL-TOCKL №45 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №45 ======
-
-
-
-
-====== TICKL-TOCKL №46 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №46 ======
-
-
-
-
-====== TICKL-TOCKL №47 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №47 ======
-
-
-
-
-====== TICKL-TOCKL №48 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №48 ======
-
-
-
-
-====== TICKL-TOCKL №49 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №49 ======
-
-
-
-
-====== TICKL-TOCKL №50 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №50 ======
-
-
-
-
-====== TICKL-TOCKL №51 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №51 ======
-
-
-
-
-====== TICKL-TOCKL №52 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №52 ======
-
-
-
-
-====== TICKL-TOCKL №53 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №53 ======
-
-
-
-
-====== TICKL-TOCKL №54 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №54 ======
-
-
-
-
-====== TICKL-TOCKL №55 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №55 ======
-
-
-
-
-====== TICKL-TOCKL №56 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №56 ======
-
-
-
-
-====== TICKL-TOCKL №57 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №57 ======
-
-
-
-
-====== TICKL-TOCKL №58 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №58 ======
-
-
-
-
-====== TICKL-TOCKL №59 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №59 ======
-
-
-
-
-====== TICKL-TOCKL №60 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №60 ======
-
-
-
-
-====== TICKL-TOCKL №61 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №61 ======
-
-
-
-
-====== TICKL-TOCKL №62 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №62 ======
-
-
-
-
-====== TICKL-TOCKL №63 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №63 ======
-
-
-
-
-====== TICKL-TOCKL №64 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №64 ======
-
-
-
-
-====== TICKL-TOCKL №65 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №65 ======
-
-
-
-
-====== TICKL-TOCKL №66 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №66 ======
-
-
-
-
-====== TICKL-TOCKL №67 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №67 ======
-
-
-
-
-====== TICKL-TOCKL №68 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №68 ======
-
-
-
-
-====== TICKL-TOCKL №69 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №69 ======
-
-
-
-
-====== TICKL-TOCKL №70 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №70 ======
-
-
-
-
-====== TICKL-TOCKL №71 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №71 ======
-
-
-
-
-====== TICKL-TOCKL №72 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №72 ======
-
-
-
-
-====== TICKL-TOCKL №73 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №73 ======
-
-
-
-
-====== TICKL-TOCKL №74 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №74 ======
-
-
-
-
-====== TICKL-TOCKL №75 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №75 ======
-
-
-
-
-====== TICKL-TOCKL №76 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №76 ======
-
-
-
-
-====== TICKL-TOCKL №77 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №77 ======
-
-
-
-
-====== TICKL-TOCKL №78 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №78 ======
-
-
-
-
-====== TICKL-TOCKL №79 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №79 ======
-
-
-
-
-====== TICKL-TOCKL №80 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №80 ======
-
-
-
-
-====== TICKL-TOCKL №81 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №81 ======
-
-
-
-
-====== TICKL-TOCKL №82 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №82 ======
-
-
-
-
-====== TICKL-TOCKL №83 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №83 ======
-
-
-
-
-====== TICKL-TOCKL №84 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №84 ======
-
-
-
-
-====== TICKL-TOCKL №85 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №85 ======
-
-
-
-
-====== TICKL-TOCKL №86 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №86 ======
-
-
-
-
-====== TICKL-TOCKL №87 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №87 ======
-
-
-
-
-====== TICKL-TOCKL №88 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №88 ======
-
-
-
-
-====== TICKL-TOCKL №89 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №89 ======
-
-
-
-
-====== TICKL-TOCKL №90 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №90 ======
-
-
-
-
-====== TICKL-TOCKL №91 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №91 ======
-
-
-
-
-====== TICKL-TOCKL №92 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №92 ======
-
-
-
-
-====== TICKL-TOCKL №93 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №93 ======
-
-
-
-
-====== TICKL-TOCKL №94 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №94 ======
-
-
-
-
-====== TICKL-TOCKL №95 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №95 ======
-
-
-
-
-====== TICKL-TOCKL №96 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №96 ======
-
-
-
-
-====== TICKL-TOCKL №97 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №97 ======
-
-
-
-
-====== TICKL-TOCKL №98 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №98 ======
-
-
-
-
-====== TICKL-TOCKL №99 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №99 ======
-
-
-
-
-====== TICKL-TOCKL №100 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №100 ======
-
-
-
-
-====== TICKL-TOCKL №101 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №101 ======
-
-
-
-
-====== TICKL-TOCKL №102 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №102 ======
-
-
-
-
-====== TICKL-TOCKL №103 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №103 ======
-
-
-
-
-====== TICKL-TOCKL №104 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №104 ======
-
-
-
-
-====== TICKL-TOCKL №105 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №105 ======
-
-
-
-
-====== TICKL-TOCKL №106 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №106 ======
-
-
-
-
-====== TICKL-TOCKL №107 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №107 ======
-
-
-
-
-====== TICKL-TOCKL №108 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №108 ======
-
-
-
-
-====== TICKL-TOCKL №109 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №109 ======
-
-
-
-
-====== TICKL-TOCKL №110 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №110 ======
-
-
-
-
-====== TICKL-TOCKL №111 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №111 ======
-
-
-
-
-====== TICKL-TOCKL №112 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №112 ======
-
-
-
-
-====== TICKL-TOCKL №113 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №113 ======
-
-
-
-
-====== TICKL-TOCKL №114 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №114 ======
-
-
-
-
-====== TICKL-TOCKL №115 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №115 ======
-
-
-
-
-====== TICKL-TOCKL №116 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №116 ======
-
-
-
-
-====== TICKL-TOCKL №117 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №117 ======
-
-
-
-
-====== TICKL-TOCKL №118 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №118 ======
-
-
-
-
-====== TICKL-TOCKL №119 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №119 ======
-
-
-
-
-====== TICKL-TOCKL №120 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №120 ======
-
-
-
-
-====== TICKL-TOCKL №121 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №121 ======
-
-
-
-
-====== TICKL-TOCKL №122 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №122 ======
-
-
-
-
-====== TICKL-TOCKL №123 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №123 ======
-
-
-
-
-====== TICKL-TOCKL №124 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №124 ======
-
-
-
-
-====== TICKL-TOCKL №125 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №125 ======
-
-
-
-
-====== TICKL-TOCKL №126 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №126 ======
-
-
-
-
-====== TICKL-TOCKL №127 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №127 ======
-
-
-
-
-====== TICKL-TOCKL №128 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №128 ======
-
-
-
-
-====== TICKL-TOCKL №129 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №129 ======
-
-
-
-
-====== TICKL-TOCKL №130 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №130 ======
-
-
-
-
-====== TICKL-TOCKL №131 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №131 ======
-
-
-
-
-====== TICKL-TOCKL №132 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №132 ======
-
-
-
-
-====== TICKL-TOCKL №133 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №133 ======
-
-
-
-
-====== TICKL-TOCKL №134 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №134 ======
-
-
-
-
-====== TICKL-TOCKL №135 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №135 ======
-
-
-
-
-====== TICKL-TOCKL №136 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №136 ======
-
-
-
-
-====== TICKL-TOCKL №137 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №137 ======
-
-
-
-
-====== TICKL-TOCKL №138 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №138 ======
-
-
-
-
-====== TICKL-TOCKL №139 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №139 ======
-
-
-
-
-====== TICKL-TOCKL №140 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №140 ======
-
-
-
-
-====== TICKL-TOCKL №141 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №141 ======
-
-
-
-
-====== TICKL-TOCKL №142 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №142 ======
-
-
-
-
-====== TICKL-TOCKL №143 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №143 ======
-
-
-
-
-====== TICKL-TOCKL №144 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №144 ======
-
-
-
-
-====== TICKL-TOCKL №145 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №145 ======
-
-
-
-
-====== TICKL-TOCKL №146 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №146 ======
-
-
-
-
-====== TICKL-TOCKL №147 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №147 ======
-
-
-
-
-====== TICKL-TOCKL №148 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №148 ======
-
-
-
-
-====== TICKL-TOCKL №149 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №149 ======
-
-
-
-
-====== TICKL-TOCKL №150 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №150 ======
-
-
-
-
-====== TICKL-TOCKL №151 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №151 ======
-
-
-
-
-====== TICKL-TOCKL №152 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №152 ======
-
-
-
-
-====== TICKL-TOCKL №153 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №153 ======
-
-
-
-
-====== TICKL-TOCKL №154 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №154 ======
-
-
-
-
-====== TICKL-TOCKL №155 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №155 ======
-
-
-
-
-====== TICKL-TOCKL №156 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №156 ======
-
-
-
-
-====== TICKL-TOCKL №157 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №157 ======
-
-
-
-
-====== TICKL-TOCKL №158 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №158 ======
-
-
-
-
-====== TICKL-TOCKL №159 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №159 ======
-
-
-
-
-====== TICKL-TOCKL №160 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №160 ======
-
-
-
-
-====== TICKL-TOCKL №161 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №161 ======
-
-
-
-
-====== TICKL-TOCKL №162 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №162 ======
-
-
-
-
-====== TICKL-TOCKL №163 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №163 ======
-
-
-
-
-====== TICKL-TOCKL №164 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №164 ======
-
-
-
-
-====== TICKL-TOCKL №165 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №165 ======
-
-
-
-
-====== TICKL-TOCKL №166 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №166 ======
-
-
-
-
-====== TICKL-TOCKL №167 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №167 ======
-
-
-
-
-====== TICKL-TOCKL №168 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №168 ======
-
-
-
-
-====== TICKL-TOCKL №169 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №169 ======
-
-
-
-
-====== TICKL-TOCKL №170 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №170 ======
-
-
-
-
-====== TICKL-TOCKL №171 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №171 ======
-
-
-
-
-====== TICKL-TOCKL №172 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №172 ======
-
-
-
-
-====== TICKL-TOCKL №173 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №173 ======
-
-
-
-
-====== TICKL-TOCKL №174 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №174 ======
-
-
-
-
-====== TICKL-TOCKL №175 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №175 ======
-
-
-
-
-====== TICKL-TOCKL №176 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №176 ======
-
-
-
-
-====== TICKL-TOCKL №177 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №177 ======
-
-
-
-
-====== TICKL-TOCKL №178 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №178 ======
-
-
-
-
-====== TICKL-TOCKL №179 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №179 ======
-
-
-
-
-====== TICKL-TOCKL №180 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №180 ======
-
-
-
-
-====== TICKL-TOCKL №181 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №181 ======
-
-
-
-
-====== TICKL-TOCKL №182 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №182 ======
-
-
-
-
-====== TICKL-TOCKL №183 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №183 ======
-
-
-
-
-====== TICKL-TOCKL №184 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №184 ======
-
-
-
-
-====== TICKL-TOCKL №185 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №185 ======
-
-
-
-
-====== TICKL-TOCKL №186 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №186 ======
-
-
-
-
-====== TICKL-TOCKL №187 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №187 ======
-
-
-
-
-====== TICKL-TOCKL №188 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №188 ======
-
-
-
-
-====== TICKL-TOCKL №189 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №189 ======
-
-
-
-
-====== TICKL-TOCKL №190 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №190 ======
-
-
-
-
-====== TICKL-TOCKL №191 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №191 ======
-
-
-
-
-====== TICKL-TOCKL №192 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №192 ======
-
-
-
-
-====== TICKL-TOCKL №193 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №193 ======
-
-
-
-
-====== TICKL-TOCKL №194 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №194 ======
-
-
-
-
-====== TICKL-TOCKL №195 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №195 ======
-
-
-
-
-====== TICKL-TOCKL №196 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №196 ======
-
-
-
-
-====== TICKL-TOCKL №197 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №197 ======
-
-
-
-
-====== TICKL-TOCKL №198 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №198 ======
-
-
-
-
-====== TICKL-TOCKL №199 ======
-
-
-	OutputChannel {id: 8 (1000), currentNodeID: 0 (0), state: 1, balls: balls, taken: false} Sending grants
-
-
-====== NO MORE TICKL-TOCKL №199 ======
-
-
-Sent flits for 0: 
-Flit jumps for Flit{ 0->12_0
+		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 Flit type: 3, contents: Flit{ 0->14_3
 flitType=1
-, data=267583500
+, data=655374
 }
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 4 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 2, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 5, state: 5 I've reached my final destination. Time for masturbation
-------
-Flit jumps for Flit{ 0->12_0
+Flit{ 0->14_3
 flitType=3
-, data=32780
+, data=32782
 }
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 4, state: 4 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 4 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 4, state: 6 I've reached my final destination. Time for masturbation
-------
-Flit jumps for Flit{ 0->12_0
-flitType=3
-, data=32780
-}
 
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 3, state: 6 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 3, state: 4 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 3, state: 6 I've reached my final destination. Time for masturbation
-------
-Flit jumps for Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 2, state: 6 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 2, state: 6 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 2, state: 6 I've reached my final destination. Time for masturbation
-------
-Flit jumps for Flit{ 0->12_0
-flitType=2
-, data=0
-}
-
-		FIFOQueue {id: 0, nodeID: 0, channelID: 16, queue size: 1, state: 6 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 4, channelID: 0, queue size: 1, state: 6 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 0, nodeID: 12, channelID: 4, queue size: 1, state: 6 I've reached my final destination. Time for masturbation
-------
-Flit jumps for Flit{ 0->12_0
-flitType=1
-, data=267583500
-}
-
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 5, state: 5 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 2, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 4 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 2, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 5, state: 5 I've reached my final destination. Time for masturbation
-------
-Flit jumps for Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 4, state: 6 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 4 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 4, state: 6 I've reached my final destination. Time for masturbation
-------
-Flit jumps for Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 3, state: 6 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 3, state: 4 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 3, state: 6 I've reached my final destination. Time for masturbation
-------
-Flit jumps for Flit{ 0->12_0
-flitType=3
-, data=32780
-}
-
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 2, state: 6 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 2, state: 6 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 2, state: 6 I've reached my final destination. Time for masturbation
-------
-Flit jumps for Flit{ 0->12_0
-flitType=2
-, data=0
-}
-
-		FIFOQueue {id: 1, nodeID: 0, channelID: 16, queue size: 1, state: 6 oc: 	OutputChannel {id: 4 (100), currentNodeID: 0 (0), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 4, channelID: 0, queue size: 1, state: 6 oc: 	OutputChannel {id: 12 (1100), currentNodeID: 4 (100), state: 4, balls: false, taken: true}
-		FIFOQueue {id: 1, nodeID: 12, channelID: 4, queue size: 1, state: 6 I've reached my final destination. Time for masturbation
-------
-Ended at... Wed Apr 13 10:01:06 UTC 2016
