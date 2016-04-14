@@ -96,7 +96,7 @@
                 </FXCollections>
               </items>
               <HBox.margin>
-                <Insets right="15.0" fx:id="x4" />
+                <Insets right="15.0" fx:id="x7" />
               </HBox.margin>
             </ComboBox>
           </children>
