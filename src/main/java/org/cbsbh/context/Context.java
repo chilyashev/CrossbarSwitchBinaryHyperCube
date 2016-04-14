@@ -32,6 +32,10 @@ public class Context {
 
 
     public Integer getInteger(String key) {
-        return (Integer)data.get(key);
+        return (Integer) data.get(key);
+    }
+
+    public String getString(String key) {
+        return data.get(key) != null ? String.valueOf(data.get(key)) : "";
     }
 }

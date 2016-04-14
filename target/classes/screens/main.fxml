@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.collections.*?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.9998779296875" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.MainController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.9998779296875" prefWidth="686.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.MainController">
   <children>
-    <Button fx:id="simulationStartButton" layoutX="562.0" layoutY="459.0" mnemonicParsing="false" onAction="#startSimulation" text="Начало на симулацията" />
-    <GridPane gridLinesVisible="false" layoutX="14.0" layoutY="19.0" prefWidth="672.0" style="">
+    <Button fx:id="simulationStartButton" layoutX="486.0" layoutY="459.0" mnemonicParsing="false" onAction="#startSimulation" text="Начало на симулацията" />
+    <GridPane depthTest="INHERIT" gridLinesVisible="false" mouseTransparent="false" prefWidth="672.0" style="" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
       <children>
         <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
           <children>
@@ -64,7 +63,7 @@
                 <Insets right="3.0" fx:id="x6" />
               </HBox.margin>
             </ComboBox>
-            <TextField fx:id="algorithmValue" alignment="CENTER_RIGHT" prefWidth="65.0" text="0.5" HBox.margin="$x1" />
+            <TextField fx:id="algorithmValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0" text="0.5" HBox.margin="$x1" />
           </children>
         </HBox>
         <Label text="Максимален брой флитове в пакет" GridPane.columnIndex="0" GridPane.rowIndex="4" />
@@ -74,7 +73,7 @@
             <Label text="1" />
             <Slider fx:id="smpCountSlider" disable="true" max="4096.0" min="1.0" snapToTicks="true" />
             <Label text="4096" />
-            <TextField fx:id="smpCountValue" editable="false" prefWidth="75.0" HBox.margin="$x1" />
+            <TextField fx:id="smpCountValue" editable="false" prefWidth="65.0" HBox.margin="$x1" />
           </children>
         </HBox>
         <Label text="Брой канали:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
@@ -85,7 +84,7 @@
             <Label text="4" />
             <Slider fx:id="channelCountSlider" blockIncrement="1.0" majorTickUnit="2.0" max="12.0" min="4.0" minorTickCount="1" prefWidth="-1.0" snapToTicks="true" />
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="34.0" text="12" />
-            <TextField fx:id="channelCountValue" editable="false" prefWidth="75.0" HBox.margin="$x1" />
+            <TextField fx:id="channelCountValue" editable="false" prefWidth="65.0" HBox.margin="$x1" />
           </children>
         </HBox>
         <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
@@ -138,12 +137,21 @@
         <Label text="Брой опашки за канал:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
         <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
           <children>
-            <Label text="4" />
-            <Slider id="channelCountSlider" fx:id="fifoQueueCountSlider" max="12.0" min="4.0" minorTickCount="1" prefWidth="-1.0" snapToTicks="true" />
+            <Label text="1" />
+            <Slider id="channelCountSlider" fx:id="fifoQueueCountSlider" majorTickUnit="1.0" max="12.0" min="1.0" minorTickCount="1" prefWidth="-1.0" snapToTicks="true" value="2.0" />
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="34.0" text="12" />
-            <TextField id="channelCountValue" fx:id="fifoQueueCountValue" editable="false" prefWidth="75.0" />
+            <TextField id="channelCountValue" fx:id="fifoQueueCountValue" editable="false" prefWidth="65.0">
+              <HBox.margin>
+                <Insets right="15.0" fx:id="x4" />
+              </HBox.margin>
+            </TextField>
           </children>
         </HBox>
+        <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="11" GridPane.valignment="TOP">
+          <children>
+            <CheckBox alignment="CENTER_LEFT" contentDisplay="LEFT" indeterminate="false" layoutY="7.0" mnemonicParsing="false" pickOnBounds="false" text="Постъпково изпълнение" underline="false" wrapText="false" AnchorPane.rightAnchor="15.0" />
+          </children>
+        </AnchorPane>
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="386.0" minWidth="10.0" prefWidth="282.0" />
@@ -161,8 +169,9 @@
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
-    <Label fx:id="errorLabel" layoutX="22.0" layoutY="459.0" prefWidth="531.0" text="" textFill="RED" />
+    <Label fx:id="errorLabel" layoutX="22.0" layoutY="459.0" prefWidth="464.0" text="" textFill="RED" />
   </children>
 </AnchorPane>

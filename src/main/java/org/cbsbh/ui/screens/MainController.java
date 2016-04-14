@@ -97,15 +97,17 @@ public class MainController extends AbstractScreen {
         // Set up the model properties
         try {
             workingTime = Double.parseDouble(modelWorkTime.getText());
+
+            // Setting up some context stuff to be used in the model
             context.set("workingTime", workingTime);
-            // More ~sensual~ contextual stuff
-
-            Context.getInstance().set("channelCount", channelCountSlider.valueProperty().intValue());
-            Context.getInstance().set("nodeCount", smpCountSlider.valueProperty().intValue());
-            Context.getInstance().set("maxMessageSize", packetCountSlider.valueProperty().intValue());
-            Context.getInstance().set("messageGenerationFrequency", 1); // TODO
-            Context.getInstance().set("fifoQueueCount", fifoQueueCountSlider.valueProperty().intValue());
-
+            context.set("messageCount", messageCountSlider.valueProperty().intValue());
+            context.set("channelCount", channelCountSlider.valueProperty().intValue());
+            context.set("nodeCount", smpCountSlider.valueProperty().intValue());
+            context.set("maxMessageSize", packetCountSlider.valueProperty().intValue());
+            context.set("maxPacketSize", flitCountSlider.valueProperty().intValue());
+            context.set("messageGenerationFrequency", Double.parseDouble(algorithmValue.getText()));
+            System.err.println(context.get("messageGenerationFrequency"));
+            context.set("fifoQueueCount", fifoQueueCountSlider.valueProperty().intValue());
 
         } catch (NumberFormatException e) {
             System.err.println("TODO: Handle this one!");
@@ -115,7 +117,6 @@ public class MainController extends AbstractScreen {
 
         if (fine) {
             // Setting model parameters in nyah!
-            context.set("workingTime", workingTime);
             parent.showScreen("simulation");
             modelThread = new Thread(runner);
             modelThread.start();

@@ -18,8 +18,35 @@ import org.cbsbh.ui.AbstractScreen;
  */
 public class SimulationController extends AbstractScreen {
 
-    public GridPane main;
+
     // FXML controls
+
+    @FXML
+    public Label messageCount;
+    @FXML
+    public Label maxMessageSize;
+    @FXML
+    public Label maxFlitCount;
+    @FXML
+    public Label messageGenerationFrequency;
+    @FXML
+    public Label messageGenerationMethod;
+    @FXML
+    public Label channelCount;
+    @FXML
+    public Label smpCount;
+    @FXML
+    public Label fifoQueueCount;
+    @FXML
+    public Label workingTime;
+    @FXML
+    public Label nodeCount;
+    @FXML
+    public GridPane mainGrid;
+    @FXML
+    public Label transmissionMode;
+    @FXML
+    public Button resultsButton;
     @FXML
     private Label data;
     @FXML
@@ -42,29 +69,48 @@ public class SimulationController extends AbstractScreen {
 
     @Override
     public void init() {
-        backButton.setVisible(false);
-        data.setText("" + context.get("workingTime"));
-        String ids[] = new String[]{
-                "channelCount",
-                "nodeCount",
-                "maxMessageSize",
-                "messageGenerationFrequency",
-                "fifoQueueCount",
-        };
+        loader.setVisible(true);
+        simulatingLabel.setVisible(true);
 
+        backButton.setVisible(false);
+        resultsButton.setVisible(false);
+        data.setVisible(false);
+
+        nodeCount.setText(context.getString("nodeCount"));
+        workingTime.setText(context.getString("workingTime"));
+        messageCount.setText(context.getString("messageCount"));
+        maxMessageSize.setText(context.getString("maxMessageSize"));
+        maxFlitCount.setText(context.getString("maxPacketSize"));
+        channelCount.setText(context.getString("channelCount"));
+        fifoQueueCount.setText(context.getString("fifoQueueCount"));
+        messageGenerationFrequency.setText(context.getString("messageGenerationFrequency"));
+
+
+        // A miserable attempt to make rows have alternating backgrounds
+        /*mainGrid.getChildren().stream().filter(node -> GridPane.getRowIndex(node) % 2 == 0).forEach(node -> {
+            node.setStyle("-fx-background-color: whitesmoke");
+        });*/
 
     }
 
     public void finishSimulation() {
         loader.setVisible(false);
         simulatingLabel.setVisible(false);
-        backButton.setVisible(true);
-        data.setText("Симулацията завърши.");
 
+        backButton.setVisible(true);
+        resultsButton.setVisible(true);
+
+        data.setText("Симулацията завърши.");
+        data.setVisible(true);
     }
 
     public void backToReality(ActionEvent actionEvent) {
         ((MainController) parent.getScreenController("main")).reset();
+        this.init();
         parent.showScreen("main");
+    }
+
+    public void showSimulationResults(ActionEvent actionEvent) {
+        parent.showScreen("simulation_results");
     }
 }
