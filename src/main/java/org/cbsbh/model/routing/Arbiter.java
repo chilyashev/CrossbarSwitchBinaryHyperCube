@@ -1,7 +1,5 @@
 package org.cbsbh.model.routing;
 
-import org.cbsbh.model.structures.SignalArray;
-
 import java.util.ArrayList;
 
 /**
@@ -28,6 +26,7 @@ public class Arbiter {
 
 
     private int nodeId;
+    private ArrayList<Integer> requestsSent = new ArrayList<>();
 
 
     public Arbiter(int nodeId, ArrayList<OutputChannel> allChannels, int id, int channelId) {
@@ -42,24 +41,18 @@ public class Arbiter {
      * Праща заявка до изходен канал
      */
     public boolean sendRequest(int id) {
-        boolean found = false,
-                requestSent = false; // Това е нужно, защото каналът винаги трябва да е намерен, но има случаи,
-                                    // в които изходният канал е в състояние 6 и ще си зачисти картата със заявки без значение дали ги е видял
+        boolean found = false;
         // Обикалят се всички канали и се търси канал с точното id.
         // Като се намери, му се взема RRA-то и на него се праща заявка за пращане
         for (OutputChannel channel : allChannels) {
             if (channel.getNextNodeId() == id) {
                 found = true;
-                // Заявка за изпращане се праща само на канали, които могат да я поемат, т.е. са в правилното състояние
-                if (channel.hasSignal(SignalArray.STRB_SIG)) {
-                    requestSent = true;
-                    channel.getRra().requestToSend(this);
-                }
+                channel.getRra().requestToSend(this);
                 break;
             }
         }
         assert found : "Input channel with id " + id + " not found. A bitch, ain't it?";
-        return requestSent;
+        return found;
     }
 
     /**
@@ -72,13 +65,25 @@ public class Arbiter {
      * @return -1, ако никой не е върнал Grant
      */
     public int getNextNodeId(FIFOQueue fifoQueue) {
-        if (grantOutputChannelIds.size() < 1) {
+        if (grantOutputChannelIds.isEmpty()) {
             return -1;
         }
 
         assert grantOutputChannelIds.size() > 0 : "Никой не е върнал Grant";
         int id = grantOutputChannelIds.remove(0);
+
+        long oldTR = fifoQueue.getFifo().peek().getTR();
+        long dna = fifoQueue.getFifo().peek().getDNA();
+        while(Long.bitCount(oldTR) <= Long.bitCount(dna ^ id)) {
+            if (grantOutputChannelIds.isEmpty()) {
+                return -1;
+            }
+            id = grantOutputChannelIds.remove(0);
+            //assert false : "GO GUCK YOURSELF";
+        }
+
         grantOutputChannelIds.clear();
+        requestsSent.clear();
         sendGrantAck(fifoQueue, id);
         return id;
     }
@@ -108,12 +113,16 @@ public class Arbiter {
      * @param tr Transport Mask.
      */
     public boolean sendRequestByTR(long tr) {
+        //We first remove any residual shite:
+        //grantOutputChannelIds.clear();
+
         boolean requestSent = false;
         for (int i = 0; i < 12; i++) { // 12. Like the 12 bits in the TR. Duh...
             if ((tr & (1 << i)) == 1 << i) {
                 int outputChannelId = nodeId ^ (1 << i);
                 boolean newRequestSent = sendRequest(outputChannelId);
                 requestSent = requestSent || newRequestSent;
+                requestsSent.add(outputChannelId);
             }
         }
         return requestSent;
@@ -154,6 +163,12 @@ public class Arbiter {
     }
 
     public void takeGrant(Integer outputChannelId) {
+        //При получаване на грант трябва да се обиколят всички изходни канали, към които е бил пратен рекуест и да се оттегли пратения рекуест
+//        for (int oldReqOCID : requestsSent) {
+//            if(oldReqOCID != outputChannelId && oldReqOCID != -1) {
+//                allChannels.get(allChannels.indexOf(oldReqOCID)).getRra().removeRequest(this);
+//            }
+//        }
         grantOutputChannelIds.add(outputChannelId);
     }
 

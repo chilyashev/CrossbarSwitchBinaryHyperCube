@@ -60,6 +60,8 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
     int nodeId;//.getId();
     private String who;
     private boolean requestSent = false;
+    private boolean sendToCurrentNode = false;
+    private ArrayList<Flit> sentFlits = new ArrayList<>();
 
     public FIFOQueue() {
 
@@ -108,8 +110,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         }
 
         // Ако сме в STATE2 и са налични сигналите VALID_DATA и HEAD_FLIT, преминаваме в S3
-        if (state == STATE2_READY && isCurrentFlitDataValid()
-                && (getCurrentFlitType() == Flit.FLIT_TYPE_HEADER)) {
+        if (state == STATE2_READY && (getCurrentFlitType() == Flit.FLIT_TYPE_HEADER)) {
             return STATE3_REQUEST_FOR_ROUTING;
         }
 
@@ -205,10 +206,11 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 //assert fifo.size() == 1 : "Тук трябва да има само един flit";
                 assert fifo.peekFirst().getFlitType() == Flit.FLIT_TYPE_HEADER : "Този флит трябва да е Head.";
                 head = fifo.peekFirst();
-                requestSent = arby.sendRequestByTR(head.getTR());
-                if (!requestSent) {
-                    Debug.printf("Ay!");
+                long TR = head.getTR();
+                if(TR != 0) {
+                    requestSent = arby.sendRequestByTR(head.getTR());
                 }
+
                 break;
             case STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL:
                 getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
@@ -216,21 +218,12 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 getSignalArray().setSignal(SignalArray.WR_IN_FIFO, true);
                 getSignalArray().setSignal(SignalArray.TIMER_EN, true); //  TODO: да реализираме таймера. Тук се пуска таймер 1
 
-                // possible sadface
-                if (nextNodeId == -1) {
-                    nextNodeId = arby.getNextNodeId(this);
-
-                    if (nextNodeId == -1 && fifo.peekFirst().getTR() != 0) {
-                        requestSent = arby.sendRequestByTR(fifo.peekFirst().getTR());
-                    }
-                } else {
-                    sendDataToNextNode();
-                }
-
-
+                //ОПИТ за изпращане! Възможно е да е неуспешно!
+                sendDataToNextNode();
                 break;
             case STATE5_READ_PACKET: // TODO: изпращането да го изкараме в метод
-                // TODO: Тези сигнали трябва да се издадат към предишния възел. Единственият проблем е, FIFO_BUSY не се използва. Вторият единствен проблем е, че вместо InputChannel-а да пише в сигналите на OutputChannel-а, той пише в своите и OutputChannel-а ги проверява.
+                // TODO: Тези сигнали трябва да се издадат към предишния възел. Единственият проблем е, FIFO_BUSY не се използва.
+                // Вторият единствен проблем е, че вместо InputChannel-а да пише в сигналите на OutputChannel-а, той пише в своите и OutputChannel-а ги проверява.
                 // TODO: Уж работи правилно.
                 getSignalArray().setSignal(SignalArray.FIFO_BUSY, true);
                 getSignalArray().setSignal(SignalArray.DATA_ACK, true);
@@ -281,25 +274,30 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         if (fifo.isEmpty()) {
             return;
         }
-        Flit nextFlit = fifo.peekFirst();
-        //Debug
-        if (nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
-            nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
-            if ((nextFlit.getTR()) == 0) {
-                /*Debug.println("FINALLY! A header flit! FIFOQueue size: " + fifo.size());
-                receivedData = new ArrayList<>();
-                receivedData.add(nextFlit);*/
+
+        if(nextNodeId == -1 && !sendToCurrentNode) {
+            if(fifo.peekFirst().getFlitType() != Flit.FLIT_TYPE_HEADER){
+                assert false :"WHYYYY?!";
             }
+            nextNodeId = arby.getNextNodeId(this);
         }
 
-        if (nextFlit.getFlitType() == Flit.FLIT_TYPE_BODY) {
-            //Debug.println("FINALLY! A body flit! FIFOQueue size: " + fifo.size());
-
+        Flit nextFlit = fifo.peekFirst();
+        if(nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER && nextFlit.getTR() == 0) {
+            sendToCurrentNode = true;
         }
 
-        // sadfase.dwg
-        // Ако не е изпратен буферът на изходния канал, няма да пишем, защото се омазва
         if (nextNodeId != -1) {
+            if (nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
+                long oldTR = nextFlit.getTR();
+                long newTR = nextFlit.getDNA() ^ nextNodeId;
+                if(Long.bitCount(oldTR) < Long.bitCount(newTR)) {
+                    assert false : "GO GUCK YOURSELF";
+                }
+                nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
+            }
+
+            // Ако не е изпратен буферът на изходния канал, няма да пишем, защото се омазва
             OutputChannel out = channel.getNode().getOutputChannel(nextNodeId);
             if (out.getBuffer() != null) {
                 return;
@@ -307,16 +305,21 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
             Debug.println(getWho() + " Sending all my ropes to: " + channel.getNode().getOutputChannel(nextNodeId).getWho() + " c: " + nextFlit.toString());
             nextFlit.history.add(getWho() + " oc: " + channel.getNode().getOutputChannel(nextNodeId).getWho());
             channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
-        } else {
+        }else if(sendToCurrentNode) {
             nextFlit.history.add(getWho() + " I've reached my final destination. Time for masturbation");
+        }else {
+            //ВАЖНО!!!! Тук следващият възел nextNodeId == -1, НО TR в хедъра НЕ е 0.
+            // Това означава, че има забавяне в мрежата и трябва да се изчака!
+            return;
         }
 
         if (nextFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
             Debug.println(getWho() + "FINALLY! A tail flit! FIFOQueue size: " + fifo.size());
             getSignalArray().setSignal(SignalArray.CNT_EQU, true);
             Debug.printSignals(Debug.CLASS_FIFO_QUEUE, this);
+            sendToCurrentNode = false;
         }
-        fifo.removeFirst();
+        sentFlits.add(fifo.removeFirst());
     }
 
     /**

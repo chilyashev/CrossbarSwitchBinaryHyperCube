@@ -1,0 +1,10 @@
+1. В състояние STATE3_REQUEST_FOR_ROUTING FIFOQueue ИЗЧИСТВА списъка с получените до момента GRANT-ове, след коетоизпраща request към
+ВСИЧКИ изходни канали, без значение в кое състояние се намират те. Тези request-и се буферират в requestMap на RRA на всеки изноден канал.
+2. Когато изходния канал достигне до състояние STATE1_ROUTING_AND_ARBITRAGING RRA започва да обхожда requestMap. По RR логиката RRA
+се изпраща GRANT на следващия FIFOQueue.
+3. FIFOQueue ИЗЧАКВА докато не получи GRANT. Изчакването започва в състояние STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL и продължава в
+състояния STATE5_READ_PACKET и STATE6_WAIT_FOR_END_OF_PACKET. Ако е наличен GRANT, се изпраща GRANT_ACK и предаването започва НЕЗАБАВНО.
+FIFOQueue НЕ излиза от STATE6_WAIT_FOR_END_OF_PACKET докато не изпрати целия пакет.
+4. Ако изходния канал НЕ получи GRANT на следващия такт, това означава, че FIFOQueue вече е получил GRANT от друг изходен канал.
+Отново се стартира RRA и се изпраща GRANT на следващия FIFOQueue подал request.
+При получаване на GRANT_ACК изходния канал преминава в състояние STATE2_READY_FOR_TRANSFER и е готов да получава информация.

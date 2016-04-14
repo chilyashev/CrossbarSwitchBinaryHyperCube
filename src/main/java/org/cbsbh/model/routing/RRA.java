@@ -55,7 +55,7 @@ public class RRA {
          * Ако след този цикъл указателите не са се променили, значи сочат към арбитър с комбинация idArbiter и idChannel по-големи от всички
          * арбитри, които са изпратили заявки.
          */
-        if(!valuesChanged){
+        if (!valuesChanged) {
             // Тези редове правят завъртането на указателите. CurrentChannelId и CurrentArbiterID са указателя на RR логиката.
             TreeMap map = requestMap.firstEntry().getValue();
             Arbiter firstArbiter = (Arbiter) map.firstEntry().getValue();
@@ -63,7 +63,6 @@ public class RRA {
             currentArbiterId = firstArbiter.getId();
         }
         requestMap.get(currentChannelId).get(currentArbiterId).takeGrant(outputChannelId);
-
     }
 
     public void init() {
@@ -98,5 +97,12 @@ public class RRA {
 
     public void setGrantAckReceived(boolean grantAckReceived) {
         this.grantAckReceived = grantAckReceived;
+    }
+
+    public void removeRequest(Arbiter arbiter) {
+        int channelId = arbiter.getChannelId();
+        if(requestMap.get(channelId) != null) {
+            requestMap.get(channelId).remove(arbiter.getId());
+        }
     }
 }

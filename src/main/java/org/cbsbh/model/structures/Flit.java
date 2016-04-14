@@ -125,6 +125,8 @@ public class Flit { // *C
 
     public void setTR(long tr) {
         assert getFlitType() == FLIT_TYPE_HEADER : "Wrong flit type";
+        id += " TR: " + Long.toBinaryString(tr);
+
         long dong = ~((0xfff << 16)); // 0xFFFFFFFFF000FFFF
 
         flitData = flitData & dong; // Занулява TR

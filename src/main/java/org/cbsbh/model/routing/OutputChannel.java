@@ -220,7 +220,7 @@ public class OutputChannel extends StateStructure implements Tickable {
                     nextInputChannel.setInputBuffer(buffer);
                     buffer = null;
                 }
-                rra.requestMap.clear();
+                //rra.requestMap.clear();
                 accepted = null;
                 break;
         }
