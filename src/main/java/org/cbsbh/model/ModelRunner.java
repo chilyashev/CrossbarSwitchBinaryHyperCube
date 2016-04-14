@@ -44,12 +44,12 @@ public class ModelRunner implements Runnable {
         return list;
     }
 
-    private void init(int channelCount, int bufferCount) {
+    private void init(int channelCount) {
         Debug.println(getClass() + " init");
         //compute number of nodes
         int SMPNodes = 1 << channelCount;
 
-        int arbiterCount = channelCount * bufferCount;
+        //int arbiterCount = channelCount * bufferCount;
 
         //encode node ids
         int[] GrayCodes = getGrayCodes(SMPNodes);
@@ -109,18 +109,18 @@ public class ModelRunner implements Runnable {
 
     @Override
     public void run() {
-
+        Debug.startThePain();
         // Init phase
-        int channelCount = 4;
-        int bufferCount = 10;
-        Context.getInstance().set("channelCount", channelCount); // TODO: get this from the interface!
+        int channelCount = Context.getInstance().getInteger("channelCount");
+        // TODO: get this from the interface!
+        /*Context.getInstance().set("channelCount", channelCount);
         Context.getInstance().set("nodeCount", 1 << channelCount);
         Context.getInstance().set("bufferCountPerInputChannel", bufferCount);
         Context.getInstance().set("messageGenerationFrequency", 1);
         Context.getInstance().set("minMessageSize", 4);
         Context.getInstance().set("maxMessageSize", 56);
-        Context.getInstance().set("fifoQueueCount", 3);
-        init(channelCount, bufferCount);
+        Context.getInstance().set("fifoQueueCount", 3);*/
+        init(channelCount);
         //End of init
 
         Debug.println("Starting at... " + new Date());
@@ -128,28 +128,37 @@ public class ModelRunner implements Runnable {
         BernoulliGenerator g = new BernoulliGenerator();
         Scanner bblock = new Scanner(System.in);
         int msgCount = 15;
-        while (ticks < 2__0__0) {
-            Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
-            if (g.newValueReady() && ticks > 5 && msgCount > 0) {
-                //if (ticks == 5) {
-                // inject
-                if (MPPNetwork.get(0).getMessageToSend().size() == 0) {
-                    Debug.println("New value is being injected!");
-                    MPPNetwork.get(0).generateMessage();
-                    msgCount --;
+        int messages = 0;
+        try {
+            while (ticks < 2__0__0) {
+                System.err.println("Tick " + ticks);
+                Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
+                if (g.newValueReady() && ticks > 5 && msgCount > 0) {
+                    //if (ticks == 5) {
+                    // inject
+                    if (MPPNetwork.get(0).getMessageToSend().size() == 0) {
+                        Debug.println("New value is being injected!");
+                        MPPNetwork.get(0).generateMessage();
+                        messages++;
+                        msgCount--;
+                    }
                 }
+
+                MPPNetwork.getInstance().calculateNewStates();
+                MPPNetwork.getInstance().tick();
+                // Tick for each SMP
+                Debug.printf("\n\n====== NO MORE TICKL-TOCKL №%d ======\n\n", ticks);
+                ticks++;
+                // bblock.nextLine();
             }
-
-            MPPNetwork.getInstance().calculateNewStates();
-            MPPNetwork.getInstance().tick();
-            // Tick for each SMP
-            Debug.printf("\n\n====== NO MORE TICKL-TOCKL №%d ======\n\n", ticks);
-            ticks++;
-            // bblock.nextLine();
+        } catch (Exception e) {
+            System.err.println("Simulation failed due to some stupid shit. Fix it.");
+            handler.handle(new ActionEvent());
+            //throw e;
         }
-
+        System.err.println("End of tick.");
         //
-        int packets = 0;
+        int packets = 0, tails = 0, bodies = 0;
         for (SMPNode node : MPPNetwork.getAll()) {
             if (node.sentFlits.size() < 1) {
                 continue;
@@ -159,6 +168,12 @@ public class ModelRunner implements Runnable {
                 if (flit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
                     packets++;
                 }
+                if (flit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
+                    tails++;
+                }
+                if (flit.getFlitType() == Flit.FLIT_TYPE_BODY) {
+                    bodies++;
+                }
                 Debug.println("Flit jumps for " + flit.toString());
                 for (String jump : flit.history) {
                     Debug.println("" + jump);
@@ -166,13 +181,21 @@ public class ModelRunner implements Runnable {
                 Debug.println("------");
             }
         }
-        Debug.println("Total packets sent (doesn't mean, they got received): " + packets);
+        Debug.printf("Total packets sent (doesn't mean, they got received): %d\n" +
+                        "Total tail flits: %d\n" +
+                        "Total body flits: %d\n",
+                        packets,
+                tails,
+                bodies
+        );
+        Debug.println("Total messages generated: " + messages);
 
         Debug.println("Ended at... " + new Date());
         Debug.endTheMisery();
         // Gather data
         // Write results in the context
         // More work
+        this.handler.handle(new ActionEvent());
     }
 
 }

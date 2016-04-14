@@ -2,13 +2,9 @@
 package org.cbsbh;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.cbsbh.context.Context;
-import org.cbsbh.model.ModelRunner;
 import org.cbsbh.ui.ScreenContainer;
 
 /**
@@ -45,11 +41,11 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        //launch(args);
+        launch(args);
 
 
 
-        Context context = Context.getInstance();
+        /*Context context = Context.getInstance();
         ModelRunner runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -63,6 +59,14 @@ public class Main extends Application {
             context.set("workingTime", workingTime);
             // More contextual stuff
 
+            Context.getInstance().set("channelCount", 4);
+            Context.getInstance().set("nodeCount", 16);
+            Context.getInstance().set("maxMessageSize", 3);
+            Context.getInstance().set("bufferCountPerInputChannel", 3); // TODO!
+            Context.getInstance().set("messageGenerationFrequency", 1); // TODO
+            Context.getInstance().set("minMessageSizel", 4); // TODO
+            Context.getInstance().set("fifoQueueCount", 3); // TODO
+
 
             Thread modelThread = new Thread(runner);
             modelThread.start();
@@ -70,6 +74,6 @@ public class Main extends Application {
         } catch (NumberFormatException e) {
             System.err.println("TODO: Handle this one!");
 
-        }
+        }*/
     }
 }

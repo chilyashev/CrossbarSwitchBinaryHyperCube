@@ -1,18 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?><?import java.util.*?><?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import javafx.scene.paint.*?>
-
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-    prefHeight="446.9998779296875" prefWidth="651.0000999999975" xmlns:fx="http://javafx.com/fxml/1"
-    xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.SimulationController">
-    <children>
-        <HBox id="HBox" alignment="CENTER" layoutX="265.0" layoutY="205.0" spacing="5.0">
-            <children>
-                <ProgressIndicator progress="-1.0" />
-                <Label text="Simulating..." />
-                <Label text="..." fx:id="data" />
-
-            </children>
-        </HBox>
-    </children>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.9998779296875" prefWidth="676.999977929685" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.SimulationController">
+  <children>
+    <TitledPane animated="false" layoutX="0.0" layoutY="0.0" prefWidth="505.0" text="Параметри на модeла">
+      <content>
+        <GridPane fx:id="main" gridLinesVisible="false" prefWidth="672.0" style="">
+          <children>
+            <Label text="Време за работа на модела:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label text="Начин на генериране на съобщенията:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label text="Брой съобщения за предаване:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label text="Максимален брой пакети в съобщение:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label text="Максимален брой флитове в пакет" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <Label text="Честота на генериране на съобщенията:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <Label text="Брой процесори в SMP компютрите:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Label text="Брой канали:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <Label text="Режим на обмен:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+            <Label text="Брой опашки за канал:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <Label text="Алгоритъм за маршрутизиране:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+            <Label fx:id="messageGenerationMethod" text="s" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <children>
+                <Label id="maxMessageSize" fx:id="messageCount" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="206.9998779296875" text="s" />
+              </children>
+            </HBox>
+            <HBox id="HBox" alignment="CENTER_RIGHT" spacing="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+              <children>
+                <Label fx:id="maxMessageSize" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="207.0" text="s" />
+              </children>
+            </HBox>
+            <HBox id="HBox" alignment="CENTER_RIGHT" spacing="0.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+              <children>
+                <Label fx:id="maxFlitCount" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="207.0" text="s" />
+              </children>
+            </HBox>
+            <HBox id="HBox" alignment="CENTER_RIGHT" spacing="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+              <children>
+                <Label fx:id="messageGenerationFrequency" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="207.0" text="s" />
+              </children>
+            </HBox>
+            <Label fx:id="channelCount" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="207.0" text="s" GridPane.columnIndex="1" GridPane.rowIndex="7">
+              <graphic>
+                <HBox id="HBox" alignment="CENTER_RIGHT" spacing="0.0">
+                  <children>
+                    <Label fx:id="smpCount" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="207.0" text="s" />
+                  </children>
+                </HBox>
+              </graphic>
+            </Label>
+            <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+              <children>
+                <Label fx:id="fifoQueueCount" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="207.0" text="s" />
+              </children>
+            </HBox>
+            <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+              <children>
+                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="207.0" text="s" />
+              </children>
+            </HBox>
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="386.0" minWidth="10.0" prefWidth="282.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="0.0" prefWidth="286.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </content>
+    </TitledPane>
+    <HBox id="HBox" alignment="CENTER" layoutX="7.0" layoutY="385.0" spacing="5.0">
+      <children>
+        <ProgressIndicator fx:id="loader" progress="-1.0" />
+        <Label fx:id="simulatingLabel" text="Simulating..." />
+        <Label fx:id="data" text="..." />
+      </children>
+    </HBox>
+    <Button fx:id="backButton" layoutX="7.0" layoutY="357.0" mnemonicParsing="false" onAction="#backToReality" text="Назад" />
+    <HBox alignment="CENTER_RIGHT" fillHeight="true" layoutX="169.0" layoutY="236.0" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0">
+      <children>
+        <Label fx:id="workingTime" text="s" />
+      </children>
+    </HBox>
+  </children>
 </AnchorPane>

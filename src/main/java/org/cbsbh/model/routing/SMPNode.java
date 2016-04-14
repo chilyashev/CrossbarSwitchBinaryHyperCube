@@ -75,7 +75,7 @@ public class SMPNode {
 
     public ArrayList<Packet> generateMessage(int maxPacketCount, int maxPacketSize, int maxTargetId) {
         Random r = new Random();
-        int msgSize = r.nextInt(maxPacketCount - 1) + 1;
+        int msgSize = 1;//r.nextInt(maxPacketCount - 1) + 1;
         int target = r.nextInt(maxTargetId);
 
         Debug.printf("> Generating a message from %d to %d with %d packet%c", id, target, msgSize, msgSize == 1 ? ' ' : 's');
@@ -83,7 +83,7 @@ public class SMPNode {
         ArrayList<Packet> message = new ArrayList<>();
 
         while (msgSize-- > 0) {
-            int packetSize = r.nextInt(maxPacketSize - 1) + 1;
+            int packetSize = 1;//r.nextInt(maxPacketSize - 1) + 1;
             Debug.printf(">> Generating a packet of %d flit%c", packetSize, packetSize == 1 ? ' ' : 's');
             message.add(new Packet(id, target, packetSize));
         }

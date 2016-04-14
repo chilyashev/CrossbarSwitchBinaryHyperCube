@@ -125,6 +125,10 @@ public class Debug {
         printf(sb.subSequence(0, sb.length() - 2).toString());
     }
 
+    public static void startThePain() {
+        _instance = new Debug();
+    }
+
     public static void endTheMisery() {
         if (_instance == null) {
             _instance = new Debug();

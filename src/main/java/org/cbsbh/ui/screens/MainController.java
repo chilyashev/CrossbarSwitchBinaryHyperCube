@@ -1,14 +1,14 @@
 package org.cbsbh.ui.screens;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import org.cbsbh.context.Context;
 import org.cbsbh.model.ModelRunner;
 import org.cbsbh.ui.AbstractScreen;
-import org.cbsbh.context.Context;
+import org.cbsbh.ui.SliderStringConverter;
 
 /**
  * Displays the main screen with the menus and whatnot
@@ -19,8 +19,11 @@ import org.cbsbh.context.Context;
 public class MainController extends AbstractScreen {
 
     Context context;
+    Thread modelThread = null;
 
     // FXML controls
+    @FXML
+    public Button simulationStartButton;
     @FXML
     private TextField modelWorkTime;
     @FXML
@@ -29,6 +32,32 @@ public class MainController extends AbstractScreen {
     private Slider messageCountSlider;
     @FXML
     private TextField messageCountValue;
+    @FXML
+    public Slider packetCountSlider;
+    @FXML
+    public TextField packetCountValue;
+    @FXML
+    public ComboBox algorithmCombo;
+    @FXML
+    public TextField algorithmValue;
+    @FXML
+    public Slider smpCountSlider;
+    @FXML
+    public TextField smpCountValue;
+    @FXML
+    public Slider channelCountSlider;
+    @FXML
+    public TextField channelCountValue;
+    @FXML
+    public ComboBox messageGenerationMethod;
+    @FXML
+    public Slider flitCountSlider;
+    @FXML
+    public TextField flitCountValue;
+    @FXML
+    public Slider fifoQueueCountSlider;
+    @FXML
+    public TextField fifoQueueCountValue;
     // eo FXML controls
 
     public MainController() {
@@ -46,23 +75,37 @@ public class MainController extends AbstractScreen {
         boolean fine = true;
         double workingTime = 0;
         errorLabel.setText("");
-        modelWorkTime.setText("6");
+        // Enterprise-grade input validation
+        if (modelWorkTime.getText().length() < 1) {
+            modelWorkTime.setText("500");
+        }
 
         ModelRunner runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                parent.showScreen("simulation_results");
+                //parent.showScreen("simulation_results");
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((SimulationController) parent.getCurrentScreenController()).finishSimulation(); // Ugly af, but works, so stfu
+                    }
+                });
+
             }
         });
 
+        // Set up the model properties
         try {
             workingTime = Double.parseDouble(modelWorkTime.getText());
             context.set("workingTime", workingTime);
-            // More contextual stuff
+            // More ~sensual~ contextual stuff
 
+            Context.getInstance().set("channelCount", channelCountSlider.valueProperty().intValue());
+            Context.getInstance().set("nodeCount", smpCountSlider.valueProperty().intValue());
+            Context.getInstance().set("maxMessageSize", packetCountSlider.valueProperty().intValue());
+            Context.getInstance().set("messageGenerationFrequency", 1); // TODO
+            Context.getInstance().set("fifoQueueCount", fifoQueueCountSlider.valueProperty().intValue());
 
-            Thread modelThread = new Thread(runner);
-            modelThread.start();
 
         } catch (NumberFormatException e) {
             System.err.println("TODO: Handle this one!");
@@ -71,10 +114,11 @@ public class MainController extends AbstractScreen {
         }
 
         if (fine) {
-
             // Setting model parameters in nyah!
             context.set("workingTime", workingTime);
             parent.showScreen("simulation");
+            modelThread = new Thread(runner);
+            modelThread.start();
         } else {
             // Nothing for now.
             // Maybe later we'll show a popup with an error
@@ -83,6 +127,54 @@ public class MainController extends AbstractScreen {
 
     @Override
     public void init() {
-        // crap
+
+        /*messageCountSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            messageCountValue.setText(String.valueOf(newValue.intValue()));
+        });
+
+        packetCountSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            packetCountValue.setText(String.valueOf(newValue.intValue()));
+        });
+
+        flitCountSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            flitCountValue.setText(String.valueOf(newValue.intValue()));
+        });
+
+        smpCountSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            smpCountValue.setText(String.valueOf(newValue.intValue()));
+        });
+
+         */
+
+        channelCountSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            //channelCountValue.setText(String.valueOf(newValue.intValue()));
+            smpCountSlider.setValue(1 << newValue.intValue());
+        });
+
+        /*messageCountSlider.setValue(1);
+        packetCountSlider.setValue(3);
+        flitCountSlider.setValue(3);
+        channelCountSlider.valueProperty().setValue(channelCountSlider.getMin());*/
+        smpCountSlider.setValue(1 << (int) channelCountSlider.getValue());
+
+        SliderStringConverter converter = new SliderStringConverter();
+        // Binding of ~Isaac~ controls
+        messageCountValue.textProperty().bindBidirectional(messageCountSlider.valueProperty(), converter);
+        packetCountValue.textProperty().bindBidirectional(packetCountSlider.valueProperty(), converter);
+        flitCountValue.textProperty().bindBidirectional(flitCountSlider.valueProperty(), converter);
+        smpCountValue.textProperty().bindBidirectional(smpCountSlider.valueProperty(), converter);
+        channelCountValue.textProperty().bindBidirectional(channelCountSlider.valueProperty(), converter);
+        fifoQueueCountValue.textProperty().bindBidirectional(fifoQueueCountSlider.valueProperty(), converter);
+
+    }
+
+    public void reset() {
+        if (modelThread != null) {
+            try {
+                modelThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

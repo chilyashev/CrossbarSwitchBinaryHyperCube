@@ -33,6 +33,9 @@ public class ScreenContainer extends StackPane {
      */
     private HashMap<String, ControlledScreen> controllers = new HashMap<>();
 
+
+    private String currentScreenId;
+
     /**
      * Loads a screen and adds it to the screen map
      *
@@ -77,7 +80,7 @@ public class ScreenContainer extends StackPane {
      * @return true if screen exists and gets shown successfully
      */
     public boolean showScreen(final String screenId) {
-
+        currentScreenId = screenId;
         if (screens.get(screenId) != null) { //screen loaded
             final DoubleProperty opacity = opacityProperty();
 
@@ -118,6 +121,7 @@ public class ScreenContainer extends StackPane {
                         new KeyFrame(new Duration(10),
                                 new KeyValue(opacity, 1.0)));
                 fadeIn.play();
+                controllers.get(screenId).init();
             }
             return true;
         } else { // Something went wront
@@ -125,5 +129,16 @@ public class ScreenContainer extends StackPane {
             System.err.println("Something went wrong and the screen didn't get loaded\n");
             return false;
         }
+    }
+
+    public ControlledScreen getCurrentScreenController(){
+        return controllers.get(currentScreenId);
+    }
+    public ControlledScreen getScreenController(String screenId){
+        return controllers.get(screenId);
+    }
+
+    public Node getCurrentScreen() {
+        return screens.get(currentScreenId);
     }
 }

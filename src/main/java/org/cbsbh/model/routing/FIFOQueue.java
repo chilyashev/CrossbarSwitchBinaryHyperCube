@@ -203,8 +203,8 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
                 // Вече има head флит и поне един във fifo
                 //assert fifo.size() == 1 : "Тук трябва да има само един flit";
-                assert fifo.peek().getFlitType() == Flit.FLIT_TYPE_HEADER : "Този флит трябва да е Head.";
-                head = fifo.peek();
+                assert fifo.peekFirst().getFlitType() == Flit.FLIT_TYPE_HEADER : "Този флит трябва да е Head.";
+                head = fifo.peekFirst();
                 requestSent = arby.sendRequestByTR(head.getTR());
                 if (!requestSent) {
                     Debug.printf("Ay!");
@@ -220,8 +220,8 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
                 if (nextNodeId == -1) {
                     nextNodeId = arby.getNextNodeId(this);
 
-                    if (nextNodeId == -1 && fifo.peek().getTR() != 0) {
-                        requestSent = arby.sendRequestByTR(fifo.peek().getTR());
+                    if (nextNodeId == -1 && fifo.peekFirst().getTR() != 0) {
+                        requestSent = arby.sendRequestByTR(fifo.peekFirst().getTR());
                     }
                 } else {
                     sendDataToNextNode();
@@ -391,7 +391,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         //.isDataValid();
         // TODO: да проверим дали наистина няма смисъл да се проверява бита за валидни данни.
         // Защото все пак не предаваме апаратно и няма как да има грешки при предаването на ниво бит.
-        return fifo.size() > 0 && fifo.peek() != null && fifo.peek().isDataValid();
+        return fifo.size() > 0 && fifo.peekFirst() != null && fifo.peekFirst().isDataValid();
     }
 
     public int getState() {

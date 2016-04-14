@@ -23,7 +23,7 @@ public class Packet extends ArrayList<Flit> {
         this.add(flit);
 
         //Generate body flits
-        while (packetSize-- >= 0) {
+        while (packetSize-- > 0) {
             this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_BODY));
         }
 
