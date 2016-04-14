@@ -69,6 +69,8 @@ public class SimulationController extends AbstractScreen {
 
     @Override
     public void init() {
+        setTitle("Симулация...");
+
         loader.setVisible(true);
         simulatingLabel.setVisible(true);
 

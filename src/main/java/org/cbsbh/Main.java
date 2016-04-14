@@ -26,6 +26,8 @@ public class Main extends Application {
         mainScreen.loadScreen("simulation", "/screens/simulation.fxml");
         mainScreen.loadScreen("simulation_results", "/screens/simulation_results.fxml");
 
+        // Pass the stage
+        mainScreen.setStage(primaryStage);
 
         // Showing the main screen
         mainScreen.showScreen("main");

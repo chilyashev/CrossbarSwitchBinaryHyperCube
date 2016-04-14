@@ -39,6 +39,8 @@ public class SimulationResultsController extends AbstractScreen {
 
     @Override
     public void init() {
+        setTitle("Резултати от изпълнението на симулацията");
+
         Random r = new Random(); // Real science done RIGHT HERE!
         XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
         series.setName("Пакети в движение в даден момент");

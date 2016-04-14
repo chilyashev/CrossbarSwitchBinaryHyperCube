@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import java.lang.*?>
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.9998779296875" prefWidth="686.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.MainController">
   <children>
     <Button fx:id="simulationStartButton" layoutX="486.0" layoutY="459.0" mnemonicParsing="false" onAction="#startSimulation" text="Начало на симулацията" />
@@ -98,7 +96,7 @@
                 </FXCollections>
               </items>
               <HBox.margin>
-                <Insets right="15.0" fx:id="x4" />
+                <Insets right="15.0" fx:id="x7" />
               </HBox.margin>
             </ComboBox>
           </children>

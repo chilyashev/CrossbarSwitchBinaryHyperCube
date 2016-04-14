@@ -13,9 +13,11 @@ import java.util.ResourceBundle;
  */
 abstract public class AbstractScreen implements Initializable, ControlledScreen {
     /**
-     * Used for communicating to the parent controller.
+     * Used for communicating with the parent controller.
      */
     protected ScreenContainer parent;
+
+    protected String title;
 
     /**
      * TODO: This could be left abstract. We'll talk about it.
@@ -31,5 +33,13 @@ abstract public class AbstractScreen implements Initializable, ControlledScreen 
     @Override
     public void setParent(ScreenContainer screen) {
         this.parent = screen;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

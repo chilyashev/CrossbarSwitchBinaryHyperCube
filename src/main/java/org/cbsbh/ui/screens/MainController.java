@@ -128,7 +128,7 @@ public class MainController extends AbstractScreen {
 
     @Override
     public void init() {
-
+        setTitle("Настройки на модела");
         /*messageCountSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             messageCountValue.setText(String.valueOf(newValue.intValue()));
         });

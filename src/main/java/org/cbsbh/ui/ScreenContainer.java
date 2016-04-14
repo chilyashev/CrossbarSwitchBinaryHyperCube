@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.HashMap;
@@ -33,7 +34,14 @@ public class ScreenContainer extends StackPane {
      */
     private HashMap<String, ControlledScreen> controllers = new HashMap<>();
 
+    /**
+     * The primary stage. Currently only used to set the title.
+     */
+    private Stage stage;
 
+    /**
+     * Used to get stuff related to the current screen being displayed
+     */
     private String currentScreenId;
 
     /**
@@ -100,7 +108,7 @@ public class ScreenContainer extends StackPane {
                                 // Add the new screen at the old one's place
                                 getChildren().add(0, screens.get(screenId));
                                 // tell the controller to do whatever it should do when the screen is starting
-                                controllers.get(screenId).init();
+                                //controllers.get(screenId).init();
                                 //((Node)screens.get(screenId)).getScene().getRoot()
                                 Timeline fadeIn = new Timeline(
                                         new KeyFrame(Duration.ZERO,
@@ -121,7 +129,13 @@ public class ScreenContainer extends StackPane {
                         new KeyFrame(new Duration(10),
                                 new KeyValue(opacity, 1.0)));
                 fadeIn.play();
-                controllers.get(screenId).init();
+            }
+
+            // tell the controller to do whatever it should do when the screen is starting
+            ControlledScreen controlledScreen = controllers.get(screenId);
+            controlledScreen.init();
+            if (stage != null && controlledScreen.getTitle() != null && controlledScreen.getTitle().length() > 0) {
+                stage.setTitle(controlledScreen.getTitle());
             }
             return true;
         } else { // Something went wront
@@ -140,5 +154,13 @@ public class ScreenContainer extends StackPane {
 
     public Node getCurrentScreen() {
         return screens.get(currentScreenId);
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
