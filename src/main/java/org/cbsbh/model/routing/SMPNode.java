@@ -3,7 +3,6 @@ package org.cbsbh.model.routing;
 import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.routing.packet.flit.Flit;
-import org.cbsbh.model.structures.Message;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,18 +23,11 @@ public class SMPNode {
     ArrayList<Flit> packetToSend;
     ArrayList<ArrayList<Flit>> messageToSend;
 
-
     //Debug:
     public ArrayList<Flit> sentFlits = new ArrayList<>();
 
-    //Arbitrary (most likely to be removed):
-    ArrayList<Message> messages; //POSSIBLY OBSOLETE
-    //ArrayList<Packet> messageData; //OBSOLETE
-
     public SMPNode(int id) {
         this.id = id;
-        messages = new ArrayList<>();
-        //messageData = new ArrayList<>();
     }
 
     public void init() {
@@ -69,19 +61,13 @@ public class SMPNode {
         inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::tick);
 
         DMA_IN.tick();
-
-        /*if (!messages.isEmpty()) {
-            Message m = messages.remove(0);
-            messageData.addAll(m.getAsPackets());
-        }*/
-
     }
 
     private ArrayList<Flit> generatePacket(int target, int packetSize) {
         ArrayList<Flit> newPacket = new ArrayList<>();
 
         Flit flit = new Flit();
-        flit.id = String.format("%d->%d_%d", id, target, packetToSend.size());
+        flit.id = String.format("%d->%d_%d", id, target, System.currentTimeMillis());
         flit.setFlitType(Flit.FLIT_TYPE_HEADER);
         flit.setDNA(target); // 10 is random. I can't even.
         flit.setTR(id ^ flit.getDNA());
@@ -90,7 +76,7 @@ public class SMPNode {
         newPacket.add(flit);
         while (packetSize-- >= 0) {
             flit = new Flit();
-            flit.id = String.format("%d->%d_%d", id, target, packetToSend.size());
+            flit.id = String.format("%d->%d_%d", id, target, System.currentTimeMillis());
             if (packetSize >= 0) {
                 flit.setFlitData(0x8000 + target);
                 flit.setFlitType(Flit.FLIT_TYPE_BODY);

@@ -127,7 +127,7 @@ public class ModelRunner implements Runnable {
         // Ticking....
         BernoulliGenerator g = new BernoulliGenerator();
         Scanner bblock = new Scanner(System.in);
-        int msgCount = 5;
+        int msgCount = 15;
         while (ticks < 2__0__0) {
             Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
             if (g.newValueReady() && ticks > 5 && msgCount > 0) {
