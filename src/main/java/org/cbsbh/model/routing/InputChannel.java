@@ -3,10 +3,9 @@ package org.cbsbh.model.routing;
 import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.Tickable;
-import org.cbsbh.model.routing.packet.flit.Flit;
+import org.cbsbh.model.structures.Flit;
 import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
-import org.cbsbh.model.structures.SignalArray;
 
 import java.util.ArrayList;
 

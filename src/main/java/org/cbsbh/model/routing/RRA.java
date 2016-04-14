@@ -1,14 +1,9 @@
 package org.cbsbh.model.routing;
 
 import org.cbsbh.Debug;
-import org.cbsbh.model.Tickable;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.Consumer;
 
 /**
  * Round (Batman and) Robin логика.
@@ -16,12 +11,8 @@ import java.util.function.Consumer;
  *
  * @author Mihail Chilyashev
  */
-public class RRA implements Tickable {
-
-
+public class RRA {
     int outputChannelId; // ID на канала, в който е този RRA
-
-
 
     /**
      * Идентификатори на арбитри (Arbiter), които са изпратили Request.
@@ -30,19 +21,8 @@ public class RRA implements Tickable {
     TreeMap<Integer, TreeMap<Integer, Arbiter>> requestMap;
 
 
-    int currentRouterId;
-    int nextNodeId;
-    // ArbiterID => ChannelID
-    // ChannelID => List of arbiter IDs
-    //HashMap<Integer, ArrayList<Integer>> requestQueue;
     int currentArbiterId;
-    int grantToArbiterId;
     int currentChannelId;
-    int grantToChannelId;
-
-
-    int arbiterCount;
-
     private boolean grantAckReceived;
 
     public RRA(int id) {
@@ -92,19 +72,6 @@ public class RRA implements Tickable {
         currentChannelId = -1;
         requestMap = new TreeMap<>();
         requestMap.clear();
-    }
-
-    public void etcetera() {
-    }
-
-    @Override
-    public void tick() {
-        // TODO: doStuff!
-    }
-
-    @Override
-    public void calculateNewState() {
-
     }
 
     /**

@@ -13,4 +13,6 @@ public interface Tickable {
     void tick();
 
     void calculateNewState();
+
+    int calculateState();
 }

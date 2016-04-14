@@ -1,4 +1,4 @@
-package org.cbsbh.model.routing.packet.flit;
+package org.cbsbh.model.structures;
 
 import java.util.ArrayList;
 
@@ -40,6 +40,13 @@ public class Flit { // *C
      */
     short controlByte;
 
+
+    public Flit(int sourceId, int targetId, int flitType){
+        id = String.format("%d->%d_%d", sourceId, targetId, System.currentTimeMillis());
+        if(flitType == FLIT_TYPE_BODY) setFlitData(targetId);
+        setFlitType(flitType);
+        setValidDataBit();
+    }
 
     /**
      * Ако младшите два бита на controlByte-а са:

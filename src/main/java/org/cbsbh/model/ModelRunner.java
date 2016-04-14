@@ -9,7 +9,7 @@ import org.cbsbh.model.routing.InputChannel;
 import org.cbsbh.model.routing.MPPNetwork;
 import org.cbsbh.model.routing.OutputChannel;
 import org.cbsbh.model.routing.SMPNode;
-import org.cbsbh.model.routing.packet.flit.Flit;
+import org.cbsbh.model.structures.Flit;
 
 import java.util.Date;
 import java.util.HashMap;
