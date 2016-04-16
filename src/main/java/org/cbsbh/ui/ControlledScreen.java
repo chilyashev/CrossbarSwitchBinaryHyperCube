@@ -10,4 +10,8 @@ public interface ControlledScreen {
     public void setParent(ScreenContainer screen);
 
     public void init();
+
+    public String getTitle();
+
+    public void setTitle(String title);
 }

@@ -1,18 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.9998779296875" prefWidth="651.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.SimulationResultsController">
+<?import javafx.scene.text.Font?>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.9998779296875" prefWidth="651.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.SimulationResultsController">
   <children>
-    <HBox id="VBox" alignment="CENTER" layoutX="265.0" layoutY="205.0" spacing="5.0">
+    <AnchorPane id="AnchorPane" prefWidth="630.0000999999975" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-        <Label text="Симулацията завърши. " />
-          <Label text="Резултати: " />
+        <Label layoutX="0.0" layoutY="0.0" text="Резултати от симулацията:" wrapText="false">
+          <font>
+            <Font name="System Bold" size="18.0" />
+          </font>
+        </Label>
       </children>
-    </HBox>
+    </AnchorPane>
+    <AnchorPane id="AnchorPane" prefHeight="135.0" prefWidth="651.0000999999975" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
+      <children>
+        <GridPane prefHeight="156.0" prefWidth="488.0000999999975" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="163.0" AnchorPane.topAnchor="0.0">
+          <children>
+            <Label text="Генерирани съобщения:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label text="Генерирани пакети:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label text="Предадени пакети:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label text="Отхвърлени пакети:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label fx:id="generatedMessageCount" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label fx:id="generatedPacketCount" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="transmittedPacketCount" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="droppedPacketCount" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="243.0" minWidth="10.0" prefWidth="177.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="311.0" minWidth="10.0" prefWidth="311.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </children>
+    </AnchorPane>
+    <LineChart id="LineChart" fx:id="mainChart" layoutY="139.0" prefWidth="637.0001220703125" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="13.0">
+      <xAxis>
+        <NumberAxis side="BOTTOM" />
+      </xAxis>
+      <yAxis>
+        <NumberAxis side="LEFT" />
+      </yAxis>
+    </LineChart>
   </children>
 </AnchorPane>
