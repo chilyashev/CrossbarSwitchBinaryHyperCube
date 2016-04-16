@@ -62,7 +62,8 @@ public class RRA {
             currentChannelId = firstArbiter.getChannelId();
             currentArbiterId = firstArbiter.getId();
         }
-        requestMap.get(currentChannelId).get(currentArbiterId).takeGrant(outputChannelId);
+        requestMap.get(currentChannelId).remove(currentArbiterId).takeGrant(outputChannelId);
+        if(requestMap.get(currentChannelId).isEmpty()) requestMap.remove(currentChannelId);
     }
 
     public void init() {

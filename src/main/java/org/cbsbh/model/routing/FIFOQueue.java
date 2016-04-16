@@ -123,7 +123,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         if (state == STATE4_WRITE_PACKET_AND_WAIT_FOR_OUTPUT_CHANNEL) {
             // NOT(VALID_DATA) AND NOT(TIME_ONE) AND TAIL_FLIT
             if (getCurrentFlitType() == Flit.FLIT_TYPE_TAIL) {
-                Debug.printf("GOTO STATE 5!");
+                Debug.printf("GOTO STATE 5 with mah boi %s!", fifo.peekFirst());
                 return STATE5_READ_PACKET;
                 // Timeout
             } else if (hasSignal(SignalArray.TIME_ONE)) {
@@ -135,7 +135,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         // Ако сме в STATE5, може да започне да се чете пакет или вече се чете пакет, ако това е започнало в S4
         // TODO: да се разбере как се разбира дали е започнало предаването. Най-вероятно ще стане в tick()
         if (state == STATE5_READ_PACKET) {
-            Debug.printf("GOT IN STATE 5!");
+            Debug.printf("GOTO STATE 6 with mah boi %s!", fifo.peekFirst());
             return STATE6_WAIT_FOR_END_OF_PACKET;
         }
 
@@ -276,9 +276,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         }
 
         if(nextNodeId == -1 && !sendToCurrentNode) {
-            if(fifo.peekFirst().getFlitType() != Flit.FLIT_TYPE_HEADER){
-                assert false :"WHYYYY?!";
-            }
+            assert fifo.peekFirst().getFlitType() == Flit.FLIT_TYPE_HEADER :"Trying to route without a head flit, are ya?!";
             nextNodeId = arby.getNextNodeId(this);
         }
 
@@ -291,9 +289,10 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
             if (nextFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
                 long oldTR = nextFlit.getTR();
                 long newTR = nextFlit.getDNA() ^ nextNodeId;
-                if(Long.bitCount(oldTR) < Long.bitCount(newTR)) {
-                    assert false : "GO GUCK YOURSELF";
+                if (Long.bitCount(oldTR) < Long.bitCount(newTR)){
+                    assert false : "sadface.psd";
                 }
+
                 nextFlit.setTR(nextFlit.getDNA() ^ nextNodeId); // верен ред.
             }
 
@@ -310,6 +309,8 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
         }else {
             //ВАЖНО!!!! Тук следващият възел nextNodeId == -1, НО TR в хедъра НЕ е 0.
             // Това означава, че има забавяне в мрежата и трябва да се изчака!
+            nextFlit.history.add(getWho() + " I've been bouncing on mah bois dick for hours over here");
+
             return;
         }
 
