@@ -20,8 +20,8 @@
         <AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="526.9998779296875" prefWidth="651.0000999999975" />
         <AnchorPane id="AnchorPane" minHeight="22.0" minWidth="66.0" prefHeight="22.0" prefWidth="66.0">
           <children>
-            <Label text="Такт: 31830, Генерирани пакети: 15, Предадени пакети: 15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
-            <Button mnemonicParsing="false" onAction="#colorPath" prefHeight="22.0" text="Стъпка напред" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="statusLabel" text="Такт: 31830, Генерирани пакети: 15, Предадени пакети: 15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
+            <Button mnemonicParsing="false" onAction="#nextStep" prefHeight="22.0" text="Стъпка напред" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
         </AnchorPane>
       </children>

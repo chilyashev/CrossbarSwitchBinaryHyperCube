@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -28,24 +29,33 @@ import java.util.Random;
  */
 public class StepByStepSimulationController extends AbstractScreen {
 
-    Group graphGroup;
-    Group nodeGroup;
+    private Context context;
+
+    private ModelRunner runner;
+
+    private HashMap<Integer, GraphNode> graphNodes = new HashMap<>();
+    private HashMap<Integer, HashMap<Integer, Line>> vertices;
+    private Group graphGroup;
+    private Group nodeGroup;
+
+    //private Thread runnerThread;
+
 
     // FXML controls
     @FXML
     public AnchorPane mainPane;
+    @FXML
+    public Label statusLabel;
     // eo FXML controls
 
-    private Context context;
-
-    HashMap<Integer, GraphNode> graphNodes = new HashMap<>();
-    private HashMap<Integer, HashMap<Integer, Line>> vertices;
 
     public StepByStepSimulationController() {
         context = Context.getInstance();
         vertices = new HashMap<>();
         graphGroup = new Group();
         nodeGroup = new Group();
+        runner = null;
+        //runnerThread = null;
         //...
     }
 
@@ -55,12 +65,14 @@ public class StepByStepSimulationController extends AbstractScreen {
 
         Random r = new Random(); // Real science done RIGHT HERE!
 
-        ModelRunner runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
+        runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 System.err.println("Well...");
             }
         });
+
+
         Context.getInstance().set("channelCount", 4);
         Context.getInstance().set("nodeCount", 16);
         Context.getInstance().set("maxMessageSize", 3);
@@ -70,6 +82,8 @@ public class StepByStepSimulationController extends AbstractScreen {
         Context.getInstance().set("fifoQueueCount", 3); // TODO
 
         runner.init(Context.getInstance().getInteger("channelCount"));
+        runner.start();
+
 
         int[] leftCube = {6, 7, 2, 3, 4, 5, 0, 1};
         int[] rightCube = {14, 15, 10, 11, 12, 13, 8, 9};
@@ -125,7 +139,8 @@ public class StepByStepSimulationController extends AbstractScreen {
                         new GraphNode(
                                 (int) (x + control.getPrefWidth() / 2),
                                 (int) (y + control.getPrefHeight() / 2),
-                                node
+                                node,
+                                controller
                         )
                 );
 
@@ -191,8 +206,19 @@ public class StepByStepSimulationController extends AbstractScreen {
         }
     }
 
-    public void colorPath(ActionEvent actionEvent) {
-        for (HashMap<Integer, Line> lines : vertices.values()) {
+    public void nextStep(ActionEvent actionEvent) {
+
+        //runner.notify();
+        runner.wakeUp();
+        statusLabel.setText("Такт: " + context.getString("currentModelTick"));
+
+        for (GraphNode node : graphNodes.values()) {
+            node.controller.setTooltip(new Tooltip(node.smpNode.toString()));
+        }
+
+
+
+        /*for (HashMap<Integer, Line> lines : vertices.values()) {
             for (Line line : lines.values()) {
                 line.setStroke(new Color(0, 0, 0, 1));
                 line.setStrokeWidth(1);
@@ -211,7 +237,7 @@ public class StepByStepSimulationController extends AbstractScreen {
             Line vertex = vertices.get(entry.sourceId).get(entry.targetId);
             vertex.setStroke(new Color(0, 0, 1, 1));
             vertex.setStrokeWidth(3);
-        }
+        }*/
     }
 
 }

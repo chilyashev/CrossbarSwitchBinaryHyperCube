@@ -23,11 +23,13 @@ import java.util.Scanner;
  *
  * @author Mihail Chilyashev
  */
-public class ModelRunner implements Runnable {
+public class ModelRunner extends Thread {
     Context context;
     EventHandler<ActionEvent> handler;
-    private boolean running = true;
     private long ticks = 0;
+    private boolean waiting = false;
+    private boolean initialized = false;
+
     //private ArrayList<SMP> MPPNetwork;
 
     public ModelRunner(Context context, EventHandler<ActionEvent> handler) {
@@ -45,6 +47,11 @@ public class ModelRunner implements Runnable {
     }
 
     public void init(int channelCount) {
+        if (initialized) {
+            return;
+        }
+        initialized = true;
+
         Debug.println(getClass() + " init");
         //compute number of nodes
         int SMPNodes = 1 << channelCount;
@@ -131,7 +138,8 @@ public class ModelRunner implements Runnable {
         int messages = 0;
         try {
             while (ticks < 2__0__0) {
-                System.err.println("Tick " + ticks);
+                System.err.println("Tick: " + ticks);
+                context.set("currentModelTick", ticks);
                 Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
                 if (g.newValueReady() && ticks > 5 && msgCount > 0) {
                     //if (ticks == 5) {
@@ -149,6 +157,17 @@ public class ModelRunner implements Runnable {
                 // Tick for each SMP
                 Debug.printf("\n\n====== NO MORE TICKL-TOCKL №%d ======\n\n", ticks);
                 ticks++;
+                try {
+                    waiting = true;
+                    synchronized (this) {
+                        while(waiting) {
+                            wait();
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    System.err.println("Waiting failed");
+                }
                 // bblock.nextLine();
             }
         } catch (Exception e) {
@@ -156,7 +175,9 @@ public class ModelRunner implements Runnable {
             handler.handle(new ActionEvent());
             //throw e;
         }
-        System.err.println("End of tick.");
+
+        System.err.println("End of ticks.");
+
         //
         int packets = 0, tails = 0, bodies = 0;
         for (SMPNode node : MPPNetwork.getAll()) {
@@ -184,7 +205,7 @@ public class ModelRunner implements Runnable {
         Debug.printf("Total packets sent (doesn't mean, they got received): %d\n" +
                         "Total tail flits: %d\n" +
                         "Total body flits: %d\n",
-                        packets,
+                packets,
                 tails,
                 bodies
         );
@@ -198,4 +219,8 @@ public class ModelRunner implements Runnable {
         this.handler.handle(new ActionEvent());
     }
 
+    public synchronized void wakeUp() {
+        waiting = false;
+        notifyAll();
+    }
 }

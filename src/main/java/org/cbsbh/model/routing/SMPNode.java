@@ -127,6 +127,23 @@ public class SMPNode {
         return String.format("SMPNode {id: %d (%s)}", id, String.format("%s", Integer.toBinaryString(id)));
     }
 
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("SMPNode {id: %d (%s)}\n", id, String.format("%s", Integer.toBinaryString(id))));
+        sb.append("\tInput channels:\n");
+        for (InputChannel inputChannel : inputChannels.values()) {
+            sb.append(String.format("\t%s\n", inputChannel.getWho()));
+        }
+
+        sb.append("\tOutput channels:\n");
+        for (OutputChannel outputChannel : outputChannels.values()) {
+            sb.append(String.format("\t%s\n", outputChannel.getWho()));
+        }
+
+        return sb.toString();
+    }
+
     public void calculateNewStates() {
         outputChannels.values().forEach(org.cbsbh.model.routing.OutputChannel::calculateNewState);
         inputChannels.values().forEach(org.cbsbh.model.routing.InputChannel::calculateNewState);
