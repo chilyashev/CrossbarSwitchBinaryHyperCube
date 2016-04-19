@@ -2,11 +2,16 @@
 
 [![Build Status](https://travis-ci.org/chilyashev/CrossbarSwitchBinaryHyperCube.svg?branch=master)](https://travis-ci.org/chilyashev/CrossbarSwitchBinaryHyperCube)
 
-**TODO**: A Nice description
+**TODO**: A Nice description with some images like this:
+
+
+![Don't worry, it'll become better...](http://i.imgur.com/ajhKGag.png)
+
+
 
 
 ###Requirements
-1. Java 7 should be used for this here beautiful project
+1. Java 8 should be used for this here beautiful project
 2. JavaFX should be installed, but that's not an issue, since it's bundled in Java SE
 3. ???
 4. Profit
@@ -40,19 +45,6 @@
 
 
 
-#TODO
-
-->А->
-A.hasSignal(...)
-
-->B->
-A.hasOutputSignal(...)
-
-
-да разберем откъде идва CNT_EQU и как се издава.
-Най-вероятно идва от FIFO опашката, когато се предаде и последния флит.
-
-
 # План за действие.
 
 
@@ -63,7 +55,7 @@ A.hasOutputSignal(...)
             1. Arbiters (lil' arby guys) *check*
     2. SMPNode *check*
     3. MPPNetwork *check*
-2. Генериране на тестови данни
+2. Генериране на тестови данни *check*
     0. Бернули.
     1. Съобщения
         1. По 1 пакет
@@ -72,38 +64,32 @@ A.hasOutputSignal(...)
         4. По 3 пакета
         5. По 5 пакета
     2. DMA-тата!
-        1. Да се случва нещо, когато нещо се получи напълно
+        1. Да се случва нещо, когато нещо се получи напълно *check?*
 3. Статистика
     1. Graphics
 
 
-4. Да се провери дали всички сигнали се зануляват, когато трябва.
+4. Да се провери дали всички сигнали се зануляват, когато трябва. *check*
 
 
-- Изчисляване на всички сигнали, които зависят от сигнали на други чаркове (PACK_WAIT например)
+- Изчисляване на всички сигнали, които зависят от сигнали на други чаркове (PACK_WAIT например) *check*
         - WR_IN_FIFO
 
-5. Да видим защо FIFO_BUSY не се сваля никога и как, по дяволите, входният канал ще си ходи из състоянията, след като всичките му опашки са винаги заети
+5. Да видим защо FIFO_BUSY не се сваля никога и как, по дяволите, входният канал ще си ходи из състоянията, след като всичките му опашки са винаги заети *check*
 
-6. Изпращането на съобщения **трябва** да се направи.
-
-
+6. Изпращането на съобщения **трябва** да се направи. *check*
 
 
 
 
 
+~Рутирането се маже. В RRA grant-а не работи правилно.~
 
 
+~1. Първо се вика calculateState за всички елементи, след това се вика tick()!~
 
 
-Рутирането се маже. В RRA grant-а не работи правилно.
-
-
-1. Първо се вика calculateState за всички елементи, след това се вика tick()!
-
-
-да проследим в лога състоянията на изходния канал след изпращането на целия пакет (защото се опитва да праща null-ове)
+~да проследим в лога състоянията на изходния канал след изпращането на целия пакет (защото се опитва да праща null-ове)~
 
 
 

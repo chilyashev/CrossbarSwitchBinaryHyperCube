@@ -25,12 +25,14 @@ public class Main extends Application {
         mainScreen.loadScreen("main", "/screens/main.fxml");
         mainScreen.loadScreen("simulation", "/screens/simulation.fxml");
         mainScreen.loadScreen("simulation_results", "/screens/simulation_results.fxml");
+        mainScreen.loadScreen("step_by_step", "/screens/simulation_step_by_step.fxml");
 
         // Pass the stage
         mainScreen.setStage(primaryStage);
 
         // Showing the main screen
-        mainScreen.showScreen("main");
+        //mainScreen.showScreen("main");
+        mainScreen.showScreen("step_by_step");
 
         // Displaying the stage
         Group root = new Group();

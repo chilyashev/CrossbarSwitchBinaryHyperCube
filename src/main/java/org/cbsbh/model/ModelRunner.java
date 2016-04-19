@@ -44,7 +44,7 @@ public class ModelRunner implements Runnable {
         return list;
     }
 
-    private void init(int channelCount) {
+    public void init(int channelCount) {
         Debug.println(getClass() + " init");
         //compute number of nodes
         int SMPNodes = 1 << channelCount;

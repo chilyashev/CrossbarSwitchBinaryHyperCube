@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.9998779296875" prefWidth="651.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.StepByStepSimulationController">
+  <children>
+    <VBox id="VBox" alignment="CENTER" layoutX="0.0" layoutY="0.0" spacing="5.0">
+      <children>
+        <AnchorPane id="AnchorPane" prefWidth="630.0000999999975">
+          <children>
+            <Label layoutX="0.0" layoutY="0.0" text="Симулация стъпка по стъпка" wrapText="false">
+              <font>
+                <Font name="System Bold" size="18.0" />
+              </font>
+            </Label>
+          </children>
+        </AnchorPane>
+        <AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="526.9998779296875" prefWidth="651.0000999999975" />
+        <AnchorPane id="AnchorPane" minHeight="22.0" minWidth="66.0" prefHeight="22.0" prefWidth="66.0">
+          <children>
+            <Label text="Такт: 31830, Генерирани пакети: 15, Предадени пакети: 15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
+            <Button mnemonicParsing="false" onAction="#colorPath" prefHeight="22.0" text="Стъпка напред" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+          </children>
+        </AnchorPane>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>

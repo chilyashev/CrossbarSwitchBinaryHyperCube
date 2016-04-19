@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="101.0" style="-fx-background-color: red;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.graph_visualisation.NodeController">
+  <children>
+    <Button fx:id="nodeButton" layoutX="0.0" layoutY="0.0" mnemonicParsing="false" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" prefWidth="100.0" prefHeight="20" text="Node xxxx" />
+  </children>
+</AnchorPane>
