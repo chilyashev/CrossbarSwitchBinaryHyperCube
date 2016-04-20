@@ -1,5 +1,6 @@
 package org.cbsbh.ui.screens;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -71,6 +72,19 @@ public class StepByStepSimulationController extends AbstractScreen {
     public void init() {
         setTitle("Изпълнение стъпка по стъпка");
 
+        // UI stuff
+        FXMLLoader detailsLoader;
+        detailsLoader = new FXMLLoader(getClass().getResource("/screens/graph_vis/node_details.fxml"));
+        try {
+            detailsControl = detailsLoader.load();
+            assert detailsControl != null;
+            detailsController = detailsLoader.getController();
+            rightPane.getChildren().setAll(detailsControl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Model stuff
         runner = new ModelRunner(context, event -> System.err.println("Well..."));
         runner.setStepByStepExecution(true);
 
@@ -84,6 +98,8 @@ public class StepByStepSimulationController extends AbstractScreen {
 
         runner.init(Context.getInstance().getInteger("channelCount"));
         runner.start();
+
+        //new AnimatedStepByStep().start();
 
 
         int[] leftCube = {6, 7, 2, 3, 4, 5, 0, 1};
@@ -194,18 +210,8 @@ public class StepByStepSimulationController extends AbstractScreen {
     }
 
     private void updateVerticesOnEnter(int nodeId) {
-        FXMLLoader loader;
-        // TODO: optimize. Това няма смисъл да се чете всеки път. Да го направя да зарежда веднъж и само да се работи с контролера.
-        try {
-            loader = new FXMLLoader(getClass().getResource("/screens/graph_vis/node_details.fxml"));
-            detailsControl = loader.load();
-            assert detailsControl != null;
-            detailsController = loader.getController();
-            detailsController.setText(graphNodes.get(nodeId).smpNode.toString());
-            rightPane.getChildren().setAll(detailsControl);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        detailsControl.setVisible(true);
+        detailsController.setText(graphNodes.get(nodeId).smpNode.toString());
 
 
         for (HashMap<Integer, Line> lines : vertices.values()) {
@@ -230,6 +236,10 @@ public class StepByStepSimulationController extends AbstractScreen {
         //rightPane.getChildren().removeAll(detailsControl);
     }
 
+    String lastPacketColor = "43ff00";
+    String lastFlitId = "";
+    Color packetColor = null;
+
     public void nextStep(ActionEvent actionEvent) {
 
         statusLabel.setText("Такт: " + context.getString("currentModelTick"));
@@ -237,9 +247,10 @@ public class StepByStepSimulationController extends AbstractScreen {
         for (GraphNode node : graphNodes.values()) {
             Tooltip tooltip = new Tooltip("Not now, delicious friend.");
 
-            if (node.smpNode.hasIncomingMessage()) {
+            packetColor = node.smpNode.getPacketColor();
+            if (packetColor != null) {
                 tooltip.setText("INCOMING! EXTRA! EXTRA!");
-                node.controller.nodeButton.setStyle("-fx-background-color: #43ff00");
+                node.controller.nodeButton.setStyle("-fx-background-color: #" + packetColor.toString().substring(2, 8));
             } else {
                 tooltip.setText("Not now, delicious friend");
                 node.controller.nodeButton.setStyle(null);
@@ -275,4 +286,22 @@ public class StepByStepSimulationController extends AbstractScreen {
         }*/
     }
 
+
+    class AnimatedStepByStep extends Thread {
+        @Override
+        public void run() {
+
+            try {
+                while(true) {
+                    Platform.runLater(() -> {
+                        nextStep(new ActionEvent());
+                    });
+                    sleep(500);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+

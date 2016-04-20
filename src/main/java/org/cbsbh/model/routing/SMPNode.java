@@ -1,5 +1,6 @@
 package org.cbsbh.model.routing;
 
+import javafx.scene.paint.Color;
 import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.structures.Flit;
@@ -195,16 +196,20 @@ public class SMPNode {
         return messageToSend;
     }
 
-    public boolean hasIncomingMessage() {
+    public Color getPacketColor() {
+        Flit flit;
         if (DMA_IN.getActiveFIFOIndex() != -1 && !DMA_IN.getActiveFifo().getFifo().isEmpty()) {
-            return true;
+            flit = DMA_IN.getActiveFifo().getFifo().peekFirst();
+            return flit.packetColor;
         }
 
         for (InputChannel ic : inputChannels.values()) {
             if (ic.getActiveFIFOIndex() != -1 && !ic.getActiveFifo().getFifo().isEmpty()) {
-                return true;
+                flit = ic.getActiveFifo().getFifo().peekFirst();
+                return flit.packetColor;
+
             }
         }
-        return false;
+        return null;
     }
 }

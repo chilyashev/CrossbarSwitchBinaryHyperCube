@@ -1,5 +1,7 @@
 package org.cbsbh.model.structures;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 
 /**
@@ -16,6 +18,9 @@ public class Flit { // *C
     public String id;
     // /DEBUG
 
+    // UI
+    public Color packetColor;
+    // /UI
 
     public static final int FLIT_TYPE_NO_DATA = 0b00;
     public static final int FLIT_TYPE_HEADER = 0b01;
@@ -41,8 +46,9 @@ public class Flit { // *C
     short controlByte;
 
 
-    public Flit(int sourceId, int targetId, int flitType){
+    public Flit(int sourceId, int targetId, int flitType, Color packetColor){
         id = String.format("%d->%d_%d", sourceId, targetId, System.currentTimeMillis());
+        this.packetColor = packetColor;
         if(flitType == FLIT_TYPE_BODY) setFlitData(targetId);
         setFlitType(flitType);
         setValidDataBit();
@@ -154,6 +160,7 @@ public class Flit { // *C
         return "Flit{ " + id  +
                 "\nflitType=" + getFlitType() +
                 "\n, data=" + getFlitData() +
+                //"\n, color=" + packetColor.toString() +
                 "\n}\n";
     }
 }

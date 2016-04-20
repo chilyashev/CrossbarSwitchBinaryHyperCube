@@ -22,7 +22,12 @@
         <AnchorPane id="AnchorPane" minHeight="30.0" minWidth="66.0" prefHeight="30.0" prefWidth="66.0">
           <children>
             <Label fx:id="statusLabel" text="Симулацията не е стартирана." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
-            <Button mnemonicParsing="false" onAction="#nextStep" prefHeight="22.0" text="Стъпка напред" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <HBox id="HBox" alignment="CENTER" layoutY="0.0" spacing="5.0" AnchorPane.rightAnchor="5.0">
+              <children>
+                <Button fx:id="pauseUnpauseButton" mnemonicParsing="false" text="Пауза" />
+                <Button mnemonicParsing="false" onAction="#nextStep" prefHeight="22.0" text="Стъпка напред" />
+              </children>
+            </HBox>
           </children>
           <padding>
             <Insets />

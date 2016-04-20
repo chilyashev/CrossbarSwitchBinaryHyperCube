@@ -1,5 +1,6 @@
 package org.cbsbh.model.structures;
 
+import javafx.scene.paint.Color;
 import org.cbsbh.Debug;
 
 import java.util.ArrayList;
@@ -12,11 +13,17 @@ import java.util.ArrayList;
  */
 public class Packet extends ArrayList<Flit> {
 
-    public Packet () {super();}
+    Color color;
 
-    public Packet (int sourceId, int targetId, int packetSize) {
+    public Packet() {
+        super();
+    }
+
+    public Packet(int sourceId, int targetId, int packetSize) {
+        color = new Color(Math.random(), Math.random(), Math.random(), 1);
+
         ///Generate head flit:
-        Flit flit = new Flit(sourceId, targetId, Flit.FLIT_TYPE_HEADER);
+        Flit flit = new Flit(sourceId, targetId, Flit.FLIT_TYPE_HEADER, color);
         flit.setDNA(targetId);
         flit.setTR(sourceId ^ flit.getDNA());
         Debug.printf("> [Just the tip] Generating a message. From %d to %d", sourceId, flit.getDNA());
@@ -24,10 +31,10 @@ public class Packet extends ArrayList<Flit> {
 
         //Generate body flits
         while (packetSize-- > 0) {
-            this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_BODY));
+            this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_BODY, color));
         }
 
         //Generate tail flit:
-        this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_TAIL));
+        this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_TAIL, color));
     }
 }

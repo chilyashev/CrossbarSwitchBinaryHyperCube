@@ -11,7 +11,7 @@
   <children>
     <ScrollPane id="ScrollPane" fitToHeight="false" fitToWidth="true" layoutX="0.0" layoutY="0.0" prefHeight="550.0" prefViewportHeight="0.0" prefViewportWidth="0.0" prefWidth="380.0">
       <content>
-        <Label fx:id="mainLabel" prefHeight="-1.0" prefWidth="-1.0" text="Label" wrapText="true">
+        <Label fx:id="mainLabel" prefHeight="-1.0" prefWidth="-1.0" text="Сложете мишката върху възел, за да видите информация за него" wrapText="true">
           <font>
             <Font size="10.0" />
           </font>
