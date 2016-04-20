@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Built-By: sasli
-Class-Path: lib/javafx-2.2.jar
-Created-By: IntelliJ IDEA
-Build-Jdk: 1.8.0_40
-Main-Class: org.cbsbh.Main
-
