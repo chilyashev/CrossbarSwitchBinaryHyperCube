@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="585.0" prefWidth="380.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.graph_visualisation.NodeDetailsController">
+  <children>
+    <ScrollPane id="ScrollPane" fitToHeight="false" fitToWidth="true" layoutX="0.0" layoutY="0.0" prefHeight="550.0" prefViewportHeight="0.0" prefViewportWidth="0.0" prefWidth="380.0">
+      <content>
+        <Label fx:id="mainLabel" prefHeight="-1.0" prefWidth="-1.0" text="Label" wrapText="true">
+          <font>
+            <Font size="10.0" />
+          </font>
+        </Label>
+      </content>
+    </ScrollPane>
+    <HBox id="HBox" alignment="CENTER" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="556.0">
+      <children>
+        <Button mnemonicParsing="false" text="Входни канали" />
+        <Button mnemonicParsing="false" text="Изходни канали" />
+      </children>
+      <padding>
+        <Insets left="5.0" />
+      </padding>
+    </HBox>
+  </children>
+</AnchorPane>

@@ -175,4 +175,8 @@ public class Arbiter {
     public boolean hasGrant() {
         return !grantOutputChannelIds.isEmpty();
     }
+
+    public ArrayList<Integer> getRequestsSent() {
+        return requestsSent;
+    }
 }

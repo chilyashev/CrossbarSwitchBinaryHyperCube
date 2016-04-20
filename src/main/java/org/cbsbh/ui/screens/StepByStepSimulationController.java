@@ -1,7 +1,6 @@
 package org.cbsbh.ui.screens;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -16,9 +15,10 @@ import org.cbsbh.model.routing.MPPNetwork;
 import org.cbsbh.model.routing.SMPNode;
 import org.cbsbh.ui.AbstractScreen;
 import org.cbsbh.ui.screens.graph_visualisation.NodeController;
+import org.cbsbh.ui.screens.graph_visualisation.NodeDetailsController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 
 /**
@@ -33,12 +33,14 @@ public class StepByStepSimulationController extends AbstractScreen {
 
     private ModelRunner runner;
 
-    private HashMap<Integer, GraphNode> graphNodes = new HashMap<>();
+    private HashMap<Integer, GraphNode> graphNodes;
     private HashMap<Integer, HashMap<Integer, Line>> vertices;
+    private ArrayList<PathEntry> currentPathInGraph;
     private Group graphGroup;
     private Group nodeGroup;
 
-    //private Thread runnerThread;
+    private NodeDetailsController detailsController;
+    private AnchorPane detailsControl;
 
 
     // FXML controls
@@ -46,6 +48,8 @@ public class StepByStepSimulationController extends AbstractScreen {
     public AnchorPane mainPane;
     @FXML
     public Label statusLabel;
+    @FXML
+    public AnchorPane rightPane;
     // eo FXML controls
 
 
@@ -54,7 +58,11 @@ public class StepByStepSimulationController extends AbstractScreen {
         vertices = new HashMap<>();
         graphGroup = new Group();
         nodeGroup = new Group();
+        graphNodes = new HashMap<>();
+        currentPathInGraph = new ArrayList<>();
         runner = null;
+        detailsController = null;
+
         //runnerThread = null;
         //...
     }
@@ -63,15 +71,8 @@ public class StepByStepSimulationController extends AbstractScreen {
     public void init() {
         setTitle("Изпълнение стъпка по стъпка");
 
-        Random r = new Random(); // Real science done RIGHT HERE!
-
-        runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.err.println("Well...");
-            }
-        });
-
+        runner = new ModelRunner(context, event -> System.err.println("Well..."));
+        runner.setStepByStepExecution(true);
 
         Context.getInstance().set("channelCount", 4);
         Context.getInstance().set("nodeCount", 16);
@@ -90,6 +91,14 @@ public class StepByStepSimulationController extends AbstractScreen {
 
         drawNodeCube(leftCube, 0, 180);
         drawNodeCube(rightCube, 360, 0);
+
+        //
+        // Дъгите се добавят тук, защото иначе не работи. Първият куб остава винаги дебел.
+        for (HashMap<Integer, Line> lines : vertices.values()) {
+            graphGroup.getChildren().addAll(lines.values());
+        }
+        //
+
         graphGroup.toBack();
         nodeGroup.toFront();
         graphGroup.getChildren().add(nodeGroup);
@@ -121,18 +130,18 @@ public class StepByStepSimulationController extends AbstractScreen {
         for (int nodeId : nodeIds) {
             SMPNode node = MPPNetwork.get(nodeId);
             System.err.printf("Inserting node %d\n", nodeId);
-
+            String binId = Integer.toBinaryString(nodeId);
+            String buttonText = String.format("%s%s", "0000".substring(0, 4 - binId.length()), binId);
             try {
                 loader = new FXMLLoader(getClass().getResource("/screens/graph_vis/node.fxml"));
                 control = loader.load();
                 assert control != null;
                 controller = loader.getController();
-                controller.setText("Node " + Integer.toBinaryString(nodeId));
+                controller.setText(buttonText);
                 controller.setLocation(x, y);
-                controller.setTooltip(new Tooltip("Възел еди-кой си, в състояние 90001"));
+                controller.setTooltip(new Tooltip("Все още няма информация за този възел."));
 
                 controller.setOnEnterHandler(event -> updateVerticesOnEnter(nodeId));
-
                 controller.setOnExitHandler(event -> updateVerticesOnExit(nodeId));
 
                 graphNodes.put(nodeId,
@@ -179,12 +188,26 @@ public class StepByStepSimulationController extends AbstractScreen {
                 }
 
                 vertices.get(graphNode.smpNode.getId()).put(neighbor, vertex);
-                graphGroup.getChildren().add(vertex);
+                //graphGroup.getChildren().add(vertex);
             }
         }
     }
 
     private void updateVerticesOnEnter(int nodeId) {
+        FXMLLoader loader;
+        // TODO: optimize. Това няма смисъл да се чете всеки път. Да го направя да зарежда веднъж и само да се работи с контролера.
+        try {
+            loader = new FXMLLoader(getClass().getResource("/screens/graph_vis/node_details.fxml"));
+            detailsControl = loader.load();
+            assert detailsControl != null;
+            detailsController = loader.getController();
+            detailsController.setText(graphNodes.get(nodeId).smpNode.toString());
+            rightPane.getChildren().setAll(detailsControl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         for (HashMap<Integer, Line> lines : vertices.values()) {
             for (Line line : lines.values()) {
                 line.setStroke(new Color(0, 0, 0, .2));
@@ -204,17 +227,29 @@ public class StepByStepSimulationController extends AbstractScreen {
                 line.setStrokeWidth(1);
             }
         }
+        //rightPane.getChildren().removeAll(detailsControl);
     }
 
     public void nextStep(ActionEvent actionEvent) {
 
-        //runner.notify();
-        runner.wakeUp();
         statusLabel.setText("Такт: " + context.getString("currentModelTick"));
 
         for (GraphNode node : graphNodes.values()) {
-            node.controller.setTooltip(new Tooltip(node.smpNode.toString()));
+            Tooltip tooltip = new Tooltip("Not now, delicious friend.");
+
+            if (node.smpNode.hasIncomingMessage()) {
+                tooltip.setText("INCOMING! EXTRA! EXTRA!");
+                node.controller.nodeButton.setStyle("-fx-background-color: #43ff00");
+            } else {
+                tooltip.setText("Not now, delicious friend");
+                node.controller.nodeButton.setStyle(null);
+                node.controller.nodeButton.setBlendMode(null);
+            }
+
+            node.controller.setTooltip(tooltip);
         }
+        runner.wakeUp();
+
 
 
 

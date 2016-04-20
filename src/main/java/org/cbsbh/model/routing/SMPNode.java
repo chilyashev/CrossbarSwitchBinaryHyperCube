@@ -76,7 +76,12 @@ public class SMPNode {
     public ArrayList<Packet> generateMessage(int maxPacketCount, int maxPacketSize, int maxTargetId) {
         Random r = new Random();
         int msgSize = 1;//r.nextInt(maxPacketCount - 1) + 1;
-        int target = r.nextInt(maxTargetId);
+        int target;
+
+        // За да не праща до себе си:
+        do {
+            target = r.nextInt(maxTargetId);
+        } while (target == id);
 
         Debug.printf("> Generating a message from %d to %d with %d packet%c", id, target, msgSize, msgSize == 1 ? ' ' : 's');
 
@@ -130,15 +135,51 @@ public class SMPNode {
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("SMPNode {id: %d (%s)}\n", id, String.format("%s", Integer.toBinaryString(id))));
-        sb.append("\tInput channels:\n");
-        for (InputChannel inputChannel : inputChannels.values()) {
-            sb.append(String.format("\t%s\n", inputChannel.getWho()));
+        sb.append(String.format("SMPNode, id: %d (%s), Такт: %s\n", id, String.format("%s", Integer.toBinaryString(id)), Context.getInstance().getString("currentModelTick")));
+        sb.append("\tВходни канали:\n");
+
+        sb.append(String.format("\tID: DMA_IN, Състояние: %d, Активна опашка: %d\n", DMA_IN.getState(), DMA_IN.getActiveFIFOIndex()));
+        for (FIFOQueue fifoQueue : DMA_IN.fifoQueues) {
+            sb.append(String.format("\t\tID: %d, Състояние: %d, " +
+                                    "Заявки към: %s, " +
+                                    "Следващ възел: %d\n",
+                            fifoQueue.id, fifoQueue.getState(),
+                            fifoQueue.arby.getRequestsSent().toString(),
+                            fifoQueue.nextNodeId
+                    )
+            );
         }
 
-        sb.append("\tOutput channels:\n");
+
+        for (InputChannel inputChannel : inputChannels.values()) {
+            sb.append(String.format("\tID: %d, Състояние: %d, Активна опашка: %d\n", inputChannel.getId(), inputChannel.getState(), inputChannel.getActiveFIFOIndex()));
+            sb.append("\t\tОпашки:\n");
+            for (FIFOQueue fifoQueue : inputChannel.fifoQueues) {
+                if (fifoQueue.getState() == 3) {
+                    System.err.println(fifoQueue.getWho() + "Now.");
+                }
+                sb.append(String.format("\t\tID: %d, Състояние: %d, " +
+                                        "Заявки към: %s, " +
+                                        "Следващ възел: %d\n",
+                                fifoQueue.id, fifoQueue.getState(),
+                                fifoQueue.arby.getRequestsSent().toString(),
+                                fifoQueue.nextNodeId
+                        )
+                );
+            }
+        }
+
+        sb.append("\tИзходни канали:\n");
         for (OutputChannel outputChannel : outputChannels.values()) {
-            sb.append(String.format("\t%s\n", outputChannel.getWho()));
+            sb.append(String.format("\tID: %d, Състояние: %d\n" +
+                                    "\t\tУказател на кръговия арбитър (RRA):\n" +
+                                    "\t\t\tВх. канал: %d, Арбитър на вх. канал: %d\n",
+                            outputChannel.getId(),
+                            outputChannel.getState(),
+                            outputChannel.rra.currentChannelId,
+                            outputChannel.rra.currentArbiterId
+                    )
+            );
         }
 
         return sb.toString();
@@ -152,5 +193,18 @@ public class SMPNode {
 
     public ArrayList<Packet> getMessageToSend() {
         return messageToSend;
+    }
+
+    public boolean hasIncomingMessage() {
+        if (DMA_IN.getActiveFIFOIndex() != -1 && !DMA_IN.getActiveFifo().getFifo().isEmpty()) {
+            return true;
+        }
+
+        for (InputChannel ic : inputChannels.values()) {
+            if (ic.getActiveFIFOIndex() != -1 && !ic.getActiveFifo().getFifo().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

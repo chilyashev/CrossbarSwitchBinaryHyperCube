@@ -7,7 +7,10 @@ import org.cbsbh.model.structures.Flit;
 import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Проверката на сигнали се случва в *SignalArray класовете. hasSignal(index), например.
@@ -364,7 +367,7 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
 
     /////////////////////// Clutter
 
-    public Queue<Flit> getFifo() {
+    public LinkedList<Flit> getFifo() {
         return fifo;
     }
 

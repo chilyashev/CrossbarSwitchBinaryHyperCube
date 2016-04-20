@@ -29,6 +29,7 @@ public class ModelRunner extends Thread {
     private long ticks = 0;
     private boolean waiting = false;
     private boolean initialized = false;
+    private boolean stepByStepExecution = false;
 
     //private ArrayList<SMP> MPPNetwork;
 
@@ -157,16 +158,20 @@ public class ModelRunner extends Thread {
                 // Tick for each SMP
                 Debug.printf("\n\n====== NO MORE TICKL-TOCKL №%d ======\n\n", ticks);
                 ticks++;
-                try {
-                    waiting = true;
-                    synchronized (this) {
-                        while(waiting) {
-                            wait();
+
+                // If step-by-step simulation is selected, block until someone wakes you up.
+                if (stepByStepExecution) {
+                    try {
+                        waiting = true;
+                        synchronized (this) {
+                            while (waiting) {
+                                wait();
+                            }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        System.err.println("Waiting failed");
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
-                    System.err.println("Waiting failed");
                 }
                 // bblock.nextLine();
             }
@@ -222,5 +227,9 @@ public class ModelRunner extends Thread {
     public synchronized void wakeUp() {
         waiting = false;
         notifyAll();
+    }
+
+    public void setStepByStepExecution(boolean stepByStepExecution) {
+        this.stepByStepExecution = stepByStepExecution;
     }
 }

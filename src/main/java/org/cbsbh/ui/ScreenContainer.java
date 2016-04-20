@@ -163,4 +163,8 @@ public class ScreenContainer extends StackPane {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    public void closeScreen() {
+        //getCurrentScreenController().close()
+    }
 }

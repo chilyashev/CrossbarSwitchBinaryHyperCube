@@ -34,11 +34,17 @@ public class Main extends Application {
         //mainScreen.showScreen("main");
         mainScreen.showScreen("step_by_step");
 
+        primaryStage.setOnCloseRequest(event -> {
+            mainScreen.closeScreen();
+        });
+
         // Displaying the stage
         Group root = new Group();
         root.getChildren().addAll(mainScreen);
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
+        primaryStage.minHeightProperty().bind(mainScreen.heightProperty());
+        primaryStage.minWidthProperty().bind(mainScreen.widthProperty());
         primaryStage.show();
 
     }
