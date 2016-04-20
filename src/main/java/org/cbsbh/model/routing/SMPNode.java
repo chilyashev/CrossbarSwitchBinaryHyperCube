@@ -23,13 +23,14 @@ public class SMPNode {
     HashMap<Integer, OutputChannel> outputChannels;
     InputChannel DMA_IN;
     ArrayList<Packet> messageToSend;
-    private Packet packetToSend = new Packet();
+    private Packet packetToSend;
 
     //Debug:
     public ArrayList<Flit> sentFlits = new ArrayList<>();
 
     public SMPNode(int id) {
         this.id = id;
+        packetToSend = new Packet();
     }
 
     public void init() {

@@ -94,7 +94,7 @@ public class StepByStepSimulationController extends AbstractScreen {
         Context.getInstance().set("bufferCountPerInputChannel", 3); // TODO!
         Context.getInstance().set("messageGenerationFrequency", 1); // TODO
         Context.getInstance().set("minMessageSizel", 4); // TODO
-        Context.getInstance().set("fifoQueueCount", 3); // TODO
+        Context.getInstance().set("fifoQueueCount", 13); // TODO
 
         runner.init(Context.getInstance().getInteger("channelCount"));
         runner.start();
@@ -210,8 +210,7 @@ public class StepByStepSimulationController extends AbstractScreen {
     }
 
     private void updateVerticesOnEnter(int nodeId) {
-        detailsControl.setVisible(true);
-        detailsController.setText(graphNodes.get(nodeId).smpNode.toString());
+        updateNodeDetails(nodeId);
 
 
         for (HashMap<Integer, Line> lines : vertices.values()) {
@@ -226,6 +225,12 @@ public class StepByStepSimulationController extends AbstractScreen {
         }
     }
 
+    private void updateNodeDetails(int nodeId) {
+        detailsControl.setVisible(true);
+        detailsController.setText(graphNodes.get(nodeId).smpNode.toString());
+        detailsController.setNodeId(nodeId);
+    }
+
     private void updateVerticesOnExit(int nodeId) {
         for (HashMap<Integer, Line> lines : vertices.values()) {
             for (Line line : lines.values()) {
@@ -233,7 +238,8 @@ public class StepByStepSimulationController extends AbstractScreen {
                 line.setStrokeWidth(1);
             }
         }
-        //rightPane.getChildren().removeAll(detailsControl);
+
+        //detailsControl.setVisible(false);
     }
 
     String lastPacketColor = "43ff00";
@@ -241,25 +247,29 @@ public class StepByStepSimulationController extends AbstractScreen {
     Color packetColor = null;
 
     public void nextStep(ActionEvent actionEvent) {
+        runner.wakeUp();
 
         statusLabel.setText("Такт: " + context.getString("currentModelTick"));
 
+        updateNodeDetails(detailsController.getNodeId());
+
+
         for (GraphNode node : graphNodes.values()) {
-            Tooltip tooltip = new Tooltip("Not now, delicious friend.");
+            Tooltip tooltip = new Tooltip("Not now, delicious friend."); // TODO: тук да пише нещо умно.
 
             packetColor = node.smpNode.getPacketColor();
+            tooltip.setText("Изпратени флитове: " + node.smpNode.sentFlits.size() + "Получени флитове: 0");
             if (packetColor != null) {
-                tooltip.setText("INCOMING! EXTRA! EXTRA!");
+
                 node.controller.nodeButton.setStyle("-fx-background-color: #" + packetColor.toString().substring(2, 8));
             } else {
-                tooltip.setText("Not now, delicious friend");
+                //tooltip.setText("Not now, delicious friend");
                 node.controller.nodeButton.setStyle(null);
                 node.controller.nodeButton.setBlendMode(null);
             }
 
             node.controller.setTooltip(tooltip);
         }
-        runner.wakeUp();
 
 
 

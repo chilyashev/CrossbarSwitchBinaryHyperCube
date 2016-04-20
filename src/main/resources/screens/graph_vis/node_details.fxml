@@ -24,7 +24,7 @@
         <Button mnemonicParsing="false" text="Изходни канали" />
       </children>
       <padding>
-        <Insets left="5.0" />
+        <Insets />
       </padding>
     </HBox>
   </children>

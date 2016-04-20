@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
  */
 public class NodeDetailsController {
 
+    private int nodeId;
+
     // FXML controls
     @FXML
     public Label mainLabel;
@@ -16,5 +18,13 @@ public class NodeDetailsController {
 
     public void setText(String text) {
         mainLabel.setText(text);
+    }
+
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public int getNodeId() {
+        return nodeId;
     }
 }
