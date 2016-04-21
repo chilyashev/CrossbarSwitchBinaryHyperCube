@@ -310,6 +310,8 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
             nextFlit.pathHistory.add(new FlitHistoryEntry(nodeId, nextNodeId, "Jump!"));
             channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
         }else if(sendToCurrentNode) {
+            System.err.println("nodeId " + nodeId);
+            nextFlit.pathHistory.add(new FlitHistoryEntry(nodeId, nodeId, "Final!"));
             nextFlit.history.add(getWho() + " I've reached my final destination. Time for masturbation");
             channel.getNode().receivedFlits.add(nextFlit);
         }else {

@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class GraphNode {
     int x;
     int y;
+    int currentTargetId;
     SMPNode smpNode;
     NodeController controller;
-    int currentTargetId;
 
     public GraphNode(int x, int y, SMPNode smpNode, NodeController controller) {
         this.x = x;

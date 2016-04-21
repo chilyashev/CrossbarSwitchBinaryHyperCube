@@ -96,7 +96,7 @@ public class SMPNode {
         while (msgSize-- > 0) {
             int packetSize = 1;//r.nextInt(maxPacketSize - 1) + 1;
             Debug.printf(">> Generating a packet of %d flit%c", packetSize, packetSize == 1 ? ' ' : 's');
-            message.add(new Packet(++lastPacketId, id, target, packetSize));
+            message.add(new Packet(String.format("%d_%d", id, (++lastPacketId)), id, target, packetSize));
         }
 
         return message;

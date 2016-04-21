@@ -58,4 +58,8 @@ public class NodeController {
     public void setOnExitHandler(EventHandler<Event> hoverHandler) {
         this.onExitHandler = hoverHandler;
     }
+
+    public void resetColor() {
+        nodeButton.setStyle(null);
+    }
 }

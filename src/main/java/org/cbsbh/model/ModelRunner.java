@@ -13,6 +13,7 @@ import org.cbsbh.model.structures.Flit;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -53,6 +54,7 @@ public class ModelRunner extends Thread {
         }
         initialized = true;
 
+        Debug.startThePain();
         Debug.println(getClass() + " init");
         //compute number of nodes
         int SMPNodes = 1 << channelCount;
@@ -117,7 +119,6 @@ public class ModelRunner extends Thread {
 
     @Override
     public void run() {
-        Debug.startThePain();
         // Init phase
         int channelCount = Context.getInstance().getInteger("channelCount");
         // TODO: get this from the interface!
@@ -135,19 +136,23 @@ public class ModelRunner extends Thread {
         // Ticking....
         BernoulliGenerator g = new BernoulliGenerator();
         Scanner bblock = new Scanner(System.in);
+        Random randomSource = new Random();
+        int source;
         int msgCount = 15;
         int messages = 0;
+        int nodeCount = 1 << channelCount;
         try {
             while (ticks < 2__0__0) {
                 System.err.println("Tick: " + ticks);
                 context.set("currentModelTick", ticks);
                 Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
                 if (g.newValueReady() && ticks > 5 && msgCount > 0) {
+                    source = randomSource.nextInt(nodeCount -1);
                     //if (ticks == 5) {
                     // inject
-                    if (MPPNetwork.get(0).getMessageToSend().size() == 0) {
-                        Debug.println("New value is being injected!");
-                        MPPNetwork.get(0).generateMessage();
+                    if (MPPNetwork.get(source).getMessageToSend().size() == 0) {
+                        Debug.printf("New value is being injected in %d!", source);
+                        MPPNetwork.get(source).generateMessage();
                         messages++;
                         msgCount--;
                     }
@@ -176,6 +181,7 @@ public class ModelRunner extends Thread {
                 // bblock.nextLine();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println("Simulation failed due to some stupid shit. Fix it.");
             handler.handle(new ActionEvent());
             //throw e;

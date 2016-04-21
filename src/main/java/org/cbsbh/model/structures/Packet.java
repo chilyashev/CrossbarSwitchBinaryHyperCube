@@ -13,17 +13,22 @@ import java.util.ArrayList;
  */
 public class Packet extends ArrayList<Flit> {
 
-    int id;
+    private int sourceId;
+    private int targetId;
 
-    Color color;
+    private String id;
+    private Color color;
+
 
     public Packet() {
         super();
     }
 
-    public Packet(int id, int sourceId, int targetId, int packetSize) {
+    public Packet(String id, int sourceId, int targetId, int packetSize) {
         color = new Color(Math.random(), Math.random(), Math.random(), 1);
         this.id = id;
+        this.sourceId = sourceId;
+        this.targetId = targetId;
         ///Generate head flit:
         Flit flit = new Flit(sourceId, targetId, Flit.FLIT_TYPE_HEADER, id, color);
         flit.setDNA(targetId);
@@ -38,5 +43,21 @@ public class Packet extends ArrayList<Flit> {
 
         //Generate tail flit:
         this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_TAIL, id, color));
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public int getSourceId() {
+        return sourceId;
+    }
+
+    public int getTargetId() {
+        return targetId;
     }
 }

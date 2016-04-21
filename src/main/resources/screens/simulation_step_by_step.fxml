@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?scenebuilder-background-color 0x0052ccff?>
+
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
@@ -36,9 +37,14 @@
         </AnchorPane>
       </children>
     </VBox>
-    <AnchorPane id="AnchorPane" fx:id="packetPane" prefHeight="585.0" prefWidth="60.0" style="-fx-background-color:red" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane id="AnchorPane" fx:id="packetPane" prefHeight="585.0" prefWidth="86.0" style="-fx-background-color:white;&#10;" AnchorPane.leftAnchor="710.0" AnchorPane.topAnchor="0.0">
       <children>
-        <VBox fx:id="packetVbox" prefHeight="585.0" prefWidth="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Label text="Пакети:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <ScrollPane id="ScrollPane" fitToHeight="false" hbarPolicy="NEVER" layoutX="0.0" layoutY="15.0" pannable="false" prefViewportHeight="560.0" prefViewportWidth="76.0" prefWidth="86.0" style="-fx-background-color: white;" vbarPolicy="AS_NEEDED">
+          <content>
+            <VBox fx:id="packetVbox" prefHeight="560.0" prefWidth="86.0" style="-fx-background-color: white;" />
+          </content>
+        </ScrollPane>
       </children>
     </AnchorPane>
     <AnchorPane id="AnchorPane" fx:id="rightPane" layoutY="0.0" prefHeight="585.0" prefWidth="390.0" style="" AnchorPane.rightAnchor="0.0">

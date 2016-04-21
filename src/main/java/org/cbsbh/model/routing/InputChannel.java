@@ -304,6 +304,9 @@ i0------|              O0|------>|I               |
 
 
     public FIFOQueue getQueue(int index) {
+        if (index < 0) {
+            System.err.printf("Fucking hell %s", getWho());
+        }
         return fifoQueues.get(index);
     }
 
