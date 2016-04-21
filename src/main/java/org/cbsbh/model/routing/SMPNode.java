@@ -1,6 +1,5 @@
 package org.cbsbh.model.routing;
 
-import javafx.scene.paint.Color;
 import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.structures.Flit;
@@ -27,10 +26,15 @@ public class SMPNode {
 
     //Debug:
     public ArrayList<Flit> sentFlits = new ArrayList<>();
+    public ArrayList<Flit> receivedFlits = new ArrayList<>();
+
+    // UI:
+    private int lastPacketId;
 
     public SMPNode(int id) {
         this.id = id;
         packetToSend = new Packet();
+        lastPacketId = 0;
     }
 
     public void init() {
@@ -92,7 +96,7 @@ public class SMPNode {
         while (msgSize-- > 0) {
             int packetSize = 1;//r.nextInt(maxPacketSize - 1) + 1;
             Debug.printf(">> Generating a packet of %d flit%c", packetSize, packetSize == 1 ? ' ' : 's');
-            message.add(new Packet(id, target, packetSize));
+            message.add(new Packet(++lastPacketId, id, target, packetSize));
         }
 
         return message;
@@ -197,17 +201,17 @@ public class SMPNode {
         return messageToSend;
     }
 
-    public Color getPacketColor() {
+    public Flit getCurrentFlit() {
         Flit flit;
         if (DMA_IN.getActiveFIFOIndex() != -1 && !DMA_IN.getActiveFifo().getFifo().isEmpty()) {
             flit = DMA_IN.getActiveFifo().getFifo().peekFirst();
-            return flit.packetColor;
+            return flit;
         }
 
         for (InputChannel ic : inputChannels.values()) {
             if (ic.getActiveFIFOIndex() != -1 && !ic.getActiveFifo().getFifo().isEmpty()) {
                 flit = ic.getActiveFifo().getFifo().peekFirst();
-                return flit.packetColor;
+                return flit;
 
             }
         }

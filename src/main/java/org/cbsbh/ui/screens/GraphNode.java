@@ -15,6 +15,7 @@ public class GraphNode {
     int y;
     SMPNode smpNode;
     NodeController controller;
+    int currentTargetId;
 
     public GraphNode(int x, int y, SMPNode smpNode, NodeController controller) {
         this.x = x;

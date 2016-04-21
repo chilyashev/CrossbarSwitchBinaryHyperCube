@@ -16,6 +16,7 @@ public class Flit { // *C
 
     // DEBUG
     public String id;
+    private int packetId;
     // /DEBUG
 
     // UI
@@ -28,6 +29,7 @@ public class Flit { // *C
     public static final int FLIT_TYPE_BODY = 0b11;
 
     public ArrayList<String> history = new ArrayList<>();
+    public ArrayList<FlitHistoryEntry> pathHistory = new ArrayList<>();
 
     long flitData; // c*
 
@@ -46,8 +48,9 @@ public class Flit { // *C
     short controlByte;
 
 
-    public Flit(int sourceId, int targetId, int flitType, Color packetColor){
+    public Flit(int sourceId, int targetId, int flitType, int packetId, Color packetColor){
         id = String.format("%d->%d_%d", sourceId, targetId, System.currentTimeMillis());
+        this.packetId = packetId;
         this.packetColor = packetColor;
         if(flitType == FLIT_TYPE_BODY) setFlitData(targetId);
         setFlitType(flitType);
@@ -162,5 +165,9 @@ public class Flit { // *C
                 "\n, data=" + getFlitData() +
                 //"\n, color=" + packetColor.toString() +
                 "\n}\n";
+    }
+
+    public int getPacketId() {
+        return packetId;
     }
 }

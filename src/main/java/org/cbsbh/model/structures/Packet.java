@@ -9,9 +9,11 @@ import java.util.ArrayList;
  * A packet is an array of flits.
  * Date: 14/4/16 11:51 PM
  *
- * @author Georgi Georgiev
+ * @author Georgi Georgiev, Mr. Mihail Chilyashev
  */
 public class Packet extends ArrayList<Flit> {
+
+    int id;
 
     Color color;
 
@@ -19,11 +21,11 @@ public class Packet extends ArrayList<Flit> {
         super();
     }
 
-    public Packet(int sourceId, int targetId, int packetSize) {
+    public Packet(int id, int sourceId, int targetId, int packetSize) {
         color = new Color(Math.random(), Math.random(), Math.random(), 1);
-
+        this.id = id;
         ///Generate head flit:
-        Flit flit = new Flit(sourceId, targetId, Flit.FLIT_TYPE_HEADER, color);
+        Flit flit = new Flit(sourceId, targetId, Flit.FLIT_TYPE_HEADER, id, color);
         flit.setDNA(targetId);
         flit.setTR(sourceId ^ flit.getDNA());
         Debug.printf("> [Just the tip] Generating a message. From %d to %d", sourceId, flit.getDNA());
@@ -31,10 +33,10 @@ public class Packet extends ArrayList<Flit> {
 
         //Generate body flits
         while (packetSize-- > 0) {
-            this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_BODY, color));
+            this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_BODY, id, color));
         }
 
         //Generate tail flit:
-        this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_TAIL, color));
+        this.add(new Flit(sourceId, targetId, Flit.FLIT_TYPE_TAIL, id, color));
     }
 }

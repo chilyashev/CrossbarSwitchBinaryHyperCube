@@ -5,18 +5,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import org.cbsbh.Constants;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.ModelRunner;
 import org.cbsbh.model.routing.MPPNetwork;
 import org.cbsbh.model.routing.SMPNode;
+import org.cbsbh.model.structures.Flit;
+import org.cbsbh.model.structures.FlitHistoryEntry;
 import org.cbsbh.ui.AbstractScreen;
 import org.cbsbh.ui.screens.graph_visualisation.NodeController;
 import org.cbsbh.ui.screens.graph_visualisation.NodeDetailsController;
+import org.cbsbh.ui.screens.graph_visualisation.PacketController;
+import org.cbsbh.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,12 +44,18 @@ public class StepByStepSimulationController extends AbstractScreen {
     private HashMap<Integer, GraphNode> graphNodes;
     private HashMap<Integer, HashMap<Integer, Line>> vertices;
     private ArrayList<PathEntry> currentPathInGraph;
+    private HashMap<Integer, PacketDescription> packets; // Key: packetId, Value: PacketController
     private Group graphGroup;
     private Group nodeGroup;
 
     private NodeDetailsController detailsController;
     private AnchorPane detailsControl;
 
+    private Color packetColor;
+
+    private boolean animating = false;
+
+    private int lastPacketButtonY;
 
     // FXML controls
     @FXML
@@ -51,20 +64,25 @@ public class StepByStepSimulationController extends AbstractScreen {
     public Label statusLabel;
     @FXML
     public AnchorPane rightPane;
+    @FXML
+    public Button pauseUnpauseButton;
+    @FXML
+    public VBox packetVbox;
     // eo FXML controls
 
 
     public StepByStepSimulationController() {
         context = Context.getInstance();
         vertices = new HashMap<>();
+        packets = new HashMap<>();
         graphGroup = new Group();
         nodeGroup = new Group();
         graphNodes = new HashMap<>();
         currentPathInGraph = new ArrayList<>();
         runner = null;
         detailsController = null;
-
-        //runnerThread = null;
+        packetColor = null;
+        lastPacketButtonY = 0;
         //...
     }
 
@@ -94,12 +112,14 @@ public class StepByStepSimulationController extends AbstractScreen {
         Context.getInstance().set("bufferCountPerInputChannel", 3); // TODO!
         Context.getInstance().set("messageGenerationFrequency", 1); // TODO
         Context.getInstance().set("minMessageSizel", 4); // TODO
-        Context.getInstance().set("fifoQueueCount", 13); // TODO
+        Context.getInstance().set("fifoQueueCount", 3); // TODO
 
         runner.init(Context.getInstance().getInteger("channelCount"));
         runner.start();
 
-        //new AnimatedStepByStep().start();
+        // Animation
+        AnimatedStepByStep animationThread = new AnimatedStepByStep();
+        animationThread.start();
 
 
         int[] leftCube = {6, 7, 2, 3, 4, 5, 0, 1};
@@ -108,12 +128,10 @@ public class StepByStepSimulationController extends AbstractScreen {
         drawNodeCube(leftCube, 0, 180);
         drawNodeCube(rightCube, 360, 0);
 
-        //
-        // Дъгите се добавят тук, защото иначе не работи. Първият куб остава винаги дебел.
+        // Дъгите се добавят тук, защото иначе не работи. Дъгите на първия куб не реагират на hover-а върху някой възел
         for (HashMap<Integer, Line> lines : vertices.values()) {
             graphGroup.getChildren().addAll(lines.values());
         }
-        //
 
         graphGroup.toBack();
         nodeGroup.toFront();
@@ -146,8 +164,7 @@ public class StepByStepSimulationController extends AbstractScreen {
         for (int nodeId : nodeIds) {
             SMPNode node = MPPNetwork.get(nodeId);
             System.err.printf("Inserting node %d\n", nodeId);
-            String binId = Integer.toBinaryString(nodeId);
-            String buttonText = String.format("%s%s", "0000".substring(0, 4 - binId.length()), binId);
+            String buttonText = Util.binaryFormattedNodeID(nodeId);
             try {
                 loader = new FXMLLoader(getClass().getResource("/screens/graph_vis/node.fxml"));
                 control = loader.load();
@@ -158,7 +175,7 @@ public class StepByStepSimulationController extends AbstractScreen {
                 controller.setTooltip(new Tooltip("Все още няма информация за този възел."));
 
                 controller.setOnEnterHandler(event -> updateVerticesOnEnter(nodeId));
-                controller.setOnExitHandler(event -> updateVerticesOnExit(nodeId));
+                controller.setOnExitHandler(event -> updateVerticesOnExit());
 
                 graphNodes.put(nodeId,
                         new GraphNode(
@@ -231,7 +248,7 @@ public class StepByStepSimulationController extends AbstractScreen {
         detailsController.setNodeId(nodeId);
     }
 
-    private void updateVerticesOnExit(int nodeId) {
+    private void updateVerticesOnExit() {
         for (HashMap<Integer, Line> lines : vertices.values()) {
             for (Line line : lines.values()) {
                 line.setStroke(new Color(0, 0, 0, 1));
@@ -242,11 +259,19 @@ public class StepByStepSimulationController extends AbstractScreen {
         //detailsControl.setVisible(false);
     }
 
-    String lastPacketColor = "43ff00";
-    String lastFlitId = "";
-    Color packetColor = null;
-
     public void nextStep(ActionEvent actionEvent) {
+        pauseAnimation();
+        updateGraph();
+    }
+
+    public Button getPacketButton(/*TODO*/){
+        Button b = new Button("Creap");
+        b.setLayoutY(lastPacketButtonY);
+        lastPacketButtonY += 50;
+        return b;
+    }
+
+    private void updateGraph() {
         runner.wakeUp();
 
         statusLabel.setText("Такт: " + context.getString("currentModelTick"));
@@ -255,12 +280,29 @@ public class StepByStepSimulationController extends AbstractScreen {
 
 
         for (GraphNode node : graphNodes.values()) {
-            Tooltip tooltip = new Tooltip("Not now, delicious friend."); // TODO: тук да пише нещо умно.
+            Tooltip tooltip = new Tooltip();
 
-            packetColor = node.smpNode.getPacketColor();
-            tooltip.setText("Изпратени флитове: " + node.smpNode.sentFlits.size() + "Получени флитове: 0");
+            Flit currentFlit = node.smpNode.getCurrentFlit();
+            if (currentFlit != null) {
+                if (currentFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
+                    node.currentTargetId = (int) currentFlit.getDNA();
+                    addNewPacketButton(currentFlit);
+                } else if (currentFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
+                    node.currentTargetId = -1;
+                }
+                packetColor = currentFlit.packetColor;
+            } else {
+                packetColor = null;
+            }
+            tooltip.setText(String.format("Изпратени флитове: %d, Получени флитове: %d%s",
+                            node.smpNode.sentFlits.size(),
+                            node.smpNode.receivedFlits.size(),
+                            node.currentTargetId != -1 ?
+                                    String.format(", Съдържа флит с дестинация: %s", Util.binaryFormattedNodeID(node.currentTargetId)) : ""
+                    )
+            );
+
             if (packetColor != null) {
-
                 node.controller.nodeButton.setStyle("-fx-background-color: #" + packetColor.toString().substring(2, 8));
             } else {
                 //tooltip.setText("Not now, delicious friend");
@@ -270,43 +312,108 @@ public class StepByStepSimulationController extends AbstractScreen {
 
             node.controller.setTooltip(tooltip);
         }
+    }
 
+    private void addNewPacketButton(Flit currentFlit) {
+        FXMLLoader packetButtonLoader;
+        AnchorPane packetPane;
+        PacketController packetController;
 
+        if (packets.containsKey(currentFlit.getPacketId())){
+            packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit); // TODO: smartify this shit
+            return;
+        }
 
+        packetButtonLoader = new FXMLLoader(getClass().getResource("/screens/graph_vis/packet_vis.fxml"));
+        try {
+            packetPane = packetButtonLoader.load();
+            assert packetPane != null;
+            packetController = packetButtonLoader.getController();
 
-        /*for (HashMap<Integer, Line> lines : vertices.values()) {
+            packetController.setOnEnterHandler(event -> drawPath(currentFlit.getPacketId()));
+            packetController.setOnExitHandler(event -> updateVerticesOnExit());
+
+            packetController.button.setText("" + currentFlit.getPacketId());
+            packetController.button.setStyle("-fx-background-color: #" + currentFlit.packetColor.toString().substring(2, 8));
+            packets.put(currentFlit.getPacketId(), new PacketDescription(packetController));
+            packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit);
+            packetVbox.getChildren().add(packetPane);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void drawPath(int packetId) {
+
+        PacketDescription desc = packets.get(packetId);
+
+        if (desc == null) {
+            return;
+        }
+
+        for (HashMap<Integer, Line> lines : vertices.values()) {
             for (Line line : lines.values()) {
                 line.setStroke(new Color(0, 0, 0, 1));
                 line.setStrokeWidth(1);
             }
         }
 
-        PathEntry pathEntries[] = {
+        ArrayList<PathEntry> pathEntries = new ArrayList<>();
+        for (Flit flit : desc.flits.values()) {
+            for (FlitHistoryEntry historyEntry : flit.pathHistory) {
+                graphNodes.get(historyEntry.getSourceNodeId()).controller.nodeButton.setStyle("-fx-background-color: #" + flit.packetColor.toString().substring(2, 8));
+                pathEntries.add(
+                        new PathEntry(historyEntry.getSourceNodeId(), historyEntry.getTargetNodeId(), flit.packetColor)
+                );
+            }
+
+        }
+
+
+        /*PathEntry pathEntries[] = {
                 new PathEntry(0, 1),
                 new PathEntry(1, 3),
                 new PathEntry(3, 7),
                 new PathEntry(7, 15),
                 new PathEntry(15, 11),
-        };
+        };*/
 
         for (PathEntry entry : pathEntries) {
             Line vertex = vertices.get(entry.sourceId).get(entry.targetId);
-            vertex.setStroke(new Color(0, 0, 1, 1));
+            vertex.setStroke(entry.color);
             vertex.setStrokeWidth(3);
-        }*/
+        }
     }
 
+
+    void pauseAnimation() {
+        pauseUnpauseButton.setText("Продължи симулацията");
+        animating = false;
+    }
+
+    void resumeAnimation() {
+        pauseUnpauseButton.setText("Пауза");
+        animating = true;
+    }
+
+    public void toggleAnimation(ActionEvent actionEvent) {
+        if (!animating) {
+            resumeAnimation();
+        } else {
+            pauseAnimation();
+        }
+    }
 
     class AnimatedStepByStep extends Thread {
         @Override
         public void run() {
-
             try {
-                while(true) {
-                    Platform.runLater(() -> {
-                        nextStep(new ActionEvent());
-                    });
-                    sleep(500);
+                while (true) {
+                    System.err.println("animu: " + animating);
+                    if (animating) {
+                        Platform.runLater(StepByStepSimulationController.this::updateGraph);
+                    }
+                    sleep(Constants.ANIMATION_THREAD_SLEEP_TIME);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

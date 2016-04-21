@@ -4,6 +4,7 @@ import org.cbsbh.Debug;
 import org.cbsbh.model.StatusReporter;
 import org.cbsbh.model.Tickable;
 import org.cbsbh.model.structures.Flit;
+import org.cbsbh.model.structures.FlitHistoryEntry;
 import org.cbsbh.model.structures.SignalArray;
 import org.cbsbh.model.structures.StateStructure;
 
@@ -306,9 +307,11 @@ public class FIFOQueue extends StateStructure implements Tickable, StatusReporte
             }
             Debug.println(getWho() + " Sending all my ropes to: " + channel.getNode().getOutputChannel(nextNodeId).getWho() + " c: " + nextFlit.toString());
             nextFlit.history.add(getWho() + " oc: " + channel.getNode().getOutputChannel(nextNodeId).getWho());
+            nextFlit.pathHistory.add(new FlitHistoryEntry(nodeId, nextNodeId, "Jump!"));
             channel.getNode().getOutputChannel(nextNodeId).setBuffer(nextFlit); // верен метод за изпращане.
         }else if(sendToCurrentNode) {
             nextFlit.history.add(getWho() + " I've reached my final destination. Time for masturbation");
+            channel.getNode().receivedFlits.add(nextFlit);
         }else {
             //ВАЖНО!!!! Тук следващият възел nextNodeId == -1, НО TR в хедъра НЕ е 0.
             // Това означава, че има забавяне в мрежата и трябва да се изчака!

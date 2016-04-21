@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="48.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.graph_visualisation.PacketController">
+  <children>
+    <Button fx:id="button" mnemonicParsing="false" onMouseEntered="#mouseEntered" onMouseExited="#mouseExited" prefHeight="20.0" prefWidth="40.0" style="" text="00" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="4.0" />
+  </children>
+</AnchorPane>
