@@ -5,8 +5,11 @@
 **TODO**: A Nice description with some images like this:
 
 
-![Don't worry, it'll become better...](http://i.imgur.com/ajhKGag.png)
+![Much, much better](http://i.imgur.com/ksbWTsT.png)
 
+![And some bugs might even get fixed! Who knows!](http://i.imgur.com/tKOGiWp.png)
+
+![Don't worry, it'll get better...](http://i.imgur.com/ajhKGag.png)
 
 
 

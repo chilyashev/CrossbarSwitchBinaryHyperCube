@@ -387,7 +387,7 @@ public class StepByStepSimulationController extends AbstractScreen {
 
         for (HashMap<Integer, Line> lines : vertices.values()) {
             for (Line line : lines.values()) {
-                line.setStroke(new Color(0, 0, 0, 1));
+                line.setStroke(new Color(0, 0, 0, .2));
                 line.setStrokeWidth(1);
             }
         }
