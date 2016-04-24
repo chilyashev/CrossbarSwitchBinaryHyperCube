@@ -27,6 +27,7 @@ import org.cbsbh.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -180,7 +181,7 @@ public class StepByStepSimulationController extends AbstractScreen {
         //for (SMPNode node : MPPNetwork.getAll()) {
         for (int nodeId : nodeIds) {
             SMPNode node = MPPNetwork.get(nodeId);
-            System.err.printf("Inserting node %d\n", nodeId);
+            // System.err.printf("Inserting node %d\n", nodeId);
             String buttonText = Util.binaryFormattedNodeID(nodeId);
             try {
                 loader = new FXMLLoader(getClass().getResource("/screens/graph_vis/node.fxml"));
@@ -300,18 +301,23 @@ public class StepByStepSimulationController extends AbstractScreen {
         updateNodes();
     }
 
-    private void updateNodes() {
+    private synchronized void updateNodes() {
         for (GraphNode node : graphNodes.values()) {
             Tooltip tooltip = new Tooltip();
 
             Flit currentFlit = node.smpNode.getCurrentFlit();
+            List<Flit> allFlitsInNode = node.smpNode.getCurrentFlits();
+            addNewPacketButton(allFlitsInNode);
+
             if (currentFlit != null) {
                 if (currentFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
                     node.currentTargetId = (int) currentFlit.getDNA();
-                    addNewPacketButton(currentFlit);
                 } else if (currentFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
                     node.currentTargetId = -1;
-                    packets.get(currentFlit.getPacketId()).setReceived(true);
+                    PacketDescription packetDescription = packets.get(currentFlit.getPacketId());
+                    if (currentFlit.getTargetId() == node.smpNode.getId()) {
+                        packetDescription.setReceived(true);
+                    }
                 }
                 packetColor = currentFlit.packetColor;
             } else {
@@ -337,38 +343,41 @@ public class StepByStepSimulationController extends AbstractScreen {
         }
     }
 
-    private void addNewPacketButton(Flit currentFlit) {
+    private void addNewPacketButton(List<Flit> flits) {
         FXMLLoader packetButtonLoader;
         AnchorPane packetPane;
         PacketController packetController;
         Tooltip tooltip;
 
-        if (packets.containsKey(currentFlit.getPacketId())) {
-            packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit); // TODO: smartify this shit
-            return;
-        }
+        for (Flit currentFlit : flits) {
 
-        try {
-            packetButtonLoader = new FXMLLoader(getClass().getResource("/screens/graph_vis/packet_vis.fxml"));
-            tooltip = new Tooltip(String.format("Пакет, изпратен от %s до %s",
-                    Util.binaryFormattedNodeID(currentFlit.getSourceId()),
-                    Util.binaryFormattedNodeID((int) currentFlit.getDNA())));
-            packetPane = packetButtonLoader.load();
+            if (packets.containsKey(currentFlit.getPacketId())) {
+                packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit); // TODO: smartify this shit
+                return;
+            }
 
-            assert packetPane != null;
-            packetController = packetButtonLoader.getController();
+            try {
+                packetButtonLoader = new FXMLLoader(getClass().getResource("/screens/graph_vis/packet_vis.fxml"));
+                tooltip = new Tooltip(String.format("Пакет, изпратен от %s до %s",
+                        Util.binaryFormattedNodeID(currentFlit.getSourceId()),
+                        Util.binaryFormattedNodeID((int) currentFlit.getDNA())));
+                packetPane = packetButtonLoader.load();
 
-            packetController.setOnEnterHandler(event -> drawPath(currentFlit.getPacketId()));
-            packetController.setOnExitHandler(event -> updateVerticesOnExit());
+                assert packetPane != null;
+                packetController = packetButtonLoader.getController();
 
-            packetController.button.setTooltip(tooltip);
-            packetController.button.setStyle("-fx-background-color: #" + currentFlit.packetColor.toString().substring(2, 8));
-            packets.put(currentFlit.getPacketId(), new PacketDescription(packetController, currentFlit.getSourceId(), (int)currentFlit.getDNA()));
-            packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit);
-            packetVbox.getChildren().add(packetPane);
-            packetController.button.setText("" + packets.size());
-        } catch (Exception e) {
-            e.printStackTrace();
+                packetController.setOnEnterHandler(event -> drawPath(currentFlit.getPacketId()));
+                packetController.setOnExitHandler(event -> updateVerticesOnExit());
+
+                packetController.button.setTooltip(tooltip);
+                packetController.button.setStyle("-fx-background-color: #" + currentFlit.packetColor.toString().substring(2, 8));
+                packets.put(currentFlit.getPacketId(), new PacketDescription(packetController, currentFlit.getSourceId(), (int) currentFlit.getDNA()));
+                packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit);
+                packetVbox.getChildren().add(packetPane);
+                packetController.button.setText("" + packets.size());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -419,12 +428,15 @@ public class StepByStepSimulationController extends AbstractScreen {
                         "\tОт възел: %s\n" +
                         "\tКъм възел: %s\n" +
                         "\tБрой предадени флитове към момента: %d\n" +
-                        "\tНапълно предаден: %s",
+                        "\tНапълно предаден: %s\n" +
+                        "\tФлитове:\n" +
+                        "\t\t%s",
                 packetId,
                 Util.binaryFormattedNodeID(desc.getSourceId()),
                 Util.binaryFormattedNodeID(desc.getTargetId()),
                 desc.flits.size(),
-                desc.isReceived() ? "Да" : "Не"
+                desc.isReceived() ? "Да" : "Не",
+                desc.flits.toString()
         ));
     }
 
@@ -475,7 +487,6 @@ public class StepByStepSimulationController extends AbstractScreen {
             try {
                 while (!simulationFinished) {
                     if (animating) {
-                        System.err.println("animu: " + animating);
                         Platform.runLater(StepByStepSimulationController.this::updateGraph);
                     }
                     sleep(Constants.ANIMATION_THREAD_SLEEP_TIME); // Shhh... no more loops, just dreams...

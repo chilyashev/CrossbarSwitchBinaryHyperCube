@@ -203,10 +203,6 @@ public class SMPNode {
 
     public Flit getCurrentFlit() {
         Flit flit;
-        if (DMA_IN.getActiveFIFOIndex() != -1 && !DMA_IN.getActiveFifo().getFifo().isEmpty()) {
-            flit = DMA_IN.getActiveFifo().getFifo().peekFirst();
-            return flit;
-        }
 
         for (InputChannel ic : inputChannels.values()) {
             if (ic.getActiveFIFOIndex() != -1 && !ic.getActiveFifo().getFifo().isEmpty()) {
@@ -215,6 +211,27 @@ public class SMPNode {
 
             }
         }
+        if (DMA_IN.getActiveFIFOIndex() != -1 && !DMA_IN.getActiveFifo().getFifo().isEmpty()) {
+            flit = DMA_IN.getActiveFifo().getFifo().peekFirst();
+            return flit;
+        }
         return null;
+    }
+
+    public ArrayList<Flit> getCurrentFlits() {
+        ArrayList<Flit> ret = new ArrayList<>();
+        Flit flit;
+
+        for (InputChannel ic : inputChannels.values()) {
+            if (ic.getActiveFIFOIndex() != -1 && !ic.getActiveFifo().getFifo().isEmpty()) {
+                flit = ic.getActiveFifo().getFifo().peekFirst();
+                ret.add(flit);
+            }
+        }
+        if (DMA_IN.getActiveFIFOIndex() != -1 && !DMA_IN.getActiveFifo().getFifo().isEmpty()) {
+            flit = DMA_IN.getActiveFifo().getFifo().peekFirst();
+            ret.add(flit);
+        }
+        return ret;
     }
 }

@@ -18,6 +18,7 @@ public class Flit { // *C
     public String id;
     private String packetId;
     private int sourceId;
+    private int targetId;
     // /DEBUG
 
     // UI
@@ -49,12 +50,13 @@ public class Flit { // *C
     short controlByte;
 
 
-    public Flit(int sourceId, int targetId, int flitType, String packetId, Color packetColor){
+    public Flit(int sourceId, int targetId, int flitType, String packetId, Color packetColor) {
         id = String.format("%d->%d_%d", sourceId, targetId, System.currentTimeMillis());
         this.packetId = packetId;
         this.packetColor = packetColor;
         this.sourceId = sourceId;
-        if(flitType == FLIT_TYPE_BODY) setFlitData(targetId);
+        this.targetId = targetId;
+        if (flitType == FLIT_TYPE_BODY) setFlitData(targetId);
         setFlitType(flitType);
         setValidDataBit();
     }
@@ -127,11 +129,11 @@ public class Flit { // *C
 
 
     public void setValidDataBit() {
-        controlByte = (short)(controlByte | (1 << 3));
+        controlByte = (short) (controlByte | (1 << 3));
     }
 
     public void setFlitType(int flitType) {
-        controlByte = (short)(controlByte | (flitType));
+        controlByte = (short) (controlByte | (flitType));
     }
 
     public void setTR(long tr) {
@@ -168,11 +170,16 @@ public class Flit { // *C
         return sourceId;
     }
 
+    public int getTargetId() {
+        return targetId;
+    }
+
     @Override
     public String toString() {
-        return "Flit{ " + id  +
+        return "Flit{ " + id +
                 "\nflitType=" + getFlitType() +
                 "\n, data=" + getFlitData() +
+                "(source=>target) = (" + sourceId + "=>" + targetId + ")\n" +
                 //"\n, color=" + packetColor.toString() +
                 "\n}\n";
     }

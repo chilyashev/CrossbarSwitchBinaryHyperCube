@@ -144,7 +144,6 @@ public class ModelRunner extends Thread {
         try {
             while (ticks < 2__0__0) {
                 System.err.println("Tick: " + ticks);
-                context.set("currentModelTick", ticks);
                 Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
                 if (g.newValueReady() && ticks > 5 && msgCount > 0) {
                     source = randomSource.nextInt(nodeCount -1);
@@ -163,6 +162,7 @@ public class ModelRunner extends Thread {
                 // Tick for each SMP
                 Debug.printf("\n\n====== NO MORE TICKL-TOCKL №%d ======\n\n", ticks);
                 ticks++;
+                context.set("currentModelTick", ticks);
 
                 // If step-by-step simulation is selected, block until someone wakes you up.
                 if (stepByStepExecution) {
