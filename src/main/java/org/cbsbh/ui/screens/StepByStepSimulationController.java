@@ -27,7 +27,6 @@ import org.cbsbh.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**
@@ -306,17 +305,23 @@ public class StepByStepSimulationController extends AbstractScreen {
             Tooltip tooltip = new Tooltip();
 
             Flit currentFlit = node.smpNode.getCurrentFlit();
-            List<Flit> allFlitsInNode = node.smpNode.getCurrentFlits();
-            addNewPacketButton(allFlitsInNode);
 
             if (currentFlit != null) {
-                if (currentFlit.getFlitType() == Flit.FLIT_TYPE_HEADER) {
+                if (currentFlit.isHeader()) {
                     node.currentTargetId = (int) currentFlit.getDNA();
-                } else if (currentFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
+                    addNewPacketButton(currentFlit);
+                }else if (currentFlit.getFlitType() == Flit.FLIT_TYPE_BODY) {
+                    updatePacketButton(currentFlit);
+                }
+                else if (currentFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
+                    updatePacketButton(currentFlit);
                     node.currentTargetId = -1;
                     PacketDescription packetDescription = packets.get(currentFlit.getPacketId());
                     if (currentFlit.getTargetId() == node.smpNode.getId()) {
                         packetDescription.setReceived(true);
+                    }
+                    for (Flit flit : packets.get(currentFlit.getPacketId()).flits.values()) {
+                        System.err.println("Flit: " + flit);
                     }
                 }
                 packetColor = currentFlit.packetColor;
@@ -343,41 +348,49 @@ public class StepByStepSimulationController extends AbstractScreen {
         }
     }
 
-    private void addNewPacketButton(List<Flit> flits) {
+    private void updatePacketButton(Flit currentFlit) {
+        if (packets.containsKey(currentFlit.getPacketId())) {
+            packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit); // TODO: smartify this shit
+        }
+    }
+
+    private void addNewPacketButton(Flit currentFlit) {
         FXMLLoader packetButtonLoader;
         AnchorPane packetPane;
         PacketController packetController;
         Tooltip tooltip;
 
-        for (Flit currentFlit : flits) {
+        if (packets.containsKey(currentFlit.getPacketId())) {
+            packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit); // TODO: smartify this shit
+            return;
+        }
 
-            if (packets.containsKey(currentFlit.getPacketId())) {
-                packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit); // TODO: smartify this shit
-                return;
-            }
+        try {
+            packetButtonLoader = new FXMLLoader(getClass().getResource("/screens/graph_vis/packet_vis.fxml"));
 
-            try {
-                packetButtonLoader = new FXMLLoader(getClass().getResource("/screens/graph_vis/packet_vis.fxml"));
+            packetPane = packetButtonLoader.load();
+
+            assert packetPane != null;
+            packetController = packetButtonLoader.getController();
+
+            packetController.setOnEnterHandler(event -> drawPath(currentFlit.getPacketId()));
+            packetController.setOnExitHandler(event -> updateVerticesOnExit());
+
+            if (currentFlit.isHeader()) {
                 tooltip = new Tooltip(String.format("Пакет, изпратен от %s до %s",
                         Util.binaryFormattedNodeID(currentFlit.getSourceId()),
                         Util.binaryFormattedNodeID((int) currentFlit.getDNA())));
-                packetPane = packetButtonLoader.load();
-
-                assert packetPane != null;
-                packetController = packetButtonLoader.getController();
-
-                packetController.setOnEnterHandler(event -> drawPath(currentFlit.getPacketId()));
-                packetController.setOnExitHandler(event -> updateVerticesOnExit());
-
                 packetController.button.setTooltip(tooltip);
-                packetController.button.setStyle("-fx-background-color: #" + currentFlit.packetColor.toString().substring(2, 8));
-                packets.put(currentFlit.getPacketId(), new PacketDescription(packetController, currentFlit.getSourceId(), (int) currentFlit.getDNA()));
-                packets.get(currentFlit.getPacketId()).flits.put(currentFlit.id, currentFlit);
-                packetVbox.getChildren().add(packetPane);
-                packetController.button.setText("" + packets.size());
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+            packetController.button.setStyle("-fx-background-color: #" + currentFlit.packetColor.toString().substring(2, 8));
+            packets.put(currentFlit.getPacketId(),
+                    new PacketDescription(packetController, currentFlit.getSourceId(), (int) currentFlit.getDNA()));
+
+            packetVbox.getChildren().add(packetPane);
+            packetController.button.setText("" + packets.size());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

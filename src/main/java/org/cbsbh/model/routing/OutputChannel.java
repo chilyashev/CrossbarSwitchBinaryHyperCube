@@ -112,7 +112,7 @@ public class OutputChannel extends StateStructure implements Tickable {
 
         if (state == STATE6_END_OF_TRANSFER) {
             try {
-                if (!hasSignal(SignalArray.TIME_ONE) && (nextInputChannel.getActiveFIFOIndex() != -1 && nextInputChannel.getActiveFifo().hasSignal(SignalArray.DATA_ACK))) {
+                if (!hasSignal(SignalArray.TIME_ONE) && (nextInputChannel.getActiveFIFOIndex() != -1 || nextInputChannel.getActiveFifo().hasSignal(SignalArray.DATA_ACK))) {
                     return STATE1_ROUTING_AND_ARBITRAGING;
                 } else if (hasSignal(SignalArray.TIME_ONE)) {
                     return STATE0_INIT;

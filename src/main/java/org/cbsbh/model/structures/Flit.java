@@ -138,7 +138,7 @@ public class Flit { // *C
 
     public void setTR(long tr) {
         assert getFlitType() == FLIT_TYPE_HEADER : "Wrong flit type";
-        id += " TR: " + Long.toBinaryString(tr);
+        // id += " TR: " + Long.toBinaryString(tr); // Това ми чупи пакетите.
 
         long dong = ~((0xfff << 16)); // 0xFFFFFFFFF000FFFF
 
@@ -182,5 +182,9 @@ public class Flit { // *C
                 "(source=>target) = (" + sourceId + "=>" + targetId + ")\n" +
                 //"\n, color=" + packetColor.toString() +
                 "\n}\n";
+    }
+
+    public boolean isHeader() {
+        return getFlitType() == Flit.FLIT_TYPE_HEADER;
     }
 }
