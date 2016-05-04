@@ -124,5 +124,6 @@
         <Double fx:value="-60.0" />
       </points>
     </Polygon>
+    <Line endX="-110.0" endY="5.0" layoutX="200.0" layoutY="57.0" startX="-122.0" startY="14.0" />
   </children>
 </AnchorPane>

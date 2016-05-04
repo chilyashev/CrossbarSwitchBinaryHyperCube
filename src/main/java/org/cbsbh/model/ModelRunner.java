@@ -142,10 +142,11 @@ public class ModelRunner extends Thread {
         int messages = 0;
         int nodeCount = 1 << channelCount;
         try {
+            int MAX_TICK_FOR_GENERATING_MESSAGE = 30; // TODO
             while (ticks < 2__0__0) {
                 System.err.println("Tick: " + ticks);
                 Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
-                if (g.newValueReady() && ticks > 5 && msgCount > 0) {
+                if (g.newValueReady() && ticks > 5 && ticks <= MAX_TICK_FOR_GENERATING_MESSAGE && msgCount > 0) {
                     source = randomSource.nextInt(nodeCount -1);
                     //if (ticks == 5) {
                     // inject
