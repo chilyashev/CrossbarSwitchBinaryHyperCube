@@ -31,8 +31,8 @@ public class Main extends Application {
         mainScreen.setStage(primaryStage);
 
         // Showing the main screen
-        mainScreen.showScreen("main");
-        //mainScreen.showScreen("step_by_step");
+        //mainScreen.showScreen("main");
+        mainScreen.showScreen("step_by_step");
 
         primaryStage.setOnCloseRequest(event -> {
             mainScreen.closeScreen();

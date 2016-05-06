@@ -42,7 +42,8 @@ public class StepByStepSimulationController extends AbstractScreen {
     private ModelRunner runner;
 
     private HashMap<Integer, GraphNode> graphNodes;
-    private HashMap<Integer, HashMap<Integer, Line>> vertices;
+    private HashMap<Integer, HashMap<Integer, Line>> outputChannelVertices;
+    private HashMap<Integer, HashMap<Integer, Line>> inputChannelVertices;
     private HashMap<String, PacketDescription> packets; // Key: packetId, Value: PacketController
     private Group graphGroup;
     private Group nodeGroup;
@@ -83,7 +84,8 @@ public class StepByStepSimulationController extends AbstractScreen {
     public void init() {
         setTitle("Изпълнение стъпка по стъпка");
 
-        vertices = new HashMap<>();
+        outputChannelVertices = new HashMap<>();
+        inputChannelVertices = new HashMap<>();
         packets = new HashMap<>();
         graphGroup = new Group();
         nodeGroup = new Group();
@@ -119,7 +121,11 @@ public class StepByStepSimulationController extends AbstractScreen {
         drawNodeCube(rightCube, 360, 0);
 
         // Дъгите се добавят тук, защото иначе не работи. Дъгите на първия куб не реагират на hover-а върху някой възел
-        for (HashMap<Integer, Line> lines : vertices.values()) {
+        for (HashMap<Integer, Line> lines : outputChannelVertices.values()) {
+            graphGroup.getChildren().addAll(lines.values());
+        }
+        // Това може и да е в горния цикъл, защото двете карти трябва да имат еднакъв брой елементи
+        for (HashMap<Integer, Line> lines : inputChannelVertices.values()) {
             graphGroup.getChildren().addAll(lines.values());
         }
 
@@ -157,6 +163,7 @@ public class StepByStepSimulationController extends AbstractScreen {
         });
     }
 
+    boolean addedArrow = false;
     private void drawNodeCube(int nodeIds[], int offsetX, int offsetY) {
         int x, y, xInc, yInc, maxX, xMargin;
         int nodesInRow, maxNodesPerRow, currentRow;
@@ -173,7 +180,7 @@ public class StepByStepSimulationController extends AbstractScreen {
         // Load the custom control
         FXMLLoader loader;
         AnchorPane control;
-        Line vertex;
+        Line outputChannelVertex, inputChannelVertex;
         NodeController controller;
 
         // Add all the nodes to the graph
@@ -203,7 +210,7 @@ public class StepByStepSimulationController extends AbstractScreen {
                         )
                 );
 
-                nodeGroup.getChildren().addAll(control.getChildrenUnmodifiable());
+                //nodeGroup.getChildren().addAll(control.getChildrenUnmodifiable());
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -231,14 +238,21 @@ public class StepByStepSimulationController extends AbstractScreen {
                 if (neighborNode == null) {
                     continue;
                 }
-                vertex = new Line(graphNode.x, graphNode.y, neighborNode.x, neighborNode.y);
 
-                if (vertices.get(graphNode.smpNode.getId()) == null) {
-                    vertices.put(graphNode.smpNode.getId(), new HashMap<>());
-                }
+                // MAGIC NUMBERS! MAGIC NUMBERS EVERYWHERE!!!
+                //
+                outputChannelVertex = new Line(graphNode.x - 10, graphNode.y - 5, neighborNode.x - 10, neighborNode.y - 5);
+                inputChannelVertex = new Line(graphNode.x + 10, graphNode.y + 5, neighborNode.x + 10, neighborNode.y + 5);
 
-                vertices.get(graphNode.smpNode.getId()).put(neighbor, vertex);
-                //graphGroup.getChildren().add(vertex);
+                outputChannelVertices.putIfAbsent(graphNode.smpNode.getId(), new HashMap<>());
+                inputChannelVertices.putIfAbsent(graphNode.smpNode.getId(), new HashMap<>());
+
+                outputChannelVertices.get(graphNode.smpNode.getId()).put(neighbor, outputChannelVertex);
+                inputChannelVertices.get(graphNode.smpNode.getId()).put(neighbor, inputChannelVertex);
+
+                // Arrows
+                // < >
+                // Heh. Arrows. Well...
             }
         }
     }
@@ -247,13 +261,13 @@ public class StepByStepSimulationController extends AbstractScreen {
         updateNodeDetails(nodeId);
 
 
-        for (HashMap<Integer, Line> lines : vertices.values()) {
+        for (HashMap<Integer, Line> lines : outputChannelVertices.values()) {
             for (Line line : lines.values()) {
                 line.setStroke(new Color(0, 0, 0, .2));
             }
         }
 
-        for (Line line : vertices.get(nodeId).values()) {
+        for (Line line : outputChannelVertices.get(nodeId).values()) {
             line.setStroke(new Color(1, 0, 0, 1));
             line.setStrokeWidth(3.14159);
         }
@@ -266,7 +280,7 @@ public class StepByStepSimulationController extends AbstractScreen {
     }
 
     private void updateVerticesOnExit() {
-        for (HashMap<Integer, Line> lines : vertices.values()) {
+        for (HashMap<Integer, Line> lines : outputChannelVertices.values()) {
             for (Line line : lines.values()) {
                 line.setStroke(new Color(0, 0, 0, 1));
                 line.setStrokeWidth(1);
@@ -407,7 +421,7 @@ public class StepByStepSimulationController extends AbstractScreen {
             node.controller.resetColor();
         }
 
-        for (HashMap<Integer, Line> lines : vertices.values()) {
+        for (HashMap<Integer, Line> lines : outputChannelVertices.values()) {
             for (Line line : lines.values()) {
                 line.setStroke(new Color(0, 0, 0, .2));
                 line.setStrokeWidth(1);
@@ -429,7 +443,7 @@ public class StepByStepSimulationController extends AbstractScreen {
             if (entry.sourceId == entry.targetId) {
                 continue;
             }
-            Line vertex = vertices.get(entry.sourceId).get(entry.targetId);
+            Line vertex = outputChannelVertices.get(entry.sourceId).get(entry.targetId);
             vertex.setStroke(entry.color);
             vertex.setStrokeWidth(3);
         }

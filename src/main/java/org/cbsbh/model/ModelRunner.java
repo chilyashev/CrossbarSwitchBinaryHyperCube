@@ -142,7 +142,7 @@ public class ModelRunner extends Thread {
         int messages = 0;
         int nodeCount = 1 << channelCount;
         try {
-            int MAX_TICK_FOR_GENERATING_MESSAGE = 30; // TODO
+            int MAX_TICK_FOR_GENERATING_MESSAGE = 30; // TODO: да се взема от интерфейса
             while (ticks < 2__0__0) {
                 System.err.println("Tick: " + ticks);
                 Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
