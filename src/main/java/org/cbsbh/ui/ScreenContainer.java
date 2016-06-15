@@ -9,7 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -22,7 +22,7 @@ import java.util.HashMap;
  *
  * @author Mihail Chilyashev
  */
-public class ScreenContainer extends StackPane {
+public class ScreenContainer extends AnchorPane {
     /**
      * A HashMap containing the current screens.
      * The key is the screen id, the value is the screen itself
@@ -89,7 +89,13 @@ public class ScreenContainer extends StackPane {
      */
     public boolean showScreen(final String screenId) {
         currentScreenId = screenId;
-        if (screens.get(screenId) != null) { //screen loaded
+        final Node currentScreen = screens.get(screenId);
+//        AnchorPane.setTopAnchor(currentScreen, 0.0);
+        AnchorPane.setRightAnchor(currentScreen, -10.0);
+//        AnchorPane.setBottomAnchor(currentScreen, 0.0);
+//        AnchorPane.setLeftAnchor(currentScreen, 0.0);
+
+        if (currentScreen != null) { //screen loaded
             final DoubleProperty opacity = opacityProperty();
 
             /*
@@ -106,7 +112,7 @@ public class ScreenContainer extends StackPane {
                                 // Remove the currently displayed screen after it finishes fading out
                                 getChildren().remove(0);
                                 // Add the new screen at the old one's place
-                                getChildren().add(0, screens.get(screenId));
+                                getChildren().add(0, currentScreen);
                                 // tell the controller to do whatever it should do when the screen is starting
                                 //controllers.get(screenId).init();
                                 //((Node)screens.get(screenId)).getScene().getRoot()
@@ -122,7 +128,7 @@ public class ScreenContainer extends StackPane {
             } else {
                 // No screens are currently being displayed, so we just add the new one and fad it in
                 setOpacity(0.0);
-                getChildren().add(screens.get(screenId));
+                getChildren().add(currentScreen);
                 Timeline fadeIn = new Timeline(
                         new KeyFrame(Duration.ZERO,
                                 new KeyValue(opacity, 0.0)),
@@ -145,10 +151,11 @@ public class ScreenContainer extends StackPane {
         }
     }
 
-    public ControlledScreen getCurrentScreenController(){
+    public ControlledScreen getCurrentScreenController() {
         return controllers.get(currentScreenId);
     }
-    public ControlledScreen getScreenController(String screenId){
+
+    public ControlledScreen getScreenController(String screenId) {
         return controllers.get(screenId);
     }
 

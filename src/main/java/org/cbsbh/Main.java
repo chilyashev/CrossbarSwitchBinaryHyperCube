@@ -26,13 +26,15 @@ public class Main extends Application {
         mainScreen.loadScreen("simulation", "/screens/simulation.fxml");
         mainScreen.loadScreen("simulation_results", "/screens/simulation_results.fxml");
         mainScreen.loadScreen("step_by_step", "/screens/simulation_step_by_step.fxml");
+        mainScreen.loadScreen("svg_step_by_step", "/screens/svg_simulation_step_by_step.fxml");
 
         // Pass the stage
         mainScreen.setStage(primaryStage);
 
         // Showing the main screen
         //mainScreen.showScreen("main");
-        mainScreen.showScreen("step_by_step");
+        //mainScreen.showScreen("step_by_step");
+        mainScreen.showScreen("svg_step_by_step");
 
         primaryStage.setOnCloseRequest(event -> {
             mainScreen.closeScreen();
@@ -41,7 +43,7 @@ public class Main extends Application {
         // Displaying the stage
         Group root = new Group();
         root.getChildren().addAll(mainScreen);
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 800, 640);
         primaryStage.setScene(scene);
         primaryStage.minHeightProperty().bind(mainScreen.heightProperty());
         primaryStage.minWidthProperty().bind(mainScreen.widthProperty());

@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -12,15 +13,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.SVGPath;
 import org.cbsbh.Constants;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.ModelRunner;
 import org.cbsbh.model.routing.MPPNetwork;
+import org.cbsbh.model.routing.OutputChannel;
 import org.cbsbh.model.routing.SMPNode;
 import org.cbsbh.model.structures.Flit;
 import org.cbsbh.model.structures.FlitHistoryEntry;
 import org.cbsbh.ui.AbstractScreen;
-import org.cbsbh.ui.screens.graph_visualisation.NodeController;
 import org.cbsbh.ui.screens.graph_visualisation.NodeDetailsController;
 import org.cbsbh.ui.screens.graph_visualisation.PacketController;
 import org.cbsbh.util.Util;
@@ -50,6 +52,7 @@ public class StepByStepSimulationController extends AbstractScreen {
 
     private NodeDetailsController detailsController;
     private AnchorPane detailsControl;
+    private Group nodesControl;
 
     private Color packetColor;
 
@@ -71,6 +74,8 @@ public class StepByStepSimulationController extends AbstractScreen {
     public Button pauseUnpauseButton;
     @FXML
     public VBox packetVbox;
+    @FXML
+    public AnchorPane nodesPane;
     // eo FXML controls
 
 
@@ -95,6 +100,10 @@ public class StepByStepSimulationController extends AbstractScreen {
         packetColor = null;
         lastPacketButtonY = 0;
 
+        // Model stuff
+        // Do this here, because some stuff below uses the MPPNetwork class which gets populated while initializing the model
+        setUpModelRunner();
+
         // UI stuff
         FXMLLoader detailsLoader;
         detailsLoader = new FXMLLoader(getClass().getResource("/screens/graph_vis/node_details.fxml"));
@@ -107,8 +116,71 @@ public class StepByStepSimulationController extends AbstractScreen {
             e.printStackTrace();
         }
 
-        // Model stuff
-        setUpModelRunner();
+        FXMLLoader nodesLoader;
+        nodesLoader = new FXMLLoader(getClass().getResource("/screens/nodes.fxml"));
+
+        try {
+            nodesControl = nodesLoader.load();
+            assert nodesControl != null;
+            nodesControl.setLayoutX(0);
+            nodesControl.setLayoutY(0);
+
+            // Възлите в SVG-то имат ID-та, които са числовата стойност на ID-тата на възлите от мрежата.
+            // Пример: #node6 за SMP възел с id 0110.
+            // Каналите имат ID-та от вида #channel_{from}_{to},
+            // където {from} е числовата стойност на ID-то на възела, за който каналът е изходящ, а {to} - накъде сочи.
+            for (SMPNode node : MPPNetwork.getAll()) {
+                final Node nodeNode = nodesControl.lookup("#node" + node.getId());
+                if (nodeNode != null) {
+                    System.out.println("Added a listener for node " + node.getId());
+                    nodeNode.hoverProperty().addListener((observable, wasHovered, isHovered) -> {
+                        // Ходим през изходните канали на възела, за да видим накъде сочат.
+                        SVGPath channelPath;
+                        Group channelArrow;
+                        Node lookup;
+                        for (OutputChannel oc : node.getOutputChannels().values()) {
+                            lookup = nodesControl.lookup(String.format("#channel_%d_%d", node.getId(), oc.getId()));
+                            if (lookup instanceof SVGPath) {
+                                channelPath = (SVGPath)
+                                        lookup;
+                                if (isHovered) {
+                                    channelPath.strokeProperty().setValue(Color.RED);
+                                    channelPath.fillProperty().setValue(Color.RED);
+                                } else {
+                                    channelPath.strokeProperty().setValue(Color.BLACK);
+                                    channelPath.fillProperty().setValue(Color.BLACK);
+                                }
+                            } else {
+                                if (lookup == null) {
+                                    continue;
+                                }
+                                channelArrow = (Group) lookup;
+                                if (isHovered) {
+                                    // It's a shame...
+                                    ((SVGPath)channelArrow.getChildren().get(0)).strokeProperty().setValue(Color.RED);
+                                    ((SVGPath)channelArrow.getChildren().get(1)).strokeProperty().setValue(Color.RED);
+
+                                    ((SVGPath)channelArrow.getChildren().get(1)).fillProperty().setValue(Color.RED);
+                                } else {
+                                    ((SVGPath)channelArrow.getChildren().get(0)).strokeProperty().setValue(Color.BLACK);
+                                    ((SVGPath)channelArrow.getChildren().get(1)).strokeProperty().setValue(Color.BLACK);
+
+                                    ((SVGPath)channelArrow.getChildren().get(1)).fillProperty().setValue(Color.BLACK);
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    System.err.printf("#node%d not found :(\n", node.getId());
+                }
+            }
+            nodesPane.getChildren().setAll(nodesControl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        /*
 
         // Animation
         animationThread = new AnimatedStepByStep();
@@ -117,8 +189,8 @@ public class StepByStepSimulationController extends AbstractScreen {
         int[] leftCube = {6, 7, 2, 3, 4, 5, 0, 1};
         int[] rightCube = {14, 15, 10, 11, 12, 13, 8, 9};
 
-        drawNodeCube(leftCube, 0, 180);
-        drawNodeCube(rightCube, 360, 0);
+        drawNodeCube(leftCube, 5, 180);
+        drawNodeCube(rightCube, 365, 0);
 
         // Дъгите се добавят тук, защото иначе не работи. Дъгите на първия куб не реагират на hover-а върху някой възел
         for (HashMap<Integer, Line> lines : outputChannelVertices.values()) {
@@ -133,7 +205,7 @@ public class StepByStepSimulationController extends AbstractScreen {
         nodeGroup.toFront();
         graphGroup.getChildren().add(nodeGroup);
         //mainPane.getChildren().add(nodeGroup);
-        mainPane.getChildren().add(graphGroup);
+        mainPane.getChildren().add(graphGroup);*/
     }
 
     private void setUpModelRunner() {
@@ -161,100 +233,6 @@ public class StepByStepSimulationController extends AbstractScreen {
             statusLabel.setText("Симулацията завърши.");
             pauseUnpauseButton.setText("Нова симулация");
         });
-    }
-
-    boolean addedArrow = false;
-    private void drawNodeCube(int nodeIds[], int offsetX, int offsetY) {
-        int x, y, xInc, yInc, maxX, xMargin;
-        int nodesInRow, maxNodesPerRow, currentRow;
-        xMargin = offsetX;
-        x = xMargin;
-        y = offsetY;
-        xInc = 200;
-        yInc = 100;
-        maxX = 700;
-        nodesInRow = 0;
-        maxNodesPerRow = 2;
-        currentRow = 1;
-
-        // Load the custom control
-        FXMLLoader loader;
-        AnchorPane control;
-        Line outputChannelVertex, inputChannelVertex;
-        NodeController controller;
-
-        // Add all the nodes to the graph
-        //for (SMPNode node : MPPNetwork.getAll()) {
-        for (int nodeId : nodeIds) {
-            SMPNode node = MPPNetwork.get(nodeId);
-            // System.err.printf("Inserting node %d\n", nodeId);
-            String buttonText = Util.binaryFormattedNodeID(nodeId);
-            try {
-                loader = new FXMLLoader(getClass().getResource("/screens/graph_vis/node.fxml"));
-                control = loader.load();
-                assert control != null;
-                controller = loader.getController();
-                controller.setText(buttonText);
-                controller.setLocation(x, y);
-                controller.setTooltip(new Tooltip("Все още няма информация за този възел."));
-
-                controller.setOnEnterHandler(event -> updateVerticesOnEnter(nodeId));
-                controller.setOnExitHandler(event -> updateVerticesOnExit());
-
-                graphNodes.put(nodeId,
-                        new GraphNode(
-                                (int) (x + control.getPrefWidth() / 2),
-                                (int) (y + control.getPrefHeight() / 2),
-                                node,
-                                controller
-                        )
-                );
-
-                //nodeGroup.getChildren().addAll(control.getChildrenUnmodifiable());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (currentRow % 2 == 0) {
-                xMargin = offsetX;
-            } else {
-                xMargin = offsetX + 80;
-            }
-
-            x += xInc;
-            nodesInRow++;
-            if (x >= maxX || nodesInRow >= maxNodesPerRow) {
-                x = xMargin;
-                y += yInc;
-                nodesInRow = 0;
-                currentRow++;
-            }
-        }
-
-        for (GraphNode graphNode : graphNodes.values()) {
-            for (Integer neighbor : graphNode.getNeighbors()) {
-                GraphNode neighborNode = graphNodes.get(neighbor);
-                if (neighborNode == null) {
-                    continue;
-                }
-
-                // MAGIC NUMBERS! MAGIC NUMBERS EVERYWHERE!!!
-                //
-                outputChannelVertex = new Line(graphNode.x - 10, graphNode.y - 5, neighborNode.x - 10, neighborNode.y - 5);
-                inputChannelVertex = new Line(graphNode.x + 10, graphNode.y + 5, neighborNode.x + 10, neighborNode.y + 5);
-
-                outputChannelVertices.putIfAbsent(graphNode.smpNode.getId(), new HashMap<>());
-                inputChannelVertices.putIfAbsent(graphNode.smpNode.getId(), new HashMap<>());
-
-                outputChannelVertices.get(graphNode.smpNode.getId()).put(neighbor, outputChannelVertex);
-                inputChannelVertices.get(graphNode.smpNode.getId()).put(neighbor, inputChannelVertex);
-
-                // Arrows
-                // < >
-                // Heh. Arrows. Well...
-            }
-        }
     }
 
     private void updateVerticesOnEnter(int nodeId) {
@@ -324,10 +302,9 @@ public class StepByStepSimulationController extends AbstractScreen {
                 if (currentFlit.isHeader()) {
                     node.currentTargetId = (int) currentFlit.getDNA();
                     addNewPacketButton(currentFlit);
-                }else if (currentFlit.getFlitType() == Flit.FLIT_TYPE_BODY) {
+                } else if (currentFlit.getFlitType() == Flit.FLIT_TYPE_BODY) {
                     updatePacketButton(currentFlit);
-                }
-                else if (currentFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
+                } else if (currentFlit.getFlitType() == Flit.FLIT_TYPE_TAIL) {
                     updatePacketButton(currentFlit);
                     node.currentTargetId = -1;
                     PacketDescription packetDescription = packets.get(currentFlit.getPacketId());

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?scenebuilder-background-color 0x0052ccff?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.*?>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1366.0" style="" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.StepByStepSimulationController">
+  <children>
+    <AnchorPane id="AnchorPane" fx:id="nodesPane" cache="false" prefHeight="600.0" prefWidth="710.0" style="&#10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="475.0" AnchorPane.topAnchor="0.0" />
+    <AnchorPane id="AnchorPane" fx:id="packetPane" prefHeight="585.0" prefWidth="86.0" style="-fx-background-color:white;&#10;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="389.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <Label text="Пакети:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <ScrollPane id="ScrollPane" fitToHeight="false" hbarPolicy="NEVER" layoutX="0.0" layoutY="15.0" pannable="false" prefViewportHeight="560.0" prefViewportWidth="76.0" prefWidth="86.0" style="-fx-background-color: white;" vbarPolicy="AS_NEEDED">
+          <content>
+            <VBox fx:id="packetVbox" prefHeight="560.0" prefWidth="86.0" style="-fx-background-color: white;" />
+          </content>
+        </ScrollPane>
+      </children>
+    </AnchorPane>
+    <AnchorPane id="AnchorPane" fx:id="rightPane" layoutY="0.0" prefHeight="585.0" prefWidth="390.0" style="" AnchorPane.rightAnchor="0.0">
+      <children>
+        <AnchorPane layoutY="0.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color:blue;" visible="true" AnchorPane.rightAnchor="0.0">
+          <effect>
+            <Shadow color="#43ff33" />
+          </effect>
+        </AnchorPane>
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>
