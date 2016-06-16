@@ -140,6 +140,9 @@ public class StepByStepSimulationController extends AbstractScreen {
                         Node lookup;
                         for (OutputChannel oc : node.getOutputChannels().values()) {
                             lookup = nodesControl.lookup(String.format("#channel_%d_%d", node.getId(), oc.getId()));
+                            if (lookup == null) {
+                                continue;
+                            }
                             if (lookup instanceof SVGPath) {
                                 channelPath = (SVGPath)
                                         lookup;
@@ -151,9 +154,6 @@ public class StepByStepSimulationController extends AbstractScreen {
                                     channelPath.fillProperty().setValue(Color.BLACK);
                                 }
                             } else {
-                                if (lookup == null) {
-                                    continue;
-                                }
                                 channelArrow = (Group) lookup;
                                 if (isHovered) {
                                     // It's a shame...
