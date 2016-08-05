@@ -132,7 +132,6 @@ public class StepByStepSimulationController extends AbstractScreen {
             for (SMPNode node : MPPNetwork.getAll()) {
                 final Node nodeNode = nodesControl.lookup("#node" + node.getId());
                 if (nodeNode != null) {
-                    System.out.println("Added a listener for node " + node.getId());
                     nodeNode.hoverProperty().addListener((observable, wasHovered, isHovered) -> {
                         // Ходим през изходните канали на възела, за да видим накъде сочат.
                         SVGPath channelPath;

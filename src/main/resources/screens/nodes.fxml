@@ -83,6 +83,13 @@
 							</stroke>
 						</SVGPath>
 					</children>
+					<transforms>
+						<Translate
+							x="-2.2226624e-7"
+							y="-99.999927"
+							>
+						</Translate>
+					</transforms>
 				</Group>
 				<Group
 					opacity="1.0"
@@ -134,6 +141,13 @@
 							</stroke>
 						</SVGPath>
 					</children>
+					<transforms>
+						<Translate
+							x="-2.2226624e-7"
+							y="-99.999927"
+							>
+						</Translate>
+					</transforms>
 				</Group>
 				<Group
 					opacity="1.0"
@@ -188,7 +202,7 @@
 					<transforms>
 						<Translate
 							x="200.25"
-							y="5.5"
+							y="-94.499922"
 							>
 						</Translate>
 					</transforms>
@@ -246,7 +260,7 @@
 					<transforms>
 						<Translate
 							x="200.25"
-							y="5.5"
+							y="-94.499922"
 							>
 						</Translate>
 					</transforms>
@@ -304,7 +318,7 @@
 					<transforms>
 						<Translate
 							x="300.21722"
-							y="106.26272"
+							y="6.2627282"
 							>
 						</Translate>
 					</transforms>
@@ -362,7 +376,7 @@
 					<transforms>
 						<Translate
 							x="300.21722"
-							y="106.26272"
+							y="6.2627282"
 							>
 						</Translate>
 					</transforms>
@@ -420,7 +434,7 @@
 					<transforms>
 						<Translate
 							x="96.71722"
-							y="98.82522"
+							y="-1.1747458"
 							>
 						</Translate>
 					</transforms>
@@ -478,7 +492,7 @@
 					<transforms>
 						<Translate
 							x="96.71722"
-							y="98.82522"
+							y="-1.1747458"
 							>
 						</Translate>
 					</transforms>
@@ -535,8 +549,8 @@
 					</children>
 					<transforms>
 						<Translate
-							x="-0.33318542"
-							y="197.82017"
+							x="-0.33318559"
+							y="97.820238"
 							>
 						</Translate>
 					</transforms>
@@ -593,8 +607,8 @@
 					</children>
 					<transforms>
 						<Translate
-							x="-0.33318542"
-							y="197.82017"
+							x="-0.33318559"
+							y="97.820238"
 							>
 						</Translate>
 					</transforms>
@@ -652,7 +666,7 @@
 					<transforms>
 						<Translate
 							x="98.329657"
-							y="298.35433"
+							y="198.35419"
 							>
 						</Translate>
 					</transforms>
@@ -710,7 +724,7 @@
 					<transforms>
 						<Translate
 							x="98.329657"
-							y="298.35433"
+							y="198.35419"
 							>
 						</Translate>
 					</transforms>
@@ -768,7 +782,7 @@
 					<transforms>
 						<Translate
 							x="299.14216"
-							y="305.16683"
+							y="205.16669"
 							>
 						</Translate>
 					</transforms>
@@ -826,7 +840,7 @@
 					<transforms>
 						<Translate
 							x="299.14216"
-							y="305.16683"
+							y="205.16669"
 							>
 						</Translate>
 					</transforms>
@@ -884,7 +898,7 @@
 					<transforms>
 						<Translate
 							x="199.21722"
-							y="206.26272"
+							y="106.26272"
 							>
 						</Translate>
 					</transforms>
@@ -942,7 +956,7 @@
 					<transforms>
 						<Translate
 							x="199.21722"
-							y="206.26272"
+							y="106.26272"
 							>
 						</Translate>
 					</transforms>
@@ -1007,7 +1021,7 @@
 					<transforms>
 						<Translate
 							x="-3.3"
-							y="-0.45594688"
+							y="-100.45587"
 							>
 						</Translate>
 					</transforms>
@@ -1067,9 +1081,9 @@
 							mxx="-1"
 							myx="0"
 							mxy="0"
-							myy="1"
+							myy="0.99999955"
 							tx="243.4889"
-							ty="6.5435656"
+							ty="-93.456357"
 							>
 						</Affine>
 					</transforms>
@@ -1127,11 +1141,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="-1"
+							myx="-0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="529.48615"
-							ty="536.68621"
+							ty="436.68612"
 							>
 						</Affine>
 					</transforms>
@@ -1189,11 +1203,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="1"
+							myx="0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="535.79316"
-							ty="289.8973"
+							ty="189.89722"
 							>
 						</Affine>
 					</transforms>
@@ -1253,9 +1267,9 @@
 							mxx="1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="-3.251534"
-							ty="827.98621"
+							ty="727.9859"
 							>
 						</Affine>
 					</transforms>
@@ -1315,9 +1329,9 @@
 							mxx="-1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="243.5369"
-							ty="821.34833"
+							ty="721.34802"
 							>
 						</Affine>
 					</transforms>
@@ -1375,11 +1389,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="-1"
+							myx="-0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="627.21514"
-							ty="637.25666"
+							ty="537.25643"
 							>
 						</Affine>
 					</transforms>
@@ -1437,11 +1451,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="1"
+							myx="0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="633.52215"
-							ty="390.46775"
+							ty="290.46761"
 							>
 						</Affine>
 					</transforms>
@@ -1499,11 +1513,11 @@
 					<transforms>
 						<Affine
 							mxx="-0.71138776"
-							myx="-0.70279973"
+							myx="-0.70279943"
 							mxy="-0.70279973"
-							myy="0.71138776"
+							myy="0.71138746"
 							tx="534.98206"
-							ty="308.9893"
+							ty="208.98916"
 							>
 						</Affine>
 					</transforms>
@@ -1561,11 +1575,11 @@
 					<transforms>
 						<Affine
 							mxx="0.71138776"
-							myx="0.70279973"
+							myx="0.70279943"
 							mxy="0.70279973"
-							myy="-0.71138776"
+							myy="-0.71138746"
 							tx="-393.95689"
-							ty="817.49154"
+							ty="717.49123"
 							>
 						</Affine>
 					</transforms>
@@ -1623,7 +1637,7 @@
 					<transforms>
 						<Translate
 							x="95.048004"
-							y="98.572536"
+							y="-1.4274298"
 							>
 						</Translate>
 					</transforms>
@@ -1683,9 +1697,9 @@
 							mxx="-1"
 							myx="0"
 							mxy="0"
-							myy="1"
+							myy="0.99999955"
 							tx="341.5369"
-							ty="105.57205"
+							ty="5.5720582"
 							>
 						</Affine>
 					</transforms>
@@ -1745,9 +1759,9 @@
 							mxx="1.0048608"
 							myx="0"
 							mxy="0"
-							myy="0.9999745"
+							myy="0.99997405"
 							tx="94.848964"
-							ty="-101.46437"
+							ty="-201.46422"
 							>
 						</Affine>
 					</transforms>
@@ -1807,9 +1821,9 @@
 							mxx="-1.0048608"
 							myx="0"
 							mxy="0"
-							myy="0.9999745"
+							myy="0.99997405"
 							tx="342.53597"
-							ty="-94.465037"
+							ty="-194.46492"
 							>
 						</Affine>
 					</transforms>
@@ -1867,11 +1881,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="-1"
+							myx="-0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="728.38615"
-							ty="536.68621"
+							ty="436.68612"
 							>
 						</Affine>
 					</transforms>
@@ -1929,11 +1943,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="1"
+							myx="0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="734.69316"
-							ty="289.8973"
+							ty="189.89722"
 							>
 						</Affine>
 					</transforms>
@@ -1991,11 +2005,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="-1"
+							myx="-0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="827.21515"
-							ty="637.25666"
+							ty="537.25643"
 							>
 						</Affine>
 					</transforms>
@@ -2053,11 +2067,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="1"
+							myx="0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="833.52216"
-							ty="390.46775"
+							ty="290.46761"
 							>
 						</Affine>
 					</transforms>
@@ -2115,11 +2129,11 @@
 					<transforms>
 						<Affine
 							mxx="-0.71138776"
-							myx="-0.70279973"
+							myx="-0.70279943"
 							mxy="-0.70279973"
-							myy="0.71138776"
+							myy="0.71138746"
 							tx="734.9822"
-							ty="308.9893"
+							ty="208.98916"
 							>
 						</Affine>
 					</transforms>
@@ -2177,11 +2191,11 @@
 					<transforms>
 						<Affine
 							mxx="0.71138776"
-							myx="0.70279973"
+							myx="0.70279943"
 							mxy="0.70279973"
-							myy="-0.71138776"
+							myy="-0.71138746"
 							tx="-195.55675"
-							ty="816.29154"
+							ty="716.29123"
 							>
 						</Affine>
 					</transforms>
@@ -2239,11 +2253,11 @@
 					<transforms>
 						<Affine
 							mxx="-0.71138776"
-							myx="-0.70279973"
+							myx="-0.70279943"
 							mxy="-0.70279973"
-							myy="0.71138776"
+							myy="0.71138746"
 							tx="734.9822"
-							ty="108.98924"
+							ty="8.9892482"
 							>
 						</Affine>
 					</transforms>
@@ -2301,11 +2315,11 @@
 					<transforms>
 						<Affine
 							mxx="0.71138776"
-							myx="0.70279973"
+							myx="0.70279943"
 							mxy="0.70279973"
-							myy="-0.71138776"
+							myy="-0.71138746"
 							tx="-195.55675"
-							ty="616.29148"
+							ty="516.29131"
 							>
 						</Affine>
 					</transforms>
@@ -2363,11 +2377,11 @@
 					<transforms>
 						<Affine
 							mxx="-0.71138776"
-							myx="-0.70279973"
+							myx="-0.70279943"
 							mxy="-0.70279973"
-							myy="0.71138776"
+							myy="0.71138746"
 							tx="534.9822"
-							ty="108.98924"
+							ty="8.9892482"
 							>
 						</Affine>
 					</transforms>
@@ -2425,11 +2439,11 @@
 					<transforms>
 						<Affine
 							mxx="0.71138776"
-							myx="0.70279973"
+							myx="0.70279943"
 							mxy="0.70279973"
-							myy="-0.71138776"
+							myy="-0.71138746"
 							tx="-395.55675"
-							ty="616.29148"
+							ty="516.29131"
 							>
 						</Affine>
 					</transforms>
@@ -2487,11 +2501,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="-1"
+							myx="-0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="1032.2152"
-							ty="447.15672"
+							ty="347.15657"
 							>
 						</Affine>
 					</transforms>
@@ -2549,11 +2563,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="1"
+							myx="0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="1038.5222"
-							ty="200.36781"
+							ty="100.36788"
 							>
 						</Affine>
 					</transforms>
@@ -2611,11 +2625,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="-1"
+							myx="-0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="1232.2152"
-							ty="447.15672"
+							ty="347.15657"
 							>
 						</Affine>
 					</transforms>
@@ -2673,11 +2687,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="1"
+							myx="0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="1238.5222"
-							ty="200.36781"
+							ty="100.36788"
 							>
 						</Affine>
 					</transforms>
@@ -2737,9 +2751,9 @@
 							mxx="1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="500.47249"
-							ty="938.40931"
+							ty="838.409"
 							>
 						</Affine>
 					</transforms>
@@ -2799,9 +2813,9 @@
 							mxx="-1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="747.53032"
-							ty="931.40931"
+							ty="831.409"
 							>
 						</Affine>
 					</transforms>
@@ -2861,9 +2875,9 @@
 							mxx="1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="500.74849"
-							ty="738.40931"
+							ty="638.40907"
 							>
 						</Affine>
 					</transforms>
@@ -2923,9 +2937,9 @@
 							mxx="-1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="747.53032"
-							ty="731.40931"
+							ty="631.40907"
 							>
 						</Affine>
 					</transforms>
@@ -2985,9 +2999,9 @@
 							mxx="1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="402.97115"
-							ty="636.93083"
+							ty="536.9306"
 							>
 						</Affine>
 					</transforms>
@@ -3047,9 +3061,9 @@
 							mxx="-1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="648.02888"
-							ty="629.93083"
+							ty="529.9306"
 							>
 						</Affine>
 					</transforms>
@@ -3109,9 +3123,9 @@
 							mxx="1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="402.97115"
-							ty="836.93131"
+							ty="736.93107"
 							>
 						</Affine>
 					</transforms>
@@ -3171,9 +3185,9 @@
 							mxx="-1"
 							myx="0"
 							mxy="0"
-							myy="-1"
+							myy="-0.99999955"
 							tx="648.02888"
-							ty="829.93131"
+							ty="729.931"
 							>
 						</Affine>
 					</transforms>
@@ -3231,11 +3245,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="-1"
+							myx="-0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="932.69037"
-							ty="346.40891"
+							ty="246.40877"
 							>
 						</Affine>
 					</transforms>
@@ -3293,11 +3307,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="1"
+							myx="0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="939.69037"
-							ty="100.51528"
+							ty="0.5153122"
 							>
 						</Affine>
 					</transforms>
@@ -3355,11 +3369,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="-1"
+							myx="-0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="1132.6902"
-							ty="346.40891"
+							ty="246.40877"
 							>
 						</Affine>
 					</transforms>
@@ -3417,11 +3431,11 @@
 					<transforms>
 						<Affine
 							mxx="0"
-							myx="1"
+							myx="0.99999955"
 							mxy="-1"
 							myy="0"
 							tx="1139.6902"
-							ty="100.51528"
+							ty="0.5153122"
 							>
 						</Affine>
 					</transforms>
@@ -3479,11 +3493,11 @@
 					<transforms>
 						<Affine
 							mxx="-0.71138806"
-							myx="-0.70279973"
+							myx="-0.70279943"
 							mxy="-0.70280003"
-							myy="0.71138776"
+							myy="0.71138746"
 							tx="939.50583"
-							ty="120.76783"
+							ty="20.767828"
 							>
 						</Affine>
 					</transforms>
@@ -3541,11 +3555,11 @@
 					<transforms>
 						<Affine
 							mxx="0.71138806"
-							myx="0.70279973"
+							myx="0.70279943"
 							mxy="0.70280003"
-							myy="-0.71138776"
+							myy="-0.71138746"
 							tx="8.966482"
-							ty="628.07007"
+							ty="528.06984"
 							>
 						</Affine>
 					</transforms>
@@ -3603,11 +3617,11 @@
 					<transforms>
 						<Affine
 							mxx="-0.71138806"
-							myx="-0.70279973"
+							myx="-0.70279943"
 							mxy="-0.70280003"
-							myy="0.71138776"
+							myy="0.71138746"
 							tx="1138.2622"
-							ty="120.45349"
+							ty="20.453488"
 							>
 						</Affine>
 					</transforms>
@@ -3665,11 +3679,11 @@
 					<transforms>
 						<Affine
 							mxx="0.71138806"
-							myx="0.70279973"
+							myx="0.70279943"
 							mxy="0.70280003"
-							myy="-0.71138776"
+							myy="-0.71138746"
 							tx="207.72307"
-							ty="627.75573"
+							ty="527.7555"
 							>
 						</Affine>
 					</transforms>
@@ -3727,11 +3741,11 @@
 					<transforms>
 						<Affine
 							mxx="-0.71138806"
-							myx="-0.70279973"
+							myx="-0.70279943"
 							mxy="-0.70280003"
-							myy="0.71138776"
+							myy="0.71138746"
 							tx="939.50583"
-							ty="-79.231778"
+							ty="-179.23167"
 							>
 						</Affine>
 					</transforms>
@@ -3789,11 +3803,11 @@
 					<transforms>
 						<Affine
 							mxx="0.71138806"
-							myx="0.70279973"
+							myx="0.70279943"
 							mxy="0.70280003"
-							myy="-0.71138776"
+							myy="-0.71138746"
 							tx="8.966482"
-							ty="428.07047"
+							ty="328.07033"
 							>
 						</Affine>
 					</transforms>
@@ -3851,11 +3865,11 @@
 					<transforms>
 						<Affine
 							mxx="-0.71138806"
-							myx="-0.70279973"
+							myx="-0.70279943"
 							mxy="-0.70280003"
-							myy="0.71138776"
+							myy="0.71138746"
 							tx="1139.5052"
-							ty="-79.231778"
+							ty="-179.23167"
 							>
 						</Affine>
 					</transforms>
@@ -3913,11 +3927,11 @@
 					<transforms>
 						<Affine
 							mxx="0.71138806"
-							myx="0.70279973"
+							myx="0.70279943"
 							mxy="0.70280003"
-							myy="-0.71138776"
+							myy="-0.71138746"
 							tx="208.96607"
-							ty="428.07047"
+							ty="328.07033"
 							>
 						</Affine>
 					</transforms>
@@ -3929,10 +3943,11 @@
 			id="layer4"
 			>
 			<children>
-				<Circle
-					radius="18.0"
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="219.0"
-					centerY="313.36221"
+					centerY="213.36221"
 					opacity="1"
 					id="node7"
 					strokeWidth="2.0"
@@ -3952,11 +3967,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="219.0"
-					centerY="513.36218"
+					centerY="413.36209"
 					opacity="1"
 					id="node5"
 					strokeWidth="2.0"
@@ -3976,11 +3992,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="21.0"
-					centerY="513.36218"
+					centerY="413.36209"
 					opacity="1"
 					id="node4"
 					strokeWidth="2.0"
@@ -4000,11 +4017,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="119.0"
-					centerY="613.36218"
+					centerY="513.36218"
 					opacity="1"
 					id="node0"
 					strokeWidth="2.0"
@@ -4024,11 +4042,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="319.0"
-					centerY="413.36221"
+					centerY="313.36218"
 					opacity="1"
 					id="node3"
 					strokeWidth="2.0"
@@ -4048,11 +4067,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="319.0"
-					centerY="613.36218"
+					centerY="513.36218"
 					opacity="1"
 					id="node1"
 					strokeWidth="2.0"
@@ -4072,11 +4092,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="426.0"
-					centerY="123.36219"
+					centerY="23.362186"
 					opacity="1"
 					id="node14"
 					strokeWidth="2.0"
@@ -4096,11 +4117,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="624.36462"
-					centerY="123.36219"
+					centerY="23.362186"
 					opacity="1"
 					id="node15"
 					strokeWidth="2.0"
@@ -4120,11 +4142,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="624.36462"
-					centerY="323.24738"
+					centerY="223.24738"
 					opacity="1"
 					id="node13"
 					strokeWidth="2.0"
@@ -4144,11 +4167,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="426.0"
-					centerY="323.36218"
+					centerY="223.36218"
 					opacity="1"
 					id="node12"
 					strokeWidth="2.0"
@@ -4168,11 +4192,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="524.36523"
-					centerY="423.36221"
+					centerY="323.36218"
 					opacity="1"
 					id="node8"
 					strokeWidth="2.0"
@@ -4192,11 +4217,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="724.36462"
-					centerY="223.36217"
+					centerY="123.36213"
 					opacity="1"
 					id="node11"
 					strokeWidth="2.0"
@@ -4216,11 +4242,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="724.36462"
-					centerY="423.36221"
+					centerY="323.36218"
 					opacity="1"
 					id="node9"
 					strokeWidth="2.0"
@@ -4240,11 +4267,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="119.0"
-					centerY="413.36221"
+					centerY="313.36218"
 					opacity="1"
 					id="node2"
 					strokeWidth="2.0"
@@ -4264,11 +4292,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="524.36572"
-					centerY="223.36217"
+					centerY="123.36213"
 					opacity="1"
 					id="node10"
 					strokeWidth="2.0"
@@ -4288,11 +4317,12 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
-				<Circle
-					radius="18.0"
+				</Ellipse>
+				<Ellipse
+					radiusX="18.0"
+					radiusY="17.999998"
 					centerX="21.0"
-					centerY="313.36221"
+					centerY="213.36221"
 					opacity="1"
 					id="node6"
 					strokeWidth="2.0"
@@ -4312,7 +4342,7 @@
 						</Color>
 					</stroke>
 					
-				</Circle>
+				</Ellipse>
 			</children>
 		</Group>
 	</children>
