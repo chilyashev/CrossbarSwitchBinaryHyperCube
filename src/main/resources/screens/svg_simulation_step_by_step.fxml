@@ -15,6 +15,20 @@
       <VBox>
          <children>
           <AnchorPane id="AnchorPane" fx:id="nodesPane" cache="false" prefHeight="500.0" prefWidth="710.0" style="&#10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="475.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane>
+                <children>
+                    <Label fx:id="statusLabel" text="Симулацията не е стартирана." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
+                    <HBox id="HBox" alignment="CENTER" layoutY="0.0" spacing="5.0" AnchorPane.rightAnchor="5.0">
+                        <children>
+                            <Button fx:id="pauseUnpauseButton" mnemonicParsing="false" onAction="#toggleAnimation" text="Започни симулацията" />
+                            <Button mnemonicParsing="false" onAction="#nextStep" prefHeight="22.0" text="Стъпка напред" />
+                        </children>
+                    </HBox>
+                </children>
+                <padding>
+                    <Insets />
+                </padding>
+            </AnchorPane>
          </children>
       </VBox>
     <AnchorPane id="AnchorPane" fx:id="packetPane" prefHeight="585.0" prefWidth="86.0" style="-fx-background-color:white;&#10;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="389.0" AnchorPane.topAnchor="0.0">

@@ -178,12 +178,12 @@ public class StepByStepSimulationController extends AbstractScreen {
             e.printStackTrace();
         }
 
+// Animation
+        animationThread = new AnimatedStepByStep();
+        animationThread.start();
 
         /*
 
-        // Animation
-        animationThread = new AnimatedStepByStep();
-        animationThread.start();
 
         int[] leftCube = {6, 7, 2, 3, 4, 5, 0, 1};
         int[] rightCube = {14, 15, 10, 11, 12, 13, 8, 9};
@@ -286,9 +286,9 @@ public class StepByStepSimulationController extends AbstractScreen {
 
         statusLabel.setText("Такт: " + context.getString("currentModelTick"));
 
-        updateNodeDetails(detailsController.getNodeId());
+        //updateNodeDetails(detailsController.getNodeId());
 
-        updateNodes();
+        //updateNodes();
     }
 
     private synchronized void updateNodes() {
