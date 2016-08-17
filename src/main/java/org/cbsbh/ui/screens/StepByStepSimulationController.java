@@ -1,7 +1,7 @@
 package org.cbsbh.ui.screens;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -12,8 +12,10 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import org.cbsbh.Constants;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.ModelRunner;
@@ -39,16 +41,17 @@ import java.util.HashMap;
  */
 public class StepByStepSimulationController extends AbstractScreen {
 
+    private static final double NODE_ELLIPSE_RADIUS = 20;
+    private static final Font NODE_TEXT_FONT = new Font(11);
+
     private Context context;
 
     private ModelRunner runner;
 
     private HashMap<Integer, GraphNode> graphNodes;
-    private HashMap<Integer, HashMap<Integer, Line>> outputChannelVertices;
-    private HashMap<Integer, HashMap<Integer, Line>> inputChannelVertices;
+    private HashMap<Integer, HashMap<Integer, Group>> outputChannelVertices;
+    //private HashMap<Integer, HashMap<Integer, Group>> inputChannelVertices;
     private HashMap<String, PacketDescription> packets; // Key: packetId, Value: PacketController
-    private Group graphGroup;
-    private Group nodeGroup;
 
     private NodeDetailsController detailsController;
     private AnchorPane detailsControl;
@@ -60,8 +63,6 @@ public class StepByStepSimulationController extends AbstractScreen {
     private boolean animating = false;
     private boolean simulationFinished = false;
     private AnimatedStepByStep animationThread;
-
-    private int lastPacketButtonY;
 
     // FXML controls
     @FXML
@@ -90,15 +91,28 @@ public class StepByStepSimulationController extends AbstractScreen {
         setTitle("Изпълнение стъпка по стъпка");
 
         outputChannelVertices = new HashMap<>();
-        inputChannelVertices = new HashMap<>();
+        // inputChannelVertices = new HashMap<>();
         packets = new HashMap<>();
-        graphGroup = new Group();
-        nodeGroup = new Group();
         graphNodes = new HashMap<>();
         runner = null;
         detailsController = null;
         packetColor = null;
-        lastPacketButtonY = 0;
+
+        // Window handling stuff
+        // When the window is closed, the remaining threads should be killed, so the application can exit gracefully.
+        parent.setOnCloseHandler((event) -> {
+            // Set the simulation as finished and wait for the animation thread to die.
+            animating = true;
+            simulationFinished = true;
+            try {
+                animationThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // Force the model runner to stop.
+            runner.wakeUp();
+            runner.stopModel();
+        });
 
         // Model stuff
         // Do this here, because some stuff below uses the MPPNetwork class which gets populated while initializing the model
@@ -130,21 +144,58 @@ public class StepByStepSimulationController extends AbstractScreen {
             // Каналите имат ID-та от вида #channel_{from}_{to},
             // където {from} е числовата стойност на ID-то на възела, за който каналът е изходящ, а {to} - накъде сочи.
             for (SMPNode node : MPPNetwork.getAll()) {
-                final Node nodeNode = nodesControl.lookup("#node" + node.getId());
+                final Ellipse nodeNode = (Ellipse) nodesControl.lookup("#node" + node.getId());
+                Node lookup;
+                Text text;
+
+                for (OutputChannel oc : node.getOutputChannels().values()) {
+                    lookup = nodesControl.lookup(String.format("#channel_%d_%d", node.getId(), oc.getId()));
+
+                    if (lookup == null) {
+                        continue;
+                    }
+
+                    outputChannelVertices.putIfAbsent(node.getId(), new HashMap<>());
+                    //inputChannelVertices.putIfAbsent(node.getId(), new HashMap<>());
+
+                    outputChannelVertices.get(node.getId()).put(oc.getId(), (Group) lookup);
+                    //inputChannelVertices.get(oc.getId()).put(node.getId(), (Group) lookup);
+                }
+
                 if (nodeNode != null) {
+                    text = new Text(Util.binaryFormattedNodeID(node.getId()));
+                    text.setMouseTransparent(true); // Without this hovering the text doesn't call the Node Ellipse's onHover method.
+                    text.setFill(Color.BLACK);
+                    text.setStroke(Color.WHITE);
+                    text.setFont(NODE_TEXT_FONT);
+
+                    text.setX(nodeNode.getCenterX() - NODE_ELLIPSE_RADIUS / 2 - 1.5);
+                    text.setY(nodeNode.getCenterY() + NODE_ELLIPSE_RADIUS / 3 - 2.5);
+
+
+                    ObservableList<Node> children = ((Group) nodeNode.getParent()).getChildren();
+                    children.add(text);
+
+
+                    graphNodes.put(node.getId(), new GraphNode(node, nodeNode));
                     nodeNode.hoverProperty().addListener((observable, wasHovered, isHovered) -> {
                         // Ходим през изходните канали на възела, за да видим накъде сочат.
                         SVGPath channelPath;
                         Group channelArrow;
-                        Node lookup;
+                        Node channelLookup;
+
+                        // DetailsPanel stuff
+                        updateNodeDetails(node.getId());
+
+                        // Channel stuff
                         for (OutputChannel oc : node.getOutputChannels().values()) {
-                            lookup = nodesControl.lookup(String.format("#channel_%d_%d", node.getId(), oc.getId()));
-                            if (lookup == null) {
+                            channelLookup = nodesControl.lookup(String.format("#channel_%d_%d", node.getId(), oc.getId()));
+                            if (channelLookup == null) {
                                 continue;
                             }
-                            if (lookup instanceof SVGPath) {
+                            if (channelLookup instanceof SVGPath) {
                                 channelPath = (SVGPath)
-                                        lookup;
+                                        channelLookup;
                                 if (isHovered) {
                                     channelPath.strokeProperty().setValue(Color.RED);
                                     channelPath.fillProperty().setValue(Color.RED);
@@ -153,18 +204,18 @@ public class StepByStepSimulationController extends AbstractScreen {
                                     channelPath.fillProperty().setValue(Color.BLACK);
                                 }
                             } else {
-                                channelArrow = (Group) lookup;
+                                channelArrow = (Group) channelLookup;
                                 if (isHovered) {
                                     // It's a shame...
-                                    ((SVGPath)channelArrow.getChildren().get(0)).strokeProperty().setValue(Color.RED);
-                                    ((SVGPath)channelArrow.getChildren().get(1)).strokeProperty().setValue(Color.RED);
+                                    ((SVGPath) channelArrow.getChildren().get(0)).strokeProperty().setValue(Color.RED);
+                                    ((SVGPath) channelArrow.getChildren().get(1)).strokeProperty().setValue(Color.RED);
 
-                                    ((SVGPath)channelArrow.getChildren().get(1)).fillProperty().setValue(Color.RED);
+                                    ((SVGPath) channelArrow.getChildren().get(1)).fillProperty().setValue(Color.RED);
                                 } else {
-                                    ((SVGPath)channelArrow.getChildren().get(0)).strokeProperty().setValue(Color.BLACK);
-                                    ((SVGPath)channelArrow.getChildren().get(1)).strokeProperty().setValue(Color.BLACK);
+                                    ((SVGPath) channelArrow.getChildren().get(0)).strokeProperty().setValue(Color.BLACK);
+                                    ((SVGPath) channelArrow.getChildren().get(1)).strokeProperty().setValue(Color.BLACK);
 
-                                    ((SVGPath)channelArrow.getChildren().get(1)).fillProperty().setValue(Color.BLACK);
+                                    ((SVGPath) channelArrow.getChildren().get(1)).fillProperty().setValue(Color.BLACK);
                                 }
                             }
                         }
@@ -178,39 +229,13 @@ public class StepByStepSimulationController extends AbstractScreen {
             e.printStackTrace();
         }
 
-// Animation
+        // Animation
         animationThread = new AnimatedStepByStep();
         animationThread.start();
-
-        /*
-
-
-        int[] leftCube = {6, 7, 2, 3, 4, 5, 0, 1};
-        int[] rightCube = {14, 15, 10, 11, 12, 13, 8, 9};
-
-        drawNodeCube(leftCube, 5, 180);
-        drawNodeCube(rightCube, 365, 0);
-
-        // Дъгите се добавят тук, защото иначе не работи. Дъгите на първия куб не реагират на hover-а върху някой възел
-        for (HashMap<Integer, Line> lines : outputChannelVertices.values()) {
-            graphGroup.getChildren().addAll(lines.values());
-        }
-        // Това може и да е в горния цикъл, защото двете карти трябва да имат еднакъв брой елементи
-        for (HashMap<Integer, Line> lines : inputChannelVertices.values()) {
-            graphGroup.getChildren().addAll(lines.values());
-        }
-
-        graphGroup.toBack();
-        nodeGroup.toFront();
-        graphGroup.getChildren().add(nodeGroup);
-        //mainPane.getChildren().add(nodeGroup);
-        mainPane.getChildren().add(graphGroup);*/
     }
 
     private void setUpModelRunner() {
-        runner = new ModelRunner(context, event -> {
-            finishSimulation();
-        });
+        runner = new ModelRunner(context, event -> finishSimulation());
 
         Context.getInstance().set("channelCount", 4);
         Context.getInstance().set("nodeCount", 16);
@@ -234,51 +259,17 @@ public class StepByStepSimulationController extends AbstractScreen {
         });
     }
 
-    private void updateVerticesOnEnter(int nodeId) {
-        updateNodeDetails(nodeId);
-
-
-        for (HashMap<Integer, Line> lines : outputChannelVertices.values()) {
-            for (Line line : lines.values()) {
-                line.setStroke(new Color(0, 0, 0, .2));
-            }
-        }
-
-        for (Line line : outputChannelVertices.get(nodeId).values()) {
-            line.setStroke(new Color(1, 0, 0, 1));
-            line.setStrokeWidth(3.14159);
-        }
-    }
-
     private void updateNodeDetails(int nodeId) {
         detailsControl.setVisible(true);
         detailsController.setText(graphNodes.get(nodeId).smpNode.toString());
         detailsController.setNodeId(nodeId);
     }
 
-    private void updateVerticesOnExit() {
-        for (HashMap<Integer, Line> lines : outputChannelVertices.values()) {
-            for (Line line : lines.values()) {
-                line.setStroke(new Color(0, 0, 0, 1));
-                line.setStrokeWidth(1);
-            }
-        }
-        updateNodes();
-        //detailsControl.setVisible(false);
-    }
-
-    public void nextStep(ActionEvent actionEvent) {
+    public void nextStep() {
         if (animating) {
             pauseAnimation();
         }
         updateGraph();
-    }
-
-    public Button getPacketButton(/*TODO*/) {
-        Button b = new Button("Creap");
-        b.setLayoutY(lastPacketButtonY);
-        lastPacketButtonY += 50;
-        return b;
     }
 
     private void updateGraph() {
@@ -286,9 +277,9 @@ public class StepByStepSimulationController extends AbstractScreen {
 
         statusLabel.setText("Такт: " + context.getString("currentModelTick"));
 
-        //updateNodeDetails(detailsController.getNodeId());
+        updateNodeDetails(detailsController.getNodeId());
 
-        //updateNodes();
+        updateNodes();
     }
 
     private synchronized void updateNodes() {
@@ -320,21 +311,21 @@ public class StepByStepSimulationController extends AbstractScreen {
             }
 
             tooltip.setText(String.format("Изпратени флитове: %d, Получени флитове: %d%s",
-                            node.smpNode.sentFlits.size(),
-                            node.smpNode.receivedFlits.size(),
-                            node.currentTargetId != -1 ?
-                                    String.format(", Съдържа флит с дестинация: %s", Util.binaryFormattedNodeID(node.currentTargetId)) : ""
+                    node.smpNode.sentFlits.size(),
+                    node.smpNode.receivedFlits.size(),
+                    node.currentTargetId != -1 ?
+                            String.format(", Съдържа флит с дестинация: %s", Util.binaryFormattedNodeID(node.currentTargetId)) : ""
                     )
             );
 
             if (packetColor != null) {
-                node.controller.nodeButton.setStyle("-fx-background-color: #" + packetColor.toString().substring(2, 8));
+                node.nodeButton.setStyle("-fx-background-color: #" + packetColor.toString().substring(2, 8));
             } else {
-                //tooltip.setText("Not now, delicious friend");
-                node.controller.nodeButton.setStyle(null);
+                tooltip.setText("Not now, delicious friend");
+                node.nodeButton.setStyle(null);
             }
 
-            node.controller.setTooltip(tooltip);
+            //node.nodeButton.setTooltip(tooltip);
         }
     }
 
@@ -384,6 +375,30 @@ public class StepByStepSimulationController extends AbstractScreen {
         }
     }
 
+    private void updateVerticesOnExit() {
+        resetColors(Color.BLACK);
+    }
+
+    private void resetColors(Color arrowColor) {
+        graphNodes.values().forEach(GraphNode::resetColor);
+        for (HashMap<Integer, Group> lines : outputChannelVertices.values()) {
+            for (Group line : lines.values()) {
+                SVGPath arrow = (SVGPath) line.getChildren().get(0);
+                arrow.setStroke(arrowColor);
+                arrow.setStrokeWidth(2);
+                SVGPath arrowHead = (SVGPath) line.getChildren().get(1);
+                arrowHead.setStroke(arrowColor);
+                arrowHead.setFill(arrowColor);
+                arrowHead.setStrokeWidth(2);
+            }
+        }
+    }
+
+    /**
+     * Рисува пътя за даден пакет.
+     *
+     * @param packetId ID на пакета. In the grand scheme of things.
+     */
     private void drawPath(String packetId) {
         pauseAnimation(); // Ако не се спре анимацията, възлите си сменят цветовете. Не ме кефи само дъгите да са шарени, затова се спира.
 
@@ -393,21 +408,15 @@ public class StepByStepSimulationController extends AbstractScreen {
             return;
         }
 
-        for (GraphNode node : graphNodes.values()) {
-            node.controller.resetColor();
-        }
-
-        for (HashMap<Integer, Line> lines : outputChannelVertices.values()) {
-            for (Line line : lines.values()) {
-                line.setStroke(new Color(0, 0, 0, .2));
-                line.setStrokeWidth(1);
-            }
-        }
+        // Reset node and channel colors
+        // Make channel arrows grey
+        // resetColors(Color.GREY);
+        resetColors(Color.BLACK); // Temporarily using black because of the dumb flicker when moving between packets. TODO: Fix it.
 
         ArrayList<PathEntry> pathEntries = new ArrayList<>();
         for (Flit flit : desc.flits.values()) {
             for (FlitHistoryEntry historyEntry : flit.pathHistory) {
-                graphNodes.get(historyEntry.getSourceNodeId()).controller.nodeButton.setStyle("-fx-background-color: #" + flit.packetColor.toString().substring(2, 8));
+                graphNodes.get(historyEntry.getSourceNodeId()).nodeButton.setFill(Color.RED);//.setStyle("-fx-background-color: #" + flit.packetColor.toString().substring(2, 8));
                 pathEntries.add(
                         new PathEntry(historyEntry.getSourceNodeId(), historyEntry.getTargetNodeId(), flit.packetColor)
                 );
@@ -419,9 +428,16 @@ public class StepByStepSimulationController extends AbstractScreen {
             if (entry.sourceId == entry.targetId) {
                 continue;
             }
-            Line vertex = outputChannelVertices.get(entry.sourceId).get(entry.targetId);
+            // TODO: !!!!!!
+            Group arrowGroup = outputChannelVertices.get(entry.sourceId).get(entry.targetId);
+            SVGPath vertex = (SVGPath) arrowGroup.getChildren().get(0);
+            SVGPath arrowHead = (SVGPath) arrowGroup.getChildren().get(1);
             vertex.setStroke(entry.color);
             vertex.setStrokeWidth(3);
+
+            arrowHead.setStroke(entry.color);
+            arrowHead.setFill(entry.color);
+            arrowHead.setStrokeWidth(3);
         }
 
         // Details
@@ -443,12 +459,12 @@ public class StepByStepSimulationController extends AbstractScreen {
         ));
     }
 
-    void pauseAnimation() {
+    private void pauseAnimation() {
         pauseUnpauseButton.setText("Продължи симулацията");
         animating = false;
     }
 
-    void resumeAnimation() {
+    private void resumeAnimation() {
         pauseUnpauseButton.setText("Пауза");
         animating = true;
     }
@@ -472,7 +488,7 @@ public class StepByStepSimulationController extends AbstractScreen {
         });
     }
 
-    public void toggleAnimation(ActionEvent actionEvent) {
+    public void toggleAnimation() {
         if (simulationFinished) {
             resetSimulation();
             return;
@@ -484,7 +500,7 @@ public class StepByStepSimulationController extends AbstractScreen {
         }
     }
 
-    class AnimatedStepByStep extends Thread {
+    private class AnimatedStepByStep extends Thread {
         @Override
         public void run() {
             try {

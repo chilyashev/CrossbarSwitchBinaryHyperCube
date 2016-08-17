@@ -2,16 +2,7 @@
 
 [![Build Status](https://travis-ci.org/chilyashev/CrossbarSwitchBinaryHyperCube.svg?branch=master)](https://travis-ci.org/chilyashev/CrossbarSwitchBinaryHyperCube)
 
-**TODO**: A Nice description with some images like this:
-
-
-![Much, much better](http://i.imgur.com/ksbWTsT.png)
-
-![And some bugs might even get fixed! Who knows!](http://i.imgur.com/tKOGiWp.png)
-
-![Don't worry, it'll get better...](http://i.imgur.com/ajhKGag.png)
-
-
+**TODO**: A Nice description with some images like ~~this:~~
 
 ###Requirements
 1. Java 8 should be used for this here beautiful project

@@ -31,6 +31,7 @@ public class ModelRunner extends Thread {
     private boolean waiting = false;
     private boolean initialized = false;
     private boolean stepByStepExecution = false;
+    private boolean shouldStop = false;
 
     //private ArrayList<SMP> MPPNetwork;
 
@@ -144,6 +145,9 @@ public class ModelRunner extends Thread {
         try {
             int MAX_TICK_FOR_GENERATING_MESSAGE = 30; // TODO: да се взема от интерфейса
             while (ticks < 2__0__0) {
+                if (shouldStop) {
+                    break;
+                }
                 System.err.println("Tick: " + ticks);
                 Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
                 if (g.newValueReady() && ticks > 5 && ticks <= MAX_TICK_FOR_GENERATING_MESSAGE && msgCount > 0) {
@@ -229,6 +233,10 @@ public class ModelRunner extends Thread {
         // Write results in the context
         // More work
         this.handler.handle(new ActionEvent());
+    }
+
+    public synchronized void stopModel() {
+        shouldStop = true;
     }
 
     public synchronized void wakeUp() {

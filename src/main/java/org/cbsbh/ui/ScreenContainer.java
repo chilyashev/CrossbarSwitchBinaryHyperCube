@@ -5,7 +5,9 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -43,6 +45,11 @@ public class ScreenContainer extends AnchorPane {
      * Used to get stuff related to the current screen being displayed
      */
     private String currentScreenId;
+
+    /**
+     * Called when the window is closed
+     */
+    private EventHandler<Event> onCloseHandler;
 
     /**
      * Loads a screen and adds it to the screen map
@@ -171,7 +178,15 @@ public class ScreenContainer extends AnchorPane {
         this.stage = stage;
     }
 
+    public void setOnCloseHandler(EventHandler<Event> onCloseHandler) {
+        this.onCloseHandler = onCloseHandler;
+    }
+
     public void closeScreen() {
+        if (onCloseHandler != null) {
+            // I don't care about the event type at this moment.
+            onCloseHandler.handle(new Event(EventType.ROOT));
+        }
         //getCurrentScreenController().close()
     }
 }

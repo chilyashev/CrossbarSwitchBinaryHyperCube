@@ -5,5 +5,5 @@ package org.cbsbh;
  * All rights reserved, unless otherwise noted.
  */
 public class Constants {
-    public static long ANIMATION_THREAD_SLEEP_TIME = 100l;
+    public static long ANIMATION_THREAD_SLEEP_TIME = 100L;
 }
