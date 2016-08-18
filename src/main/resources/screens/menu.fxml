@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.collections.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.cbsbh.ui.screens.MainMenuController">
+   <children>
+      <ImageView fitHeight="443.0" fitWidth="660.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../svg/nodes.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="164.0" layoutY="134.0" prefHeight="200.0" prefWidth="359.0">
+         <children>
+            <Button fx:id="stepByStepButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#gotoStepByStep" text="Симулация стъпка по стъпка" textAlignment="CENTER">
+               <font>
+                  <Font size="21.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="15.0" left="29.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="realtimeSimButton" mnemonicParsing="false" onAction="#gotoSimulation" text="Симулация в реално време" textAlignment="CENTER">
+               <font>
+                  <Font size="21.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="15.0" left="35.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="aboutButton" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#gotoAbout" text="За проекта" textAlignment="CENTER">
+               <font>
+                  <Font size="21.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="15.0" left="113.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="exitButton" layoutX="10.0" layoutY="130.0" mnemonicParsing="false" onAction="#exitApplication" text="Изход" textAlignment="CENTER">
+               <font>
+                  <Font size="21.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="137.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <Label fx:id="titleText" layoutX="14.0" layoutY="14.0" text="CrossbarSwitchingBinaryHypercube">
+         <font>
+            <Font size="29.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#ff3c00" />
+                  <Stop color="#512d23" offset="0.40782873168226874" />
+                  <Stop color="#943737" offset="0.5959236876407158" />
+                  <Stop color="#1e0101" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+   </children>
+</AnchorPane>

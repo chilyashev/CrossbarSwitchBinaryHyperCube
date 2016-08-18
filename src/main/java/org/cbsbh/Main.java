@@ -15,6 +15,12 @@ import org.cbsbh.ui.ScreenContainer;
  */
 public class Main extends Application {
 
+    public static final String SCREEN_MENU = "menu";
+    public static final String SCREEN_MAIN = "main";
+    public static final String SCREEN_SIMULATION = "simulation";
+    public static final String SCREEN_SIMULATION_RESULTS = "simulation_results";
+    public static final String SCREEN_STEP_BY_STEP = "svg_step_by_step";
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -22,19 +28,21 @@ public class Main extends Application {
         ScreenContainer mainScreen = new ScreenContainer();
 
         // Adding the screens
-        mainScreen.loadScreen("main", "/screens/main.fxml");
-        mainScreen.loadScreen("simulation", "/screens/simulation.fxml");
-        mainScreen.loadScreen("simulation_results", "/screens/simulation_results.fxml");
-        mainScreen.loadScreen("step_by_step", "/screens/simulation_step_by_step.fxml");
-        mainScreen.loadScreen("svg_step_by_step", "/screens/svg_simulation_step_by_step.fxml");
+        mainScreen.loadScreen(SCREEN_MENU, "/screens/menu.fxml");
+        mainScreen.loadScreen(SCREEN_MAIN, "/screens/main.fxml");
+        mainScreen.loadScreen(SCREEN_SIMULATION, "/screens/simulation.fxml");
+        mainScreen.loadScreen(SCREEN_SIMULATION_RESULTS, "/screens/simulation_results.fxml");
+        // mainScreen.loadScreen("step_by_step", "/screens/simulation_step_by_step.fxml");
+        mainScreen.loadScreen(SCREEN_STEP_BY_STEP, "/screens/svg_simulation_step_by_step.fxml");
 
         // Pass the stage
         mainScreen.setStage(primaryStage);
 
         // Showing the main screen
+        mainScreen.showScreen(SCREEN_MENU);
         //mainScreen.showScreen("main");
         //mainScreen.showScreen("step_by_step");
-        mainScreen.showScreen("svg_step_by_step");
+        //mainScreen.showScreen("svg_step_by_step");
 
         primaryStage.setOnCloseRequest(event -> {
             mainScreen.closeScreen();
