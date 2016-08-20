@@ -76,12 +76,12 @@ public class SMPNode {
             return;
         }
         Debug.printf("Starting the generation for %d.", id);
-        messageToSend.addAll(generateMessage(2, 2, Context.getInstance().getInteger("nodeCount")));
+        messageToSend.addAll(generateMessage(Context.getInstance().getInteger("maxMessageSize"), Context.getInstance().getInteger("maxPacketSize"), Context.getInstance().getInteger("nodeCount")));
     }
 
-    public ArrayList<Packet> generateMessage(int maxPacketCount, int maxPacketSize, int maxTargetId) {
+    private ArrayList<Packet> generateMessage(int maxPacketCount, int maxPacketSize, int maxTargetId) {
         Random r = new Random();
-        int msgSize = 1;//r.nextInt(maxPacketCount - 1) + 1;
+        int msgSize = r.nextInt(maxPacketCount - 1) + 1;
         int target;
 
         // За да не праща до себе си:
@@ -94,7 +94,7 @@ public class SMPNode {
         ArrayList<Packet> message = new ArrayList<>();
 
         while (msgSize-- > 0) {
-            int packetSize = 1;//r.nextInt(maxPacketSize - 1) + 1;
+            int packetSize = r.nextInt(maxPacketSize - 1) + 1;
             Debug.printf(">> Generating a packet of %d flit%c", packetSize, packetSize == 1 ? ' ' : 's');
             message.add(new Packet(String.format("%d_%d", id, (++lastPacketId)), id, target, packetSize));
         }

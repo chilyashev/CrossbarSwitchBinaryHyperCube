@@ -39,7 +39,7 @@ public class Main extends Application {
         mainScreen.setStage(primaryStage);
 
         // Showing the main screen
-        mainScreen.showScreen(SCREEN_MENU);
+        mainScreen.showScreen(SCREEN_MAIN);
         //mainScreen.showScreen("main");
         //mainScreen.showScreen("step_by_step");
         //mainScreen.showScreen("svg_step_by_step");

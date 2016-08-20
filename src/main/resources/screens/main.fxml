@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.*?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.9998779296875" prefWidth="686.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.MainController">
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.9998779296875" prefWidth="686.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.cbsbh.ui.screens.MainController">
   <children>
     <Button fx:id="simulationStartButton" layoutX="486.0" layoutY="459.0" mnemonicParsing="false" onAction="#startSimulation" text="Начало на симулацията" />
     <GridPane depthTest="INHERIT" gridLinesVisible="false" mouseTransparent="false" prefWidth="672.0" style="" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
       <children>
         <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
           <children>
-            <TextField fx:id="modelWorkTime" alignment="CENTER_RIGHT" prefWidth="65.0">
+                  <Slider fx:id="modelWorkTime" blockIncrement="50.0" majorTickUnit="150.0" max="100000.0" min="100.0" minorTickCount="50" prefWidth="194.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Slider>
+            <TextField fx:id="modelWorkTimeValue" alignment="CENTER_RIGHT" prefWidth="65.0">
               <HBox.margin>
-                <Insets left="3.0" right="6.0" />
+                <Insets />
               </HBox.margin>
             </TextField>
-            <Label text="s" />
           </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets right="15.0" />
+               </GridPane.margin>
         </HBox>
-        <Label text="Време за работа на модела:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label text="Време за работа на модела в тактове:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <Label text="Брой съобщения за предаване:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
           <children>
@@ -29,27 +41,27 @@
                 <Insets right="2.0" />
               </HBox.margin>
             </Slider>
-            <TextField fx:id="messageCountValue" editable="false" prefWidth="65.0">
+            <TextField fx:id="messageCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0">
               <HBox.margin>
                 <Insets right="14.0" fx:id="x1" />
               </HBox.margin>
             </TextField>
           </children>
         </HBox>
-        <Label text="Максимален брой пакети в съобщение:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <Label text="Максимален брой пакети в съобщение:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="0.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
           <children>
-            <Slider id="maxPacketCount" fx:id="packetCountSlider" max="100.0" min="1.0" prefWidth="194.0" showTickLabels="false" showTickMarks="false" snapToTicks="true" translateX="2.0" value="1.0">
+            <Slider id="maxPacketCount" fx:id="packetCountSlider" max="100.0" min="2.0" prefWidth="194.0" showTickLabels="false" showTickMarks="false" snapToTicks="true" translateX="2.0" value="1.0">
               <HBox.margin>
                 <Insets right="3.0" fx:id="x2" />
               </HBox.margin>
             </Slider>
-            <TextField id="messageCountValue" fx:id="packetCountValue" editable="false" prefWidth="65.0" HBox.margin="$x1" />
+            <TextField id="messageCountValue" fx:id="packetCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0" HBox.margin="$x1" />
           </children>
         </HBox>
         <Label text="Начин на генериране на съобщенията:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <Label text="Честота на генериране на съобщенията:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+        <Label text="Честота на генериране на съобщенията:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
           <children>
             <ComboBox id="algorithmSelect" fx:id="algorithmCombo" prefWidth="181.0" promptText="Алгоритъм">
               <items>
@@ -64,28 +76,31 @@
             <TextField fx:id="algorithmValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0" text="0.5" HBox.margin="$x1" />
           </children>
         </HBox>
-        <Label text="Максимален брой флитове в пакет" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <Label text="Брой процесори в SMP компютрите:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="6">
+        <Label text="Максимален брой флитове в пакет" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <Label text="Брой процесори в SMP компютрите:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
           <children>
             <Label text="1" />
             <Slider fx:id="smpCountSlider" disable="true" max="4096.0" min="1.0" snapToTicks="true" />
             <Label text="4096" />
-            <TextField fx:id="smpCountValue" editable="false" prefWidth="65.0" HBox.margin="$x1" />
+            <TextField fx:id="smpCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0" HBox.margin="$x1" />
           </children>
         </HBox>
-        <Label text="Брой канали:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-        <Label text="Режим на обмен:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-        <Label text="Алгоритъм за маршрутизиране:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
+        <Label text="Брой канали:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+        <Label text="Режим на обмен:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+        <Label text="Алгоритъм за маршрутизиране:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
           <children>
-            <Label text="4" />
-            <Slider fx:id="channelCountSlider" blockIncrement="1.0" majorTickUnit="2.0" max="12.0" min="4.0" minorTickCount="1" prefWidth="-1.0" snapToTicks="true" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="34.0" text="12" />
-            <TextField fx:id="channelCountValue" editable="false" prefWidth="65.0" HBox.margin="$x1" />
+            <Label text="4">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Label>
+            <Slider fx:id="channelCountSlider" blockIncrement="1.0" majorTickUnit="2.0" max="12.0" min="3.0" minorTickCount="1" prefWidth="-1.0" snapToTicks="true" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="26.0" text="12" />
+            <TextField fx:id="channelCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0" HBox.margin="$x1" />
           </children>
         </HBox>
-        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
           <children>
             <ComboBox prefWidth="255.0" promptText="Wormhole routing">
               <items>
@@ -101,7 +116,7 @@
             </ComboBox>
           </children>
         </HBox>
-        <ComboBox prefWidth="255.0" promptText="По най-късия път" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+        <ComboBox prefWidth="255.0" promptText="По най-късия път" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="11" GridPane.valignment="CENTER">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="По най-късия път" />
@@ -122,34 +137,51 @@
             <Insets right="15.0" fx:id="x5" />
           </GridPane.margin>
         </ComboBox>
-        <HBox id="HBox" alignment="CENTER" spacing="0.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <HBox id="HBox" alignment="CENTER" spacing="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
           <children>
-            <Slider id="maxPacketCount" fx:id="flitCountSlider" max="100.0" min="1.0" prefWidth="194.0" showTickLabels="false" showTickMarks="false" snapToTicks="true" translateX="2.0" value="1.0" HBox.margin="$x2" />
-            <TextField id="messageCountValue" fx:id="flitCountValue" editable="false" prefWidth="65.0">
+            <Slider id="maxPacketCount" fx:id="flitCountSlider" max="100.0" min="2.0" prefWidth="194.0" showTickLabels="false" snapToTicks="true" translateX="2.0" value="1.0" HBox.margin="$x2" />
+            <TextField id="messageCountValue" fx:id="flitCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0">
               <HBox.margin>
                 <Insets right="-48.0" />
               </HBox.margin>
             </TextField>
           </children>
         </HBox>
-        <Label text="Брой опашки за канал:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
+        <Label text="Брой опашки за канал:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+        <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" visible="true" GridPane.columnIndex="1" GridPane.rowIndex="9">
           <children>
             <Label text="1" />
             <Slider id="channelCountSlider" fx:id="fifoQueueCountSlider" majorTickUnit="1.0" max="12.0" min="1.0" minorTickCount="1" prefWidth="-1.0" snapToTicks="true" value="2.0" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="34.0" text="12" />
-            <TextField id="channelCountValue" fx:id="fifoQueueCountValue" editable="false" prefWidth="65.0">
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="26.0" text="12" />
+            <TextField id="channelCountValue" fx:id="fifoQueueCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0">
               <HBox.margin>
                 <Insets right="15.0" fx:id="x4" />
               </HBox.margin>
             </TextField>
           </children>
         </HBox>
-        <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="11" GridPane.valignment="TOP">
-          <children>
-            <CheckBox alignment="CENTER_LEFT" contentDisplay="LEFT" indeterminate="false" layoutY="7.0" mnemonicParsing="false" pickOnBounds="false" text="Постъпково изпълнение" underline="false" wrapText="false" AnchorPane.rightAnchor="15.0" />
-          </children>
-        </AnchorPane>
+        <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="12" GridPane.valignment="TOP" />
+            <Label text="Брой тактове за генериране на съобщения:" wrapText="false" GridPane.rowIndex="3" />
+            <HBox alignment="CENTER_RIGHT" fillHeight="true" layoutX="346.0" layoutY="10.0" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Slider fx:id="maxTickForGeneratingMessages" blockIncrement="5.0" majorTickUnit="50.0" max="100000.0" min="6.0" minorTickCount="25" prefWidth="194.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Slider>
+                  <TextField fx:id="maxTickForGeneratingMessagesValue" alignment="CENTER_RIGHT" prefWidth="65.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets right="15.0" />
+               </padding>
+            </HBox>
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="386.0" minWidth="10.0" prefWidth="282.0" />
@@ -159,6 +191,7 @@
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

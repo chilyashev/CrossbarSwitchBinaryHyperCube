@@ -2,6 +2,7 @@ package org.cbsbh.model;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import org.cbsbh.Constants;
 import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
 import org.cbsbh.model.generator.BernoulliGenerator;
@@ -136,24 +137,26 @@ public class ModelRunner extends Thread {
         Debug.println("Starting at... " + new Date());
         // Ticking....
         BernoulliGenerator g = new BernoulliGenerator();
-        Scanner bblock = new Scanner(System.in);
         Random randomSource = new Random();
         int source;
-        int msgCount = 15;
+        int msgCount = Context.getInstance().getInteger("messageCount");
         int messages = 0;
         int nodeCount = 1 << channelCount;
         try {
-            int MAX_TICK_FOR_GENERATING_MESSAGE = 30; // TODO: да се взема от интерфейса
-            while (ticks < 2__0__0) {
+            int MAX_TICK_FOR_GENERATING_MESSAGE = Context.getInstance().getInteger("maxTickForGeneratingMessages");
+
+            while (ticks < Context.getInstance().getInteger("workingTime")) {
                 if (shouldStop) {
                     break;
                 }
                 System.err.println("Tick: " + ticks);
                 Debug.printf("\n\n====== TICKL-TOCKL №%d ======\n\n", ticks);
-                if (g.newValueReady() && ticks > 5 && ticks <= MAX_TICK_FOR_GENERATING_MESSAGE && msgCount > 0) {
-                    source = randomSource.nextInt(nodeCount -1);
-                    //if (ticks == 5) {
-                    // inject
+                // Съобщения се пращат, ако:
+                // 1. Има съобщение за пращане
+                // 2. Моделът е работил достатъчно бързо, за да може да се пращат съобщения
+                // 3. Все още не е достигнат максималният такт за пращане на съобщения
+                if (g.newValueReady() && ticks > Constants.MODEL_INITIALIZATION_TICK_COUNT && ticks <= MAX_TICK_FOR_GENERATING_MESSAGE && msgCount > 0) {
+                    source = randomSource.nextInt(nodeCount - 1); // Отговаря на псевдослучаен метод на изпращане на съобщения
                     if (MPPNetwork.get(source).getMessageToSend().size() == 0) {
                         Debug.printf("New value is being injected in %d!", source);
                         MPPNetwork.get(source).generateMessage();

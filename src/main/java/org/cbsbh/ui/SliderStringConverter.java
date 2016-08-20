@@ -14,6 +14,12 @@ public class SliderStringConverter extends StringConverter<Number> {
 
     @Override
     public Number fromString(String string) {
-        return Integer.parseInt(string);
+        int ret = 0;
+        try {
+            ret = Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            ret = 0;
+        }
+        return ret;
     }
 }

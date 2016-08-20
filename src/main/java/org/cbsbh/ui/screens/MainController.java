@@ -25,7 +25,9 @@ public class MainController extends AbstractScreen {
     @FXML
     public Button simulationStartButton;
     @FXML
-    private TextField modelWorkTime;
+    private Slider modelWorkTime;
+    @FXML
+    public TextField modelWorkTimeValue;
     @FXML
     private Label errorLabel;
     @FXML
@@ -58,6 +60,10 @@ public class MainController extends AbstractScreen {
     public Slider fifoQueueCountSlider;
     @FXML
     public TextField fifoQueueCountValue;
+    @FXML
+    public Slider maxTickForGeneratingMessages;
+    @FXML
+    public TextField maxTickForGeneratingMessagesValue;
     // eo FXML controls
 
     public MainController() {
@@ -73,12 +79,12 @@ public class MainController extends AbstractScreen {
     @FXML
     public void startSimulation(ActionEvent event) {
         boolean fine = true;
-        double workingTime = 0;
+        int workingTime = 0;
         errorLabel.setText("");
         // Enterprise-grade input validation
-        if (modelWorkTime.getText().length() < 1) {
+        /*if (modelWorkTime.getText().length() < 1) {
             modelWorkTime.setText("500");
-        }
+        }*/
 
         ModelRunner runner = new ModelRunner(context, new EventHandler<ActionEvent>() {
             @Override
@@ -96,7 +102,7 @@ public class MainController extends AbstractScreen {
 
         // Set up the model properties
         try {
-            workingTime = Double.parseDouble(modelWorkTime.getText());
+            workingTime = (int) modelWorkTime.getValue();
 
             // Setting up some context stuff to be used in the model
             context.set("workingTime", workingTime);
@@ -106,7 +112,8 @@ public class MainController extends AbstractScreen {
             context.set("maxMessageSize", packetCountSlider.valueProperty().intValue());
             context.set("maxPacketSize", flitCountSlider.valueProperty().intValue());
             context.set("messageGenerationFrequency", Double.parseDouble(algorithmValue.getText()));
-            System.err.println(context.get("messageGenerationFrequency"));
+            context.set("maxTickForGeneratingMessages", (int)maxTickForGeneratingMessages.getValue());
+
             context.set("fifoQueueCount", fifoQueueCountSlider.valueProperty().intValue());
 
         } catch (NumberFormatException e) {
@@ -166,6 +173,10 @@ public class MainController extends AbstractScreen {
         smpCountValue.textProperty().bindBidirectional(smpCountSlider.valueProperty(), converter);
         channelCountValue.textProperty().bindBidirectional(channelCountSlider.valueProperty(), converter);
         fifoQueueCountValue.textProperty().bindBidirectional(fifoQueueCountSlider.valueProperty(), converter);
+        modelWorkTimeValue.textProperty().bindBidirectional(modelWorkTime.valueProperty(), converter);
+        maxTickForGeneratingMessagesValue.textProperty().bindBidirectional(maxTickForGeneratingMessages.valueProperty(), converter);
+
+        maxTickForGeneratingMessages.maxProperty().bind(modelWorkTime.valueProperty());
 
     }
 
