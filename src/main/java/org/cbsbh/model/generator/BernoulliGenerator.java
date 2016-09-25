@@ -4,17 +4,21 @@ import java.util.Random;
 
 public class BernoulliGenerator implements Generator{
 
-    final double BERNOULLI_PROBABILITY = 0.5;
+    private double probability = 0.5;
 
     private Random r = new Random();
 
     @Override
     public boolean newValueReady() {
-        return r.nextDouble() < BERNOULLI_PROBABILITY;
+        return r.nextDouble() <= probability;
     }
 
     @Override
     public int getNewValue(int from, int to) {
         return r.nextInt();
+    }
+
+    public void setProbability(double probability) {
+        this.probability = probability;
     }
 }

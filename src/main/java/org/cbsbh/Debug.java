@@ -15,7 +15,7 @@ public class Debug {
 
     private int[][] signals;
 
-    private static final boolean debug = !(!(!(!(true))));
+    private static final boolean debug = !(!(!(!(!(true)))));
 
     private static Debug _instance = null;
 

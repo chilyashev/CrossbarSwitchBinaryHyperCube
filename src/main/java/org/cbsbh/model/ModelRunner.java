@@ -138,14 +138,15 @@ public class ModelRunner extends Thread {
 
         Debug.println("Starting at... " + new Date());
         // Ticking....
-        BernoulliGenerator g = new BernoulliGenerator();
+        BernoulliGenerator g;
         Random randomSource = new Random();
         int source;
         int msgCount = Context.getInstance().getInteger("messageCount");
         int messages = 0;
         int nodeCount = 1 << channelCount;
         try {
-            int MAX_TICK_FOR_GENERATING_MESSAGE = Context.getInstance().getInteger("maxTickForGeneratingMessages");
+            g = new BernoulliGenerator();
+            g.setProbability(Context.getInstance().getInteger("maxTickForGeneratingMessages") / msgCount);
 
             while (ticks < Context.getInstance().getInteger("workingTime")) {
                 if (shouldStop) {
@@ -157,13 +158,12 @@ public class ModelRunner extends Thread {
                 // 1. Има съобщение за пращане
                 // 2. Моделът е работил достатъчно бързо, за да може да се пращат съобщения
                 // 3. Все още не е достигнат максималният такт за пращане на съобщения
-                if (g.newValueReady() && ticks > Constants.MODEL_INITIALIZATION_TICK_COUNT && ticks <= MAX_TICK_FOR_GENERATING_MESSAGE && msgCount > 0) {
+                if (g.newValueReady()) {
                     source = randomSource.nextInt(nodeCount - 1); // Отговаря на псевдослучаен метод на изпращане на съобщения
                     if (MPPNetwork.get(source).getMessageToSend().size() == 0) {
                         Debug.printf("New value is being injected in %d!", source);
                         MPPNetwork.get(source).generateMessage();
                         messages++;
-                        msgCount--;
                     }
                 }
 

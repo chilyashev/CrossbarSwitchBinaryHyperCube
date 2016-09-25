@@ -352,14 +352,16 @@ i0------|              O0|------>|I               |
             }
         }
 
-        assert activeFIFOIndex != -1 : "This shall not be";
+//        assert activeFIFOIndex != -1 : "This shall not be";
 
         this.inputBuffer = flit;
         //Този ред беше тук до скоро. Експериментирах и го махнах. Продължи да работи, но не знам дали няма да се счупи.
         //TODO:Да се разкоментира, ако се чупи необяснимо.
         //getActiveFifo().getSignalArray().setSignal(SignalArray.FIFO_BUSY, false);
-        getActiveFifo().push(flit);
-        Debug.printf("After push: size: %d", getActiveFifo().fifo.size());
+        if(activeFIFOIndex > -1) {
+            getActiveFifo().push(flit);
+            Debug.printf("After push: size: %d", getActiveFifo().fifo.size());
+        }
     }
 
     public int getId() {
