@@ -2,8 +2,11 @@
 package org.cbsbh;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.cbsbh.ui.ScreenContainer;
 
@@ -39,7 +42,7 @@ public class Main extends Application {
         mainScreen.setStage(primaryStage);
 
         // Showing the main screen
-        mainScreen.showScreen(SCREEN_MAIN);
+        mainScreen.showScreen(SCREEN_MENU);
         //mainScreen.showScreen("main");
         //mainScreen.showScreen("step_by_step");
         //mainScreen.showScreen("svg_step_by_step");
@@ -53,10 +56,26 @@ public class Main extends Application {
         root.getChildren().addAll(mainScreen);
         Scene scene = new Scene(root, 800, 640);
         primaryStage.setScene(scene);
-        primaryStage.minHeightProperty().bind(mainScreen.heightProperty());
-        primaryStage.minWidthProperty().bind(mainScreen.widthProperty());
-        primaryStage.show();
+        //primaryStage.minHeightProperty().bind(mainScreen.heightProperty());
+        //primaryStage.minWidthProperty().bind(mainScreen.widthProperty());
 
+        AnchorPane.setTopAnchor(mainScreen, 0.0);
+        AnchorPane.setRightAnchor(mainScreen, 0.0);
+        AnchorPane.setBottomAnchor(mainScreen, 0.0);
+        AnchorPane.setLeftAnchor(mainScreen, 0.0);
+        primaryStage.setWidth(mainScreen.getWidth());
+        primaryStage.setHeight(mainScreen.getHeight());
+
+        primaryStage.widthProperty().addListener((observable, oldValue, newValue) -> {
+            root.prefWidth((double)newValue);
+        });
+        primaryStage.heightProperty().addListener((observable, oldValue, newValue) -> {
+            root.prefHeight((double)newValue);
+
+        });
+        mainScreen.minWidthProperty().bind(primaryStage.widthProperty());
+        mainScreen.minHeightProperty().bind(primaryStage.heightProperty());
+        primaryStage.show();
     }
 
 

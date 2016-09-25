@@ -89,6 +89,10 @@ public class StepByStepSimulationController extends AbstractScreen {
     @Override
     public void init() {
         setTitle("Изпълнение стъпка по стъпка");
+        AnchorPane.setTopAnchor(mainPane, 0.0);
+        AnchorPane.setRightAnchor(mainPane, 0.0);
+        AnchorPane.setBottomAnchor(mainPane, 0.0);
+        AnchorPane.setLeftAnchor(mainPane, 0.0);
 
         outputChannelVertices = new HashMap<>();
         // inputChannelVertices = new HashMap<>();
@@ -244,7 +248,11 @@ public class StepByStepSimulationController extends AbstractScreen {
         Context.getInstance().set("messageGenerationFrequency", 1); // TODO
         Context.getInstance().set("minMessageSizel", 4); // TODO
         Context.getInstance().set("fifoQueueCount", 3); // TODO
-
+        Context.getInstance().set("messageCount", 13);
+        Context.getInstance().set("maxTickForGeneratingMessages", 30);
+        Context.getInstance().set("workingTime", 200);
+        Context.getInstance().set("maxMessageSize", 2);
+        Context.getInstance().set("maxPacketSize", 3);
         runner.setStepByStepExecution(true);
         runner.init(Context.getInstance().getInteger("channelCount"));
         runner.start();

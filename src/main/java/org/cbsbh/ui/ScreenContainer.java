@@ -97,14 +97,22 @@ public class ScreenContainer extends AnchorPane {
     public boolean showScreen(final String screenId) {
         currentScreenId = screenId;
         final Node currentScreen = screens.get(screenId);
-//        AnchorPane.setTopAnchor(currentScreen, 0.0);
-        AnchorPane.setRightAnchor(currentScreen, -10.0);
-//        AnchorPane.setBottomAnchor(currentScreen, 0.0);
-//        AnchorPane.setLeftAnchor(currentScreen, 0.0);
+
 
         if (currentScreen != null) { //screen loaded
             final DoubleProperty opacity = opacityProperty();
+            AnchorPane.setTopAnchor(currentScreen, 0.0);
+            AnchorPane.setRightAnchor(currentScreen, 0.0);
+            AnchorPane.setBottomAnchor(currentScreen, 0.0);
+            AnchorPane.setLeftAnchor(currentScreen, 0.0);
 
+            this.widthProperty().addListener((observable, oldValue, newValue) -> {
+                currentScreen.prefWidth((double)newValue);
+            });
+
+            this.heightProperty().addListener((observable, oldValue, newValue) -> {
+                currentScreen.prefHeight((double)newValue);
+            });
             /*
                 If there is a screen currently being shown, we fade it out, add the new one, and fade it in.
                 By doing this the StackPane used as a base keeps only one screen at any time, thus enhancing performance.

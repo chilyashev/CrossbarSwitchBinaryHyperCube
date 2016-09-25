@@ -14,7 +14,7 @@
       <children>
         <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
           <children>
-                  <Slider fx:id="modelWorkTime" blockIncrement="50.0" majorTickUnit="150.0" max="100000.0" min="100.0" minorTickCount="50" prefWidth="194.0">
+                  <Slider fx:id="modelWorkTime" blockIncrement="50.0" majorTickUnit="150.0" max="100000.0" min="100.0" minorTickCount="50" prefWidth="194.0" value="200.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -36,12 +36,12 @@
         <Label text="Брой съобщения за предаване:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <HBox alignment="CENTER_RIGHT" fillHeight="true" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
           <children>
-            <Slider id="messageCount" fx:id="messageCountSlider" max="20000.0" min="1.0" prefWidth="194.0" showTickLabels="false" showTickMarks="false" snapToTicks="true">
+            <Slider id="messageCount" fx:id="messageCountSlider" max="20000.0" min="1.0" prefWidth="194.0" showTickLabels="false" showTickMarks="false" snapToTicks="true" value="15.0">
               <HBox.margin>
                 <Insets right="2.0" />
               </HBox.margin>
             </Slider>
-            <TextField fx:id="messageCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0">
+            <TextField fx:id="messageCountValue" alignment="CENTER_RIGHT" prefWidth="65.0">
               <HBox.margin>
                 <Insets right="14.0" fx:id="x1" />
               </HBox.margin>
@@ -51,12 +51,12 @@
         <Label text="Максимален брой пакети в съобщение:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="4" />
         <HBox id="HBox" alignment="CENTER_RIGHT" spacing="0.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
           <children>
-            <Slider id="maxPacketCount" fx:id="packetCountSlider" max="100.0" min="2.0" prefWidth="194.0" showTickLabels="false" showTickMarks="false" snapToTicks="true" translateX="2.0" value="1.0">
+            <Slider id="maxPacketCount" fx:id="packetCountSlider" max="100.0" min="2.0" prefWidth="194.0" showTickLabels="false" showTickMarks="false" snapToTicks="true" translateX="2.0" value="2.0">
               <HBox.margin>
                 <Insets right="3.0" fx:id="x2" />
               </HBox.margin>
             </Slider>
-            <TextField id="messageCountValue" fx:id="packetCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0" HBox.margin="$x1" />
+            <TextField id="messageCountValue" fx:id="packetCountValue" alignment="CENTER_RIGHT" prefWidth="65.0" HBox.margin="$x1" />
           </children>
         </HBox>
         <Label text="Начин на генериране на съобщенията:" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -83,7 +83,7 @@
             <Label text="1" />
             <Slider fx:id="smpCountSlider" disable="true" max="4096.0" min="1.0" snapToTicks="true" />
             <Label text="4096" />
-            <TextField fx:id="smpCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0" HBox.margin="$x1" />
+            <TextField fx:id="smpCountValue" alignment="CENTER_RIGHT" prefWidth="65.0" HBox.margin="$x1" />
           </children>
         </HBox>
         <Label text="Брой канали:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
@@ -97,7 +97,7 @@
                      </HBox.margin></Label>
             <Slider fx:id="channelCountSlider" blockIncrement="1.0" majorTickUnit="2.0" max="12.0" min="3.0" minorTickCount="1" prefWidth="-1.0" snapToTicks="true" />
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="26.0" text="12" />
-            <TextField fx:id="channelCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0" HBox.margin="$x1" />
+            <TextField fx:id="channelCountValue" alignment="CENTER_RIGHT" prefWidth="65.0" HBox.margin="$x1" />
           </children>
         </HBox>
         <HBox id="HBox" alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
@@ -140,7 +140,7 @@
         <HBox id="HBox" alignment="CENTER" spacing="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
           <children>
             <Slider id="maxPacketCount" fx:id="flitCountSlider" max="100.0" min="2.0" prefWidth="194.0" showTickLabels="false" snapToTicks="true" translateX="2.0" value="1.0" HBox.margin="$x2" />
-            <TextField id="messageCountValue" fx:id="flitCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0">
+            <TextField id="messageCountValue" fx:id="flitCountValue" alignment="CENTER_RIGHT" prefWidth="65.0">
               <HBox.margin>
                 <Insets right="-48.0" />
               </HBox.margin>
@@ -153,7 +153,7 @@
             <Label text="1" />
             <Slider id="channelCountSlider" fx:id="fifoQueueCountSlider" majorTickUnit="1.0" max="12.0" min="1.0" minorTickCount="1" prefWidth="-1.0" snapToTicks="true" value="2.0" />
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="26.0" text="12" />
-            <TextField id="channelCountValue" fx:id="fifoQueueCountValue" alignment="CENTER_RIGHT" editable="false" prefWidth="65.0">
+            <TextField id="channelCountValue" fx:id="fifoQueueCountValue" alignment="CENTER_RIGHT" prefWidth="65.0">
               <HBox.margin>
                 <Insets right="15.0" fx:id="x4" />
               </HBox.margin>
@@ -164,7 +164,7 @@
             <Label text="Брой тактове за генериране на съобщения:" wrapText="false" GridPane.rowIndex="3" />
             <HBox alignment="CENTER_RIGHT" fillHeight="true" layoutX="346.0" layoutY="10.0" mouseTransparent="false" prefHeight="21.0" prefWidth="221.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Slider fx:id="maxTickForGeneratingMessages" blockIncrement="5.0" majorTickUnit="50.0" max="100000.0" min="6.0" minorTickCount="25" prefWidth="194.0">
+                  <Slider fx:id="maxTickForGeneratingMessages" blockIncrement="5.0" majorTickUnit="50.0" max="100000.0" min="6.0" minorTickCount="25" prefWidth="194.0" value="30.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

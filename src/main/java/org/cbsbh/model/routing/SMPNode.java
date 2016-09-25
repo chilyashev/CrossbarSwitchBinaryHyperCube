@@ -147,11 +147,11 @@ public class SMPNode {
         sb.append(String.format("\tID: DMA_IN, Състояние: %d, Активна опашка: %d\n", DMA_IN.getState(), DMA_IN.getActiveFIFOIndex()));
         for (FIFOQueue fifoQueue : DMA_IN.fifoQueues) {
             sb.append(String.format("\t\tID: %d, Състояние: %d, " +
-                                    "Заявки към: %s, " +
-                                    "Следващ възел: %d\n",
-                            fifoQueue.id, fifoQueue.getState(),
-                            fifoQueue.arby.getRequestsSent().toString(),
-                            fifoQueue.nextNodeId
+                            "Заявки към: %s, " +
+                            "Следващ възел: %d\n",
+                    fifoQueue.id, fifoQueue.getState(),
+                    fifoQueue.arby.getRequestsSent().toString(),
+                    fifoQueue.nextNodeId
                     )
             );
         }
@@ -165,11 +165,11 @@ public class SMPNode {
                     System.err.println(fifoQueue.getWho() + "Now.");
                 }
                 sb.append(String.format("\t\tID: %d, Състояние: %d, " +
-                                        "Заявки към: %s, " +
-                                        "Следващ възел: %d\n",
-                                fifoQueue.id, fifoQueue.getState(),
-                                fifoQueue.arby.getRequestsSent().toString(),
-                                fifoQueue.nextNodeId
+                                "Заявки към: %s, " +
+                                "Следващ възел: %d\n",
+                        fifoQueue.id, fifoQueue.getState(),
+                        fifoQueue.arby.getRequestsSent().toString(),
+                        fifoQueue.nextNodeId
                         )
                 );
             }
@@ -178,12 +178,12 @@ public class SMPNode {
         sb.append("\tИзходни канали:\n");
         for (OutputChannel outputChannel : outputChannels.values()) {
             sb.append(String.format("\tID: %d, Състояние: %d\n" +
-                                    "\t\tУказател на кръговия арбитър (RRA):\n" +
-                                    "\t\t\tВх. канал: %d, Арбитър на вх. канал: %d\n",
-                            outputChannel.getId(),
-                            outputChannel.getState(),
-                            outputChannel.rra.currentChannelId,
-                            outputChannel.rra.currentArbiterId
+                            "\t\tУказател на кръговия арбитър (RRA):\n" +
+                            "\t\t\tВх. канал: %d, Арбитър на вх. канал: %d\n",
+                    outputChannel.getId(),
+                    outputChannel.getState(),
+                    outputChannel.rra.currentChannelId,
+                    outputChannel.rra.currentArbiterId
                     )
             );
         }

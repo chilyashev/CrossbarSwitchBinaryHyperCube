@@ -2,6 +2,7 @@ package org.cbsbh.model;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.chart.XYChart;
 import org.cbsbh.Constants;
 import org.cbsbh.Debug;
 import org.cbsbh.context.Context;
@@ -10,6 +11,7 @@ import org.cbsbh.model.routing.InputChannel;
 import org.cbsbh.model.routing.MPPNetwork;
 import org.cbsbh.model.routing.OutputChannel;
 import org.cbsbh.model.routing.SMPNode;
+import org.cbsbh.model.statistics.DataCollector;
 import org.cbsbh.model.structures.Flit;
 
 import java.util.Date;
@@ -187,6 +189,11 @@ public class ModelRunner extends Thread {
                     }
                 }
                 // bblock.nextLine();
+                // Collect statistics
+                DataCollector.getInstance().addToSum(DataCollector.GENERATED_PACKAGES);
+                if (ticks % DataCollector.TICKS_BETWEEN_READINGS == 0) {
+                    collectStatistics();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -221,6 +228,8 @@ public class ModelRunner extends Thread {
                 Debug.println("------");
             }
         }
+        Context.getInstance().set("generatedPacketsCount", packets);
+
         Debug.printf("Total packets sent (doesn't mean, they got received): %d\n" +
                         "Total tail flits: %d\n" +
                         "Total body flits: %d\n",
@@ -236,6 +245,12 @@ public class ModelRunner extends Thread {
         // Write results in the context
         // More work
         this.handler.handle(new ActionEvent());
+    }
+
+    private void collectStatistics() {
+        //DataCollector.getInstance().addToSum(DataCollector.GENERATED_PACKAGES);
+        DataCollector.generatedPackets.getData().add(new XYChart.Data<>((int) ticks, DataCollector.getInstance().getInteger(DataCollector.GENERATED_PACKAGES)));
+        DataCollector.getInstance().set(DataCollector.GENERATED_PACKAGES, 0);
     }
 
     public synchronized void stopModel() {

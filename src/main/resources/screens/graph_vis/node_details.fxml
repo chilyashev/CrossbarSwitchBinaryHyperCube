@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -7,7 +12,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="585.0" prefWidth="380.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.graph_visualisation.NodeDetailsController">
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="585.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.cbsbh.ui.screens.graph_visualisation.NodeDetailsController">
   <children>
     <ScrollPane id="ScrollPane" fitToHeight="false" fitToWidth="true" layoutX="0.0" layoutY="0.0" prefHeight="550.0" prefViewportHeight="0.0" prefViewportWidth="0.0" prefWidth="380.0">
       <content>
@@ -18,7 +24,7 @@
         </Label>
       </content>
     </ScrollPane>
-    <HBox id="HBox" alignment="CENTER" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="556.0">
+    <HBox id="HBox" alignment="CENTER" spacing="5.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="556.0">
       <children>
         <Button mnemonicParsing="false" text="Входни канали" />
         <Button mnemonicParsing="false" text="Изходни канали" />

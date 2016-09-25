@@ -1,5 +1,7 @@
 package org.cbsbh.model.statistics;
 
+import javafx.scene.chart.XYChart;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +15,15 @@ import java.util.LinkedHashMap;
  * @author Mihail Chilyashev
  */
 public class DataCollector {
+    //
+    public static final int TICKS_BETWEEN_READINGS = 10;
+    //
+    public static final String GENERATED_PACKAGES = "generatedPackets";
+
+    public static final XYChart.Series<Integer, Integer> generatedPackets = new XYChart.Series<>();
+    /**
+     * Instance
+     */
     private final static DataCollector instance = new DataCollector();
     FileWriter fw = null;
 
@@ -40,27 +51,25 @@ public class DataCollector {
 
 
     public void addToList(String key, Object ob) {
-        if (data.get(key) == null) {
-            data.put(key, new ArrayList<Object>());
-        }
-        ((ArrayList<Object>)data.get(key)).add(ob);
+        data.putIfAbsent(key, new ArrayList<>());
+        ((ArrayList<Object>) data.get(key)).add(ob);
     }
 
     public void addToSum(String key, int num) {
-        if (data.get(key) == null) {
-            data.put(key, 0);
-        }
+        data.putIfAbsent(key, 0);
         data.put(key, (int) data.get(key) + num);
     }
 
+    public void addToSum(String key) {
+        addToSum(key, 1);
+    }
+
     public void addToSum(String key, float num) {
-        if (data.get(key) == null) {
-            data.put(key, 0);
-        }
+        data.putIfAbsent(key, 0);
         data.put(key, (float) data.get(key) + num);
     }
 
-    public void log(){
+    public void log() {
         try {
             FileWriter fw = new FileWriter("/tmp/logg");
             //for(Object o : data.keySet())

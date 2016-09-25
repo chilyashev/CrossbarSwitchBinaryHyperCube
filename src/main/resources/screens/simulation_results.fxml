@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.9998779296875" prefWidth="651.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.cbsbh.ui.screens.SimulationResultsController">
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="831.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.cbsbh.ui.screens.SimulationResultsController">
   <children>
-    <AnchorPane id="AnchorPane" prefWidth="630.0000999999975" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane id="AnchorPane" prefWidth="630.0000999999975" AnchorPane.bottomAnchor="526.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <Label layoutX="0.0" layoutY="0.0" text="Резултати от симулацията:" wrapText="false">
           <font>
@@ -42,13 +47,21 @@
         </GridPane>
       </children>
     </AnchorPane>
-    <LineChart id="LineChart" fx:id="mainChart" layoutY="139.0" prefWidth="637.0001220703125" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="13.0">
-      <xAxis>
-        <NumberAxis side="BOTTOM" />
-      </xAxis>
-      <yAxis>
-        <NumberAxis side="LEFT" />
-      </yAxis>
-    </LineChart>
+      <VBox layoutY="139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+          <LineChart id="LineChart" fx:id="mainChart" layoutY="139.0" prefWidth="637.0001220703125" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="13.0">
+            <xAxis>
+              <NumberAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+              <NumberAxis side="LEFT" />
+            </yAxis>
+               <VBox.margin>
+                  <Insets right="15.0" />
+               </VBox.margin>
+          </LineChart>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" text="Назад" />
+         </children>
+      </VBox>
   </children>
 </AnchorPane>

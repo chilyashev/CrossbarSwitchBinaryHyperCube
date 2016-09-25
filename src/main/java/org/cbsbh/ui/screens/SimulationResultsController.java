@@ -1,10 +1,13 @@
 package org.cbsbh.ui.screens;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import org.cbsbh.Main;
 import org.cbsbh.context.Context;
+import org.cbsbh.model.statistics.DataCollector;
 import org.cbsbh.ui.AbstractScreen;
 
 import java.util.Random;
@@ -41,22 +44,15 @@ public class SimulationResultsController extends AbstractScreen {
     public void init() {
         setTitle("Резултати от изпълнението на симулацията");
 
-        Random r = new Random(); // Real science done RIGHT HERE!
-        XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
-        series.setName("Пакети в движение в даден момент");
+        // Some stats
+        generatedPacketCount.setText(String.valueOf(context.getInteger("generatedPacketsCount")));
 
-        for (int i = 0; i < 10; i++) {
-            series.getData().add(new XYChart.Data<>(i + 1, r.nextInt(100)));
-        }
-        mainChart.getData().add(series);
-
-        series = new XYChart.Series<>();
-        series.setName("Нещо друго");
-
-        for (int i = 0; i < 10; i++) {
-            series.getData().add(new XYChart.Data<>(i + 1, r.nextInt(50)));
-        }
-        mainChart.getData().add(series);
+        // Charts
+        DataCollector.generatedPackets.setName("Генерирани пакети по време");
+        mainChart.getData().add(DataCollector.generatedPackets);
     }
 
+    public void goBack(ActionEvent actionEvent) {
+        parent.showScreen(Main.SCREEN_MAIN);
+    }
 }
