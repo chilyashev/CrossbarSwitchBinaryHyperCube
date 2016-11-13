@@ -1,4 +1,6 @@
-##A model of a router for NUMA computers which use a static binary hypercube communication network.
+##A simulation model of the communication network used by an MPP computer with a binary hypercube architecture. 
+
+Each node of the MPP contains a router with a crossbar switch commutator. The finished application lets users configure multiple model parameters: node count, transmitted packet size, queue size for each input channel, algorithm used for generating messages, etc. After finishing the simulation, detailed statistics are generated with which the effectiveness of the model’s configuration can be determined.
 
 [![Build Status](https://travis-ci.org/chilyashev/CrossbarSwitchBinaryHyperCube.svg?branch=master)](https://travis-ci.org/chilyashev/CrossbarSwitchBinaryHyperCube)
 
