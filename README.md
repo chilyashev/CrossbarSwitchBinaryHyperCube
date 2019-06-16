@@ -17,23 +17,21 @@ The step-by-step simulation lets you closely examine packet travel through the n
 You can also view the current state of a node in the network:
 ![Step by step simulation -> Node details](doc/screenshots/step-by-step-2.png)
 
-A more detailed explanation  of the model and its underlying theory can be found on page 52 in the writeup for the [Fourth Scientific International Conference Computer Sciences and Engineering](http://csejournal.cs.tu-varna.bg/cse_journal_1_2016.pdf) (pdf, in Bulgarian with excerpt in English).
+A more detailed explanation  of the model and its underlying theory can be found on page 52 in the writeup for the [Fourth Scientific International Conference of Computer Sciences and Engineering](http://csejournal.cs.tu-varna.bg/cse_journal_1_2016.pdf) (pdf, in Bulgarian with excerpt in English).
 
 Requirements
 ------------
 1. Java 8 should be used for this here beautiful project
 2. JavaFX should be installed, but that's not an issue, since it's bundled in Java SE
-3. ???
-4. Profit
 
 
 Building, running, packaging, etc.
 ----------------------------------
 1. With maven
-    1. clone the project
+    1. Clone the project
     2. Just `mvn compile package` and if all is configured well, running `java -jar ./target/cbsbh.jar` should start the thing
 2. With IDEA
-    1. clone the project
+    1. Clone the project
     2. Start IDEA
     3. "Open project"
     4. Navigate to the folder you cloned it
